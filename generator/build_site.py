@@ -87,12 +87,17 @@ def _build_bubble_datasets(buy_top: list, sell_top: list, close_price: float) ->
         # Y 軸：收盤價 ± 偏移（用 index 做確定性偏移）
         offset = (idx % 7 - 3) / 3 * price_range
         y_val = round(close_price + offset, 2)
-        r = max(3, min(28, math.sqrt(abs(b["net_lots"])) * 0.8))
+        r = round(max(3, min(28, math.sqrt(abs(b["net_lots"])) * 0.8)), 1)
         return {
-            "x": x_val, "y": y_val, "r": round(r, 2),
-            "label": b["name"], "net": net_lots,
-            "buyVol": b["buy_lots"], "sellVol": b["sell_lots"],
-            "buyAvg": round(b["buy_avg"], 2), "sellAvg": round(b["sell_avg"], 2),
+            "x": int(x_val),
+            "y": y_val,
+            "r": r,
+            "label": b["name"],
+            "net": int(net_lots),
+            "buyVol": int(b["buy_lots"]),
+            "sellVol": int(b["sell_lots"]),
+            "buyAvg": round(float(b["buy_avg"]), 2),
+            "sellAvg": round(float(b["sell_avg"]), 2),
         }
 
     buyer_buy, buyer_sell, seller_sell, seller_buy = [], [], [], []
