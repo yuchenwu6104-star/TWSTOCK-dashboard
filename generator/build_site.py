@@ -85,8 +85,19 @@ def _build_bubble_datasets(buy_top: list, sell_top: list, close_price: float) ->
 
     def mk(b, x_val, net_lots, idx):
         # Y 軸：收盤價 ± 偏移（用 index 做確定性偏移）
-        offset = (idx % 7 - 3) / 3 * price_range
-        y_val = round(close_price + offset, 2)
+        # 用整數 tick size 避免浮點數
+        if close_price >= 1000:
+            tick = 5
+        elif close_price >= 500:
+            tick = 1
+        elif close_price >= 100:
+            tick = 0.5
+        elif close_price >= 50:
+            tick = 0.1
+        else:
+            tick = 0.05
+        steps = idx % 7 - 3  # -3 ~ +3
+        y_val = round(close_price + steps * tick * 3, 2)
         r = round(max(3, min(28, math.sqrt(abs(b["net_lots"])) * 0.8)), 1)
         return {
             "x": int(x_val),
