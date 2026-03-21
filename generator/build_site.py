@@ -72,29 +72,40 @@ def _get_margin(stock_code: str, trade_date) -> dict | None:
 
 
 def _build_bubble_datasets(buy_top: list, sell_top: list, close_price: float) -> tuple:
-    """Build 4 datasets matching Chengwaye format: buyerBuy, buyerSell, sellerSell, sellerBuy."""
-    import math
+    """Build 4 datasets for bubble chart.
 
-    def mk(b, x_val, y_val, net_lots):
-        r = max(2, min(28, math.sqrt(abs(x_val)) * 0.8)) if x_val != 0 else 2
+    因為富邦只有合計均價（每家都一樣），Y 軸用收盤價 ± 隨機偏移讓泡泡散開。
+    X 軸 = 淨買賣超張數（買超在左/負值，賣超在右/正值）。
+    """
+    import math
+    import random
+    random.seed(42)  # 固定種子讓同資料每次一樣
+
+    price_range = close_price * 0.02  # ±2% 範圍散開
+
+    def mk(b, x_val, net_lots, idx):
+        # Y 軸：收盤價 ± 偏移（用 index 做確定性偏移）
+        offset = (idx % 7 - 3) / 3 * price_range
+        y_val = round(close_price + offset, 2)
+        r = max(3, min(28, math.sqrt(abs(b["net_lots"])) * 0.8))
         return {
-            "x": x_val, "y": round(y_val, 2), "r": round(r, 2),
+            "x": x_val, "y": y_val, "r": round(r, 2),
             "label": b["name"], "net": net_lots,
             "buyVol": b["buy_lots"], "sellVol": b["sell_lots"],
-            "buyAvg": b["buy_avg"], "sellAvg": b["sell_avg"],
+            "buyAvg": round(b["buy_avg"], 2), "sellAvg": round(b["sell_avg"], 2),
         }
 
     buyer_buy, buyer_sell, seller_sell, seller_buy = [], [], [], []
 
-    for b in buy_top:
-        nl = b["net_lots"]
-        buyer_buy.append(mk(b, -b["buy_lots"], b["buy_avg"] or close_price, nl))
-        buyer_sell.append(mk(b, b["sell_lots"], b["sell_avg"] or close_price, nl))
+    for i, b in enumerate(buy_top):
+        nl = b["net_lots"]  # 正值
+        buyer_buy.append(mk(b, -b["buy_lots"], nl, i))
+        buyer_sell.append(mk(b, b["sell_lots"], nl, i))
 
-    for b in sell_top:
-        nl = b.get("net", 0) // 1000 if b.get("net") else -b["net_lots"]
-        seller_sell.append(mk(b, b["sell_lots"], b["sell_avg"] or close_price, nl))
-        seller_buy.append(mk(b, -b["buy_lots"], b["buy_avg"] or close_price, nl))
+    for i, b in enumerate(sell_top):
+        nl = -b["net_lots"]  # 負值（賣超）
+        seller_sell.append(mk(b, b["sell_lots"], nl, i + 20))
+        seller_buy.append(mk(b, -b["buy_lots"], nl, i + 20))
 
     return buyer_buy, buyer_sell, seller_sell, seller_buy
 
