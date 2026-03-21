@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>處置標準 — 2026-03-21</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0d1117; color: #e6edf3; font-family: -apple-system, 'Noto Sans TC', 'Segoe UI', sans-serif; }
+.container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+header { text-align: center; padding: 16px 0 12px; border-bottom: 1px solid #30363d; margin-bottom: 16px; position: relative; }
+header h1 { font-size: 22px; margin-bottom: 2px; }
+header h1 .rabbit { font-size: 26px; }
+header .subtitle { color: #8b949e; font-size: 13px; }
+header .cta-hint {
+  position: absolute; top: 16px; right: 20px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+  border: 1px solid #3b82f6; border-radius: 6px;
+  padding: 8px 12px; color: #60a5fa; font-size: 11px; font-weight: 600;
+  cursor: pointer; min-width: 180px; text-align: center;
+  transition: all 0.2s;
+}
+header .cta-hint:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #4338ca 100%);
+  transform: translateY(-1px); box-shadow: 0 4px 8px rgba(37,99,235,0.3);
+}
+.date-nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 8px; }
+.date-nav .nav-btn {
+  background: #21262d; border: 1px solid #30363d; color: #8b949e;
+  padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; transition: all 0.2s;
+}
+.date-nav .nav-btn:hover:not(:disabled) { background: #30363d; color: #e6edf3; }
+.date-nav .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.date-nav .date { color: #58a6ff; font-size: 15px; font-weight: 600; min-width: 100px; }
+.section-title { font-size: 16px; margin: 16px 0 10px; padding-left: 8px; border-left: 3px solid #f85149; }
+.concept-section { margin-bottom: 20px; }
+.concept-title {
+  font-size: 14px; margin: 12px 0 8px; padding: 8px 12px;
+  background: #21262d; border-radius: 6px; border-left: 3px solid #58a6ff;
+  display: flex; align-items: center; gap: 8px;
+}
+.concept-title .icon { font-size: 16px; }
+.concept-title .count { color: #8b949e; font-size: 12px; margin-left: auto; }
+.concept-reason { color: #8b949e; font-size: 11px; margin: 0 12px 8px 12px; font-style: italic; }
+.stock-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.stock-card { background: #161b22; border: 1px solid #30363d; border-radius: 6px; position: relative; transition: all 0.2s ease; }
+.stock-card .reason-tip {
+  display: none; position: absolute; left: 0; right: 0; bottom: 100%;
+  background: #1c2129; border: 1px solid #444c56; border-radius: 6px;
+  padding: 8px 10px; font-size: 12px; color: #c9d1d9; line-height: 1.5;
+  z-index: 100; pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.stock-card .reason-tip .tip-cta { color: #58a6ff; font-size: 11px; margin-top: 4px; }
+.stock-card:hover .reason-tip { display: block; }
+.stock-card a { text-decoration: none; color: inherit; display: block; padding: 10px 12px; transition: all 0.2s ease; }
+.stock-card a:hover { background: #1c2129; }
+.stock-header { display: flex; justify-content: space-between; align-items: center; }
+.stock-name { font-size: 14px; font-weight: 600; }
+.stock-code { color: #8b949e; font-size: 12px; margin-left: 6px; }
+.stock-price { text-align: right; }
+.stock-close { font-size: 14px; font-weight: 600; }
+.stock-change { font-size: 11px; margin-top: 1px; }
+.up { color: #f85149; }
+.down { color: #3fb950; }
+.stock-meta { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: #8b949e; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.badge.up { background: rgba(248,81,73,0.2); color: #f85149; }
+
+/* Nav pills */
+nav.topnav {
+  background: #0a0a16; border-bottom: 1px solid #30363d;
+  padding: 6px 8px; display: flex; align-items: center; justify-content: center;
+  gap: 6px; position: sticky; top: 0; z-index: 999;
+}
+nav.topnav a.pill {
+  padding: 5px 14px; border-radius: 16px; font-size: 12px; font-weight: 600;
+  text-decoration: none; color: #888; background: #1a1a2e; transition: all 0.2s;
+}
+nav.topnav a.pill.active { background: #1a6bc4; color: #fff; }
+nav.topnav a.pill:hover:not(.active) { color: #ccc; }
+#stock-search {
+  width: 72px; padding: 5px 8px; border-radius: 16px;
+  border: 1px solid #58a6ff; background: #0d1117;
+  color: #e0e0e0; font-size: 16px; outline: none;
+}
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; }
+th { text-align: right; padding: 3px 4px; font-size: 10px; color: #8b949e; border-bottom: 1px solid #30363d; white-space: nowrap; }
+th:first-child { text-align: left; }
+td { padding: 4px 4px; font-size: 11px; border-bottom: 1px solid #21262d; text-align: right; font-variant-numeric: tabular-nums; }
+td:first-child { text-align: left; font-size: 11px; white-space: nowrap; }
+tr:hover { background: #1c2129; }
+.net { font-weight: 600; }
+
+/* Disposal */
+.disp-stat { padding: 4px 14px; border-radius: 16px; font-size: 13px; font-weight: 600; display: inline-block; }
+.disp-stat.danger { background: rgba(231,76,60,0.3); color: #f85149; }
+.disp-stat.warn { background: rgba(241,196,15,0.3); color: #f1c40f; }
+.disp-stat.info { background: rgba(149,165,166,0.3); color: #95a5a6; }
+.mkt { padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; }
+.mkt-twse { background: rgba(88,166,255,0.2); color: #58a6ff; }
+.mkt-tpex { background: rgba(163,113,247,0.2); color: #a371f7; }
+.badge-danger { color: #e74c3c; font-weight: 700; }
+.badge-warn { color: #f39c12; font-weight: 600; }
+.badge-info { color: #3498db; }
+.threshold-cell { text-align: center; font-size: 12px; }
+.threshold-cell .progress { font-weight: 700; }
+.threshold-cell .gap { font-size: 10px; display: block; }
+.disposal-table { background: #141422; border-radius: 8px; overflow: hidden; }
+.disposal-table th { background: #1a1a2e; padding: 8px 10px; font-size: 11px; position: sticky; top: 40px; z-index: 10; }
+.disposal-table td { padding: 6px 10px; font-size: 12px; border-bottom: 1px solid #1e1e3a; }
+.disposal-table tr:hover { background: #1a1a30; }
+
+/* Perf cards */
+.perf-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 20px 0; }
+.perf-card {
+  background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+  padding: 16px; text-align: center;
+}
+.perf-card .ptitle { font-size: 12px; color: #8b949e; margin-bottom: 6px; }
+.perf-card .pvalue { font-size: 24px; font-weight: 800; }
+.perf-card .psub { font-size: 12px; color: #8b949e; margin-top: 4px; }
+
+/* Condition cards */
+.cond-card {
+  background: #161b22; border: 1px solid #30363d; border-radius: 6px;
+  padding: 10px 14px; margin-bottom: 6px;
+  display: flex; gap: 10px; align-items: baseline;
+}
+.cond-name { font-weight: 700; font-size: 13px; white-space: nowrap; }
+.cond-desc { font-size: 12px; color: #8b949e; }
+
+footer { text-align: center; padding: 32px 0 24px; color: #484f58; font-size: 12px; border-top: 1px solid #30363d; margin-top: 32px; }
+footer a { color: #58a6ff; text-decoration: none; }
+
+@media (max-width: 1200px) { .stock-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 900px) { .stock-grid { grid-template-columns: repeat(2, 1fr); } .perf-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 700px) {
+  .container { padding: 4px; }
+  .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
+  header .cta-hint { position: static; margin: 8px auto 0; min-width: auto; width: fit-content; font-size: 10px; padding: 6px 10px; }
+  .date-nav .nav-btn { padding: 3px 8px; font-size: 10px; }
+  .date-nav .date { font-size: 13px; }
+  .perf-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="index.html" class="pill ">漲停族群AI分類</a>
+  <a href="nextday-performance.html" class="pill ">隔日表現</a>
+  <a href="disposal-forecast.html" class="pill active">處置標準</a>
+  <input id="stock-search" type="text" inputmode="decimal" placeholder="🔍股號" />
+</nav>
+
+<div class="container">
+  <header>
+    <h1><span class="rabbit">🐰</span> 處置標準</h1>
+    <div class="subtitle">適用日期：2026-03-23</div>
+  </header>
+
+  <!-- 統計 -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;padding:14px 0;border-bottom:1px solid #30363d;">
+    <span class="disp-stat danger">差1次 14</span>
+    <span class="disp-stat warn">差2次 29</span>
+    <span class="disp-stat info">處置中 58</span>
+  </div>
+
+  <!-- ========== 差 1 次 ========== -->
+  
+  <div class="concept-title" style="margin-top:20px;border-left-color:#e74c3c;">
+    <span class="icon">🔴</span>
+    <span>差 1 次就處置</span>
+    <span class="count">14檔</span>
+  </div>
+  <div style="margin-top:8px;">
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">1785</span>
+      <span style="font-size:13px;min-width:70px;">光洋科</span>
+      <!-- 進度條 -->
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:83%;height:100%;background:#e74c3c;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#e74c3c;white-space:nowrap;">5/6</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">6/10</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">3363</span>
+      <span style="font-size:13px;min-width:70px;">上詮</span>
+      <!-- 進度條 -->
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:83%;height:100%;background:#e74c3c;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#e74c3c;white-space:nowrap;">5/6</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">6/10</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">3508</span>
+      <span style="font-size:13px;min-width:70px;">位速</span>
+      <!-- 進度條 -->
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:80%;height:100%;background:#e74c3c;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#e74c3c;white-space:nowrap;">4/5</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">5</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">4967</span>
+      <span style="font-size:13px;min-width:70px;">十銓</span>
+      <!-- 進度條 -->
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:66%;height:100%;background:#e74c3c;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#e74c3c;white-space:nowrap;">2/3</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">3①</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">5475</span>
+      <span style="font-size:13px;min-width:70px;">德宏</span>
+      <!-- 進度條 -->
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:91%;height:100%;background:#e74c3c;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#e74c3c;white-space:nowrap;">11/12</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">12/30</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">6176</span>
+      <span style="font-size:13px;min-width:70px;">瑞儀</span>
+      <!-- 進度條 -->
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:83%;height:100%;background:#e74c3c;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#e74c3c;white-space:nowrap;">5/6</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">6/10</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">6223</span>
+      <span style="font-size:13px;min-width:70px;">旺矽</span>
+      <!-- 進度條 -->
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:83%;height:100%;background:#e74c3c;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#e74c3c;white-space:nowrap;">5/6</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">6/10</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">6426</span>
+      <span style="font-size:13px;min-width:70px;">統新</span>
+      <!-- 進度條 -->
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:80%;height:100%;background:#e74c3c;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#e74c3c;white-space:nowrap;">4/5</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">5</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">6465</span>
+      <span style="font-size:13px;min-width:70px;">威潤</span>
+      <!-- 進度條 -->
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:66%;height:100%;background:#e74c3c;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#e74c3c;white-space:nowrap;">2/3</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">3①</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">6515</span>
+      <span style="font-size:13px;min-width:70px;">穎崴</span>
+      <!-- 進度條 -->
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:83%;height:100%;background:#e74c3c;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#e74c3c;white-space:nowrap;">5/6</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">6/10</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">6907</span>
+      <span style="font-size:13px;min-width:70px;">雅特力-KY</span>
+      <!-- 進度條 -->
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:91%;height:100%;background:#e74c3c;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#e74c3c;white-space:nowrap;">11/12</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">12/30</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">7711</span>
+      <span style="font-size:13px;min-width:70px;">永擎</span>
+      <!-- 進度條 -->
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:66%;height:100%;background:#e74c3c;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#e74c3c;white-space:nowrap;">2/3</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">3①</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">8155</span>
+      <span style="font-size:13px;min-width:70px;">博智</span>
+      <!-- 進度條 -->
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:66%;height:100%;background:#e74c3c;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#e74c3c;white-space:nowrap;">2/3</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">3①</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">8996</span>
+      <span style="font-size:13px;min-width:70px;">高力</span>
+      <!-- 進度條 -->
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:91%;height:100%;background:#e74c3c;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#e74c3c;white-space:nowrap;">11/12</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">12/30</span>
+    </div>
+    
+  </div>
+  
+
+  <!-- ========== 差 2 次 ========== -->
+  
+  <div class="concept-title" style="margin-top:24px;border-left-color:#f39c12;">
+    <span class="icon">🟡</span>
+    <span>差 2 次就處置</span>
+    <span class="count">29檔</span>
+  </div>
+  <div style="margin-top:8px;">
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">2230</span>
+      <span style="font-size:13px;min-width:70px;">泰茂</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:83%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">10/12</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">12/30</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">2399</span>
+      <span style="font-size:13px;min-width:70px;">映泰</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:60%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">3/5</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">5</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">2451</span>
+      <span style="font-size:13px;min-width:70px;">創見</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:60%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">3/5</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">5</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">3049</span>
+      <span style="font-size:13px;min-width:70px;">精金</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:33%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">1/3</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">3①</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">3086</span>
+      <span style="font-size:13px;min-width:70px;">華義</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:33%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">1/3</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">3①</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">3135</span>
+      <span style="font-size:13px;min-width:70px;">凌航</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:33%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">1/3</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">3①</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">3529</span>
+      <span style="font-size:13px;min-width:70px;">力旺</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:83%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">10/12</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">12/30</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">3596</span>
+      <span style="font-size:13px;min-width:70px;">智易</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:60%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">3/5</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">5</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">3645</span>
+      <span style="font-size:13px;min-width:70px;">達邁</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:66%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">4/6</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">6/10</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">3693</span>
+      <span style="font-size:13px;min-width:70px;">營邦</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:60%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">3/5</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">5</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">4905</span>
+      <span style="font-size:13px;min-width:70px;">台聯電</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:33%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">1/3</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">3①</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">4949</span>
+      <span style="font-size:13px;min-width:70px;">有成精密</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:66%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">4/6</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">6/10</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">4956</span>
+      <span style="font-size:13px;min-width:70px;">光鋐</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:66%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">4/6</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">6/10</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">4989</span>
+      <span style="font-size:13px;min-width:70px;">榮科</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:66%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">4/6</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">6/10</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">4991</span>
+      <span style="font-size:13px;min-width:70px;">環宇-KY</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:33%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">1/3</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">3①</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">5475</span>
+      <span style="font-size:13px;min-width:70px;">德宏</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:66%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">4/6</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">6/10</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">6127</span>
+      <span style="font-size:13px;min-width:70px;">九豪</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:33%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">1/3</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">3①</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">6187</span>
+      <span style="font-size:13px;min-width:70px;">萬潤</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:33%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">1/3</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">3①</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">6231</span>
+      <span style="font-size:13px;min-width:70px;">系微</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:33%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">1/3</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">3①</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">6499</span>
+      <span style="font-size:13px;min-width:70px;">益安</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:60%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">3/5</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">5</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">6547</span>
+      <span style="font-size:13px;min-width:70px;">高端疫苗</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:33%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">1/3</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">3①</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">6584</span>
+      <span style="font-size:13px;min-width:70px;">南俊國際</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:33%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">1/3</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">3①</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">6588</span>
+      <span style="font-size:13px;min-width:70px;">東典光電</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:33%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">1/3</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">3①</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">6640</span>
+      <span style="font-size:13px;min-width:70px;">均華</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:66%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">4/6</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">6/10</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-tpex">TPEx</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">6907</span>
+      <span style="font-size:13px;min-width:70px;">雅特力-KY</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:60%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">3/5</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">5</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">8021</span>
+      <span style="font-size:13px;min-width:70px;">尖點</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:66%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">4/6</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">6/10</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">8996</span>
+      <span style="font-size:13px;min-width:70px;">高力</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:66%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">4/6</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">6/10</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">9103</span>
+      <span style="font-size:13px;min-width:70px;">美德醫療-DR</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:66%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">4/6</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">6/10</span>
+    </div>
+    
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt mkt-twse">TWSE</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">9929</span>
+      <span style="font-size:13px;min-width:70px;">秋雨</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:33%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">1/3</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">3①</span>
+    </div>
+    
+  </div>
+  
+
+  <!-- ========== 處置中 ========== -->
+  
+  <div class="concept-title" style="margin-top:24px;border-left-color:#95a5a6;">
+    <span class="icon">⚠️</span>
+    <span>處置中</span>
+    <span class="count">58檔</span>
+  </div>
+  <table class="disposal-table" style="margin-top:8px;">
+    <thead>
+      <tr>
+        <th style="text-align:left;">市場</th>
+        <th style="text-align:left;">股號</th>
+        <th style="text-align:left;">股名</th>
+        <th style="text-align:center;">等級</th>
+        <th style="text-align:center;">撮合</th>
+        <th style="text-align:left;">期間</th>
+        <th style="text-align:left;">條件</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">2426</td>
+        <td style="text-align:left;">鼎元</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-19 ~ 04-01</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">2486</td>
+        <td style="text-align:left;">一詮</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續五次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">3037</td>
+        <td style="text-align:left;">欣興</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-19 ~ 04-01</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">3054</td>
+        <td style="text-align:left;">立萬利</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-18 ~ 03-31</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">3081</td>
+        <td style="text-align:left;">聯亞</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-12 ~ 03-25</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">最近10個營業日內有6個營業日</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">3093</td>
+        <td style="text-align:left;">港建*</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">3163</td>
+        <td style="text-align:left;">波若威</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-18 ~ 03-31</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">3167</td>
+        <td style="text-align:left;">大量</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-17 ~ 03-30</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">3491</td>
+        <td style="text-align:left;">昇達科</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-12 ~ 03-25</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">3555</td>
+        <td style="text-align:left;">博士旺</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">3555</td>
+        <td style="text-align:left;">博士旺</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-17 ~ 03-30</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">4416</td>
+        <td style="text-align:left;">三圓</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-13 ~ 03-26</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">4971</td>
+        <td style="text-align:left;">IET-KY</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-12 ~ 03-25</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續5個營業日</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">4973</td>
+        <td style="text-align:left;">廣穎</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">5289</td>
+        <td style="text-align:left;">宜鼎</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">5340</td>
+        <td style="text-align:left;">建榮</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-17 ~ 03-30</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續5個營業日</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">5386</td>
+        <td style="text-align:left;">青雲</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-17 ~ 03-30</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">5386</td>
+        <td style="text-align:left;">青雲</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-12 ~ 03-25</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">5386</td>
+        <td style="text-align:left;">青雲</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">6141</td>
+        <td style="text-align:left;">柏承</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">6217</td>
+        <td style="text-align:left;">中探針</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">6683</td>
+        <td style="text-align:left;">雍智科技</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-16 ~ 03-27</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">6715</td>
+        <td style="text-align:left;">嘉基</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-18 ~ 03-31</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">6830</td>
+        <td style="text-align:left;">汎銓</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-10 ~ 03-23</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">7717</td>
+        <td style="text-align:left;">萊德光電-KY</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-12 ~ 03-25</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">7751</td>
+        <td style="text-align:left;">竑騰</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">8271</td>
+        <td style="text-align:left;">宇瞻</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#e74c3c;font-weight:700;">L2</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">20分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">1711</td>
+        <td style="text-align:left;">永光</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">1735</td>
+        <td style="text-align:left;">日勝化</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">1799</td>
+        <td style="text-align:left;">易威</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">2243</td>
+        <td style="text-align:left;">宏旭-KY</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-19 ~ 04-01</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">2337</td>
+        <td style="text-align:left;">旺宏</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-19 ~ 04-01</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">最近十個營業日已有六次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">2426</td>
+        <td style="text-align:left;">鼎元</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-16 ~ 03-27</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">2485</td>
+        <td style="text-align:left;">兆赫</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">2616</td>
+        <td style="text-align:left;">山隆</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-10 ~ 03-23</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">3006</td>
+        <td style="text-align:left;">晶豪科</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">3054</td>
+        <td style="text-align:left;">立萬利</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-13 ~ 03-26</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">最近十個營業日已有六次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">3066</td>
+        <td style="text-align:left;">李洲</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">3093</td>
+        <td style="text-align:left;">港建*</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-17 ~ 03-30</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">3189</td>
+        <td style="text-align:left;">景碩</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-08</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次及當日沖銷標準</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">3260</td>
+        <td style="text-align:left;">威剛</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-19 ~ 04-01</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">3437</td>
+        <td style="text-align:left;">榮創</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-19 ~ 04-01</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">4416</td>
+        <td style="text-align:left;">三圓</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-10 ~ 03-23</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">4960</td>
+        <td style="text-align:left;">誠美材</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-17 ~ 03-30</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">4973</td>
+        <td style="text-align:left;">廣穎</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-17 ~ 03-30</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">5289</td>
+        <td style="text-align:left;">宜鼎</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-17 ~ 03-30</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">5351</td>
+        <td style="text-align:left;">鈺創</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-19 ~ 04-01</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">5521</td>
+        <td style="text-align:left;">工信</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-13 ~ 03-26</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">6103</td>
+        <td style="text-align:left;">合邦</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-19 ~ 04-01</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">6167</td>
+        <td style="text-align:left;">久正</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">6226</td>
+        <td style="text-align:left;">光鼎</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">6451</td>
+        <td style="text-align:left;">訊芯-KY</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">6574</td>
+        <td style="text-align:left;">霈方</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">6715</td>
+        <td style="text-align:left;">嘉基</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-13 ~ 03-26</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">6727</td>
+        <td style="text-align:left;">亞泰金屬</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-18 ~ 03-31</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-tpex">TPEx</span></td>
+        <td style="text-align:left;font-weight:600;">8240</td>
+        <td style="text-align:left;">華宏</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-20 ~ 04-02</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">8271</td>
+        <td style="text-align:left;">宇瞻</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">5分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-17 ~ 03-30</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align:left;"><span class="mkt mkt-twse">TWSE</span></td>
+        <td style="text-align:left;font-weight:600;">1589</td>
+        <td style="text-align:left;">永冠-KY</td>
+        <td style="text-align:center;">
+          
+          <span style="color:#8b949e;">-</span>
+          
+        </td>
+        <td style="text-align:center;font-size:11px;">60分鐘</td>
+        <td style="text-align:left;font-size:11px;">03-10 ~ 03-23</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+      </tr>
+      
+    </tbody>
+  </table>
+  
+
+  <!-- ========== 門檻說明 ========== -->
+  <div class="concept-title" style="margin-top:28px;border-left-color:#8b949e;">
+    <span class="icon">📖</span>
+    <span>處置門檻說明</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px;">
+    <div class="cond-card">
+      <span class="cond-name" style="color:#e74c3c;">3①</span>
+      <span class="cond-desc">連續3個營業日經<strong>第1款</strong>公布注意交易資訊</span>
+    </div>
+    <div class="cond-card">
+      <span class="cond-name" style="color:#f39c12;">5</span>
+      <span class="cond-desc">連續5個營業日經第1~8款公布注意交易資訊</span>
+    </div>
+    <div class="cond-card">
+      <span class="cond-name" style="color:#3498db;">6/10</span>
+      <span class="cond-desc">最近10個營業日內有6日經注意交易資訊</span>
+    </div>
+    <div class="cond-card">
+      <span class="cond-name" style="color:#58a6ff;">12/30</span>
+      <span class="cond-desc">最近30個營業日內有12日經注意交易資訊</span>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;padding:12px;background:#161b22;border:1px solid #30363d;border-radius:6px;">
+    <div style="font-size:12px;font-weight:600;margin-bottom:8px;">第1~8款觸發條件</div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:4px 16px;font-size:11px;color:#8b949e;">
+      
+      <div>第1款：漲幅/跌幅/週轉率異常</div>
+      
+      <div>第2款：本益比/股價淨值比異常</div>
+      
+      <div>第3款：交易量異常</div>
+      
+      <div>第4款：週轉率異常</div>
+      
+      <div>第5款：單一券商買賣占比過高</div>
+      
+      <div>第6款：本益比/股價淨值比/週轉率/集中度綜合</div>
+      
+      <div>第7款：券資比異常放大</div>
+      
+      <div>第8款：TDR溢折價異常</div>
+      
+    </div>
+  </div>
+
+  <div style="height:24px;"></div>
+</div>
+
+<footer>
+  <div class="container">
+    資料來源：臺灣證券交易所 / 證券櫃檯買賣中心 ｜ 僅供研究參考，非投資建議
+  </div>
+</footer>
+
+<script>
+// 搜尋股號
+(function(){
+  const si = document.getElementById('stock-search');
+  if (!si) return;
+  const missEl = document.createElement('div');
+  Object.assign(missEl.style, {
+    position:'fixed', top:'42px', right:'8px', background:'#e74c3c', color:'#fff',
+    padding:'4px 10px', borderRadius:'8px', fontSize:'11px', zIndex:'10000',
+    opacity:'0', transition:'opacity 0.3s', pointerEvents:'none'
+  });
+  missEl.textContent = '未在今日漲停';
+  document.body.appendChild(missEl);
+  si.addEventListener('click', () => { si.value = ''; si.style.borderColor = '#30363d'; });
+  const doSearch = () => {
+    const code = si.value.trim();
+    if (code.length < 4) return;
+    const card = document.querySelector('.stock-card[data-code="' + code + '"]');
+    document.querySelectorAll('.stock-card.search-hit').forEach(c => { c.style.outline = ''; c.classList.remove('search-hit'); });
+    if (card) {
+      si.style.borderColor = '#30363d';
+      missEl.style.opacity = '0';
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.style.outline = '2px solid #58a6ff';
+      card.classList.add('search-hit');
+    } else {
+      si.style.borderColor = '#e74c3c';
+      missEl.style.opacity = '1';
+      setTimeout(() => { missEl.style.opacity = '0'; }, 2000);
+    }
+  };
+  si.addEventListener('input', doSearch);
+  si.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+})();
+// 股票卡片 hover 動畫
+document.querySelectorAll('.stock-card a').forEach(card => {
+  card.addEventListener('mouseenter', function() { this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(88,166,255,0.15)'; });
+  card.addEventListener('mouseleave', function() { this.style.transform='translateY(0)'; this.style.boxShadow='none'; });
+});
+</script>
+</body>
+</html>

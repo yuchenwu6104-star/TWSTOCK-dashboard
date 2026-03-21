@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台積電(2330) 2026/03/20</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0d1117; color: #e6edf3; font-family: -apple-system, 'Noto Sans TC', 'Segoe UI', sans-serif; }
+.container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+header { text-align: center; padding: 16px 0 12px; border-bottom: 1px solid #30363d; margin-bottom: 16px; position: relative; }
+header h1 { font-size: 22px; margin-bottom: 2px; }
+header h1 .rabbit { font-size: 26px; }
+header .subtitle { color: #8b949e; font-size: 13px; }
+header .cta-hint {
+  position: absolute; top: 16px; right: 20px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+  border: 1px solid #3b82f6; border-radius: 6px;
+  padding: 8px 12px; color: #60a5fa; font-size: 11px; font-weight: 600;
+  cursor: pointer; min-width: 180px; text-align: center;
+  transition: all 0.2s;
+}
+header .cta-hint:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #4338ca 100%);
+  transform: translateY(-1px); box-shadow: 0 4px 8px rgba(37,99,235,0.3);
+}
+.date-nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 8px; }
+.date-nav .nav-btn {
+  background: #21262d; border: 1px solid #30363d; color: #8b949e;
+  padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; transition: all 0.2s;
+}
+.date-nav .nav-btn:hover:not(:disabled) { background: #30363d; color: #e6edf3; }
+.date-nav .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.date-nav .date { color: #58a6ff; font-size: 15px; font-weight: 600; min-width: 100px; }
+.section-title { font-size: 16px; margin: 16px 0 10px; padding-left: 8px; border-left: 3px solid #f85149; }
+.concept-section { margin-bottom: 20px; }
+.concept-title {
+  font-size: 14px; margin: 12px 0 8px; padding: 8px 12px;
+  background: #21262d; border-radius: 6px; border-left: 3px solid #58a6ff;
+  display: flex; align-items: center; gap: 8px;
+}
+.concept-title .icon { font-size: 16px; }
+.concept-title .count { color: #8b949e; font-size: 12px; margin-left: auto; }
+.concept-reason { color: #8b949e; font-size: 11px; margin: 0 12px 8px 12px; font-style: italic; }
+.stock-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.stock-card { background: #161b22; border: 1px solid #30363d; border-radius: 6px; position: relative; transition: all 0.2s ease; }
+.stock-card .reason-tip {
+  display: none; position: absolute; left: 0; right: 0; bottom: 100%;
+  background: #1c2129; border: 1px solid #444c56; border-radius: 6px;
+  padding: 8px 10px; font-size: 12px; color: #c9d1d9; line-height: 1.5;
+  z-index: 100; pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.stock-card .reason-tip .tip-cta { color: #58a6ff; font-size: 11px; margin-top: 4px; }
+.stock-card:hover .reason-tip { display: block; }
+.stock-card a { text-decoration: none; color: inherit; display: block; padding: 10px 12px; transition: all 0.2s ease; }
+.stock-card a:hover { background: #1c2129; }
+.stock-header { display: flex; justify-content: space-between; align-items: center; }
+.stock-name { font-size: 14px; font-weight: 600; }
+.stock-code { color: #8b949e; font-size: 12px; margin-left: 6px; }
+.stock-price { text-align: right; }
+.stock-close { font-size: 14px; font-weight: 600; }
+.stock-change { font-size: 11px; margin-top: 1px; }
+.up { color: #f85149; }
+.down { color: #3fb950; }
+.stock-meta { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: #8b949e; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.badge.up { background: rgba(248,81,73,0.2); color: #f85149; }
+
+/* Nav pills */
+nav.topnav {
+  background: #0a0a16; border-bottom: 1px solid #30363d;
+  padding: 6px 8px; display: flex; align-items: center; justify-content: center;
+  gap: 6px; position: sticky; top: 0; z-index: 999;
+}
+nav.topnav a.pill {
+  padding: 5px 14px; border-radius: 16px; font-size: 12px; font-weight: 600;
+  text-decoration: none; color: #888; background: #1a1a2e; transition: all 0.2s;
+}
+nav.topnav a.pill.active { background: #1a6bc4; color: #fff; }
+nav.topnav a.pill:hover:not(.active) { color: #ccc; }
+#stock-search {
+  width: 72px; padding: 5px 8px; border-radius: 16px;
+  border: 1px solid #58a6ff; background: #0d1117;
+  color: #e0e0e0; font-size: 16px; outline: none;
+}
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; }
+th { text-align: right; padding: 3px 4px; font-size: 10px; color: #8b949e; border-bottom: 1px solid #30363d; white-space: nowrap; }
+th:first-child { text-align: left; }
+td { padding: 4px 4px; font-size: 11px; border-bottom: 1px solid #21262d; text-align: right; font-variant-numeric: tabular-nums; }
+td:first-child { text-align: left; font-size: 11px; white-space: nowrap; }
+tr:hover { background: #1c2129; }
+.net { font-weight: 600; }
+
+/* Disposal */
+.disp-stat { padding: 4px 14px; border-radius: 16px; font-size: 13px; font-weight: 600; display: inline-block; }
+.disp-stat.danger { background: rgba(231,76,60,0.3); color: #f85149; }
+.disp-stat.warn { background: rgba(241,196,15,0.3); color: #f1c40f; }
+.disp-stat.info { background: rgba(149,165,166,0.3); color: #95a5a6; }
+.mkt { padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; }
+.mkt-twse { background: rgba(88,166,255,0.2); color: #58a6ff; }
+.mkt-tpex { background: rgba(163,113,247,0.2); color: #a371f7; }
+.badge-danger { color: #e74c3c; font-weight: 700; }
+.badge-warn { color: #f39c12; font-weight: 600; }
+.badge-info { color: #3498db; }
+.threshold-cell { text-align: center; font-size: 12px; }
+.threshold-cell .progress { font-weight: 700; }
+.threshold-cell .gap { font-size: 10px; display: block; }
+.disposal-table { background: #141422; border-radius: 8px; overflow: hidden; }
+.disposal-table th { background: #1a1a2e; padding: 8px 10px; font-size: 11px; position: sticky; top: 40px; z-index: 10; }
+.disposal-table td { padding: 6px 10px; font-size: 12px; border-bottom: 1px solid #1e1e3a; }
+.disposal-table tr:hover { background: #1a1a30; }
+
+/* Perf cards */
+.perf-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 20px 0; }
+.perf-card {
+  background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+  padding: 16px; text-align: center;
+}
+.perf-card .ptitle { font-size: 12px; color: #8b949e; margin-bottom: 6px; }
+.perf-card .pvalue { font-size: 24px; font-weight: 800; }
+.perf-card .psub { font-size: 12px; color: #8b949e; margin-top: 4px; }
+
+/* Condition cards */
+.cond-card {
+  background: #161b22; border: 1px solid #30363d; border-radius: 6px;
+  padding: 10px 14px; margin-bottom: 6px;
+  display: flex; gap: 10px; align-items: baseline;
+}
+.cond-name { font-weight: 700; font-size: 13px; white-space: nowrap; }
+.cond-desc { font-size: 12px; color: #8b949e; }
+
+footer { text-align: center; padding: 32px 0 24px; color: #484f58; font-size: 12px; border-top: 1px solid #30363d; margin-top: 32px; }
+footer a { color: #58a6ff; text-decoration: none; }
+
+@media (max-width: 1200px) { .stock-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 900px) { .stock-grid { grid-template-columns: repeat(2, 1fr); } .perf-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 700px) {
+  .container { padding: 4px; }
+  .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
+  header .cta-hint { position: static; margin: 8px auto 0; min-width: auto; width: fit-content; font-size: 10px; padding: 6px 10px; }
+  .date-nav .nav-btn { padding: 3px 8px; font-size: 10px; }
+  .date-nav .date { font-size: 13px; }
+  .perf-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="index.html" class="pill active">漲停族群AI分類</a>
+  <a href="nextday-performance.html" class="pill ">隔日表現</a>
+  <a href="disposal-forecast.html" class="pill ">處置標準</a>
+  <input id="stock-search" type="text" inputmode="decimal" placeholder="🔍股號" />
+</nav>
+
+<div class="container">
+  <a href="../../index.html" style="display:inline-block;color:#58a6ff;text-decoration:none;margin-bottom:16px;font-size:14px;">← 返回漲停總覽</a>
+
+  <div class="info-bar" style="display:flex;justify-content:space-between;align-items:center;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin-bottom:20px;">
+    <div>
+      <h2 style="font-size:22px;">🐰 台積電</h2>
+      <div style="color:#8b949e;font-size:14px;margin-top:2px;">2330 · 2026/03/20</div>
+      <div style="color:#8b949e;font-size:13px;margin-top:2px;">晶圓代工</div>
+      <div style="font-size:12px;color:#8b949e;margin-top:6px;">
+        成交量 28,766張 · 共 816 家券商交易
+      </div>
+    </div>
+    <div style="text-align:right;">
+      <div class="up" style="font-size:24px;font-weight:700;">$1855.0</div>
+      <div style="margin-top:4px;"><span class="badge up">+25 (1.37%) 漲停</span></div>
+    </div>
+  </div>
+
+  
+  <!-- 買賣超雙欄表 -->
+  <div style="display:flex;gap:16px;margin-bottom:20px;">
+    <div style="flex:1;min-width:0;">
+      <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid #f85149;color:#f85149;margin-bottom:4px;">買超 Top15</div>
+      <table>
+        <tr><th style="text-align:left;">券商</th><th>買超</th><th>買均</th><th>買張</th><th>賣張</th><th>賣均</th></tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">瑞銀</td>
+          <td class="net" style="color:#f85149;">5,163</td>
+          <td>1841.65</td>
+          <td>6,876</td>
+          <td>1,713</td>
+          <td>1843.96</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">凱基台北</td>
+          <td class="net" style="color:#f85149;">1,872</td>
+          <td>1844.23</td>
+          <td>3,143</td>
+          <td>1,270</td>
+          <td>1853.77</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">美林</td>
+          <td class="net" style="color:#f85149;">1,733</td>
+          <td>1841.91</td>
+          <td>3,735</td>
+          <td>2,002</td>
+          <td>1842.13</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">上海匯豐</td>
+          <td class="net" style="color:#f85149;">574</td>
+          <td>1851.60</td>
+          <td>631</td>
+          <td>57</td>
+          <td>1845.53</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">國泰敦南</td>
+          <td class="net" style="color:#f85149;">336</td>
+          <td>1849.68</td>
+          <td>489</td>
+          <td>153</td>
+          <td>1853.09</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">中國信託</td>
+          <td class="net" style="color:#f85149;">333</td>
+          <td>1848.47</td>
+          <td>589</td>
+          <td>255</td>
+          <td>1853.57</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">凱基</td>
+          <td class="net" style="color:#f85149;">305</td>
+          <td>1848.43</td>
+          <td>540</td>
+          <td>235</td>
+          <td>1846.83</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">大和國泰</td>
+          <td class="net" style="color:#f85149;">301</td>
+          <td>1851.69</td>
+          <td>317</td>
+          <td>16</td>
+          <td>1840.00</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">玉山</td>
+          <td class="net" style="color:#f85149;">300</td>
+          <td>1848.35</td>
+          <td>320</td>
+          <td>19</td>
+          <td>1852.46</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">土銀</td>
+          <td class="net" style="color:#f85149;">285</td>
+          <td>1843.18</td>
+          <td>290</td>
+          <td>5</td>
+          <td>1846.99</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">法銀巴黎</td>
+          <td class="net" style="color:#f85149;">281</td>
+          <td>1851.28</td>
+          <td>349</td>
+          <td>67</td>
+          <td>1851.85</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">臺銀</td>
+          <td class="net" style="color:#f85149;">268</td>
+          <td>1846.99</td>
+          <td>297</td>
+          <td>29</td>
+          <td>1849.37</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">兆豐南京</td>
+          <td class="net" style="color:#f85149;">217</td>
+          <td>1854.12</td>
+          <td>218</td>
+          <td>1</td>
+          <td>1864.47</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">凱基站前</td>
+          <td class="net" style="color:#f85149;">210</td>
+          <td>1851.05</td>
+          <td>256</td>
+          <td>45</td>
+          <td>1856.34</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">華南永昌</td>
+          <td class="net" style="color:#f85149;">173</td>
+          <td>1853.75</td>
+          <td>230</td>
+          <td>57</td>
+          <td>1853.27</td>
+        </tr>
+        
+      </table>
+    </div>
+    <div style="flex:1;min-width:0;">
+      <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid #3fb950;color:#3fb950;margin-bottom:4px;">賣超 Top15</div>
+      <table>
+        <tr><th style="text-align:left;">券商</th><th>賣超</th><th>買均</th><th>買張</th><th>賣張</th><th>賣均</th></tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">港麥格理</td>
+          <td class="net" style="color:#3fb950;">3,992</td>
+          <td>1840.29</td>
+          <td>83</td>
+          <td>4,075</td>
+          <td>1843.24</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大</td>
+          <td class="net" style="color:#3fb950;">3,470</td>
+          <td>1846.88</td>
+          <td>1,267</td>
+          <td>4,736</td>
+          <td>1848.56</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">花旗環球</td>
+          <td class="net" style="color:#3fb950;">3,081</td>
+          <td>1841.27</td>
+          <td>1,692</td>
+          <td>4,773</td>
+          <td>1841.51</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">美商高盛</td>
+          <td class="net" style="color:#3fb950;">2,841</td>
+          <td>1849.98</td>
+          <td>1,025</td>
+          <td>3,866</td>
+          <td>1842.47</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">富邦</td>
+          <td class="net" style="color:#3fb950;">2,828</td>
+          <td>1847.67</td>
+          <td>271</td>
+          <td>3,099</td>
+          <td>1841.01</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">台灣摩根</td>
+          <td class="net" style="color:#3fb950;">1,513</td>
+          <td>1842.22</td>
+          <td>5,937</td>
+          <td>7,450</td>
+          <td>1846.12</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">永豐匯立</td>
+          <td class="net" style="color:#3fb950;">1,438</td>
+          <td>1854.42</td>
+          <td>276</td>
+          <td>1,714</td>
+          <td>1841.84</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">港商野村</td>
+          <td class="net" style="color:#3fb950;">321</td>
+          <td>1859.38</td>
+          <td>989</td>
+          <td>1,309</td>
+          <td>1840.07</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">統一</td>
+          <td class="net" style="color:#3fb950;">298</td>
+          <td>1847.48</td>
+          <td>374</td>
+          <td>672</td>
+          <td>1844.45</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">國泰綜合</td>
+          <td class="net" style="color:#3fb950;">253</td>
+          <td>1853.26</td>
+          <td>39</td>
+          <td>292</td>
+          <td>1845.10</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">群益</td>
+          <td class="net" style="color:#3fb950;">166</td>
+          <td>1848.77</td>
+          <td>95</td>
+          <td>261</td>
+          <td>1854.11</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">第一光復</td>
+          <td class="net" style="color:#3fb950;">151</td>
+          <td>1854.48</td>
+          <td>12</td>
+          <td>163</td>
+          <td>1856.88</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">摩根大通</td>
+          <td class="net" style="color:#3fb950;">123</td>
+          <td>1841.14</td>
+          <td>4,542</td>
+          <td>4,664</td>
+          <td>1847.92</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">宏遠</td>
+          <td class="net" style="color:#3fb950;">96</td>
+          <td>1848.41</td>
+          <td>47</td>
+          <td>142</td>
+          <td>1852.90</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">永豐金</td>
+          <td class="net" style="color:#3fb950;">96</td>
+          <td>1853.51</td>
+          <td>336</td>
+          <td>431</td>
+          <td>1848.17</td>
+        </tr>
+        
+      </table>
+    </div>
+  </div>
+
+  <!-- 主力動向泡泡圖 -->
+  <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin-bottom:20px;position:relative;">
+    <canvas id="bubbleChart"></canvas>
+  </div>
+  
+
+  
+  <!-- 三大法人 -->
+  <div class="concept-title" style="border-left-color:#58a6ff;margin-top:0;">
+    <span class="icon">🏛️</span><span>三大法人買賣超</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 20px;">
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#8b949e;">外資</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#3fb950;">
+        -6,769 張
+      </div>
+    </div>
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#8b949e;">投信</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#3fb950;">
+        -4,029 張
+      </div>
+    </div>
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#8b949e;">自營商</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#3fb950;">
+        -37 張
+      </div>
+    </div>
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#8b949e;">合計</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#3fb950;">
+        -10,834 張
+      </div>
+    </div>
+  </div>
+  
+
+  
+  <!-- 融資融券 -->
+  <div class="concept-title" style="border-left-color:#f39c12;">
+    <span class="icon">💰</span><span>融資融券</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 20px;">
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#8b949e;">融資餘額</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;">26,115 張</div>
+      <div style="font-size:10px;color:#3fb950;margin-top:2px;">
+        -154
+      </div>
+    </div>
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#8b949e;">融資買</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#f85149;">620</div>
+    </div>
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#8b949e;">融券餘額</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;">7 張</div>
+      <div style="font-size:10px;color:#f85149;margin-top:2px;">
+        +0
+      </div>
+    </div>
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#8b949e;">券資比</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;">0.0%</div>
+    </div>
+  </div>
+  
+</div>
+
+<footer>
+  <div class="container">
+    資料來源：臺灣證券交易所 / 證券櫃檯買賣中心 ｜ 僅供研究參考，非投資建議
+  </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script>
+(function() {
+  const ctx = document.getElementById('bubbleChart').getContext('2d');
+  const buyerBuyData = [{"x": -6876, "y": 1841.65, "r": 28, "label": "瑞銀", "net": 5163, "buyVol": 6876, "sellVol": 1713, "buyAvg": 1841.65, "sellAvg": 1843.96}, {"x": -3143, "y": 1844.23, "r": 28, "label": "凱基台北", "net": 1872, "buyVol": 3143, "sellVol": 1270, "buyAvg": 1844.23, "sellAvg": 1853.77}, {"x": -3735, "y": 1841.91, "r": 28, "label": "美林", "net": 1733, "buyVol": 3735, "sellVol": 2002, "buyAvg": 1841.91, "sellAvg": 1842.13}, {"x": -631, "y": 1851.6, "r": 20.1, "label": "上海匯豐", "net": 574, "buyVol": 631, "sellVol": 57, "buyAvg": 1851.6, "sellAvg": 1845.53}, {"x": -489, "y": 1849.68, "r": 17.69, "label": "國泰敦南", "net": 336, "buyVol": 489, "sellVol": 153, "buyAvg": 1849.68, "sellAvg": 1853.09}, {"x": -589, "y": 1848.47, "r": 19.42, "label": "中國信託", "net": 333, "buyVol": 589, "sellVol": 255, "buyAvg": 1848.47, "sellAvg": 1853.57}, {"x": -540, "y": 1848.43, "r": 18.59, "label": "凱基", "net": 305, "buyVol": 540, "sellVol": 235, "buyAvg": 1848.43, "sellAvg": 1846.83}, {"x": -317, "y": 1851.69, "r": 14.24, "label": "大和國泰", "net": 301, "buyVol": 317, "sellVol": 16, "buyAvg": 1851.69, "sellAvg": 1840.0}, {"x": -320, "y": 1848.35, "r": 14.31, "label": "玉山", "net": 300, "buyVol": 320, "sellVol": 19, "buyAvg": 1848.35, "sellAvg": 1852.46}, {"x": -290, "y": 1843.18, "r": 13.62, "label": "土銀", "net": 285, "buyVol": 290, "sellVol": 5, "buyAvg": 1843.18, "sellAvg": 1846.99}, {"x": -349, "y": 1851.28, "r": 14.95, "label": "法銀巴黎", "net": 281, "buyVol": 349, "sellVol": 67, "buyAvg": 1851.28, "sellAvg": 1851.85}, {"x": -297, "y": 1846.99, "r": 13.79, "label": "臺銀", "net": 268, "buyVol": 297, "sellVol": 29, "buyAvg": 1846.99, "sellAvg": 1849.37}, {"x": -218, "y": 1854.12, "r": 11.81, "label": "兆豐南京", "net": 217, "buyVol": 218, "sellVol": 1, "buyAvg": 1854.12, "sellAvg": 1864.47}, {"x": -256, "y": 1851.05, "r": 12.8, "label": "凱基站前", "net": 210, "buyVol": 256, "sellVol": 45, "buyAvg": 1851.05, "sellAvg": 1856.34}, {"x": -230, "y": 1853.75, "r": 12.13, "label": "華南永昌", "net": 173, "buyVol": 230, "sellVol": 57, "buyAvg": 1853.75, "sellAvg": 1853.27}];
+  const buyerSellData = [{"x": 1713, "y": 1843.96, "r": 28, "label": "瑞銀", "net": 5163, "buyVol": 6876, "sellVol": 1713, "buyAvg": 1841.65, "sellAvg": 1843.96}, {"x": 1270, "y": 1853.77, "r": 28, "label": "凱基台北", "net": 1872, "buyVol": 3143, "sellVol": 1270, "buyAvg": 1844.23, "sellAvg": 1853.77}, {"x": 2002, "y": 1842.13, "r": 28, "label": "美林", "net": 1733, "buyVol": 3735, "sellVol": 2002, "buyAvg": 1841.91, "sellAvg": 1842.13}, {"x": 57, "y": 1845.53, "r": 6.04, "label": "上海匯豐", "net": 574, "buyVol": 631, "sellVol": 57, "buyAvg": 1851.6, "sellAvg": 1845.53}, {"x": 153, "y": 1853.09, "r": 9.9, "label": "國泰敦南", "net": 336, "buyVol": 489, "sellVol": 153, "buyAvg": 1849.68, "sellAvg": 1853.09}, {"x": 255, "y": 1853.57, "r": 12.77, "label": "中國信託", "net": 333, "buyVol": 589, "sellVol": 255, "buyAvg": 1848.47, "sellAvg": 1853.57}, {"x": 235, "y": 1846.83, "r": 12.26, "label": "凱基", "net": 305, "buyVol": 540, "sellVol": 235, "buyAvg": 1848.43, "sellAvg": 1846.83}, {"x": 16, "y": 1840.0, "r": 3.2, "label": "大和國泰", "net": 301, "buyVol": 317, "sellVol": 16, "buyAvg": 1851.69, "sellAvg": 1840.0}, {"x": 19, "y": 1852.46, "r": 3.49, "label": "玉山", "net": 300, "buyVol": 320, "sellVol": 19, "buyAvg": 1848.35, "sellAvg": 1852.46}, {"x": 5, "y": 1846.99, "r": 2, "label": "土銀", "net": 285, "buyVol": 290, "sellVol": 5, "buyAvg": 1843.18, "sellAvg": 1846.99}, {"x": 67, "y": 1851.85, "r": 6.55, "label": "法銀巴黎", "net": 281, "buyVol": 349, "sellVol": 67, "buyAvg": 1851.28, "sellAvg": 1851.85}, {"x": 29, "y": 1849.37, "r": 4.31, "label": "臺銀", "net": 268, "buyVol": 297, "sellVol": 29, "buyAvg": 1846.99, "sellAvg": 1849.37}, {"x": 1, "y": 1864.47, "r": 2, "label": "兆豐南京", "net": 217, "buyVol": 218, "sellVol": 1, "buyAvg": 1854.12, "sellAvg": 1864.47}, {"x": 45, "y": 1856.34, "r": 5.37, "label": "凱基站前", "net": 210, "buyVol": 256, "sellVol": 45, "buyAvg": 1851.05, "sellAvg": 1856.34}, {"x": 57, "y": 1853.27, "r": 6.04, "label": "華南永昌", "net": 173, "buyVol": 230, "sellVol": 57, "buyAvg": 1853.75, "sellAvg": 1853.27}];
+  const sellerSellData = [{"x": 4075, "y": 1843.24, "r": 28, "label": "港麥格理", "net": -3992, "buyVol": 83, "sellVol": 4075, "buyAvg": 1840.29, "sellAvg": 1843.24}, {"x": 4736, "y": 1848.56, "r": 28, "label": "元大", "net": -3470, "buyVol": 1267, "sellVol": 4736, "buyAvg": 1846.88, "sellAvg": 1848.56}, {"x": 4773, "y": 1841.51, "r": 28, "label": "花旗環球", "net": -3081, "buyVol": 1692, "sellVol": 4773, "buyAvg": 1841.27, "sellAvg": 1841.51}, {"x": 3866, "y": 1842.47, "r": 28, "label": "美商高盛", "net": -2841, "buyVol": 1025, "sellVol": 3866, "buyAvg": 1849.98, "sellAvg": 1842.47}, {"x": 3099, "y": 1841.01, "r": 28, "label": "富邦", "net": -2828, "buyVol": 271, "sellVol": 3099, "buyAvg": 1847.67, "sellAvg": 1841.01}, {"x": 7450, "y": 1846.12, "r": 28, "label": "台灣摩根", "net": -1513, "buyVol": 5937, "sellVol": 7450, "buyAvg": 1842.22, "sellAvg": 1846.12}, {"x": 1714, "y": 1841.84, "r": 28, "label": "永豐匯立", "net": -1438, "buyVol": 276, "sellVol": 1714, "buyAvg": 1854.42, "sellAvg": 1841.84}, {"x": 1309, "y": 1840.07, "r": 28, "label": "港商野村", "net": -321, "buyVol": 989, "sellVol": 1309, "buyAvg": 1859.38, "sellAvg": 1840.07}, {"x": 672, "y": 1844.45, "r": 20.74, "label": "統一", "net": -298, "buyVol": 374, "sellVol": 672, "buyAvg": 1847.48, "sellAvg": 1844.45}, {"x": 292, "y": 1845.1, "r": 13.67, "label": "國泰綜合", "net": -253, "buyVol": 39, "sellVol": 292, "buyAvg": 1853.26, "sellAvg": 1845.1}, {"x": 261, "y": 1854.11, "r": 12.92, "label": "群益", "net": -166, "buyVol": 95, "sellVol": 261, "buyAvg": 1848.77, "sellAvg": 1854.11}, {"x": 163, "y": 1856.88, "r": 10.21, "label": "第一光復", "net": -151, "buyVol": 12, "sellVol": 163, "buyAvg": 1854.48, "sellAvg": 1856.88}, {"x": 4664, "y": 1847.92, "r": 28, "label": "摩根大通", "net": -123, "buyVol": 4542, "sellVol": 4664, "buyAvg": 1841.14, "sellAvg": 1847.92}, {"x": 142, "y": 1852.9, "r": 9.53, "label": "宏遠", "net": -96, "buyVol": 47, "sellVol": 142, "buyAvg": 1848.41, "sellAvg": 1852.9}, {"x": 431, "y": 1848.17, "r": 16.61, "label": "永豐金", "net": -96, "buyVol": 336, "sellVol": 431, "buyAvg": 1853.51, "sellAvg": 1848.17}];
+  const sellerBuyData = [{"x": -83, "y": 1840.29, "r": 7.29, "label": "港麥格理", "net": -3992, "buyVol": 83, "sellVol": 4075, "buyAvg": 1840.29, "sellAvg": 1843.24}, {"x": -1267, "y": 1846.88, "r": 28, "label": "元大", "net": -3470, "buyVol": 1267, "sellVol": 4736, "buyAvg": 1846.88, "sellAvg": 1848.56}, {"x": -1692, "y": 1841.27, "r": 28, "label": "花旗環球", "net": -3081, "buyVol": 1692, "sellVol": 4773, "buyAvg": 1841.27, "sellAvg": 1841.51}, {"x": -1025, "y": 1849.98, "r": 25.61, "label": "美商高盛", "net": -2841, "buyVol": 1025, "sellVol": 3866, "buyAvg": 1849.98, "sellAvg": 1842.47}, {"x": -271, "y": 1847.67, "r": 13.17, "label": "富邦", "net": -2828, "buyVol": 271, "sellVol": 3099, "buyAvg": 1847.67, "sellAvg": 1841.01}, {"x": -5937, "y": 1842.22, "r": 28, "label": "台灣摩根", "net": -1513, "buyVol": 5937, "sellVol": 7450, "buyAvg": 1842.22, "sellAvg": 1846.12}, {"x": -276, "y": 1854.42, "r": 13.29, "label": "永豐匯立", "net": -1438, "buyVol": 276, "sellVol": 1714, "buyAvg": 1854.42, "sellAvg": 1841.84}, {"x": -989, "y": 1859.38, "r": 25.16, "label": "港商野村", "net": -321, "buyVol": 989, "sellVol": 1309, "buyAvg": 1859.38, "sellAvg": 1840.07}, {"x": -374, "y": 1847.48, "r": 15.47, "label": "統一", "net": -298, "buyVol": 374, "sellVol": 672, "buyAvg": 1847.48, "sellAvg": 1844.45}, {"x": -39, "y": 1853.26, "r": 5.0, "label": "國泰綜合", "net": -253, "buyVol": 39, "sellVol": 292, "buyAvg": 1853.26, "sellAvg": 1845.1}, {"x": -95, "y": 1848.77, "r": 7.8, "label": "群益", "net": -166, "buyVol": 95, "sellVol": 261, "buyAvg": 1848.77, "sellAvg": 1854.11}, {"x": -12, "y": 1854.48, "r": 2.77, "label": "第一光復", "net": -151, "buyVol": 12, "sellVol": 163, "buyAvg": 1854.48, "sellAvg": 1856.88}, {"x": -4542, "y": 1841.14, "r": 28, "label": "摩根大通", "net": -123, "buyVol": 4542, "sellVol": 4664, "buyAvg": 1841.14, "sellAvg": 1847.92}, {"x": -47, "y": 1848.41, "r": 5.48, "label": "宏遠", "net": -96, "buyVol": 47, "sellVol": 142, "buyAvg": 1848.41, "sellAvg": 1852.9}, {"x": -336, "y": 1853.51, "r": 14.66, "label": "永豐金", "net": -96, "buyVol": 336, "sellVol": 431, "buyAvg": 1853.51, "sellAvg": 1848.17}];
+  const closePrice = 1855.0;
+
+  let hoveredBroker = null;
+  const top5Buyers = buyerBuyData.slice(0, 5).map(d => d.label);
+  const top5Sellers = sellerSellData.slice(0, 5).map(d => d.label);
+
+  // Plugin: reference lines + bottom labels
+  const refLinePlugin = {
+    id: 'refLines',
+    beforeDatasetsDraw(chart) {
+      const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
+      // Vertical dashed line at x=0
+      const x0 = x.getPixelForValue(0);
+      if (x0 >= left && x0 <= right) {
+        ctx.save(); ctx.strokeStyle = 'rgba(88,166,255,0.35)'; ctx.lineWidth = 1; ctx.setLineDash([6, 4]);
+        ctx.beginPath(); ctx.moveTo(x0, top); ctx.lineTo(x0, bottom); ctx.stroke(); ctx.restore();
+      }
+      // Horizontal dashed line at close price
+      if (closePrice > 0) {
+        const yClose = y.getPixelForValue(closePrice);
+        if (yClose >= top && yClose <= bottom) {
+          ctx.save(); ctx.strokeStyle = 'rgba(255,200,55,0.25)'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+          ctx.beginPath(); ctx.moveTo(left, yClose); ctx.lineTo(right, yClose); ctx.stroke(); ctx.restore();
+        }
+      }
+    },
+    afterDatasetsDraw(chart) {
+      const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
+      const labelRowY = [bottom + 30, bottom + 60];
+      const halfWidth = (right - left) / 2;
+
+      const drawLabel = (brokerName, lx, labelY, isHovered, color, brokerData, datasetData, datasetIndex) => {
+        if (!brokerName) return;
+        const netVol = brokerData ? brokerData.net : 0;
+        const netText = (netVol > 0 ? '+' : '') + netVol;
+        ctx.font = 'bold 9px sans-serif';
+        const tw = Math.max(ctx.measureText(brokerName).width, ctx.measureText(netText).width);
+        const bgX = lx - tw/2 - 4, bgY = labelY - 12, bgW = tw + 8, bgH = 24;
+        const hAlpha = color === 'red' ? 'rgba(248,81,73,' : 'rgba(63,185,80,';
+        ctx.fillStyle = isHovered ? hAlpha + '0.8)' : hAlpha + '0.4)';
+        ctx.fillRect(bgX, bgY, bgW, bgH);
+        ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(brokerName, lx, labelY - 4);
+        ctx.font = 'bold 7px sans-serif';
+        ctx.fillText(netText, lx, labelY + 5);
+        // Connection line to bubble
+        const bubble = datasetData.find(d => d.label === brokerName);
+        if (bubble) {
+          const meta = chart.getDatasetMeta(datasetIndex);
+          const bubbleEl = meta.data[datasetData.indexOf(bubble)];
+          if (bubbleEl) {
+            ctx.save();
+            ctx.strokeStyle = isHovered ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.35)';
+            ctx.lineWidth = isHovered ? 2 : 1; ctx.setLineDash([3, 3]);
+            ctx.beginPath(); ctx.moveTo(lx, labelY - 15); ctx.lineTo(bubbleEl.x, bubbleEl.y); ctx.stroke();
+            ctx.setLineDash([]); ctx.restore();
+          }
+        }
+      };
+
+      // W-zigzag: buyers left half
+      top5Buyers.forEach((name, rank) => {
+        if (!name) return;
+        const row = rank % 2 === 0 ? 0 : 1;
+        const rowItems = rank % 2 === 0 ? 3 : 2;
+        const col = Math.floor(rank / 2);
+        const lx = left + (col + 1) * (halfWidth / (rowItems + 1));
+        const brokerData = buyerBuyData.find(d => d.label === name);
+        drawLabel(name, lx, labelRowY[row], hoveredBroker === name, 'red', brokerData, buyerBuyData, 0);
+      });
+      // Sellers right half (mirrored)
+      top5Sellers.forEach((name, rank) => {
+        if (!name) return;
+        const row = rank % 2 === 0 ? 0 : 1;
+        const rowItems = rank % 2 === 0 ? 3 : 2;
+        const col = Math.floor(rank / 2);
+        const mirrorCol = (rowItems - 1) - col;
+        const lx = left + halfWidth + (mirrorCol + 1) * (halfWidth / (rowItems + 1));
+        const brokerData = sellerSellData.find(d => d.label === name);
+        drawLabel(name, lx, labelRowY[row], hoveredBroker === name, 'green', brokerData, sellerSellData, 2);
+      });
+      // Hover: draw buy-sell connection line
+      if (hoveredBroker) {
+        const drawConn = (broker, buyData, sellData, bi, si) => {
+          const bb = buyData.find(d => d.label === broker), sb = sellData.find(d => d.label === broker);
+          if (bb && sb) {
+            const be = chart.getDatasetMeta(bi).data[buyData.indexOf(bb)];
+            const se = chart.getDatasetMeta(si).data[sellData.indexOf(sb)];
+            if (be && se) {
+              ctx.save(); ctx.strokeStyle = 'rgba(255,255,255,0.6)'; ctx.lineWidth = 3; ctx.setLineDash([6, 6]);
+              ctx.beginPath(); ctx.moveTo(be.x, be.y); ctx.lineTo(se.x, se.y); ctx.stroke();
+              ctx.setLineDash([]); ctx.restore();
+            }
+          }
+        };
+        if (top5Buyers.includes(hoveredBroker)) drawConn(hoveredBroker, buyerBuyData, buyerSellData, 0, 1);
+        if (top5Sellers.includes(hoveredBroker)) drawConn(hoveredBroker, sellerBuyData, sellerSellData, 3, 2);
+      }
+    }
+  };
+
+  const mkColor = (base, raw) => {
+    if (!raw) return 'transparent';
+    if (hoveredBroker === raw.label) return base.replace('A)', '0.85)');
+    if (hoveredBroker) return base.replace('A)', '0.05)');
+    return 'transparent';
+  };
+  const mkBorder = (base, raw) => {
+    if (!raw) return base.replace('A)', '0.6)');
+    if (hoveredBroker && raw.label !== hoveredBroker) return base.replace('A)', '0.15)');
+    return base.replace('A)', '0.8)');
+  };
+  const R = 'rgba(248,81,73,A)', G = 'rgba(63,185,80,A)';
+
+  // Calculate axis ranges
+  const allX = [...buyerBuyData.map(d=>d.x), ...buyerSellData.map(d=>d.x), ...sellerSellData.map(d=>d.x), ...sellerBuyData.map(d=>d.x)];
+  const allY = [...buyerBuyData.map(d=>d.y), ...sellerSellData.map(d=>d.y), closePrice].filter(v=>v>0);
+  const xAbs = Math.max(...allX.map(Math.abs)) * 1.15;
+  const yMin = Math.min(...allY) * 0.998;
+  const yMax = Math.max(...allY) * 1.002;
+
+  new Chart(ctx, {
+    type: 'bubble',
+    data: {
+      datasets: [
+        { label:'買超買進', data:buyerBuyData, backgroundColor:c=>mkColor(R,c.raw), borderColor:c=>mkBorder(R,c.raw), borderWidth:2, hoverBackgroundColor:'rgba(248,81,73,0.85)', hoverBorderColor:'#fff', hoverBorderWidth:2 },
+        { label:'買超賣出', data:buyerSellData, backgroundColor:c=>mkColor(G,c.raw), borderColor:c=>mkBorder(G,c.raw), borderWidth:1.5, hoverBackgroundColor:'rgba(63,185,80,0.7)', hoverBorderColor:'#fff', hoverBorderWidth:1 },
+        { label:'賣超賣出', data:sellerSellData, backgroundColor:c=>mkColor(G,c.raw), borderColor:c=>mkBorder(G,c.raw), borderWidth:2, hoverBackgroundColor:'rgba(63,185,80,0.85)', hoverBorderColor:'#fff', hoverBorderWidth:2 },
+        { label:'賣超買進', data:sellerBuyData, backgroundColor:c=>mkColor(R,c.raw), borderColor:c=>mkBorder(R,c.raw), borderWidth:1.5, hoverBackgroundColor:'rgba(248,81,73,0.7)', hoverBorderColor:'#fff', hoverBorderWidth:1 },
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:true, aspectRatio:1.5, animation:false,
+      layout:{ padding:{ bottom:70 } },
+      plugins: {
+        legend:{ display:false },
+        tooltip: {
+          backgroundColor:'rgba(13,17,23,0.95)', titleColor:'#e6edf3', bodyColor:'#c9d1d9',
+          borderColor:'#58a6ff', borderWidth:1, cornerRadius:8, padding:12,
+          titleFont:{size:13,weight:'bold'}, bodyFont:{size:11}, displayColors:false,
+          callbacks: {
+            title: items => { const d=items[0].raw; return (d.net>=0?'🔴':'🟢')+' '+d.label; },
+            label: item => {
+              const d=item.raw, lines=[];
+              lines.push('淨買超：'+(d.net>0?'+':'')+d.net+' 張');
+              lines.push('買進：'+d.buyVol+' 張'+(d.buyAvg?' @ $'+d.buyAvg.toFixed(2):''));
+              lines.push('賣出：'+d.sellVol+' 張'+(d.sellAvg?' @ $'+d.sellAvg.toFixed(2):''));
+              return lines;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          title:{display:true, text:'買賣超（張）', color:'#8b949e', font:{size:11}},
+          grid:{color:'rgba(33,38,45,0.6)', lineWidth:0.5}, border:{color:'#30363d'},
+          ticks:{color:'#8b949e', font:{size:10}, callback:v=>v===0?'0':-v},
+          min:-xAbs, max:xAbs,
+        },
+        y: {
+          title:{display:false},
+          grid:{color:'rgba(33,38,45,0.6)', lineWidth:0.5}, border:{color:'#30363d'},
+          ticks:{
+            color:c=>(c.tick&&Math.abs(c.tick.value-closePrice)<0.01)?'#f85149':'#8b949e',
+            font:c=>(c.tick&&Math.abs(c.tick.value-closePrice)<0.01)?{size:11,weight:'bold'}:{size:10},
+            callback:v=>v<=closePrice?'$'+v.toFixed(1):''
+          },
+          afterBuildTicks:axis=>{
+            if(!axis.ticks.find(t=>Math.abs(t.value-closePrice)<0.01)){
+              axis.ticks.push({value:closePrice}); axis.ticks.sort((a,b)=>a.value-b.value);
+            }
+          },
+          min:yMin, max:yMax,
+        }
+      }
+    },
+    plugins: [refLinePlugin]
+  });
+
+  // Hover interaction on canvas
+  const canvas = document.getElementById('bubbleChart');
+  const chart = Chart.getChart(canvas);
+  canvas.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    let found = null;
+    // Check all datasets for nearest point
+    for (let di = 0; di < chart.data.datasets.length; di++) {
+      const meta = chart.getDatasetMeta(di);
+      for (let pi = 0; pi < meta.data.length; pi++) {
+        const el = meta.data[pi];
+        const dx = el.x - mx, dy = el.y - my;
+        if (Math.sqrt(dx*dx+dy*dy) < el.options.radius + 5) {
+          found = chart.data.datasets[di].data[pi].label;
+          break;
+        }
+      }
+      if (found) break;
+    }
+    if (found !== hoveredBroker) { hoveredBroker = found; chart.update('none'); }
+  });
+  canvas.addEventListener('mouseleave', () => { if (hoveredBroker) { hoveredBroker = null; chart.update('none'); } });
+})();
+</script>
+
+
+<script>
+// 搜尋股號
+(function(){
+  const si = document.getElementById('stock-search');
+  if (!si) return;
+  const missEl = document.createElement('div');
+  Object.assign(missEl.style, {
+    position:'fixed', top:'42px', right:'8px', background:'#e74c3c', color:'#fff',
+    padding:'4px 10px', borderRadius:'8px', fontSize:'11px', zIndex:'10000',
+    opacity:'0', transition:'opacity 0.3s', pointerEvents:'none'
+  });
+  missEl.textContent = '未在今日漲停';
+  document.body.appendChild(missEl);
+  si.addEventListener('click', () => { si.value = ''; si.style.borderColor = '#30363d'; });
+  const doSearch = () => {
+    const code = si.value.trim();
+    if (code.length < 4) return;
+    const card = document.querySelector('.stock-card[data-code="' + code + '"]');
+    document.querySelectorAll('.stock-card.search-hit').forEach(c => { c.style.outline = ''; c.classList.remove('search-hit'); });
+    if (card) {
+      si.style.borderColor = '#30363d';
+      missEl.style.opacity = '0';
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.style.outline = '2px solid #58a6ff';
+      card.classList.add('search-hit');
+    } else {
+      si.style.borderColor = '#e74c3c';
+      missEl.style.opacity = '1';
+      setTimeout(() => { missEl.style.opacity = '0'; }, 2000);
+    }
+  };
+  si.addEventListener('input', doSearch);
+  si.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+})();
+// 股票卡片 hover 動畫
+document.querySelectorAll('.stock-card a').forEach(card => {
+  card.addEventListener('mouseenter', function() { this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(88,166,255,0.15)'; });
+  card.addEventListener('mouseleave', function() { this.style.transform='translateY(0)'; this.style.boxShadow='none'; });
+});
+</script>
+</body>
+</html>

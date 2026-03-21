@@ -3,5 +3,5 @@ __pycache__/
 .env
 db/*.duckdb
 db/*.duckdb.wal
-output/
 .DS_Store
+.venv/
