@@ -1,0 +1,399 @@
+#!/usr/bin/env python3
+"""靜態網站生成器：從 DuckDB 讀資料，用 Jinja2 生成 HTML。"""
+
+import duckdb
+import datetime
+import os
+import shutil
+import sys
+
+from jinja2 import Environment, FileSystemLoader
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from db.init_db import DB_PATH
+from crawler.concept_classifier import AI_CONCEPT_OVERLAY, SECTOR_ICON_MAP
+from crawler.disposal_forecast import compute_forecast
+from crawler.broker_data import get_top_brokers
+
+SUPP_DB = "/Users/slking/taiwan_stock_dashboard/收盤觀察/market_supplementary.duckdb"
+
+
+def _get_institutional(stock_code: str, trade_date) -> dict | None:
+    import os
+    if not os.path.exists(SUPP_DB):
+        return None
+    try:
+        con = duckdb.connect(SUPP_DB, read_only=True)
+        r = con.execute("""
+            SELECT foreign_net, sitc_net, dealer_net, total_net
+            FROM institutional_daily WHERE symbol=? AND trade_date=?
+        """, [stock_code, trade_date]).fetchone()
+        con.close()
+        if r:
+            return {"foreign_net": r[0], "sitc_net": r[1], "dealer_net": r[2], "total_net": r[3]}
+    except Exception:
+        pass
+    return None
+
+
+def _get_margin(stock_code: str, trade_date) -> dict | None:
+    import os
+    if not os.path.exists(SUPP_DB):
+        return None
+    try:
+        con = duckdb.connect(SUPP_DB, read_only=True)
+        r = con.execute("""
+            SELECT margin_buy, margin_sell, margin_bal, margin_prev_bal,
+                   short_sell, short_buy, short_bal, short_prev_bal
+            FROM margin_daily WHERE symbol=? AND trade_date=?
+        """, [stock_code, trade_date]).fetchone()
+        con.close()
+        if r:
+            margin_change = (r[2] or 0) - (r[3] or 0)
+            short_change = (r[6] or 0) - (r[7] or 0)
+            ratio = round((r[6] or 0) / r[2] * 100, 1) if r[2] and r[2] > 0 else 0
+            return {
+                "margin_buy": r[0] or 0, "margin_sell": r[1] or 0,
+                "margin_bal": r[2] or 0, "margin_change": margin_change,
+                "short_bal": r[6] or 0, "short_change": short_change,
+                "ratio": ratio,
+            }
+    except Exception:
+        pass
+    return None
+
+
+def _build_bubble_datasets(buy_top: list, sell_top: list, close_price: float) -> tuple:
+    """Build 4 datasets matching Chengwaye format: buyerBuy, buyerSell, sellerSell, sellerBuy."""
+    import math
+
+    def mk(b, x_val, y_val, net_lots):
+        r = max(2, min(28, math.sqrt(abs(x_val)) * 0.8)) if x_val != 0 else 2
+        return {
+            "x": x_val, "y": round(y_val, 2), "r": round(r, 2),
+            "label": b["name"], "net": net_lots,
+            "buyVol": b["buy_lots"], "sellVol": b["sell_lots"],
+            "buyAvg": b["buy_avg"], "sellAvg": b["sell_avg"],
+        }
+
+    buyer_buy, buyer_sell, seller_sell, seller_buy = [], [], [], []
+
+    for b in buy_top:
+        nl = b["net_lots"]
+        buyer_buy.append(mk(b, -b["buy_lots"], b["buy_avg"] or close_price, nl))
+        buyer_sell.append(mk(b, b["sell_lots"], b["sell_avg"] or close_price, nl))
+
+    for b in sell_top:
+        nl = b.get("net", 0) // 1000 if b.get("net") else -b["net_lots"]
+        seller_sell.append(mk(b, b["sell_lots"], b["sell_avg"] or close_price, nl))
+        seller_buy.append(mk(b, -b["buy_lots"], b["buy_avg"] or close_price, nl))
+
+    return buyer_buy, buyer_sell, seller_sell, seller_buy
+
+OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "..", "output")
+TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "templates")
+
+ARCHIVE_DAYS = 180
+
+# 處置門檻條件（靜態資料）
+DISPOSAL_CONDITIONS = [
+    {"name": "3①", "description": "連續3個營業日經第1款公布注意交易資訊即處置"},
+    {"name": "5", "description": "連續5個營業日經第1~8款公布注意交易資訊即處置"},
+    {"name": "6", "description": "最近10個營業日內有6日經第1~8款公布注意交易資訊即處置"},
+    {"name": "12", "description": "最近30個營業日內有12日經第1~8款公布注意交易資訊即處置"},
+]
+
+TRIGGER_CONDITIONS = [
+    {"name": "第1款", "description": "漲幅/跌幅/週轉率異常"},
+    {"name": "第2款", "description": "本益比/股價淨值比異常"},
+    {"name": "第3款", "description": "交易量異常"},
+    {"name": "第4款", "description": "週轉率異常"},
+    {"name": "第5款", "description": "單一券商買賣占比過高"},
+    {"name": "第6款", "description": "本益比/股價淨值比/週轉率/集中度綜合"},
+    {"name": "第7款", "description": "券資比異常放大"},
+    {"name": "第8款", "description": "TDR溢折價異常"},
+]
+
+
+def _get_theme_icon(theme_name: str) -> str:
+    """查找族群 icon。"""
+    if theme_name in AI_CONCEPT_OVERLAY:
+        return AI_CONCEPT_OVERLAY[theme_name]["icon"]
+    return SECTOR_ICON_MAP.get(theme_name, "📊")
+
+
+def _get_available_dates(con) -> list[str]:
+    """取得所有有資料的日期（降序）。"""
+    rows = con.execute("""
+        SELECT DISTINCT date FROM daily_theme ORDER BY date DESC
+    """).fetchall()
+    return [r[0].strftime("%Y%m%d") for r in rows]
+
+
+def build(trade_date: datetime.date = None):
+    if trade_date is None:
+        trade_date = datetime.date.today()
+
+    date_str = trade_date.strftime("%Y-%m-%d")
+    date_compact = trade_date.strftime("%Y%m%d")
+
+    env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+    con = duckdb.connect(DB_PATH, read_only=True)
+
+    # ---------- 可用日期（供 ◀▶ 導航） ----------
+    avail_dates = _get_available_dates(con)
+    prev_date = None
+    next_date = None
+    if date_compact in avail_dates:
+        idx = avail_dates.index(date_compact)
+        if idx < len(avail_dates) - 1:
+            prev_date = avail_dates[idx + 1]
+        if idx > 0:
+            next_date = avail_dates[idx - 1]
+
+    # ---------- 讀族群資料 ----------
+    themes_raw = con.execute("""
+        SELECT theme_name, theme_summary, key_driver, stock_list, stock_count
+        FROM daily_theme
+        WHERE date = ?
+        ORDER BY stock_count DESC
+    """, [trade_date]).fetchall()
+
+    if not themes_raw:
+        print(f"⚠ {date_str} 無族群資料，跳過生成。")
+        con.close()
+        return
+
+    # 讀漲停股詳情
+    prices = con.execute("""
+        SELECT stock_code, stock_name, close_price, change_pct, volume,
+               trade_value, market, change_price
+        FROM daily_price
+        WHERE date = ? AND is_limit_up = true
+    """, [trade_date]).fetchall()
+    price_map = {}
+    for r in prices:
+        vol = int(r[4])
+        vol_lots = vol // 1000 if vol >= 1000 else vol  # 轉張數
+        price_map[r[0]] = {
+            "code": r[0], "name": r[1], "close_price": float(r[2]),
+            "change_pct": f"{float(r[3]):.2f}", "volume": vol,
+            "trade_value": int(r[5]), "market": r[6],
+            "change": f"{float(r[7]):+.2f}" if r[7] else "+0",
+            "volume_str": f"{vol_lots:,}",
+            "reason": "",  # 將由 LLM 填入
+        }
+
+    # 讀 meta
+    metas = con.execute("SELECT stock_code, industry, sector_group FROM stock_meta").fetchall()
+    meta_map = {r[0]: {"industry": r[1] or "", "sector_group": r[2] or ""} for r in metas}
+
+    # 讀個股漲停原因
+    reason_map = {}
+    try:
+        reasons = con.execute("SELECT stock_code, reason FROM stock_reason WHERE date = ?",
+                              [trade_date]).fetchall()
+        reason_map = {r[0]: r[1] for r in reasons}
+    except Exception:
+        pass  # 表可能不存在
+
+    # 填入 reason
+    for code, stock in price_map.items():
+        stock["reason"] = reason_map.get(code, "")
+
+    con.close()
+
+    # 組裝 themes
+    themes = {}
+    total_limit_up = 0
+    for row in themes_raw:
+        theme_name, summary, driver, stock_codes, count = row
+        stocks = []
+        for code in stock_codes:
+            s = price_map.get(code)
+            if s:
+                stocks.append(s)
+        themes[theme_name] = {
+            "summary": summary,
+            "driver": driver,
+            "stocks": stocks,
+            "icon": _get_theme_icon(theme_name),
+        }
+        total_limit_up += len(stocks)
+
+    # ---------- 確保目錄 ----------
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+    # ---------- 1. 首頁 (index.html) ----------
+    tpl_index = env.get_template("index.html")
+
+    # 整理 stock data for template (用 price, change, change_pct, volume_str)
+    for theme_name, theme in themes.items():
+        for s in theme["stocks"]:
+            s["price"] = s["close_price"]
+
+    html = tpl_index.render(
+        date=trade_date.strftime("%Y/%m/%d"),
+        date_compact=date_compact,
+        limit_up_count=total_limit_up,
+        themes=themes,
+        prev_date=prev_date,
+        next_date=next_date,
+        available_dates=avail_dates,
+    )
+    with open(os.path.join(OUTPUT_DIR, "index.html"), "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"✓ index.html ({total_limit_up} 檔漲停, {len(themes)} 族群)")
+
+    # ---------- 2. 個股頁 ----------
+    stock_dir = os.path.join(OUTPUT_DIR, "stock", date_compact)
+    os.makedirs(stock_dir, exist_ok=True)
+
+    tpl_stock = env.get_template("stock.html")
+    code_to_theme = {}
+    for theme_name, theme in themes.items():
+        for s in theme["stocks"]:
+            code_to_theme[s["code"]] = theme_name
+
+    for code, stock in price_map.items():
+        meta = meta_map.get(code, {})
+        stock_data = {
+            **stock,
+            "theme": code_to_theme.get(code, ""),
+            "industry": meta.get("industry", ""),
+            "sector_group": meta.get("sector_group", ""),
+        }
+        # 券商分點
+        try:
+            buy_top, sell_top = get_top_brokers(code, trade_date, top_n=15)
+        except Exception:
+            buy_top, sell_top = [], []
+
+        broker_count = 0
+        try:
+            _con = duckdb.connect(DB_PATH, read_only=True)
+            row = _con.execute("SELECT COUNT(DISTINCT broker_id) FROM broker_rank WHERE date=? AND stock_code=?",
+                               [trade_date, code]).fetchone()
+            broker_count = row[0] if row else 0
+            _con.close()
+        except Exception:
+            pass
+
+        # Institutional + margin
+        inst = _get_institutional(code, trade_date)
+        margin = _get_margin(code, trade_date)
+
+        # Bubble datasets (4 groups)
+        close_p = stock.get("close_price", 0)
+        bb, bs, ss, sb = _build_bubble_datasets(buy_top, sell_top, close_p)
+
+        import json as _json
+        html = tpl_stock.render(
+            date=trade_date.strftime("%Y/%m/%d"), date_compact=date_compact,
+            stock=stock_data,
+            buy_top=buy_top, sell_top=sell_top, broker_count=broker_count,
+            inst=inst, margin=margin,
+            buyer_buy_json=_json.dumps(bb, ensure_ascii=False),
+            buyer_sell_json=_json.dumps(bs, ensure_ascii=False),
+            seller_sell_json=_json.dumps(ss, ensure_ascii=False),
+            seller_buy_json=_json.dumps(sb, ensure_ascii=False),
+        )
+        with open(os.path.join(stock_dir, f"{code}.html"), "w", encoding="utf-8") as f:
+            f.write(html)
+    print(f"✓ 個股頁: {len(price_map)} 個")
+
+    # ---------- 3. 隔日表現 (nextday-performance.html) ----------
+    tpl_nextday = env.get_template("nextday-performance.html")
+    # 預設 placeholder stats（需要隔日資料才能算真實值）
+    nextday_stats = {
+        "open_return": 0.0, "open_positive_rate": 0.0,
+        "avg_return": 0.0, "avg_positive_rate": 0.0,
+        "close_return": 0.0, "close_positive_rate": 0.0,
+        "continuation_count": 0, "total_limit_up": total_limit_up,
+    }
+    html = tpl_nextday.render(
+        date=date_str, date_compact=date_compact,
+        stats=nextday_stats, stocks=[],
+    )
+    with open(os.path.join(OUTPUT_DIR, "nextday-performance.html"), "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"✓ nextday-performance.html")
+
+    # ---------- 4. 處置標準 (disposal-forecast.html) ----------
+    tpl_disposal = env.get_template("disposal-forecast.html")
+    forecast = compute_forecast(trade_date)
+
+    disposal_stats = {
+        "almost": len(forecast["almost"]),
+        "two_more": len(forecast["two_more"]),
+        "in_disposal": len(forecast["in_disposal"]),
+    }
+    # 轉格式給模板
+    almost_stocks = [
+        {"code": s["symbol"], "name": s["name"], "market": s.get("exchange", "TWSE"),
+         "rule": s["rule_id"], "count": s["count"], "threshold": s["threshold"]}
+        for s in forecast["almost"]
+    ]
+    two_more_stocks = [
+        {"code": s["symbol"], "name": s["name"], "market": s.get("exchange", "TWSE"),
+         "rule": s["rule_id"], "count": s["count"], "threshold": s["threshold"]}
+        for s in forecast["two_more"]
+    ]
+    in_disposal_stocks = [
+        {"code": s["symbol"], "name": s["name"],
+         "exchange": s.get("exchange", "TWSE"),
+         "level": s.get("level", 1),
+         "start_date": s["start_date"], "end_date": s["end_date"],
+         "interval": s["interval"],
+         "rule_group": s["rule_group"]}
+        for s in forecast["in_disposal"]
+    ]
+
+    html = tpl_disposal.render(
+        date=date_str, date_compact=date_compact,
+        applicable_date=forecast.get("applicable_date", ""),
+        stats=disposal_stats,
+        almost_stocks=almost_stocks,
+        two_more_stocks=two_more_stocks,
+        in_disposal_stocks=in_disposal_stocks,
+        conditions=TRIGGER_CONDITIONS,
+    )
+    with open(os.path.join(OUTPUT_DIR, "disposal-forecast.html"), "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"✓ disposal-forecast.html ({disposal_stats['almost']} 差1次, {disposal_stats['in_disposal']} 處置中)")
+
+    # ---------- 清理舊頁 ----------
+    cleanup_old_pages(trade_date)
+
+    print(f"✅ 網站生成完成 → {OUTPUT_DIR}")
+
+
+def cleanup_old_pages(current_date: datetime.date):
+    """刪除超過 ARCHIVE_DAYS 的個股頁目錄。"""
+    daily_dir = os.path.join(OUTPUT_DIR, "stock")
+    if not os.path.exists(daily_dir):
+        return
+    cutoff = current_date - datetime.timedelta(days=ARCHIVE_DAYS)
+    removed = 0
+    for name in os.listdir(daily_dir):
+        try:
+            d = datetime.datetime.strptime(name, "%Y%m%d").date()
+            if d < cutoff:
+                shutil.rmtree(os.path.join(daily_dir, name))
+                removed += 1
+        except ValueError:
+            continue
+    if removed:
+        print(f"🗑 清除 {removed} 個過期日期目錄（>{ARCHIVE_DAYS} 天）")
+
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--date", type=str, help="指定日期 YYYY-MM-DD")
+    args = parser.parse_args()
+    if args.date:
+        d = datetime.datetime.strptime(args.date, "%Y-%m-%d").date()
+    else:
+        d = None
+    build(d)

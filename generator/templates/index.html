@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% set active_tab = "index" %}
+{% block title %}台股漲停股AI族群分類 {{ date }} | 戰情儀表板{% endblock %}
+
+{% block content %}
+<div class="container">
+  <header>
+    <div class="cta-hint" onclick="document.getElementById('stocks-section').scrollIntoView({behavior:'smooth',block:'start'})">
+      💡 點股票看分點、主力泡泡圖
+    </div>
+    <h1><span class="rabbit">🐰</span> 漲停族群AI分類</h1>
+    <div class="subtitle">AI 分類族群 • 智能解析漲停原因 • 每日收盤自動更新</div>
+    <div class="date-nav">
+      {% if prev_date %}
+      <button class="nav-btn" onclick="navigateDate('{{ date_compact }}', -1)">◀ 前一天</button>
+      {% else %}
+      <button class="nav-btn" disabled>◀ 前一天</button>
+      {% endif %}
+      <div class="date">{{ date }}</div>
+      {% if next_date %}
+      <button class="nav-btn" onclick="navigateDate('{{ date_compact }}', 1)">後一天 ▶</button>
+      {% else %}
+      <button class="nav-btn" disabled>後一天 ▶</button>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="content-wrapper">
+    <div class="section-title" id="stocks-section">🔴 漲停 ({{ limit_up_count }})</div>
+
+    {% for theme_name, theme in themes.items() %}
+    <div class="concept-section">
+      <div class="concept-title">
+        <span class="icon">{{ theme.icon | default("📊") }}</span>
+        <span>{{ theme_name }}</span>
+        <span class="count">{{ theme.stocks | length }}檔</span>
+      </div>
+      {% if theme.summary %}
+      <div class="concept-reason">{{ theme.summary }}</div>
+      {% endif %}
+      <div class="stock-grid">
+        {% for s in theme.stocks %}
+        <div class="stock-card" data-code="{{ s.code }}">
+          {% if s.reason %}
+          <div class="reason-tip">{{ s.reason }}<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          {% endif %}
+          <a href="stock/{{ date_compact }}/{{ s.code }}.html">
+            <div class="stock-header">
+              <div><span class="stock-name">{{ s.name }}</span><span class="stock-code">{{ s.code }}</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">${{ s.price }}</div>
+                <div class="stock-change up">+{{ s.change }} ({{ s.change_pct }}%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 {{ s.volume_str }}張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+window.navigateDate = function(currentDate, direction) {
+  const availableDates = {{ available_dates | tojson }};
+  const currentIndex = availableDates.indexOf(currentDate);
+  let targetDate;
+  if (direction === -1 && currentIndex < availableDates.length - 1) {
+    targetDate = availableDates[currentIndex + 1];
+  } else if (direction === 1 && currentIndex > 0) {
+    targetDate = availableDates[currentIndex - 1];
+  }
+  if (targetDate) {
+    if (targetDate === availableDates[0]) {
+      window.location.href = 'index.html';
+    } else {
+      window.location.href = 'index-' + targetDate + '.html';
+    }
+  }
+};
+</script>
+{% endblock %}

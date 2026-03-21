@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% set active_tab = "disposal" %}
+{% block title %}處置標準 — {{ date }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <header>
+    <h1><span class="rabbit">🐰</span> 處置標準</h1>
+    <div class="subtitle">適用日期：{{ applicable_date }}</div>
+  </header>
+
+  <!-- 統計 -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;padding:14px 0;border-bottom:1px solid #30363d;">
+    <span class="disp-stat danger">差1次 {{ stats.almost }}</span>
+    <span class="disp-stat warn">差2次 {{ stats.two_more }}</span>
+    <span class="disp-stat info">處置中 {{ stats.in_disposal }}</span>
+  </div>
+
+  <!-- ========== 差 1 次 ========== -->
+  {% if almost_stocks %}
+  <div class="concept-title" style="margin-top:20px;border-left-color:#e74c3c;">
+    <span class="icon">🔴</span>
+    <span>差 1 次就處置</span>
+    <span class="count">{{ almost_stocks | length }}檔</span>
+  </div>
+  <div style="margin-top:8px;">
+    {% for s in almost_stocks %}
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt {{ 'mkt-twse' if s.market == 'TWSE' else 'mkt-tpex' }}">{{ s.market }}</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">{{ s.code }}</span>
+      <span style="font-size:13px;min-width:70px;">{{ s.name }}</span>
+      <!-- 進度條 -->
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:{{ (s.count / s.threshold * 100)|int }}%;height:100%;background:#e74c3c;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#e74c3c;white-space:nowrap;">{{ s.count }}/{{ s.threshold }}</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">{{ s.rule }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- ========== 差 2 次 ========== -->
+  {% if two_more_stocks %}
+  <div class="concept-title" style="margin-top:24px;border-left-color:#f39c12;">
+    <span class="icon">🟡</span>
+    <span>差 2 次就處置</span>
+    <span class="count">{{ two_more_stocks | length }}檔</span>
+  </div>
+  <div style="margin-top:8px;">
+    {% for s in two_more_stocks %}
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #1e1e3a;background:#141422;">
+      <span class="mkt {{ 'mkt-twse' if s.market == 'TWSE' else 'mkt-tpex' }}">{{ s.market }}</span>
+      <span style="font-size:13px;font-weight:600;min-width:50px;">{{ s.code }}</span>
+      <span style="font-size:13px;min-width:70px;">{{ s.name }}</span>
+      <div style="flex:1;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden;">
+          <div style="width:{{ (s.count / s.threshold * 100)|int }}%;height:100%;background:#f39c12;border-radius:4px;"></div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">{{ s.count }}/{{ s.threshold }}</span>
+      </div>
+      <span style="font-size:11px;color:#8b949e;min-width:40px;text-align:right;">{{ s.rule }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- ========== 處置中 ========== -->
+  {% if in_disposal_stocks %}
+  <div class="concept-title" style="margin-top:24px;border-left-color:#95a5a6;">
+    <span class="icon">⚠️</span>
+    <span>處置中</span>
+    <span class="count">{{ in_disposal_stocks | length }}檔</span>
+  </div>
+  <table class="disposal-table" style="margin-top:8px;">
+    <thead>
+      <tr>
+        <th style="text-align:left;">市場</th>
+        <th style="text-align:left;">股號</th>
+        <th style="text-align:left;">股名</th>
+        <th style="text-align:center;">等級</th>
+        <th style="text-align:center;">撮合</th>
+        <th style="text-align:left;">期間</th>
+        <th style="text-align:left;">條件</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in in_disposal_stocks %}
+      <tr>
+        <td style="text-align:left;"><span class="mkt {{ 'mkt-twse' if s.exchange == 'TWSE' else 'mkt-tpex' }}">{{ s.exchange }}</span></td>
+        <td style="text-align:left;font-weight:600;">{{ s.code }}</td>
+        <td style="text-align:left;">{{ s.name }}</td>
+        <td style="text-align:center;">
+          {% if s.level and s.level >= 2 %}
+          <span style="color:#e74c3c;font-weight:700;">L{{ s.level }}</span>
+          {% elif s.level == 1 %}
+          <span style="color:#f39c12;font-weight:600;">L1</span>
+          {% else %}
+          <span style="color:#8b949e;">-</span>
+          {% endif %}
+        </td>
+        <td style="text-align:center;font-size:11px;">{{ s.interval }}</td>
+        <td style="text-align:left;font-size:11px;">{{ s.start_date[5:] }} ~ {{ s.end_date[5:] }}</td>
+        <td style="text-align:left;font-size:11px;color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ s.rule_group }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+
+  <!-- ========== 門檻說明 ========== -->
+  <div class="concept-title" style="margin-top:28px;border-left-color:#8b949e;">
+    <span class="icon">📖</span>
+    <span>處置門檻說明</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px;">
+    <div class="cond-card">
+      <span class="cond-name" style="color:#e74c3c;">3①</span>
+      <span class="cond-desc">連續3個營業日經<strong>第1款</strong>公布注意交易資訊</span>
+    </div>
+    <div class="cond-card">
+      <span class="cond-name" style="color:#f39c12;">5</span>
+      <span class="cond-desc">連續5個營業日經第1~8款公布注意交易資訊</span>
+    </div>
+    <div class="cond-card">
+      <span class="cond-name" style="color:#3498db;">6/10</span>
+      <span class="cond-desc">最近10個營業日內有6日經注意交易資訊</span>
+    </div>
+    <div class="cond-card">
+      <span class="cond-name" style="color:#58a6ff;">12/30</span>
+      <span class="cond-desc">最近30個營業日內有12日經注意交易資訊</span>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;padding:12px;background:#161b22;border:1px solid #30363d;border-radius:6px;">
+    <div style="font-size:12px;font-weight:600;margin-bottom:8px;">第1~8款觸發條件</div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:4px 16px;font-size:11px;color:#8b949e;">
+      {% for cond in conditions %}
+      <div>{{ cond.name }}：{{ cond.description }}</div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div style="height:24px;"></div>
+</div>
+{% endblock %}

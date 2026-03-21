@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% set active_tab = "nextday" %}
+{% block title %}隔日表現 — {{ date }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="date-nav">
+        <span class="current-date">{{ date }} 漲停股隔日表現</span>
+    </div>
+
+    <div class="perf-cards">
+        <div class="perf-card">
+            <div class="title">隔日開盤報酬率</div>
+            <div class="value {% if stats.open_return > 0 %}up{% endif %}" style="color: var(--up);">
+                {{ "%+.2f"|format(stats.open_return) }}%
+            </div>
+            <div class="sub">正報酬率 {{ "%.1f"|format(stats.open_positive_rate) }}%</div>
+        </div>
+        <div class="perf-card">
+            <div class="title">隔日均價報酬率</div>
+            <div class="value" style="color: var(--up);">
+                {{ "%+.2f"|format(stats.avg_return) }}%
+            </div>
+            <div class="sub">正報酬率 {{ "%.1f"|format(stats.avg_positive_rate) }}%</div>
+        </div>
+        <div class="perf-card">
+            <div class="title">隔日收盤報酬率</div>
+            <div class="value" style="color: {% if stats.close_return >= 0 %}var(--up){% else %}var(--down){% endif %};">
+                {{ "%+.2f"|format(stats.close_return) }}%
+            </div>
+            <div class="sub">正報酬率 {{ "%.1f"|format(stats.close_positive_rate) }}%</div>
+        </div>
+        <div class="perf-card">
+            <div class="title">續漲停</div>
+            <div class="value" style="color: var(--up);">{{ stats.continuation_count }} 檔</div>
+            <div class="sub">共 {{ stats.total_limit_up }} 檔漲停</div>
+        </div>
+    </div>
+
+    {% if stocks %}
+    <h3 style="padding: 16px 0 12px; font-size: 1rem;">個股隔日報酬明細</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>股號</th>
+                <th>股名</th>
+                <th>族群</th>
+                <th>漲停收盤價</th>
+                <th>隔日開盤</th>
+                <th>隔日收盤</th>
+                <th>報酬率</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in stocks %}
+            <tr>
+                <td>{{ s.code }}</td>
+                <td>{{ s.name }}</td>
+                <td>{{ s.theme }}</td>
+                <td>${{ s.limit_up_price }}</td>
+                <td>{{ s.next_open | default("-") }}</td>
+                <td>{{ s.next_close | default("-") }}</td>
+                <td style="color: {% if s.next_return and s.next_return >= 0 %}var(--up){% else %}var(--down){% endif %};">
+                    {{ "%+.2f"|format(s.next_return) if s.next_return is not none else "-" }}%
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}
