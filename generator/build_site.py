@@ -97,7 +97,7 @@ def _build_bubble_datasets(buy_top: list, sell_top: list, close_price: float) ->
 
     return buyer_buy, buyer_sell, seller_sell, seller_buy
 
-OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "..", "output")
+OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "..", "docs")
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "templates")
 
 ARCHIVE_DAYS = 180
