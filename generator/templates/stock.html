@@ -4,14 +4,14 @@
 
 {% block content %}
 <div class="container">
-  <a href="../../index.html" style="display:inline-block;color:#58a6ff;text-decoration:none;margin-bottom:16px;font-size:14px;">← 返回漲停總覽</a>
+  <a href="../../index.html" style="display:inline-block;color:#1FC7D4;text-decoration:none;margin-bottom:16px;font-size:14px;">← 返回漲停總覽</a>
 
   <!-- Info Bar -->
-  <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin-bottom:12px;">
+  <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:16px;margin-bottom:12px;">
     <div style="display:flex;justify-content:space-between;align-items:center;">
       <div>
         <h2 style="font-size:22px;">🐰 {{ stock.name }}</h2>
-        <div style="color:#8b949e;font-size:14px;margin-top:2px;">{{ stock.code }} · {{ date }}</div>
+        <div style="color:#B8ADD2;font-size:14px;margin-top:2px;">{{ stock.code }} · {{ date }}</div>
       </div>
       <div style="text-align:right;">
         <div class="up" style="font-size:24px;font-weight:700;">${{ stock.close_price }}</div>
@@ -20,47 +20,47 @@
     </div>
     <!-- 族群 + 個股原因 -->
     {% if stock.theme %}
-    <div style="margin-top:10px;padding-top:10px;border-top:1px solid #30363d;">
-      <span style="color:#58a6ff;font-size:13px;font-weight:600;">{{ stock.theme }}</span>
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid #383241;">
+      <span style="color:#1FC7D4;font-size:13px;font-weight:600;">{{ stock.theme }}</span>
       {% if stock.reason %}
-      <span style="color:#8b949e;font-size:12px;margin-left:8px;">{{ stock.reason }}</span>
+      <span style="color:#B8ADD2;font-size:12px;margin-left:8px;">{{ stock.reason }}</span>
       {% endif %}
     </div>
     {% endif %}
     <!-- 成交資訊 -->
-    <div style="font-size:12px;color:#8b949e;margin-top:8px;">
+    <div style="font-size:12px;color:#B8ADD2;margin-top:8px;">
       成交量 {{ stock.volume_str }}張{% if broker_count %} · 共 {{ broker_count }} 家券商交易{% endif %}
     </div>
   </div>
 
   {% if inst %}
   <!-- 三大法人（放在表格上方） -->
-  <div class="concept-title" style="border-left-color:#58a6ff;margin-top:0;">
+  <div class="concept-title" style="border-left-color:#1FC7D4;margin-top:0;">
     <span class="icon">🏛️</span><span>三大法人買賣超</span>
     {% if inst.data_date %}<span class="count">{{ inst.data_date }}</span>{% endif %}
   </div>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 16px;">
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">外資</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#f85149' if inst.foreign_net > 0 else '#3fb950' }};">
+    <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#B8ADD2;">外資</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#ED4B9E' if inst.foreign_net > 0 else '#31D0AA' }};">
         {{ "{:+,}".format(inst.foreign_net // 1000) }} 張
       </div>
     </div>
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">投信</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#f85149' if inst.sitc_net > 0 else '#3fb950' }};">
+    <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#B8ADD2;">投信</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#ED4B9E' if inst.sitc_net > 0 else '#31D0AA' }};">
         {{ "{:+,}".format(inst.sitc_net // 1000) }} 張
       </div>
     </div>
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">自營商</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#f85149' if inst.dealer_net > 0 else '#3fb950' }};">
+    <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#B8ADD2;">自營商</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#ED4B9E' if inst.dealer_net > 0 else '#31D0AA' }};">
         {{ "{:+,}".format(inst.dealer_net // 1000) }} 張
       </div>
     </div>
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">合計</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#f85149' if inst.total_net > 0 else '#3fb950' }};">
+    <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#B8ADD2;">合計</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#ED4B9E' if inst.total_net > 0 else '#31D0AA' }};">
         {{ "{:+,}".format(inst.total_net // 1000) }} 張
       </div>
     </div>
@@ -71,13 +71,13 @@
   <!-- 買賣超雙欄表 -->
   <div style="display:flex;gap:16px;margin-bottom:20px;">
     <div style="flex:1;min-width:0;">
-      <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid #f85149;color:#f85149;margin-bottom:4px;">買超 Top{{ buy_top|length }}</div>
+      <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid #ED4B9E;color:#ED4B9E;margin-bottom:4px;">買超 Top{{ buy_top|length }}</div>
       <table>
         <tr><th style="text-align:left;">券商</th><th>買超</th><th>買均</th><th>買張</th><th>賣張</th><th>賣均</th></tr>
         {% for b in buy_top %}
         <tr>
           <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">{{ b.name }}</td>
-          <td class="net" style="color:#f85149;">{{ "{:,}".format(b.net_lots) }}</td>
+          <td class="net" style="color:#ED4B9E;">{{ "{:,}".format(b.net_lots) }}</td>
           <td>{{ "%.2f"|format(b.buy_avg) if b.buy_avg else "-" }}</td>
           <td>{{ "{:,}".format(b.buy_lots) }}</td>
           <td>{{ "{:,}".format(b.sell_lots) }}</td>
@@ -87,13 +87,13 @@
       </table>
     </div>
     <div style="flex:1;min-width:0;">
-      <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid #3fb950;color:#3fb950;margin-bottom:4px;">賣超 Top{{ sell_top|length }}</div>
+      <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid #31D0AA;color:#31D0AA;margin-bottom:4px;">賣超 Top{{ sell_top|length }}</div>
       <table>
         <tr><th style="text-align:left;">券商</th><th>賣超</th><th>買均</th><th>買張</th><th>賣張</th><th>賣均</th></tr>
         {% for b in sell_top %}
         <tr>
           <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">{{ b.name }}</td>
-          <td class="net" style="color:#3fb950;">{{ "{:,}".format(b.net_lots) }}</td>
+          <td class="net" style="color:#31D0AA;">{{ "{:,}".format(b.net_lots) }}</td>
           <td>{{ "%.2f"|format(b.buy_avg) if b.buy_avg else "-" }}</td>
           <td>{{ "{:,}".format(b.buy_lots) }}</td>
           <td>{{ "{:,}".format(b.sell_lots) }}</td>
@@ -105,11 +105,11 @@
   </div>
 
   <!-- 主力動向泡泡圖 -->
-  <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin-bottom:20px;position:relative;">
+  <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:16px;margin-bottom:20px;position:relative;">
     <canvas id="bubbleChart"></canvas>
   </div>
   {% else %}
-  <div style="text-align:center;padding:40px;color:#8b949e;font-size:13px;">券商分點資料尚未載入</div>
+  <div style="text-align:center;padding:40px;color:#B8ADD2;font-size:13px;">券商分點資料尚未載入</div>
   {% endif %}
 
   {% if margin %}
@@ -119,26 +119,26 @@
     {% if margin.data_date %}<span class="count">{{ margin.data_date }}</span>{% endif %}
   </div>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 20px;">
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">融資餘額</div>
+    <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#B8ADD2;">融資餘額</div>
       <div style="font-size:16px;font-weight:700;margin-top:4px;">{{ "{:,}".format(margin.margin_bal) }} 張</div>
-      <div style="font-size:10px;color:{{ '#f85149' if margin.margin_change > 0 else '#3fb950' }};margin-top:2px;">
+      <div style="font-size:10px;color:{{ '#ED4B9E' if margin.margin_change > 0 else '#31D0AA' }};margin-top:2px;">
         {{ "{:+,}".format(margin.margin_change) }}
       </div>
     </div>
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">融資買</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#f85149;">{{ "{:,}".format(margin.margin_buy) }}</div>
+    <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#B8ADD2;">融資買</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#ED4B9E;">{{ "{:,}".format(margin.margin_buy) }}</div>
     </div>
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">融券餘額</div>
+    <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#B8ADD2;">融券餘額</div>
       <div style="font-size:16px;font-weight:700;margin-top:4px;">{{ "{:,}".format(margin.short_bal) }} 張</div>
-      <div style="font-size:10px;color:{{ '#3fb950' if margin.short_change > 0 else '#f85149' }};margin-top:2px;">
+      <div style="font-size:10px;color:{{ '#31D0AA' if margin.short_change > 0 else '#ED4B9E' }};margin-top:2px;">
         {{ "{:+,}".format(margin.short_change) }}
       </div>
     </div>
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">券資比</div>
+    <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#B8ADD2;">券資比</div>
       <div style="font-size:16px;font-weight:700;margin-top:4px;">{{ "%.1f"|format(margin.ratio) }}%</div>
     </div>
   </div>
@@ -168,7 +168,7 @@
       const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
       const x0 = x.getPixelForValue(0);
       if (x0 >= left && x0 <= right) {
-        ctx.save(); ctx.strokeStyle = 'rgba(88,166,255,0.35)'; ctx.lineWidth = 1; ctx.setLineDash([6, 4]);
+        ctx.save(); ctx.strokeStyle = 'rgba(31,199,212,0.35)'; ctx.lineWidth = 1; ctx.setLineDash([6, 4]);
         ctx.beginPath(); ctx.moveTo(x0, top); ctx.lineTo(x0, bottom); ctx.stroke(); ctx.restore();
       }
       if (closePrice > 0) {
@@ -191,7 +191,7 @@
         ctx.font = 'bold 9px sans-serif';
         const tw = Math.max(ctx.measureText(brokerName).width, ctx.measureText(netText).width);
         const bgX = lx - tw/2 - 4, bgY = labelY - 12, bgW = tw + 8, bgH = 24;
-        const hAlpha = color === 'red' ? 'rgba(248,81,73,' : 'rgba(63,185,80,';
+        const hAlpha = color === 'red' ? 'rgba(237,75,158,' : 'rgba(49,208,170,';
         ctx.fillStyle = isHovered ? hAlpha + '0.8)' : hAlpha + '0.4)';
         ctx.fillRect(bgX, bgY, bgW, bgH);
         ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
@@ -261,7 +261,7 @@
     if (hoveredBroker && raw.label !== hoveredBroker) return base.replace('A)', '0.15)');
     return base.replace('A)', '0.8)');
   };
-  const R = 'rgba(248,81,73,A)', G = 'rgba(63,185,80,A)';
+  const R = 'rgba(237,75,158,A)', G = 'rgba(49,208,170,A)';
 
   const allX = [...buyerBuyData.map(d=>d.x), ...buyerSellData.map(d=>d.x), ...sellerSellData.map(d=>d.x), ...sellerBuyData.map(d=>d.x)];
   const allY = [...buyerBuyData.map(d=>d.y), ...sellerSellData.map(d=>d.y), closePrice].filter(v=>v>0);
@@ -273,10 +273,10 @@
     type: 'bubble',
     data: {
       datasets: [
-        { label:'買超買進', data:buyerBuyData, backgroundColor:c=>mkColor(R,c.raw), borderColor:c=>mkBorder(R,c.raw), borderWidth:2, hoverBackgroundColor:'rgba(248,81,73,0.85)', hoverBorderColor:'#fff', hoverBorderWidth:2 },
-        { label:'買超賣出', data:buyerSellData, backgroundColor:c=>mkColor(G,c.raw), borderColor:c=>mkBorder(G,c.raw), borderWidth:1.5, hoverBackgroundColor:'rgba(63,185,80,0.7)', hoverBorderColor:'#fff', hoverBorderWidth:1 },
-        { label:'賣超賣出', data:sellerSellData, backgroundColor:c=>mkColor(G,c.raw), borderColor:c=>mkBorder(G,c.raw), borderWidth:2, hoverBackgroundColor:'rgba(63,185,80,0.85)', hoverBorderColor:'#fff', hoverBorderWidth:2 },
-        { label:'賣超買進', data:sellerBuyData, backgroundColor:c=>mkColor(R,c.raw), borderColor:c=>mkBorder(R,c.raw), borderWidth:1.5, hoverBackgroundColor:'rgba(248,81,73,0.7)', hoverBorderColor:'#fff', hoverBorderWidth:1 },
+        { label:'買超買進', data:buyerBuyData, backgroundColor:c=>mkColor(R,c.raw), borderColor:c=>mkBorder(R,c.raw), borderWidth:2, hoverBackgroundColor:'rgba(237,75,158,0.85)', hoverBorderColor:'#fff', hoverBorderWidth:2 },
+        { label:'買超賣出', data:buyerSellData, backgroundColor:c=>mkColor(G,c.raw), borderColor:c=>mkBorder(G,c.raw), borderWidth:1.5, hoverBackgroundColor:'rgba(49,208,170,0.7)', hoverBorderColor:'#fff', hoverBorderWidth:1 },
+        { label:'賣超賣出', data:sellerSellData, backgroundColor:c=>mkColor(G,c.raw), borderColor:c=>mkBorder(G,c.raw), borderWidth:2, hoverBackgroundColor:'rgba(49,208,170,0.85)', hoverBorderColor:'#fff', hoverBorderWidth:2 },
+        { label:'賣超買進', data:sellerBuyData, backgroundColor:c=>mkColor(R,c.raw), borderColor:c=>mkBorder(R,c.raw), borderWidth:1.5, hoverBackgroundColor:'rgba(237,75,158,0.7)', hoverBorderColor:'#fff', hoverBorderWidth:1 },
       ]
     },
     options: {
@@ -285,8 +285,8 @@
       plugins: {
         legend:{ display:false },
         tooltip: {
-          backgroundColor:'rgba(13,17,23,0.95)', titleColor:'#e6edf3', bodyColor:'#c9d1d9',
-          borderColor:'#58a6ff', borderWidth:1, cornerRadius:8, padding:12,
+          backgroundColor:'rgba(8,6,11,0.95)', titleColor:'#F4EEFF', bodyColor:'#B8ADD2',
+          borderColor:'#1FC7D4', borderWidth:1, cornerRadius:12, padding:12,
           titleFont:{size:13,weight:'bold'}, bodyFont:{size:11}, displayColors:false,
           callbacks: {
             title: items => { const d=items[0].raw; return (d.net>=0?'🔴':'🟢')+' '+d.label; },
@@ -302,16 +302,16 @@
       },
       scales: {
         x: {
-          title:{display:true, text:'買賣超（張）', color:'#8b949e', font:{size:11}},
-          grid:{color:'rgba(33,38,45,0.6)', lineWidth:0.5}, border:{color:'#30363d'},
-          ticks:{color:'#8b949e', font:{size:10}, callback:v=>v===0?'0':-v},
+          title:{display:true, text:'買賣超（張）', color:'#B8ADD2', font:{size:11}},
+          grid:{color:'rgba(56,50,65,0.4)', lineWidth:0.5}, border:{color:'#383241'},
+          ticks:{color:'#B8ADD2', font:{size:10}, callback:v=>v===0?'0':-v},
           min:-xAbs, max:xAbs,
         },
         y: {
           title:{display:false},
-          grid:{color:'rgba(33,38,45,0.6)', lineWidth:0.5}, border:{color:'#30363d'},
+          grid:{color:'rgba(56,50,65,0.4)', lineWidth:0.5}, border:{color:'#383241'},
           ticks:{
-            color:c=>(c.tick&&Math.abs(c.tick.value-closePrice)<0.01)?'#f85149':'#8b949e',
+            color:c=>(c.tick&&Math.abs(c.tick.value-closePrice)<0.01)?'#ED4B9E':'#B8ADD2',
             font:c=>(c.tick&&Math.abs(c.tick.value-closePrice)<0.01)?{size:11,weight:'bold'}:{size:10},
             callback:v=>v<=closePrice?'$'+v.toFixed(1):''
           },
