@@ -46,7 +46,7 @@ header .cta-hint:hover {
 .date-nav .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .date-nav .date { color: var(--teal); font-size: 15px; font-weight: 600; min-width: 100px; }
 .section-title { font-size: 16px; margin: 16px 0 10px; padding-left: 8px; border-left: 3px solid var(--teal); color: var(--text); }
-.concept-section { margin-bottom: 20px; }
+.concept-section { margin-bottom: 32px; }
 .concept-title {
   font-size: 14px; margin: 12px 0 8px; padding: 8px 12px;
   background: var(--card); border-radius: 8px; border-left: 3px solid var(--teal);
@@ -56,7 +56,7 @@ header .cta-hint:hover {
 .concept-title .icon { font-size: 16px; }
 .concept-title .count { color: var(--muted); font-size: 12px; margin-left: auto; }
 .concept-reason { color: var(--muted); font-size: 11px; margin: 0 12px 8px 12px; font-style: italic; }
-.stock-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.stock-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
 .stock-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; position: relative; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(40,13,95,0.06); }
 .stock-card .reason-tip {
   display: none; position: absolute; left: 0; right: 0; bottom: 100%;
@@ -153,8 +153,13 @@ tr:hover { background: var(--card-hover); }
 footer { text-align: center; padding: 32px 0 24px; color: var(--disabled); font-size: 12px; border-top: 1px solid var(--border); margin-top: 32px; background: rgba(255,255,255,0.6); }
 footer a { color: var(--teal); text-decoration: none; }
 
-@media (max-width: 1200px) { .stock-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 900px) { .stock-grid { grid-template-columns: repeat(2, 1fr); } .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1025px) {
+  .container { padding: 0 24px; }
+  header h1 { font-size: 28px; }
+  nav.topnav { padding: 6px 24px; }
+  .concept-title { max-width: 1200px; }
+}
+@media (max-width: 900px) { .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 700px) {
   .container { padding: 4px; }
   .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
