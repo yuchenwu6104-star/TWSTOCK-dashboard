@@ -5,13 +5,13 @@
 {% block content %}
 <div class="container">
     <div class="date-nav">
-        <span class="current-date">{{ date }} 漲停股隔日表現</span>
+        <span class="current-date" style="color:#1FC7D4;font-size:15px;font-weight:600;">{{ date }} 漲停股隔日表現</span>
     </div>
 
     <div class="perf-cards">
         <div class="perf-card">
             <div class="title">隔日開盤報酬率</div>
-            <div class="value {% if stats.open_return > 0 %}up{% endif %}" style="color: var(--up);">
+            <div class="value" style="color: var(--up);">
                 {{ "%+.2f"|format(stats.open_return) }}%
             </div>
             <div class="sub">正報酬率 {{ "%.1f"|format(stats.open_positive_rate) }}%</div>
@@ -38,7 +38,7 @@
     </div>
 
     {% if stocks %}
-    <h3 style="padding: 16px 0 12px; font-size: 1rem;">個股隔日報酬明細</h3>
+    <h3 style="padding: 16px 0 12px; font-size: 1rem; color: var(--text);">個股隔日報酬明細</h3>
     <table>
         <thead>
             <tr>
