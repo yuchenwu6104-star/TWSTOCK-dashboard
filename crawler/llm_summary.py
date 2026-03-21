@@ -36,17 +36,17 @@ LLM_CHAIN = [
         "type": "anthropic",
     },
     {
-        "name": "MiniMax-M2.7",
-        "url": "https://api.minimax.io/v1/chat/completions",
-        "api_key": _KEYS.get("MINIMAX_API_KEY", ""),
-        "model": "MiniMax-M2.7",
-        "type": "openai",
-    },
-    {
         "name": "MiniMax-M2.5",
         "url": "https://api.minimax.io/v1/chat/completions",
         "api_key": _KEYS.get("MINIMAX_API_KEY", ""),
         "model": "MiniMax-M2.5",
+        "type": "openai",
+    },
+    {
+        "name": "MiniMax-M2.7",
+        "url": "https://api.minimax.io/v1/chat/completions",
+        "api_key": _KEYS.get("MINIMAX_API_KEY", ""),
+        "model": "MiniMax-M2.7",
         "type": "openai",
     },
 ]
@@ -119,14 +119,14 @@ def generate_theme_summaries(themes: dict, trade_date: str) -> dict:
             for s in stocks[:15]
         )
 
+        # 構建 reasons 模板
+        reason_keys = ", ".join(f'"{s["stock_code"]}": "原因"' for s in stocks[:15])
+
         prompt = (
-            f"你是台股分析師。今日 {trade_date}「{theme_name}」族群有 {len(stocks)} 支股票漲停。\n"
-            f"漲停股：\n{stock_info}\n\n"
-            f"請用繁體中文，回傳嚴格 JSON 格式（不要加 markdown 或其他文字）：\n"
-            f'{{"summary": "80字內族群漲停驅動因子說明",'
-            f'"driver": "20字內一句話關鍵驅動",'
-            f'"reasons": {{"股票代碼": "30字內該股漲停原因", ...}}}}\n'
-            f"每支股票都要有 reasons。"
+            f"台股分析師任務。{trade_date}「{theme_name}」族群 {len(stocks)} 支漲停：\n"
+            f"{stock_info}\n\n"
+            f"直接回傳 JSON，不要任何其他文字：\n"
+            f'{{"summary":"族群漲停原因80字","driver":"關鍵驅動20字","reasons":{{{reason_keys}}}}}'
         )
 
         text = call_llm(prompt)
