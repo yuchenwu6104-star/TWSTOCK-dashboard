@@ -10,7 +10,7 @@
   </header>
 
   <!-- 統計 -->
-  <div style="display:flex;align-items:center;justify-content:center;gap:16px;padding:14px 0;border-bottom:1px solid #383241;">
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;padding:14px 0;border-bottom:1px solid #E7E3EB;">
     <span class="disp-stat danger">差1次 {{ stats.almost }}</span>
     <span class="disp-stat warn">差2次 {{ stats.two_more }}</span>
     <span class="disp-stat info">處置中 {{ stats.in_disposal }}</span>
@@ -25,18 +25,18 @@
   </div>
   <div style="margin-top:8px;">
     {% for s in almost_stocks %}
-    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #383241;background:#1E1D20;">
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #E7E3EB;background:#FFFFFF;">
       <span class="mkt {{ 'mkt-twse' if s.market == 'TWSE' else 'mkt-tpex' }}">{{ s.market }}</span>
       <span style="font-size:13px;font-weight:600;min-width:50px;">{{ s.code }}</span>
       <span style="font-size:13px;min-width:70px;">{{ s.name }}</span>
       <!-- 進度條 -->
       <div style="flex:1;display:flex;align-items:center;gap:8px;">
-        <div style="flex:1;height:8px;background:#1E1D20;border-radius:4px;overflow:hidden;border:1px solid #383241;">
+        <div style="flex:1;height:8px;background:#F6F1FF;border-radius:4px;overflow:hidden;border:1px solid #E7E3EB;">
           <div style="width:{{ (s.count / s.threshold * 100)|int }}%;height:100%;background:#ED4B9E;border-radius:4px;box-shadow:0 0 6px rgba(237,75,158,0.5);"></div>
         </div>
         <span style="font-size:12px;font-weight:700;color:#ED4B9E;white-space:nowrap;">{{ s.count }}/{{ s.threshold }}</span>
       </div>
-      <span style="font-size:11px;color:#B8ADD2;min-width:40px;text-align:right;">{{ s.rule }}</span>
+      <span style="font-size:11px;color:#7A6EAA;min-width:40px;text-align:right;">{{ s.rule }}</span>
     </div>
     {% endfor %}
   </div>
@@ -51,17 +51,17 @@
   </div>
   <div style="margin-top:8px;">
     {% for s in two_more_stocks %}
-    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #383241;background:#1E1D20;">
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #E7E3EB;background:#FFFFFF;">
       <span class="mkt {{ 'mkt-twse' if s.market == 'TWSE' else 'mkt-tpex' }}">{{ s.market }}</span>
       <span style="font-size:13px;font-weight:600;min-width:50px;">{{ s.code }}</span>
       <span style="font-size:13px;min-width:70px;">{{ s.name }}</span>
       <div style="flex:1;display:flex;align-items:center;gap:8px;">
-        <div style="flex:1;height:8px;background:#1E1D20;border-radius:4px;overflow:hidden;border:1px solid #383241;">
-          <div style="width:{{ (s.count / s.threshold * 100)|int }}%;height:100%;background:#f39c12;border-radius:4px;box-shadow:0 0 6px rgba(243,156,18,0.4);"></div>
+        <div style="flex:1;height:8px;background:#F6F1FF;border-radius:4px;overflow:hidden;border:1px solid #E7E3EB;">
+          <div style="width:{{ (s.count / s.threshold * 100)|int }}%;height:100%;background:#d68910;border-radius:4px;box-shadow:0 0 6px rgba(214,137,16,0.4);"></div>
         </div>
-        <span style="font-size:12px;font-weight:700;color:#f39c12;white-space:nowrap;">{{ s.count }}/{{ s.threshold }}</span>
+        <span style="font-size:12px;font-weight:700;color:#d68910;white-space:nowrap;">{{ s.count }}/{{ s.threshold }}</span>
       </div>
-      <span style="font-size:11px;color:#B8ADD2;min-width:40px;text-align:right;">{{ s.rule }}</span>
+      <span style="font-size:11px;color:#7A6EAA;min-width:40px;text-align:right;">{{ s.rule }}</span>
     </div>
     {% endfor %}
   </div>
@@ -96,14 +96,14 @@
           {% if s.level and s.level >= 2 %}
           <span style="color:#ED4B9E;font-weight:700;">L{{ s.level }}</span>
           {% elif s.level == 1 %}
-          <span style="color:#f39c12;font-weight:600;">L1</span>
+          <span style="color:#d68910;font-weight:600;">L1</span>
           {% else %}
-          <span style="color:#666171;">-</span>
+          <span style="color:#B8ADD2;">-</span>
           {% endif %}
         </td>
         <td style="text-align:center;font-size:11px;">{{ s.interval }}</td>
         <td style="text-align:left;font-size:11px;">{{ s.start_date[5:] }} ~ {{ s.end_date[5:] }}</td>
-        <td style="text-align:left;font-size:11px;color:#B8ADD2;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ s.rule_group }}</td>
+        <td style="text-align:left;font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ s.rule_group }}</td>
       </tr>
       {% endfor %}
     </tbody>
@@ -134,9 +134,9 @@
     </div>
   </div>
 
-  <div style="margin-top:16px;padding:12px;background:#27262c;border:1px solid #383241;border-radius:12px;">
-    <div style="font-size:12px;font-weight:600;margin-bottom:8px;">第1~8款觸發條件</div>
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:4px 16px;font-size:11px;color:#B8ADD2;">
+  <div style="margin-top:16px;padding:12px;background:#FFFFFF;border:1px solid #E7E3EB;border-radius:12px;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+    <div style="font-size:12px;font-weight:600;margin-bottom:8px;color:#280D5F;">第1~8款觸發條件</div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:4px 16px;font-size:11px;color:#7A6EAA;">
       {% for cond in conditions %}
       <div>{{ cond.name }}：{{ cond.description }}</div>
       {% endfor %}
