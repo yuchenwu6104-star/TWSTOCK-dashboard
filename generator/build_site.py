@@ -211,7 +211,7 @@ def build(trade_date: datetime.date = None):
             "code": r[0], "name": r[1], "close_price": float(r[2]),
             "change_pct": f"{float(r[3]):.2f}", "volume": vol,
             "trade_value": int(r[5]), "market": r[6],
-            "change": f"{float(r[7]):+.2f}" if r[7] else "+0",
+            "change": f"{float(r[7]):.2f}" if r[7] else "0",
             "volume_str": f"{vol_lots:,}",
             "reason": "",  # 將由 LLM 填入
         }
