@@ -34,6 +34,26 @@ def _safe_int(val, default=0):
         return default
 
 
+def _calc_limit_up(prev_close: float) -> float:
+    """計算漲停價（10% 漲幅 + tick rule 四捨五入）。"""
+    if prev_close <= 0:
+        return 0
+    raw = prev_close * 1.10
+    # 簡化：直接用 10% 漲幅取到分
+    if prev_close < 10:
+        return round(raw, 2)
+    elif prev_close < 50:
+        return round(raw * 20) / 20  # tick 0.05
+    elif prev_close < 100:
+        return round(raw * 10) / 10  # tick 0.1
+    elif prev_close < 500:
+        return round(raw * 2) / 2    # tick 0.5
+    elif prev_close < 1000:
+        return round(raw)            # tick 1
+    else:
+        return round(raw / 5) * 5    # tick 5
+
+
 def fetch_twse() -> list[dict]:
     """上市個股全部日成交資料。"""
     resp = requests.get(TWSE_URL, headers=HEADERS, timeout=30)
@@ -45,15 +65,18 @@ def fetch_twse() -> list[dict]:
         if not code or len(code) > 6:
             continue
         close = _safe_float(r.get("ClosingPrice"))
-        limit_up = _safe_float(r.get("LimitUp"))
-        limit_down = _safe_float(r.get("LimitDown"))
         open_p = _safe_float(r.get("OpeningPrice"))
         high = _safe_float(r.get("HighestPrice"))
         low = _safe_float(r.get("LowestPrice"))
         change = _safe_float(r.get("Change"))
         volume = _safe_int(r.get("TradeVolume"))
         trade_value = _safe_int(r.get("TradeValue"))
-        change_pct = round(change / (close - change) * 100, 4) if (close - change) != 0 else 0.0
+        prev_close = close - change if close and change else 0
+        limit_up = _calc_limit_up(prev_close) if prev_close > 0 else 0
+        limit_down = round(prev_close * 0.90, 2) if prev_close > 0 else 0
+        # 漲停判定：收盤價 >= 漲停價（容差 0.05）
+        is_limit_up = close > 0 and limit_up > 0 and close >= limit_up - 0.05
+        change_pct = round(change / prev_close * 100, 4) if prev_close > 0 else 0.0
         results.append({
             "stock_code": code,
             "stock_name": r.get("Name", "").strip(),
@@ -63,7 +86,7 @@ def fetch_twse() -> list[dict]:
             "close_price": close,
             "limit_up_price": limit_up,
             "limit_down_price": limit_down,
-            "is_limit_up": close > 0 and limit_up > 0 and close >= limit_up,
+            "is_limit_up": is_limit_up,
             "volume": volume,
             "trade_value": trade_value,
             "change_price": change,
@@ -93,10 +116,8 @@ def fetch_tpex() -> list[dict]:
         change = _safe_float(r.get("Change"))
         volume = _safe_int(r.get("TradingShares"))
         trade_value = _safe_int(r.get("TransactionAmount"))
-        # NextLimitUp/Down 是「明日」漲跌停，反推今日漲停價
-        # 今日漲停價 = 昨收 * 1.10，昨收 = close - change
         prev_close = close - change if close and change else 0
-        limit_up = round(prev_close * 1.10, 2) if prev_close > 0 else 0
+        limit_up = _calc_limit_up(prev_close) if prev_close > 0 else 0
         limit_down = round(prev_close * 0.90, 2) if prev_close > 0 else 0
         is_limit_up = close > 0 and limit_up > 0 and close >= limit_up - 0.05
         change_pct = round(change / prev_close * 100, 4) if prev_close > 0 else 0.0
