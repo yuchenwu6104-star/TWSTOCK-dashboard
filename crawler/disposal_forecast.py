@@ -153,6 +153,27 @@ def _calc_limit_down(prev_close: float) -> float:
         return round(raw / 5) * 5
 
 
+# ---- 股本資料 ----
+
+_shares_cache = {}
+
+def _get_issued_shares(symbol: str) -> int:
+    """從 security_reference 取發行股數（有快取）。"""
+    if symbol in _shares_cache:
+        return _shares_cache[symbol]
+    if not _shares_cache:
+        # 一次全讀
+        try:
+            con = duckdb.connect(DISP_DB, read_only=True)
+            rows = con.execute("SELECT symbol, issued_common_shares FROM security_reference WHERE issued_common_shares > 0").fetchall()
+            con.close()
+            for r in rows:
+                _shares_cache[r[0]] = int(r[1])
+        except Exception:
+            pass
+    return _shares_cache.get(symbol, 0)
+
+
 # ---- 取市場資料 ----
 
 def _get_market_data(symbols: list[str], as_of_date: datetime.date) -> dict:
@@ -430,13 +451,15 @@ def compute_forecast(as_of_date: datetime.date = None) -> dict:
             avg_vol_lots = mkt.get("avg_volume_60d_lots", 0)
             vol_ratio = mkt.get("volume_ratio", 0)
             rule3_info = {
-                "need_volume_lots": avg_vol_lots,  # 需量 > 60日均量
+                "need_volume_lots": avg_vol_lots,
                 "current_ratio": vol_ratio,
             }
-            # 週轉率需要股本，先放 placeholder
+            # 週轉率 = 當日成交量 / 發行股數 * 100
+            shares = _get_issued_shares(sym)
+            current_turnover = round(mkt.get("volume", 0) / shares * 100, 2) if shares > 0 else 0
             rule4_info = {
-                "need_turnover": 10.0,  # 10%
-                "current_turnover": 0,  # TODO: 需要股本資料
+                "need_turnover": 10.0,
+                "current_turnover": current_turnover,
             }
 
         stocks_detail[sym] = {
