@@ -182,7 +182,7 @@ footer a { color: var(--teal); text-decoration: none; }
     <div class="subtitle">AI 分類族群 • 智能解析漲停原因 • 每日收盤自動更新</div>
     <div class="date-nav">
       
-      <button class="nav-btn" disabled>◀ 前一天</button>
+      <button class="nav-btn" onclick="navigateDate('20260320', -1)">◀ 前一天</button>
       
       <div class="date">2026/03/20</div>
       
@@ -1392,7 +1392,7 @@ footer a { color: var(--teal); text-decoration: none; }
 
 <script>
 window.navigateDate = function(currentDate, direction) {
-  const availableDates = ["20260321", "20260320"];
+  const availableDates = ["20260321", "20260320", "20260319", "20260318", "20260317", "20260316", "20260313", "20260312", "20260311", "20260310", "20260309"];
   const currentIndex = availableDates.indexOf(currentDate);
   let targetDate;
   if (direction === -1 && currentIndex < availableDates.length - 1) {

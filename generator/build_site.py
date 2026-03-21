@@ -14,6 +14,7 @@ from db.init_db import DB_PATH
 from crawler.concept_classifier import AI_CONCEPT_OVERLAY, SECTOR_ICON_MAP
 from crawler.disposal_forecast import compute_forecast
 from crawler.broker_data import get_top_brokers
+from crawler.nextday_performance import compute_nextday, compute_history
 
 SUPP_DB = "/Users/slking/taiwan_stock_dashboard/收盤觀察/market_supplementary.duckdb"
 
@@ -318,21 +319,53 @@ def build(trade_date: datetime.date = None):
     print(f"✓ 個股頁: {len(price_map)} 個")
 
     # ---------- 3. 隔日表現 (nextday-performance.html) ----------
+    # 用前一個交易日的漲停來算（因為今天的隔日還沒出來）
+    # 找最近一個有隔日資料的漲停日
     tpl_nextday = env.get_template("nextday-performance.html")
-    # 預設 placeholder stats（需要隔日資料才能算真實值）
-    nextday_stats = {
-        "open_return": 0.0, "open_positive_rate": 0.0,
-        "avg_return": 0.0, "avg_positive_rate": 0.0,
-        "close_return": 0.0, "close_positive_rate": 0.0,
-        "continuation_count": 0, "total_limit_up": total_limit_up,
-    }
-    html = tpl_nextday.render(
-        date=date_str, date_compact=date_compact,
-        stats=nextday_stats, stocks=[],
-    )
+
+    _prev_dates = _get_available_dates(duckdb.connect(DB_PATH, read_only=True))
+    # 排除當天（當天的隔日還沒收盤）
+    _prev_limit_up_dates = [d for d in _prev_dates if d < date_compact]
+
+    nextday_result = None
+    nextday_limit_up_date = ""
+    for pdate in _prev_limit_up_dates:
+        d_obj = datetime.datetime.strptime(pdate, "%Y%m%d").date()
+        r = compute_nextday(d_obj)
+        if r["stats"]["total_limit_up"] > 0 and r["next_date"]:
+            nextday_result = r
+            nextday_limit_up_date = pdate
+            break
+
+    if nextday_result:
+        import json as _json2
+        history = compute_history(trade_date, lookback_days=10)
+        # 加 template 需要的 alias
+        for s in nextday_result["stocks"]:
+            s["next_return"] = s.get("close_return", 0)
+        html = tpl_nextday.render(
+            date=trade_date.strftime("%Y/%m/%d"), date_compact=date_compact,
+            limit_up_date=nextday_result["limit_up_date"],
+            next_date=nextday_result["next_date"],
+            stats=nextday_result["stats"],
+            stocks=nextday_result["stocks"],
+            theme_stats=nextday_result["theme_stats"],
+            history_json=_json2.dumps(history, ensure_ascii=False),
+        )
+        print(f"✓ nextday-performance.html ({nextday_result['stats']['total_limit_up']}檔 → {nextday_result['next_date']})")
+    else:
+        html = tpl_nextday.render(
+            date=trade_date.strftime("%Y/%m/%d"), date_compact=date_compact,
+            limit_up_date="", next_date="",
+            stats={"open_return": 0, "open_positive_rate": 0, "avg_return": 0,
+                   "avg_positive_rate": 0, "close_return": 0, "close_positive_rate": 0,
+                   "continuation_count": 0, "total_limit_up": 0},
+            stocks=[], theme_stats=[], history_json="[]",
+        )
+        print(f"✓ nextday-performance.html (無資料)")
+
     with open(os.path.join(OUTPUT_DIR, "nextday-performance.html"), "w", encoding="utf-8") as f:
         f.write(html)
-    print(f"✓ nextday-performance.html")
 
     # ---------- 4. 處置標準 (disposal-forecast.html) ----------
     tpl_disposal = env.get_template("disposal-forecast.html")
