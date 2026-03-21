@@ -5,3 +5,4 @@ db/*.duckdb
 db/*.duckdb.wal
 .DS_Store
 .venv/
+.claude/
