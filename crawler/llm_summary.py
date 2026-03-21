@@ -76,14 +76,28 @@ def _call_openai_compat(cfg: dict, prompt: str) -> str | None:
     }
     body = json.dumps({
         "model": cfg["model"],
-        "messages": [{"role": "user", "content": prompt}],
+        "messages": [
+            {"role": "system", "content": "你是台股分析師。只回傳 JSON，不要 markdown 或其他文字。"},
+            {"role": "user", "content": prompt},
+        ],
         "max_tokens": 1024,
+        "response_format": {"type": "json_object"},
     }).encode()
     req = urllib.request.Request(cfg["url"], data=body, headers=headers)
     resp = urllib.request.urlopen(req, timeout=60)
     data = json.loads(resp.read())
     text = data["choices"][0]["message"]["content"]
-    text = re.sub(r"<think>[\s\S]*?</think>\s*", "", text)
+    # MiniMax M2.5/M2.7 帶 <think> CoT
+    if "<think>" in text:
+        idx = text.rfind("</think>")
+        if idx >= 0:
+            after = text[idx + 8:].strip()
+            if after:
+                return after
+        # </think> 後面是空的 → JSON 藏在 <think> 裡面，直接從全文提取
+        # 移除 <think> 和 </think> 標籤
+        text = re.sub(r"</?think>", "", text)
+    text = text.strip()
     return text
 
 
@@ -119,14 +133,15 @@ def generate_theme_summaries(themes: dict, trade_date: str) -> dict:
             for s in stocks[:15]
         )
 
-        # 構建 reasons 模板
-        reason_keys = ", ".join(f'"{s["stock_code"]}": "原因"' for s in stocks[:15])
+        stock_codes_str = ", ".join(f'"{s["stock_code"]}"' for s in stocks[:15])
 
         prompt = (
-            f"台股分析師任務。{trade_date}「{theme_name}」族群 {len(stocks)} 支漲停：\n"
+            f"你是台股分析師。{trade_date}「{theme_name}」族群 {len(stocks)} 支漲停：\n"
             f"{stock_info}\n\n"
-            f"直接回傳 JSON，不要任何其他文字：\n"
-            f'{{"summary":"族群漲停原因80字","driver":"關鍵驅動20字","reasons":{{{reason_keys}}}}}'
+            f"用繁體中文分析，只回 JSON（不要 markdown 或解釋）：\n"
+            f'{{"summary": "該族群漲停的驅動因子，80字內",'
+            f'"driver": "一句話關鍵驅動，20字內",'
+            f'"reasons": {{{stock_codes_str}各寫30字內該股漲停原因}}}}'
         )
 
         text = call_llm(prompt)
@@ -161,18 +176,25 @@ def generate_theme_summaries(themes: dict, trade_date: str) -> dict:
 
 
 def _try_parse_json(text: str) -> dict | None:
-    """嘗試從 LLM 回傳中提取 JSON。"""
+    """嘗試從 LLM 回傳中提取 JSON。嘗試所有 {...} 區塊，找含 summary 的那個。"""
     if not text:
         return None
+    # 移除 markdown code fences
+    text = re.sub(r"```json\s*", "", text)
+    text = re.sub(r"```\s*", "", text)
+    text = text.strip()
     # 先直接 parse
     try:
-        return json.loads(text)
+        d = json.loads(text)
+        if isinstance(d, dict):
+            return d
     except (json.JSONDecodeError, ValueError):
         pass
-    # 找最後一個 {...} block
+
+    # 找所有頂層 {...} blocks，取含 "summary" 的最長那個
+    blocks = []
     depth = 0
     start = None
-    best = None
     for i, ch in enumerate(text):
         if ch == '{':
             if depth == 0:
@@ -181,10 +203,26 @@ def _try_parse_json(text: str) -> dict | None:
         elif ch == '}':
             depth -= 1
             if depth == 0 and start is not None:
-                best = text[start:i + 1]
-    if best:
+                blocks.append(text[start:i + 1])
+                start = None
+
+    # 優先找含 "summary" 的
+    for block in reversed(blocks):
+        if "summary" in block:
+            try:
+                d = json.loads(block)
+                if isinstance(d, dict):
+                    return d
+            except (json.JSONDecodeError, ValueError):
+                continue
+
+    # 退而求其次，找任何能 parse 的
+    for block in reversed(blocks):
         try:
-            return json.loads(best)
+            d = json.loads(block)
+            if isinstance(d, dict):
+                return d
         except (json.JSONDecodeError, ValueError):
-            pass
+            continue
+
     return None
