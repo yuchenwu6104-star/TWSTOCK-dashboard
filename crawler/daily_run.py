@@ -42,9 +42,18 @@ def refresh_attention_events(trade_date: datetime.date):
         print(f"  ⚠ 刷新失敗: {e}")
 
 
+def _last_trading_day(d: datetime.date = None) -> datetime.date:
+    """回傳最近的交易日（跳過週末）。"""
+    if d is None:
+        d = datetime.date.today()
+    while d.weekday() >= 5:  # 5=Sat, 6=Sun
+        d -= datetime.timedelta(days=1)
+    return d
+
+
 def run(trade_date: datetime.date = None, skip_broker: bool = False):
     if trade_date is None:
-        trade_date = datetime.date.today()
+        trade_date = _last_trading_day()
 
     date_str = trade_date.strftime("%Y-%m-%d")
     print(f"{'='*50}")

@@ -24,9 +24,8 @@ def _get_institutional(stock_code: str, trade_date) -> dict | None:
         return None
     try:
         con = duckdb.connect(SUPP_DB, read_only=True)
-        # 查當天，找不到就查最近一天
         r = con.execute("""
-            SELECT foreign_net, sitc_net, dealer_net, total_net
+            SELECT foreign_net, sitc_net, dealer_net, total_net, trade_date
             FROM institutional_daily
             WHERE symbol=? AND trade_date <= ?
             ORDER BY trade_date DESC LIMIT 1
@@ -34,7 +33,8 @@ def _get_institutional(stock_code: str, trade_date) -> dict | None:
         con.close()
         if r:
             return {"foreign_net": r[0] or 0, "sitc_net": r[1] or 0,
-                    "dealer_net": r[2] or 0, "total_net": r[3] or 0}
+                    "dealer_net": r[2] or 0, "total_net": r[3] or 0,
+                    "data_date": r[4].strftime("%m/%d") if r[4] else ""}
     except Exception:
         pass
     return None
@@ -48,7 +48,7 @@ def _get_margin(stock_code: str, trade_date) -> dict | None:
         con = duckdb.connect(SUPP_DB, read_only=True)
         r = con.execute("""
             SELECT margin_buy, margin_sell, margin_bal, margin_prev_bal,
-                   short_sell, short_buy, short_bal, short_prev_bal
+                   short_sell, short_buy, short_bal, short_prev_bal, trade_date
             FROM margin_daily
             WHERE symbol=? AND trade_date <= ?
             ORDER BY trade_date DESC LIMIT 1
@@ -63,6 +63,7 @@ def _get_margin(stock_code: str, trade_date) -> dict | None:
                 "margin_bal": r[2] or 0, "margin_change": margin_change,
                 "short_bal": r[6] or 0, "short_change": short_change,
                 "ratio": ratio,
+                "data_date": r[8].strftime("%m/%d") if r[8] else "",
             }
     except Exception:
         pass
@@ -136,9 +137,17 @@ def _get_available_dates(con) -> list[str]:
     return [r[0].strftime("%Y%m%d") for r in rows]
 
 
+def _last_trading_day(d: datetime.date = None) -> datetime.date:
+    if d is None:
+        d = datetime.date.today()
+    while d.weekday() >= 5:
+        d -= datetime.timedelta(days=1)
+    return d
+
+
 def build(trade_date: datetime.date = None):
     if trade_date is None:
-        trade_date = datetime.date.today()
+        trade_date = _last_trading_day()
 
     date_str = trade_date.strftime("%Y-%m-%d")
     date_compact = trade_date.strftime("%Y%m%d")

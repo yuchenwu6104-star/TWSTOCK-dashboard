@@ -6,20 +6,66 @@
 <div class="container">
   <a href="../../index.html" style="display:inline-block;color:#58a6ff;text-decoration:none;margin-bottom:16px;font-size:14px;">← 返回漲停總覽</a>
 
-  <div class="info-bar" style="display:flex;justify-content:space-between;align-items:center;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin-bottom:20px;">
-    <div>
-      <h2 style="font-size:22px;">🐰 {{ stock.name }}</h2>
-      <div style="color:#8b949e;font-size:14px;margin-top:2px;">{{ stock.code }} · {{ date }}</div>
-      {% if stock.theme %}<div style="color:#8b949e;font-size:13px;margin-top:2px;">{{ stock.theme }}</div>{% endif %}
-      <div style="font-size:12px;color:#8b949e;margin-top:6px;">
-        成交量 {{ stock.volume_str }}張{% if broker_count %} · 共 {{ broker_count }} 家券商交易{% endif %}
+  <!-- Info Bar -->
+  <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin-bottom:12px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <h2 style="font-size:22px;">🐰 {{ stock.name }}</h2>
+        <div style="color:#8b949e;font-size:14px;margin-top:2px;">{{ stock.code }} · {{ date }}</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="up" style="font-size:24px;font-weight:700;">${{ stock.close_price }}</div>
+        <div style="margin-top:4px;"><span class="badge up">{{ stock.change }} ({{ stock.change_pct }}%) 漲停</span></div>
       </div>
     </div>
-    <div style="text-align:right;">
-      <div class="up" style="font-size:24px;font-weight:700;">${{ stock.close_price }}</div>
-      <div style="margin-top:4px;"><span class="badge up">{{ stock.change }} ({{ stock.change_pct }}%) 漲停</span></div>
+    <!-- 族群 + 個股原因 -->
+    {% if stock.theme %}
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid #30363d;">
+      <span style="color:#58a6ff;font-size:13px;font-weight:600;">{{ stock.theme }}</span>
+      {% if stock.reason %}
+      <span style="color:#8b949e;font-size:12px;margin-left:8px;">{{ stock.reason }}</span>
+      {% endif %}
+    </div>
+    {% endif %}
+    <!-- 成交資訊 -->
+    <div style="font-size:12px;color:#8b949e;margin-top:8px;">
+      成交量 {{ stock.volume_str }}張{% if broker_count %} · 共 {{ broker_count }} 家券商交易{% endif %}
     </div>
   </div>
+
+  {% if inst %}
+  <!-- 三大法人（放在表格上方） -->
+  <div class="concept-title" style="border-left-color:#58a6ff;margin-top:0;">
+    <span class="icon">🏛️</span><span>三大法人買賣超</span>
+    {% if inst.data_date %}<span class="count">{{ inst.data_date }}</span>{% endif %}
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 16px;">
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#8b949e;">外資</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#f85149' if inst.foreign_net > 0 else '#3fb950' }};">
+        {{ "{:+,}".format(inst.foreign_net // 1000) }} 張
+      </div>
+    </div>
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#8b949e;">投信</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#f85149' if inst.sitc_net > 0 else '#3fb950' }};">
+        {{ "{:+,}".format(inst.sitc_net // 1000) }} 張
+      </div>
+    </div>
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#8b949e;">自營商</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#f85149' if inst.dealer_net > 0 else '#3fb950' }};">
+        {{ "{:+,}".format(inst.dealer_net // 1000) }} 張
+      </div>
+    </div>
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#8b949e;">合計</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#f85149' if inst.total_net > 0 else '#3fb950' }};">
+        {{ "{:+,}".format(inst.total_net // 1000) }} 張
+      </div>
+    </div>
+  </div>
+  {% endif %}
 
   {% if buy_top or sell_top %}
   <!-- 買賣超雙欄表 -->
@@ -66,43 +112,11 @@
   <div style="text-align:center;padding:40px;color:#8b949e;font-size:13px;">券商分點資料尚未載入</div>
   {% endif %}
 
-  {% if inst %}
-  <!-- 三大法人 -->
-  <div class="concept-title" style="border-left-color:#58a6ff;margin-top:0;">
-    <span class="icon">🏛️</span><span>三大法人買賣超</span>
-  </div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 20px;">
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">外資</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#f85149' if inst.foreign_net > 0 else '#3fb950' }};">
-        {{ "{:+,}".format(inst.foreign_net // 1000) }} 張
-      </div>
-    </div>
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">投信</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#f85149' if inst.sitc_net > 0 else '#3fb950' }};">
-        {{ "{:+,}".format(inst.sitc_net // 1000) }} 張
-      </div>
-    </div>
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">自營商</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#f85149' if inst.dealer_net > 0 else '#3fb950' }};">
-        {{ "{:+,}".format(inst.dealer_net // 1000) }} 張
-      </div>
-    </div>
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">合計</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#f85149' if inst.total_net > 0 else '#3fb950' }};">
-        {{ "{:+,}".format(inst.total_net // 1000) }} 張
-      </div>
-    </div>
-  </div>
-  {% endif %}
-
   {% if margin %}
   <!-- 融資融券 -->
   <div class="concept-title" style="border-left-color:#f39c12;">
     <span class="icon">💰</span><span>融資融券</span>
+    {% if margin.data_date %}<span class="count">{{ margin.data_date }}</span>{% endif %}
   </div>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 20px;">
     <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
@@ -148,18 +162,15 @@
   const top5Buyers = buyerBuyData.slice(0, 5).map(d => d.label);
   const top5Sellers = sellerSellData.slice(0, 5).map(d => d.label);
 
-  // Plugin: reference lines + bottom labels
   const refLinePlugin = {
     id: 'refLines',
     beforeDatasetsDraw(chart) {
       const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
-      // Vertical dashed line at x=0
       const x0 = x.getPixelForValue(0);
       if (x0 >= left && x0 <= right) {
         ctx.save(); ctx.strokeStyle = 'rgba(88,166,255,0.35)'; ctx.lineWidth = 1; ctx.setLineDash([6, 4]);
         ctx.beginPath(); ctx.moveTo(x0, top); ctx.lineTo(x0, bottom); ctx.stroke(); ctx.restore();
       }
-      // Horizontal dashed line at close price
       if (closePrice > 0) {
         const yClose = y.getPixelForValue(closePrice);
         if (yClose >= top && yClose <= bottom) {
@@ -187,7 +198,6 @@
         ctx.fillText(brokerName, lx, labelY - 4);
         ctx.font = 'bold 7px sans-serif';
         ctx.fillText(netText, lx, labelY + 5);
-        // Connection line to bubble
         const bubble = datasetData.find(d => d.label === brokerName);
         if (bubble) {
           const meta = chart.getDatasetMeta(datasetIndex);
@@ -202,7 +212,6 @@
         }
       };
 
-      // W-zigzag: buyers left half
       top5Buyers.forEach((name, rank) => {
         if (!name) return;
         const row = rank % 2 === 0 ? 0 : 1;
@@ -212,7 +221,6 @@
         const brokerData = buyerBuyData.find(d => d.label === name);
         drawLabel(name, lx, labelRowY[row], hoveredBroker === name, 'red', brokerData, buyerBuyData, 0);
       });
-      // Sellers right half (mirrored)
       top5Sellers.forEach((name, rank) => {
         if (!name) return;
         const row = rank % 2 === 0 ? 0 : 1;
@@ -223,7 +231,6 @@
         const brokerData = sellerSellData.find(d => d.label === name);
         drawLabel(name, lx, labelRowY[row], hoveredBroker === name, 'green', brokerData, sellerSellData, 2);
       });
-      // Hover: draw buy-sell connection line
       if (hoveredBroker) {
         const drawConn = (broker, buyData, sellData, bi, si) => {
           const bb = buyData.find(d => d.label === broker), sb = sellData.find(d => d.label === broker);
@@ -256,12 +263,11 @@
   };
   const R = 'rgba(248,81,73,A)', G = 'rgba(63,185,80,A)';
 
-  // Calculate axis ranges
   const allX = [...buyerBuyData.map(d=>d.x), ...buyerSellData.map(d=>d.x), ...sellerSellData.map(d=>d.x), ...sellerBuyData.map(d=>d.x)];
   const allY = [...buyerBuyData.map(d=>d.y), ...sellerSellData.map(d=>d.y), closePrice].filter(v=>v>0);
-  const xAbs = Math.max(...allX.map(Math.abs)) * 1.15;
-  const yMin = Math.min(...allY) * 0.998;
-  const yMax = Math.max(...allY) * 1.002;
+  const xAbs = Math.max(...allX.map(Math.abs)) * 1.15 || 100;
+  const yMin = allY.length ? Math.min(...allY) * 0.998 : closePrice * 0.95;
+  const yMax = allY.length ? Math.max(...allY) * 1.002 : closePrice * 1.05;
 
   new Chart(ctx, {
     type: 'bubble',
@@ -321,14 +327,12 @@
     plugins: [refLinePlugin]
   });
 
-  // Hover interaction on canvas
   const canvas = document.getElementById('bubbleChart');
   const chart = Chart.getChart(canvas);
   canvas.addEventListener('mousemove', e => {
     const rect = canvas.getBoundingClientRect();
     const mx = e.clientX - rect.left, my = e.clientY - rect.top;
     let found = null;
-    // Check all datasets for nearest point
     for (let di = 0; di < chart.data.datasets.length; di++) {
       const meta = chart.getDatasetMeta(di);
       for (let pi = 0; pi < meta.data.length; pi++) {
