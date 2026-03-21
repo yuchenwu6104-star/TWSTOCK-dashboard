@@ -6,143 +6,157 @@
 <title>穎崴(6515) 2026/03/20</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0d1117; color: #e6edf3; font-family: -apple-system, 'Noto Sans TC', 'Segoe UI', sans-serif; }
+:root {
+  --up: #ED4B9E;
+  --down: #31D0AA;
+  --teal: #1FC7D4;
+  --purple: #7645D9;
+  --bg: #08060B;
+  --card: #27262c;
+  --card-hover: #353547;
+  --border: #383241;
+  --text: #F4EEFF;
+  --muted: #B8ADD2;
+  --disabled: #666171;
+}
+body { background: var(--bg); color: var(--text); font-family: 'Kanit', -apple-system, 'Noto Sans TC', 'Segoe UI', sans-serif; }
 .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
-header { text-align: center; padding: 16px 0 12px; border-bottom: 1px solid #30363d; margin-bottom: 16px; position: relative; }
+header { text-align: center; padding: 16px 0 12px; border-bottom: 1px solid var(--border); margin-bottom: 16px; position: relative; }
 header h1 { font-size: 22px; margin-bottom: 2px; }
 header h1 .rabbit { font-size: 26px; }
-header .subtitle { color: #8b949e; font-size: 13px; }
+header .subtitle { color: var(--muted); font-size: 13px; }
 header .cta-hint {
   position: absolute; top: 16px; right: 20px;
-  background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
-  border: 1px solid #3b82f6; border-radius: 6px;
-  padding: 8px 12px; color: #60a5fa; font-size: 11px; font-weight: 600;
+  background: linear-gradient(135deg, #1FC7D4 0%, #7645D9 100%);
+  border: none; border-radius: 16px;
+  padding: 8px 12px; color: #fff; font-size: 11px; font-weight: 600;
   cursor: pointer; min-width: 180px; text-align: center;
-  transition: all 0.2s;
+  transition: all 0.2s; box-shadow: 0 0 12px rgba(31,199,212,0.25);
 }
 header .cta-hint:hover {
-  background: linear-gradient(135deg, #2563eb 0%, #4338ca 100%);
-  transform: translateY(-1px); box-shadow: 0 4px 8px rgba(37,99,235,0.3);
+  background: linear-gradient(135deg, #33d6e2 0%, #8a5cf6 100%);
+  transform: translateY(-1px); box-shadow: 0 4px 16px rgba(31,199,212,0.4);
 }
 .date-nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 8px; }
 .date-nav .nav-btn {
-  background: #21262d; border: 1px solid #30363d; color: #8b949e;
-  padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; transition: all 0.2s;
+  background: var(--card); border: 1px solid var(--border); color: var(--muted);
+  padding: 4px 10px; border-radius: 16px; cursor: pointer; font-size: 11px; transition: all 0.2s;
 }
-.date-nav .nav-btn:hover:not(:disabled) { background: #30363d; color: #e6edf3; }
+.date-nav .nav-btn:hover:not(:disabled) { background: var(--card-hover); color: var(--text); }
 .date-nav .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.date-nav .date { color: #58a6ff; font-size: 15px; font-weight: 600; min-width: 100px; }
-.section-title { font-size: 16px; margin: 16px 0 10px; padding-left: 8px; border-left: 3px solid #f85149; }
+.date-nav .date { color: var(--teal); font-size: 15px; font-weight: 600; min-width: 100px; }
+.section-title { font-size: 16px; margin: 16px 0 10px; padding-left: 8px; border-left: 3px solid var(--teal); }
 .concept-section { margin-bottom: 20px; }
 .concept-title {
   font-size: 14px; margin: 12px 0 8px; padding: 8px 12px;
-  background: #21262d; border-radius: 6px; border-left: 3px solid #58a6ff;
+  background: var(--card); border-radius: 8px; border-left: 3px solid var(--teal);
   display: flex; align-items: center; gap: 8px;
 }
 .concept-title .icon { font-size: 16px; }
-.concept-title .count { color: #8b949e; font-size: 12px; margin-left: auto; }
-.concept-reason { color: #8b949e; font-size: 11px; margin: 0 12px 8px 12px; font-style: italic; }
+.concept-title .count { color: var(--muted); font-size: 12px; margin-left: auto; }
+.concept-reason { color: var(--muted); font-size: 11px; margin: 0 12px 8px 12px; font-style: italic; }
 .stock-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-.stock-card { background: #161b22; border: 1px solid #30363d; border-radius: 6px; position: relative; transition: all 0.2s ease; }
+.stock-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; position: relative; transition: all 0.2s ease; }
 .stock-card .reason-tip {
   display: none; position: absolute; left: 0; right: 0; bottom: 100%;
-  background: #1c2129; border: 1px solid #444c56; border-radius: 6px;
-  padding: 8px 10px; font-size: 12px; color: #c9d1d9; line-height: 1.5;
-  z-index: 100; pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  background: #1E1D20; border: 1px solid var(--border); border-radius: 10px;
+  padding: 8px 10px; font-size: 12px; color: var(--text); line-height: 1.5;
+  z-index: 100; pointer-events: none; box-shadow: 0 4px 16px rgba(0,0,0,0.5);
 }
-.stock-card .reason-tip .tip-cta { color: #58a6ff; font-size: 11px; margin-top: 4px; }
+.stock-card .reason-tip .tip-cta { color: var(--teal); font-size: 11px; margin-top: 4px; }
 .stock-card:hover .reason-tip { display: block; }
-.stock-card a { text-decoration: none; color: inherit; display: block; padding: 10px 12px; transition: all 0.2s ease; }
-.stock-card a:hover { background: #1c2129; }
+.stock-card a { text-decoration: none; color: inherit; display: block; padding: 10px 12px; transition: all 0.2s ease; border-radius: 16px; }
+.stock-card a:hover { background: var(--card-hover); }
 .stock-header { display: flex; justify-content: space-between; align-items: center; }
 .stock-name { font-size: 14px; font-weight: 600; }
-.stock-code { color: #8b949e; font-size: 12px; margin-left: 6px; }
+.stock-code { color: var(--muted); font-size: 12px; margin-left: 6px; }
 .stock-price { text-align: right; }
 .stock-close { font-size: 14px; font-weight: 600; }
 .stock-change { font-size: 11px; margin-top: 1px; }
-.up { color: #f85149; }
-.down { color: #3fb950; }
-.stock-meta { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: #8b949e; }
+.up { color: var(--up); }
+.down { color: var(--down); }
+.stock-meta { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--muted); }
 .badge { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; }
-.badge.up { background: rgba(248,81,73,0.2); color: #f85149; }
+.badge.up { background: rgba(237,75,158,0.2); color: var(--up); }
 
 /* Nav pills */
 nav.topnav {
-  background: #0a0a16; border-bottom: 1px solid #30363d;
+  background: var(--bg); border-bottom: 1px solid var(--border);
   padding: 6px 8px; display: flex; align-items: center; justify-content: center;
   gap: 6px; position: sticky; top: 0; z-index: 999;
 }
 nav.topnav a.pill {
   padding: 5px 14px; border-radius: 16px; font-size: 12px; font-weight: 600;
-  text-decoration: none; color: #888; background: #1a1a2e; transition: all 0.2s;
+  text-decoration: none; color: var(--muted); background: var(--card); transition: all 0.2s;
 }
-nav.topnav a.pill.active { background: #1a6bc4; color: #fff; }
-nav.topnav a.pill:hover:not(.active) { color: #ccc; }
+nav.topnav a.pill.active { background: var(--teal); color: #fff; box-shadow: 0 0 10px rgba(31,199,212,0.35); }
+nav.topnav a.pill:hover:not(.active) { color: var(--text); background: var(--card-hover); }
 #stock-search {
   width: 72px; padding: 5px 8px; border-radius: 16px;
-  border: 1px solid #58a6ff; background: #0d1117;
-  color: #e0e0e0; font-size: 16px; outline: none;
+  border: 1px solid var(--teal); background: var(--bg);
+  color: var(--text); font-size: 16px; outline: none;
 }
 
 /* Tables */
 table { width: 100%; border-collapse: collapse; }
-th { text-align: right; padding: 3px 4px; font-size: 10px; color: #8b949e; border-bottom: 1px solid #30363d; white-space: nowrap; }
+th { text-align: right; padding: 3px 4px; font-size: 10px; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
 th:first-child { text-align: left; }
-td { padding: 4px 4px; font-size: 11px; border-bottom: 1px solid #21262d; text-align: right; font-variant-numeric: tabular-nums; }
+td { padding: 4px 4px; font-size: 11px; border-bottom: 1px solid #1E1D20; text-align: right; font-variant-numeric: tabular-nums; }
 td:first-child { text-align: left; font-size: 11px; white-space: nowrap; }
-tr:hover { background: #1c2129; }
+tr:hover { background: var(--card-hover); }
 .net { font-weight: 600; }
 
 /* Disposal */
 .disp-stat { padding: 4px 14px; border-radius: 16px; font-size: 13px; font-weight: 600; display: inline-block; }
-.disp-stat.danger { background: rgba(231,76,60,0.3); color: #f85149; }
-.disp-stat.warn { background: rgba(241,196,15,0.3); color: #f1c40f; }
-.disp-stat.info { background: rgba(149,165,166,0.3); color: #95a5a6; }
+.disp-stat.danger { background: rgba(237,75,158,0.2); color: var(--up); }
+.disp-stat.warn { background: rgba(241,196,15,0.2); color: #f1c40f; }
+.disp-stat.info { background: rgba(118,69,217,0.2); color: #a78bfa; }
 .mkt { padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; }
-.mkt-twse { background: rgba(88,166,255,0.2); color: #58a6ff; }
-.mkt-tpex { background: rgba(163,113,247,0.2); color: #a371f7; }
-.badge-danger { color: #e74c3c; font-weight: 700; }
+.mkt-twse { background: rgba(31,199,212,0.2); color: var(--teal); }
+.mkt-tpex { background: rgba(118,69,217,0.2); color: #a78bfa; }
+.badge-danger { color: var(--up); font-weight: 700; }
 .badge-warn { color: #f39c12; font-weight: 600; }
-.badge-info { color: #3498db; }
+.badge-info { color: var(--teal); }
 .threshold-cell { text-align: center; font-size: 12px; }
 .threshold-cell .progress { font-weight: 700; }
 .threshold-cell .gap { font-size: 10px; display: block; }
-.disposal-table { background: #141422; border-radius: 8px; overflow: hidden; }
-.disposal-table th { background: #1a1a2e; padding: 8px 10px; font-size: 11px; position: sticky; top: 40px; z-index: 10; }
-.disposal-table td { padding: 6px 10px; font-size: 12px; border-bottom: 1px solid #1e1e3a; }
-.disposal-table tr:hover { background: #1a1a30; }
+.disposal-table { background: #1E1D20; border-radius: 8px; overflow: hidden; }
+.disposal-table th { background: var(--card); padding: 8px 10px; font-size: 11px; position: sticky; top: 40px; z-index: 10; color: var(--teal); }
+.disposal-table td { padding: 6px 10px; font-size: 12px; border-bottom: 1px solid var(--border); }
+.disposal-table tr:hover { background: var(--card-hover); }
 
 /* Perf cards */
-.perf-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 20px 0; }
+.perf-grid, .perf-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 20px 0; }
 .perf-card {
-  background: #161b22; border: 1px solid #30363d; border-radius: 8px;
-  padding: 16px; text-align: center;
+  background: var(--card); border: 1px solid var(--border); border-radius: 24px;
+  padding: 20px 16px; text-align: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
 }
-.perf-card .ptitle { font-size: 12px; color: #8b949e; margin-bottom: 6px; }
-.perf-card .pvalue { font-size: 24px; font-weight: 800; }
-.perf-card .psub { font-size: 12px; color: #8b949e; margin-top: 4px; }
+.perf-card .ptitle, .perf-card .title { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.perf-card .pvalue, .perf-card .value { font-size: 24px; font-weight: 800; }
+.perf-card .psub, .perf-card .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
 
 /* Condition cards */
 .cond-card {
-  background: #161b22; border: 1px solid #30363d; border-radius: 6px;
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
   padding: 10px 14px; margin-bottom: 6px;
   display: flex; gap: 10px; align-items: baseline;
 }
 .cond-name { font-weight: 700; font-size: 13px; white-space: nowrap; }
-.cond-desc { font-size: 12px; color: #8b949e; }
+.cond-desc { font-size: 12px; color: var(--muted); }
 
-footer { text-align: center; padding: 32px 0 24px; color: #484f58; font-size: 12px; border-top: 1px solid #30363d; margin-top: 32px; }
-footer a { color: #58a6ff; text-decoration: none; }
+footer { text-align: center; padding: 32px 0 24px; color: var(--disabled); font-size: 12px; border-top: 1px solid var(--border); margin-top: 32px; }
+footer a { color: var(--teal); text-decoration: none; }
 
 @media (max-width: 1200px) { .stock-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 900px) { .stock-grid { grid-template-columns: repeat(2, 1fr); } .perf-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 900px) { .stock-grid { grid-template-columns: repeat(2, 1fr); } .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 700px) {
   .container { padding: 4px; }
   .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
   header .cta-hint { position: static; margin: 8px auto 0; min-width: auto; width: fit-content; font-size: 10px; padding: 6px 10px; }
   .date-nav .nav-btn { padding: 3px 8px; font-size: 10px; }
   .date-nav .date { font-size: 13px; }
-  .perf-grid { grid-template-columns: 1fr; }
+  .perf-grid, .perf-cards { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -155,14 +169,14 @@ footer a { color: #58a6ff; text-decoration: none; }
 </nav>
 
 <div class="container">
-  <a href="../../index.html" style="display:inline-block;color:#58a6ff;text-decoration:none;margin-bottom:16px;font-size:14px;">← 返回漲停總覽</a>
+  <a href="../../index.html" style="display:inline-block;color:#1FC7D4;text-decoration:none;margin-bottom:16px;font-size:14px;">← 返回漲停總覽</a>
 
   <!-- Info Bar -->
-  <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin-bottom:12px;">
+  <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:16px;margin-bottom:12px;">
     <div style="display:flex;justify-content:space-between;align-items:center;">
       <div>
         <h2 style="font-size:22px;">🐰 穎崴</h2>
-        <div style="color:#8b949e;font-size:14px;margin-top:2px;">6515 · 2026/03/20</div>
+        <div style="color:#B8ADD2;font-size:14px;margin-top:2px;">6515 · 2026/03/20</div>
       </div>
       <div style="text-align:right;">
         <div class="up" style="font-size:24px;font-weight:700;">$7930.0</div>
@@ -171,45 +185,45 @@ footer a { color: #58a6ff; text-decoration: none; }
     </div>
     <!-- 族群 + 個股原因 -->
     
-    <div style="margin-top:10px;padding-top:10px;border-top:1px solid #30363d;">
-      <span style="color:#58a6ff;font-size:13px;font-weight:600;">半導體設備／材料</span>
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid #383241;">
+      <span style="color:#1FC7D4;font-size:13px;font-weight:600;">半導體設備／材料</span>
       
     </div>
     
     <!-- 成交資訊 -->
-    <div style="font-size:12px;color:#8b949e;margin-top:8px;">
+    <div style="font-size:12px;color:#B8ADD2;margin-top:8px;">
       成交量 443張
     </div>
   </div>
 
   
   <!-- 三大法人（放在表格上方） -->
-  <div class="concept-title" style="border-left-color:#58a6ff;margin-top:0;">
+  <div class="concept-title" style="border-left-color:#1FC7D4;margin-top:0;">
     <span class="icon">🏛️</span><span>三大法人買賣超</span>
     <span class="count">03/20</span>
   </div>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 16px;">
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">外資</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#f85149;">
+    <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#B8ADD2;">外資</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#ED4B9E;">
         +79 張
       </div>
     </div>
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">投信</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#f85149;">
+    <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#B8ADD2;">投信</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#ED4B9E;">
         +25 張
       </div>
     </div>
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">自營商</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#f85149;">
+    <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#B8ADD2;">自營商</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#ED4B9E;">
         +2 張
       </div>
     </div>
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">合計</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#f85149;">
+    <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#B8ADD2;">合計</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#ED4B9E;">
         +107 張
       </div>
     </div>
@@ -217,7 +231,7 @@ footer a { color: #58a6ff; text-decoration: none; }
   
 
   
-  <div style="text-align:center;padding:40px;color:#8b949e;font-size:13px;">券商分點資料尚未載入</div>
+  <div style="text-align:center;padding:40px;color:#B8ADD2;font-size:13px;">券商分點資料尚未載入</div>
   
 
   
@@ -227,26 +241,26 @@ footer a { color: #58a6ff; text-decoration: none; }
     <span class="count">03/20</span>
   </div>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 20px;">
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">融資餘額</div>
+    <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#B8ADD2;">融資餘額</div>
       <div style="font-size:16px;font-weight:700;margin-top:4px;">249 張</div>
-      <div style="font-size:10px;color:#3fb950;margin-top:2px;">
+      <div style="font-size:10px;color:#31D0AA;margin-top:2px;">
         -16
       </div>
     </div>
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">融資買</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#f85149;">19</div>
+    <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#B8ADD2;">融資買</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#ED4B9E;">19</div>
     </div>
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">融券餘額</div>
+    <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#B8ADD2;">融券餘額</div>
       <div style="font-size:16px;font-weight:700;margin-top:4px;">34 張</div>
-      <div style="font-size:10px;color:#3fb950;margin-top:2px;">
+      <div style="font-size:10px;color:#31D0AA;margin-top:2px;">
         +6
       </div>
     </div>
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:#8b949e;">券資比</div>
+    <div style="background:#27262c;border:1px solid #383241;border-radius:16px;padding:12px;text-align:center;">
+      <div style="font-size:11px;color:#B8ADD2;">券資比</div>
       <div style="font-size:16px;font-weight:700;margin-top:4px;">13.7%</div>
     </div>
   </div>
@@ -268,26 +282,26 @@ footer a { color: #58a6ff; text-decoration: none; }
   if (!si) return;
   const missEl = document.createElement('div');
   Object.assign(missEl.style, {
-    position:'fixed', top:'42px', right:'8px', background:'#e74c3c', color:'#fff',
+    position:'fixed', top:'42px', right:'8px', background:'#ED4B9E', color:'#fff',
     padding:'4px 10px', borderRadius:'8px', fontSize:'11px', zIndex:'10000',
     opacity:'0', transition:'opacity 0.3s', pointerEvents:'none'
   });
   missEl.textContent = '未在今日漲停';
   document.body.appendChild(missEl);
-  si.addEventListener('click', () => { si.value = ''; si.style.borderColor = '#30363d'; });
+  si.addEventListener('click', () => { si.value = ''; si.style.borderColor = '#383241'; });
   const doSearch = () => {
     const code = si.value.trim();
     if (code.length < 4) return;
     const card = document.querySelector('.stock-card[data-code="' + code + '"]');
     document.querySelectorAll('.stock-card.search-hit').forEach(c => { c.style.outline = ''; c.classList.remove('search-hit'); });
     if (card) {
-      si.style.borderColor = '#30363d';
+      si.style.borderColor = '#383241';
       missEl.style.opacity = '0';
       card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      card.style.outline = '2px solid #58a6ff';
+      card.style.outline = '2px solid #1FC7D4';
       card.classList.add('search-hit');
     } else {
-      si.style.borderColor = '#e74c3c';
+      si.style.borderColor = '#ED4B9E';
       missEl.style.opacity = '1';
       setTimeout(() => { missEl.style.opacity = '0'; }, 2000);
     }
@@ -297,7 +311,7 @@ footer a { color: #58a6ff; text-decoration: none; }
 })();
 // 股票卡片 hover 動畫
 document.querySelectorAll('.stock-card a').forEach(card => {
-  card.addEventListener('mouseenter', function() { this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(88,166,255,0.15)'; });
+  card.addEventListener('mouseenter', function() { this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 16px rgba(31,199,212,0.2)'; });
   card.addEventListener('mouseleave', function() { this.style.transform='translateY(0)'; this.style.boxShadow='none'; });
 });
 </script>
