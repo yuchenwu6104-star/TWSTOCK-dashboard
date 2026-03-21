@@ -24,13 +24,17 @@ def _get_institutional(stock_code: str, trade_date) -> dict | None:
         return None
     try:
         con = duckdb.connect(SUPP_DB, read_only=True)
+        # 查當天，找不到就查最近一天
         r = con.execute("""
             SELECT foreign_net, sitc_net, dealer_net, total_net
-            FROM institutional_daily WHERE symbol=? AND trade_date=?
+            FROM institutional_daily
+            WHERE symbol=? AND trade_date <= ?
+            ORDER BY trade_date DESC LIMIT 1
         """, [stock_code, trade_date]).fetchone()
         con.close()
         if r:
-            return {"foreign_net": r[0], "sitc_net": r[1], "dealer_net": r[2], "total_net": r[3]}
+            return {"foreign_net": r[0] or 0, "sitc_net": r[1] or 0,
+                    "dealer_net": r[2] or 0, "total_net": r[3] or 0}
     except Exception:
         pass
     return None
@@ -45,7 +49,9 @@ def _get_margin(stock_code: str, trade_date) -> dict | None:
         r = con.execute("""
             SELECT margin_buy, margin_sell, margin_bal, margin_prev_bal,
                    short_sell, short_buy, short_bal, short_prev_bal
-            FROM margin_daily WHERE symbol=? AND trade_date=?
+            FROM margin_daily
+            WHERE symbol=? AND trade_date <= ?
+            ORDER BY trade_date DESC LIMIT 1
         """, [stock_code, trade_date]).fetchone()
         con.close()
         if r:
