@@ -43,12 +43,39 @@ def refresh_attention_events(trade_date: datetime.date):
 
 
 def _last_trading_day(d: datetime.date = None) -> datetime.date:
-    """回傳最近的交易日（跳過週末）。"""
+    """回傳最近的交易日（跳過週末 + 國定假日）。"""
     if d is None:
         d = datetime.date.today()
-    while d.weekday() >= 5:  # 5=Sat, 6=Sun
+    while d.weekday() >= 5 or d in _TW_HOLIDAYS:
         d -= datetime.timedelta(days=1)
     return d
+
+
+# 台股國定假日（2026 年）
+# 來源：TWSE 休市日曆 https://www.twse.com.tw/zh/trading/holiday.html
+_TW_HOLIDAYS = {
+    # 2026
+    datetime.date(2026, 1, 1),   # 元旦
+    datetime.date(2026, 1, 2),   # 彈性放假
+    datetime.date(2026, 1, 26),  # 除夕前
+    datetime.date(2026, 1, 27),  # 除夕
+    datetime.date(2026, 1, 28),  # 初一
+    datetime.date(2026, 1, 29),  # 初二
+    datetime.date(2026, 1, 30),  # 初三
+    datetime.date(2026, 2, 2),   # 彈性放假
+    datetime.date(2026, 2, 27),  # 和平紀念日（調整）
+    datetime.date(2026, 2, 28),  # 和平紀念日
+    datetime.date(2026, 4, 3),   # 兒童節（調整）
+    datetime.date(2026, 4, 4),   # 清明節
+    datetime.date(2026, 4, 5),   # 兒童節
+    datetime.date(2026, 4, 6),   # 彈性放假
+    datetime.date(2026, 5, 25),  # 端午節（調整）
+    datetime.date(2026, 6, 19),  # 彈性放假
+    datetime.date(2026, 9, 28),  # 中秋節（調整）
+    datetime.date(2026, 10, 9),  # 彈性放假
+    datetime.date(2026, 10, 10), # 國慶日
+    # 每年初需更新
+}
 
 
 def run(trade_date: datetime.date = None, skip_broker: bool = False):

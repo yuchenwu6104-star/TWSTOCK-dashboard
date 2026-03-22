@@ -134,11 +134,23 @@ def _get_available_dates(con) -> list[str]:
 
 
 def _last_trading_day(d: datetime.date = None) -> datetime.date:
+    from crawler.daily_run import _TW_HOLIDAYS
     if d is None:
         d = datetime.date.today()
-    while d.weekday() >= 5:
+    while d.weekday() >= 5 or d in _TW_HOLIDAYS:
         d -= datetime.timedelta(days=1)
     return d
+
+
+_forecast_cache = {}
+
+
+def _cached_forecast(d):
+    """compute_forecast 快取，避免歷史頁重複計算。"""
+    key = str(d)
+    if key not in _forecast_cache:
+        _forecast_cache[key] = compute_forecast(d)
+    return _forecast_cache[key]
 
 
 def build(trade_date: datetime.date = None):
@@ -364,7 +376,7 @@ def build(trade_date: datetime.date = None):
 
     # ---------- 4. 處置標準 (disposal-forecast.html) ----------
     tpl_disposal = env.get_template("disposal-forecast.html")
-    forecast = compute_forecast(trade_date)
+    forecast = _cached_forecast(trade_date)
 
     disposal_stats = {
         "almost": len(forecast["almost"]),
@@ -588,7 +600,7 @@ def build_history_pages(current_date: datetime.date, env, avail_dates: list[str]
                 break
 
         # ---- 3. Disposal 歷史頁 ----
-        forecast = compute_forecast(d)
+        forecast = _cached_forecast(d)
         if forecast.get("in_disposal") or forecast.get("almost"):
             disp_stats = {
                 "almost": len(forecast["almost"]),
