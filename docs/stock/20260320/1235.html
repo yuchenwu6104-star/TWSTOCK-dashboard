@@ -174,27 +174,10 @@ footer a { color: var(--teal); text-decoration: none; }
   .stock-info-bar { flex-direction: column !important; text-align: center !important; gap: 8px !important; }
   .stock-info-right { text-align: center !important; }
   .inst-grid, .margin-grid { grid-template-columns: repeat(2, 1fr) !important; }
-  .broker-dual { flex-direction: column !important; }
+  .broker-dual { flex-direction: column !important; gap: 8px !important; }
   .broker-dual > div { min-width: 100% !important; }
-  .bar-chart-wrap { height: auto !important; }
-  .bar-chart-inner { flex-direction: column !important; height: auto !important; gap: 16px !important; }
-  .bar-chart-inner > div { height: 300px !important; position: relative !important; }
-  .bar-chart-inner > div > div:last-child { position: relative !important; height: 260px !important; top: auto !important; bottom: auto !important; left: auto !important; right: auto !important; }
-  /* 處置頁進度條 */
-  .disposal-row { flex-wrap: wrap !important; }
-  .disposal-row > span:nth-child(3) { min-width: 50px !important; }
-}
-@media (max-width: 480px) {
-  .stock-grid { grid-template-columns: 1fr; }
-  .perf-grid, .perf-cards { grid-template-columns: 1fr; }
-  nav.topnav a.pill { padding: 3px 6px; font-size: 9px; }
-  header h1 { font-size: 18px; }
-  .concept-title { font-size: 12px; }
-  .stock-name { font-size: 12px; }
-  .stock-close { font-size: 12px; }
-  .stock-change { font-size: 10px; }
-  th { font-size: 9px; padding: 2px 3px; }
-  td { font-size: 10px; padding: 3px 3px; }
+  /* 長條圖：手機保持左右排列，只縮矮 */
+  .bar-chart-inner { height: 300px !important; }
 }
 </style>
 </head>
