@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>云辰(2390) 2026/03/18</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --up: #ED4B9E;
+  --down: #31D0AA;
+  --teal: #1FC7D4;
+  --purple: #7645D9;
+  --bg: #F3EFFF;
+  --card: #FFFFFF;
+  --card-hover: #F6F1FF;
+  --border: #E7E3EB;
+  --text: #280D5F;
+  --muted: #7A6EAA;
+  --disabled: #B8ADD2;
+}
+body { background: linear-gradient(139.73deg, #E5FDFF 0%, #F3EFFF 100%); background-attachment: fixed; color: var(--text); font-family: 'Kanit', -apple-system, 'Noto Sans TC', 'Segoe UI', sans-serif; }
+.container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+header { text-align: center; padding: 16px 0 12px; border-bottom: 1px solid var(--border); margin-bottom: 16px; position: relative; }
+header h1 { font-size: 22px; margin-bottom: 2px; }
+header h1 .rabbit { font-size: 26px; }
+header .subtitle { color: var(--muted); font-size: 13px; }
+header .cta-hint {
+  position: absolute; top: 16px; right: 20px;
+  background: #1FC7D4;
+  border: none; border-radius: 16px;
+  padding: 8px 12px; color: #fff; font-size: 11px; font-weight: 600;
+  cursor: pointer; min-width: 180px; text-align: center;
+  transition: all 0.2s; box-shadow: 0 2px 8px rgba(31,199,212,0.3);
+}
+header .cta-hint:hover {
+  background: #17b3bf;
+  transform: translateY(-1px); box-shadow: 0 4px 16px rgba(31,199,212,0.4);
+}
+.date-nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 8px; }
+.date-nav .nav-btn {
+  background: var(--card); border: 1px solid var(--border); color: var(--muted);
+  padding: 4px 10px; border-radius: 16px; cursor: pointer; font-size: 11px; transition: all 0.2s;
+}
+.date-nav .nav-btn:hover:not(:disabled) { background: var(--card-hover); color: var(--text); }
+.date-nav .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.date-nav .date { color: var(--teal); font-size: 15px; font-weight: 600; min-width: 100px; }
+.section-title { font-size: 16px; margin: 16px 0 10px; padding-left: 8px; border-left: 3px solid var(--teal); color: var(--text); }
+.concept-section { margin-bottom: 32px; }
+.concept-title {
+  font-size: 14px; margin: 12px 0 8px; padding: 8px 12px;
+  background: var(--card); border-radius: 8px; border-left: 3px solid var(--teal);
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 1px 4px rgba(40,13,95,0.06);
+}
+.concept-title .icon { font-size: 16px; }
+.concept-title .count { color: var(--muted); font-size: 12px; margin-left: auto; }
+.concept-reason { color: var(--muted); font-size: 11px; margin: 0 12px 8px 12px; font-style: italic; }
+.stock-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.stock-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; position: relative; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(40,13,95,0.06); }
+.stock-card .reason-tip {
+  display: none; position: absolute; left: 0; right: 0; bottom: 100%;
+  background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px;
+  padding: 8px 10px; font-size: 12px; color: var(--text); line-height: 1.5;
+  z-index: 100; pointer-events: none; box-shadow: 0 4px 20px rgba(40,13,95,0.15);
+}
+.stock-card .reason-tip .tip-cta { color: var(--teal); font-size: 11px; margin-top: 4px; }
+.stock-card:hover .reason-tip { display: block; }
+.stock-card a { text-decoration: none; color: inherit; display: block; padding: 10px 12px; transition: all 0.2s ease; border-radius: 16px; }
+.stock-card a:hover { background: var(--card-hover); }
+.stock-header { display: flex; justify-content: space-between; align-items: center; }
+.stock-name { font-size: 14px; font-weight: 600; }
+.stock-code { color: var(--muted); font-size: 12px; margin-left: 6px; }
+.stock-price { text-align: right; }
+.stock-close { font-size: 14px; font-weight: 600; }
+.stock-change { font-size: 11px; margin-top: 1px; }
+.up { color: var(--up); }
+.down { color: var(--down); }
+.stock-meta { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--muted); }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.badge.up { background: rgba(237,75,158,0.12); color: var(--up); }
+
+/* Nav pills */
+nav.topnav {
+  background: #FFFFFF; border-bottom: 1px solid var(--border);
+  padding: 6px 8px; display: flex; align-items: center; justify-content: center;
+  gap: 6px; position: sticky; top: 0; z-index: 999;
+  box-shadow: 0 2px 8px rgba(40,13,95,0.06);
+}
+nav.topnav a.pill {
+  padding: 5px 14px; border-radius: 16px; font-size: 12px; font-weight: 600;
+  text-decoration: none; color: var(--muted); background: var(--card-hover); transition: all 0.2s;
+}
+nav.topnav a.pill.active { background: var(--teal); color: #fff; box-shadow: 0 2px 8px rgba(31,199,212,0.3); }
+nav.topnav a.pill:hover:not(.active) { color: var(--text); background: var(--border); }
+#stock-search {
+  width: 72px; padding: 5px 8px; border-radius: 16px;
+  border: 1px solid var(--teal); background: #FFFFFF;
+  color: var(--text); font-size: 16px; outline: none;
+}
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; }
+th { text-align: right; padding: 3px 4px; font-size: 10px; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; background: #EDE9FF; }
+th:first-child { text-align: left; }
+td { padding: 4px 4px; font-size: 11px; border-bottom: 1px solid var(--border); text-align: right; font-variant-numeric: tabular-nums; }
+td:first-child { text-align: left; font-size: 11px; white-space: nowrap; }
+tr:nth-child(even) { background: #F6F1FF; }
+tr:hover { background: var(--card-hover); }
+.net { font-weight: 600; }
+
+/* Disposal */
+.disp-stat { padding: 4px 14px; border-radius: 16px; font-size: 13px; font-weight: 600; display: inline-block; }
+.disp-stat.danger { background: rgba(237,75,158,0.12); color: var(--up); }
+.disp-stat.warn { background: rgba(241,196,15,0.15); color: #d68910; }
+.disp-stat.info { background: rgba(118,69,217,0.12); color: var(--purple); }
+.mkt { padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; }
+.mkt-twse { background: rgba(31,199,212,0.15); color: var(--teal); }
+.mkt-tpex { background: rgba(118,69,217,0.12); color: var(--purple); }
+.badge-danger { color: var(--up); font-weight: 700; }
+.badge-warn { color: #d68910; font-weight: 600; }
+.badge-info { color: var(--teal); }
+.threshold-cell { text-align: center; font-size: 12px; }
+.threshold-cell .progress { font-weight: 700; }
+.threshold-cell .gap { font-size: 10px; display: block; }
+.disposal-table { background: #FFFFFF; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.disposal-table th { background: #EDE9FF; padding: 8px 10px; font-size: 11px; color: var(--purple); }
+.disposal-table td { padding: 6px 10px; font-size: 12px; border-bottom: 1px solid var(--border); }
+.disposal-table tr:nth-child(even) { background: #F6F1FF; }
+.disposal-table tr:hover { background: var(--card-hover); }
+
+/* Perf cards */
+.perf-grid, .perf-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 20px 0; }
+.perf-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 24px;
+  padding: 20px 16px; text-align: center;
+  box-shadow: 0 4px 16px rgba(40,13,95,0.08);
+}
+.perf-card .ptitle, .perf-card .title { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.perf-card .pvalue, .perf-card .value { font-size: 24px; font-weight: 800; }
+.perf-card .psub, .perf-card .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* Condition cards */
+.cond-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 14px; margin-bottom: 6px;
+  display: flex; gap: 10px; align-items: baseline;
+  box-shadow: 0 1px 4px rgba(40,13,95,0.05);
+}
+.cond-name { font-weight: 700; font-size: 13px; white-space: nowrap; }
+.cond-desc { font-size: 12px; color: var(--muted); }
+
+footer { text-align: center; padding: 32px 0 24px; color: var(--disabled); font-size: 12px; border-top: 1px solid var(--border); margin-top: 32px; background: rgba(255,255,255,0.6); }
+footer a { color: var(--teal); text-decoration: none; }
+
+@media (min-width: 1025px) {
+  .container { padding: 0 24px; }
+  header h1 { font-size: 28px; }
+  nav.topnav { padding: 6px 24px; }
+  .concept-title { max-width: 1200px; }
+}
+@media (max-width: 900px) { .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 700px) {
+  .container { padding: 6px; }
+  .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
+  header .cta-hint { position: static; margin: 8px auto 0; min-width: auto; width: fit-content; font-size: 10px; padding: 6px 10px; }
+  .date-nav .nav-btn { padding: 3px 8px; font-size: 10px; }
+  .date-nav .date { font-size: 13px; }
+  .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); }
+  nav.topnav { gap: 4px; padding: 5px 4px; }
+  nav.topnav a.pill { padding: 4px 8px; font-size: 10px; }
+  #stock-search { width: 58px; padding: 4px 6px; font-size: 14px; }
+  /* 個股頁 */
+  .stock-info-bar { flex-direction: column !important; text-align: center !important; gap: 8px !important; }
+  .stock-info-right { text-align: center !important; }
+  .inst-grid, .margin-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .broker-dual { flex-direction: column !important; gap: 8px !important; }
+  .broker-dual > div { min-width: 100% !important; }
+  /* 長條圖：手機保持左右排列，只縮矮 */
+  .bar-chart-inner { height: 300px !important; }
+}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../index-20260318.html" class="pill active">漲停族群AI分類</a>
+  <a href="../../nextday-20260318.html" class="pill ">隔日表現</a>
+  <a href="../../disposal-20260318.html" class="pill ">處置標準</a>
+  <input id="stock-search" type="text" inputmode="decimal" placeholder="🔍股號" />
+</nav>
+
+<div class="container">
+  <a href="../../index.html" style="display:inline-block;color:#1FC7D4;text-decoration:none;margin-bottom:12px;font-size:14px;padding:4px 0;">← 返回漲停總覽</a>
+
+  <!-- Info Bar -->
+  <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 4px 12px rgba(40,13,95,0.08);">
+    <div class="stock-info-bar" style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <h2 style="font-size:22px;">🐰 云辰</h2>
+        <div style="color:#7A6EAA;font-size:14px;margin-top:2px;">2390 · 2026/03/18</div>
+      </div>
+      <div class="stock-info-right" style="text-align:right;">
+        <div class="up" style="font-size:24px;font-weight:700;">$10.85</div>
+        <div style="margin-top:4px;"><span class="badge up">0.98 (9.93%) 漲停</span></div>
+      </div>
+    </div>
+    <!-- 族群 + 個股原因 -->
+    
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid #E7E3EB;">
+      <span style="color:#1FC7D4;font-size:13px;font-weight:600;">其他電子</span>
+      
+    </div>
+    
+    <!-- 成交資訊 -->
+    <div style="font-size:12px;color:#7A6EAA;margin-top:8px;">
+      成交量 2,615張
+    </div>
+  </div>
+
+  
+  <!-- 三大法人（放在表格上方） -->
+  <div class="concept-title" style="border-left-color:#1FC7D4;margin-top:0;">
+    <span class="icon">🏛️</span><span>三大法人買賣超</span>
+    <span class="count">03/18</span>
+  </div>
+  <div class="inst-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 16px;">
+    <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:#7A6EAA;">外資</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#ED4B9E;">
+        +117 張
+      </div>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:#7A6EAA;">投信</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#31D0AA;">
+        +0 張
+      </div>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:#7A6EAA;">自營商</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#ED4B9E;">
+        +14 張
+      </div>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:#7A6EAA;">合計</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#ED4B9E;">
+        +131 張
+      </div>
+    </div>
+  </div>
+  
+
+  
+  <div style="text-align:center;padding:40px;color:#7A6EAA;font-size:13px;">券商分點資料尚未載入</div>
+  
+
+  
+  <!-- 融資融券 -->
+  <div class="concept-title" style="border-left-color:#f39c12;">
+    <span class="icon">💰</span><span>融資融券</span>
+    <span class="count">03/18</span>
+  </div>
+  <div class="margin-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 20px;">
+    <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:#7A6EAA;">融資餘額</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#280D5F;">2,785 張</div>
+      <div style="font-size:10px;color:#ED4B9E;margin-top:2px;">
+        +454
+      </div>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:#7A6EAA;">融資買</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#ED4B9E;">492</div>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:#7A6EAA;">融券餘額</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#280D5F;">1 張</div>
+      <div style="font-size:10px;color:#31D0AA;margin-top:2px;">
+        +1
+      </div>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:#7A6EAA;">券資比</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#280D5F;">0.0%</div>
+    </div>
+  </div>
+  
+</div>
+
+<footer>
+  <div class="container">
+    資料來源：臺灣證券交易所 / 證券櫃檯買賣中心 ｜ 僅供研究參考，非投資建議
+  </div>
+</footer>
+
+
+
+<script>
+// 搜尋股號
+(function(){
+  const si = document.getElementById('stock-search');
+  if (!si) return;
+  const missEl = document.createElement('div');
+  Object.assign(missEl.style, {
+    position:'fixed', top:'42px', right:'8px', background:'#ED4B9E', color:'#fff',
+    padding:'4px 10px', borderRadius:'8px', fontSize:'11px', zIndex:'10000',
+    opacity:'0', transition:'opacity 0.3s', pointerEvents:'none'
+  });
+  missEl.textContent = '未在今日漲停';
+  document.body.appendChild(missEl);
+  si.addEventListener('click', () => { si.value = ''; si.style.borderColor = '#E7E3EB'; });
+  const doSearch = () => {
+    const code = si.value.trim();
+    if (code.length < 4) return;
+    const card = document.querySelector('.stock-card[data-code="' + code + '"]');
+    document.querySelectorAll('.stock-card.search-hit').forEach(c => { c.style.outline = ''; c.classList.remove('search-hit'); });
+    if (card) {
+      si.style.borderColor = '#E7E3EB';
+      missEl.style.opacity = '0';
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.style.outline = '2px solid #1FC7D4';
+      card.classList.add('search-hit');
+    } else {
+      si.style.borderColor = '#ED4B9E';
+      missEl.style.opacity = '1';
+      setTimeout(() => { missEl.style.opacity = '0'; }, 2000);
+    }
+  };
+  si.addEventListener('input', doSearch);
+  si.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+})();
+// 股票卡片 hover 動畫
+document.querySelectorAll('.stock-card a').forEach(card => {
+  card.addEventListener('mouseenter', function() { this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 16px rgba(31,199,212,0.25)'; });
+  card.addEventListener('mouseleave', function() { this.style.transform='translateY(0)'; this.style.boxShadow='none'; });
+});
+</script>
+</body>
+</html>

@@ -493,6 +493,47 @@ def build_history_pages(current_date: datetime.date, env, avail_dates: list[str]
                 f.write(html)
             idx_count += 1
 
+            # ---- 1b. 歷史個股頁 ----
+            tpl_stock = env.get_template("stock.html")
+            metas = con.execute("SELECT stock_code, industry, sector_group FROM stock_meta").fetchall()
+            meta_map = {r[0]: {"industry": r[1] or "", "sector_group": r[2] or ""} for r in metas}
+            code_to_theme = {}
+            for row in themes_raw:
+                for c in (row[3] or []):
+                    code_to_theme[c] = row[0]
+
+            hist_stock_dir = os.path.join(OUTPUT_DIR, "stock", date_compact)
+            os.makedirs(hist_stock_dir, exist_ok=True)
+            for code, stock in price_map.items():
+                meta = meta_map.get(code, {})
+                stock_data = {**stock, "theme": code_to_theme.get(code, ""),
+                              "industry": meta.get("industry", ""),
+                              "sector_group": meta.get("sector_group", "")}
+                try:
+                    buy_top, sell_top = get_top_brokers(code, d, top_n=15)
+                except Exception:
+                    buy_top, sell_top = [], []
+                broker_count = 0
+                try:
+                    _bcon = duckdb.connect(DB_PATH, read_only=True)
+                    row = _bcon.execute("SELECT COUNT(DISTINCT broker_id) FROM broker_rank WHERE date=? AND stock_code=?", [d, code]).fetchone()
+                    broker_count = row[0] if row else 0
+                    _bcon.close()
+                except Exception:
+                    pass
+                inst = _get_institutional(code, d)
+                margin = _get_margin(code, d)
+                bar_data = _build_bar_chart_data(buy_top, sell_top)
+                s_html = tpl_stock.render(
+                    site_root="../../", page_suffix=suffix,
+                    date=d.strftime("%Y/%m/%d"), date_compact=date_compact,
+                    stock=stock_data, buy_top=buy_top, sell_top=sell_top,
+                    broker_count=broker_count, inst=inst, margin=margin,
+                    bar_chart_json=_json.dumps(bar_data, ensure_ascii=False),
+                )
+                with open(os.path.join(hist_stock_dir, f"{code}.html"), "w", encoding="utf-8") as f:
+                    f.write(s_html)
+
         # ---- 2. Nextday 歷史頁 ----
         # 用前一天的漲停算隔日表現
         prev_trade_dates = [dd for dd in avail_dates if dd < date_compact]
