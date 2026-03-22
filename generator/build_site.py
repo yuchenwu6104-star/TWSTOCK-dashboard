@@ -405,6 +405,8 @@ def build(trade_date: datetime.date = None):
         in_disposal_stocks=in_disposal_stocks,
         stocks=forecast.get("stocks", {}),
         conditions=TRIGGER_CONDITIONS,
+        prev_date=prev_date,
+        next_date=next_date,
     )
     with open(os.path.join(OUTPUT_DIR, "disposal.html"), "w", encoding="utf-8") as f:
         f.write(html)
@@ -622,6 +624,8 @@ def build_history_pages(current_date: datetime.date, env, avail_dates: list[str]
                 in_disposal_stocks=in_disp_s,
                 stocks=forecast.get("stocks", {}),
                 conditions=TRIGGER_CONDITIONS,
+                prev_date=prev_dc,
+                next_date=next_dc,
             )
             with open(os.path.join(OUTPUT_DIR, f"disposal{suffix}.html"), "w", encoding="utf-8") as f:
                 f.write(html)

@@ -5,7 +5,7 @@
 {% macro pblocks(count, need, gap) %}
 <span class="pblocks">
   {%- for i in range(need) -%}
-  <span class="pblock {% if i < count %}{% if gap <= 0 %}pb-done{% elif gap == 1 %}pb-danger{% elif gap == 2 %}pb-warn{% else %}pb-info{% endif %}{% else %}pb-empty{% endif %}"></span>
+  <span class="pblock {% if i < count %}{% if gap <= 0 %}pb-done{% elif gap == 1 %}pb-danger{% elif gap == 2 %}pb-warn{% else %}pb-info{% endif %}{% else %}pb-empty{% endif %}" title="第{{ i+1 }}個交易日 — {{ '已觸發' if i < count else '未觸發' }}"></span>
   {%- endfor -%}
 </span>
 {% endmacro %}
@@ -23,12 +23,26 @@
 .rule-legend { margin:12px 0 0; padding:10px 14px; background:#fff8ee; border:1px solid #F5A623; border-radius:10px; font-size:11px; color:#555; line-height:1.7; }
 .rule-legend strong { color:#280D5F; }
 .disposal-table th { position: static !important; top: unset !important; }
+.disposal-table tbody tr { cursor: pointer; }
 </style>
 
 <div class="container">
   <header>
     <h1><span class="rabbit">🐰</span> 處置標準</h1>
     <div class="subtitle">適用日期：{{ applicable_date }}</div>
+    <div class="date-nav" style="margin-top:8px;">
+      {% if prev_date is defined and prev_date %}
+      <button class="nav-btn" onclick="location.href='disposal-{{ prev_date }}.html'">◄ 前一天</button>
+      {% else %}
+      <button class="nav-btn" disabled>◄ 前一天</button>
+      {% endif %}
+      <span class="date">{{ date }}</span>
+      {% if next_date is defined and next_date %}
+      <button class="nav-btn" onclick="location.href='disposal-{{ next_date }}.html'">後一天 ►</button>
+      {% else %}
+      <button class="nav-btn" disabled>後一天 ►</button>
+      {% endif %}
+    </div>
   </header>
 
   <!-- 規則說明 -->
@@ -82,7 +96,7 @@
         {% set thresholds = detail.get('thresholds', []) %}
         {% set close_val = detail.get('close', 0) %}
         {% set earliest = detail.get('earliest_disposal', '') %}
-        <tr>
+        <tr data-code="{{ s.code }}">
           <td style="text-align:center;">
             <span class="mkt {{ 'mkt-twse' if s.market == 'TWSE' else 'mkt-tpex' }}">{{ '市' if s.market == 'TWSE' else '櫃' }}</span>
           </td>
@@ -160,7 +174,7 @@
         {% set thresholds = detail.get('thresholds', []) %}
         {% set close_val = detail.get('close', 0) %}
         {% set earliest = detail.get('earliest_disposal', '') %}
-        <tr>
+        <tr data-code="{{ s.code }}">
           <td style="text-align:center;">
             <span class="mkt {{ 'mkt-twse' if s.market == 'TWSE' else 'mkt-tpex' }}">{{ '市' if s.market == 'TWSE' else '櫃' }}</span>
           </td>
@@ -230,7 +244,7 @@
       </thead>
       <tbody>
         {% for s in in_disposal_stocks %}
-        <tr>
+        <tr data-code="{{ s.code }}">
           <td style="text-align:center;">
             <span class="mkt {{ 'mkt-twse' if s.exchange == 'TWSE' else 'mkt-tpex' }}">{{ '市' if s.exchange == 'TWSE' else '櫃' }}</span>
           </td>
@@ -297,4 +311,19 @@
 
   <div style="height:24px;"></div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function(){
+  var dt = '{{ date_compact }}';
+  document.querySelectorAll('.disposal-table tbody tr').forEach(function(tr){
+    var code = tr.dataset.code || '';
+    if(!code) return;
+    tr.addEventListener('click', function(){
+      window.location.href = 'stock/'+dt+'/'+code+'.html';
+    });
+  });
+})();
+</script>
 {% endblock %}

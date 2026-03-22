@@ -3455,5 +3455,40 @@ document.querySelectorAll('.stock-card a').forEach(card => {
   btn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 })();
 </script>
+<script>
+(function(){
+  // 1. Pblock tooltips
+  document.querySelectorAll('.pblocks').forEach(function(c){
+    c.querySelectorAll('.pblock').forEach(function(b,i){
+      var hit = !b.classList.contains('pb-empty');
+      b.title = '第'+(i+1)+'個交易日 — '+(hit?'已觸發':'未觸發');
+    });
+  });
+
+  // 2. Row click → stock page
+  var dt = '20260312';
+  document.querySelectorAll('.disposal-table tbody tr').forEach(function(tr){
+    var tds = tr.querySelectorAll('td');
+    if(tds.length < 2) return;
+    var code = tds[1].textContent.trim();
+    if(!code || code === '—') return;
+    tr.style.cursor = 'pointer';
+    tr.addEventListener('click', function(){
+      window.location.href = 'stock/'+dt+'/'+code+'.html';
+    });
+  });
+
+  // 3. Date navigation — insert into header
+  var hdr = document.querySelector('header');
+  if(hdr){
+    var nav = document.createElement('div');
+    nav.className = 'date-nav';
+    nav.style.marginTop = '8px';
+    nav.innerHTML = '<button class=\"nav-btn\" onclick=\"location.href='disposal-20260311.html'\">◄ 前一天</button><span class=\"date\">2026-03-12</span><button class=\"nav-btn\" onclick=\"location.href='disposal-20260313.html'\">後一天 ►</button>';
+    hdr.appendChild(nav);
+  }
+})();
+</script>
+<!-- pb-patchv1 -->
 </body>
 </html>
