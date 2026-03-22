@@ -192,12 +192,14 @@ footer a { color: var(--teal); text-decoration: none; }
 <style>
 .pblocks { display:inline-flex; gap:2px; align-items:center; flex-wrap:wrap; }
 .pblock  { display:inline-block; width:11px; height:11px; border-radius:2px; }
-.pb-done   { background:#ED4B9E; }
-.pb-danger { background:#ED4B9E; }
-.pb-warn   { background:#f39c12; }
-.pb-info   { background:#1FC7D4; }
-.pb-empty  { background:#3d3450; border:1px solid #5a4f6a; }
+.pb-done   { background:#F5A623; }
+.pb-danger { background:#F5A623; }
+.pb-warn   { background:#F5A623; }
+.pb-info   { background:#F5A623; }
+.pb-empty  { background:#ddd; }
 .disp-rule-cell { text-align:center; padding:4px 2px !important; }
+.rule-legend { margin:12px 0 0; padding:10px 14px; background:#fff8ee; border:1px solid #F5A623; border-radius:10px; font-size:11px; color:#555; line-height:1.7; }
+.rule-legend strong { color:#280D5F; }
 </style>
 
 <div class="container">
@@ -205,6 +207,20 @@ footer a { color: var(--teal); text-decoration: none; }
     <h1><span class="rabbit">🐰</span> 處置標準</h1>
     <div class="subtitle">適用日期：2026-03-23</div>
   </header>
+
+  <!-- 規則說明 -->
+  <div class="rule-legend">
+    <strong>處置規則說明：</strong>
+    3日規則：連續3個交易日達注意標準 → 處置 ／
+    5日規則：5個交易日內達注意標準3次 → 處置 ／
+    6日規則：6個交易日內達注意標準4次（上市） / 10個交易日內達5次（上櫃）→ 處置 ／
+    12日規則：12個交易日內達注意標準8次（上市） / 30個交易日內達12次（上櫃）→ 處置<br>
+    <span style="margin-top:4px;display:inline-block;">
+      <span class="pblock pb-done" style="display:inline-block;vertical-align:middle;margin-right:3px;"></span>橘色方塊 = 該日觸發注意標準
+      &nbsp;&nbsp;
+      <span class="pblock pb-empty" style="display:inline-block;vertical-align:middle;margin-right:3px;border:1px solid #ccc;"></span>灰色方塊 = 該日未觸發
+    </span>
+  </div>
 
   <!-- 統計 -->
   <div style="display:flex;align-items:center;justify-content:center;gap:16px;padding:14px 0;border-bottom:1px solid #E7E3EB;">
@@ -230,10 +246,10 @@ footer a { color: var(--teal); text-decoration: none; }
           <th style="text-align:right;width:52px;">收盤</th>
           <th style="text-align:left;min-width:120px;">2026-03-23 處置條件</th>
           <th style="text-align:left;width:100px;">最快處置</th>
-          <th class="disp-rule-cell" style="width:46px;" title="連3日第1款">3①</th>
-          <th class="disp-rule-cell" style="width:62px;" title="連5日任款">5日</th>
-          <th class="disp-rule-cell" style="width:74px;" title="10日內6日">6/10</th>
-          <th class="disp-rule-cell" style="width:110px;" title="30日內12日">12/30</th>
+          <th class="disp-rule-cell" style="width:46px;" title="連3日達注意標準第1款">3日</th>
+          <th class="disp-rule-cell" style="width:62px;" title="5日內達注意標準3次">5日</th>
+          <th class="disp-rule-cell" style="width:74px;" title="6日內達注意標準4次(上市)/10日內5次(上櫃)">6日</th>
+          <th class="disp-rule-cell" style="width:110px;" title="12日內達注意標準8次(上市)/30日內12次(上櫃)">12日</th>
         </tr>
       </thead>
       <tbody>
@@ -1128,10 +1144,10 @@ footer a { color: var(--teal); text-decoration: none; }
           <th style="text-align:right;width:52px;">收盤</th>
           <th style="text-align:left;min-width:120px;">2026-03-23 處置條件</th>
           <th style="text-align:left;width:100px;">最快處置</th>
-          <th class="disp-rule-cell" style="width:46px;" title="連3日第1款">3①</th>
-          <th class="disp-rule-cell" style="width:62px;" title="連5日任款">5日</th>
-          <th class="disp-rule-cell" style="width:74px;" title="10日內6日">6/10</th>
-          <th class="disp-rule-cell" style="width:110px;" title="30日內12日">12/30</th>
+          <th class="disp-rule-cell" style="width:46px;" title="連3日達注意標準第1款">3日</th>
+          <th class="disp-rule-cell" style="width:62px;" title="5日內達注意標準3次">5日</th>
+          <th class="disp-rule-cell" style="width:74px;" title="6日內達注意標準4次(上市)/10日內5次(上櫃)">6日</th>
+          <th class="disp-rule-cell" style="width:110px;" title="12日內達注意標準8次(上市)/30日內12次(上櫃)">12日</th>
         </tr>
       </thead>
       <tbody>
@@ -3929,11 +3945,8 @@ footer a { color: var(--teal); text-decoration: none; }
   <!-- ========== 圖例說明 ========== -->
   <div style="margin-top:20px;padding:10px 14px;background:#FFFFFF;border:1px solid #E7E3EB;border-radius:10px;font-size:11px;color:#7A6EAA;display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
     <span style="font-weight:600;color:#280D5F;">規則指標圖例：</span>
-    <span><span class="pblock pb-danger" style="display:inline-block;vertical-align:middle;margin-right:3px;"></span>已觸發（差1次）</span>
-    <span><span class="pblock pb-warn" style="display:inline-block;vertical-align:middle;margin-right:3px;"></span>已觸發（差2次）</span>
-    <span><span class="pblock pb-info" style="display:inline-block;vertical-align:middle;margin-right:3px;"></span>已觸發（較遠）</span>
-    <span><span class="pblock pb-empty" style="display:inline-block;vertical-align:middle;margin-right:3px;"></span>未觸發</span>
-    <span><span class="pblock pb-done" style="display:inline-block;vertical-align:middle;margin-right:3px;"></span>已達門檻</span>
+    <span><span class="pblock pb-done" style="display:inline-block;vertical-align:middle;margin-right:3px;"></span>該日觸發注意標準</span>
+    <span><span class="pblock pb-empty" style="display:inline-block;vertical-align:middle;margin-right:3px;border:1px solid #ccc;"></span>該日未觸發</span>
   </div>
 
   <!-- ========== 門檻說明 ========== -->
@@ -3943,20 +3956,20 @@ footer a { color: var(--teal); text-decoration: none; }
   </div>
   <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px;">
     <div class="cond-card">
-      <span class="cond-name" style="color:#ED4B9E;">3①</span>
+      <span class="cond-name">3日</span>
       <span class="cond-desc">連續3個營業日經<strong>第1款</strong>公布注意交易資訊</span>
     </div>
     <div class="cond-card">
-      <span class="cond-name" style="color:#f39c12;">5日</span>
-      <span class="cond-desc">連續5個營業日經第1~8款公布注意交易資訊</span>
+      <span class="cond-name">5日</span>
+      <span class="cond-desc">5個營業日內達注意標準3次（任款）</span>
     </div>
     <div class="cond-card">
-      <span class="cond-name" style="color:#1FC7D4;">6/10</span>
-      <span class="cond-desc">最近10個營業日內有6日經注意交易資訊</span>
+      <span class="cond-name">6日</span>
+      <span class="cond-desc">6個營業日內達注意4次（上市）/ 10日內5次（上櫃）</span>
     </div>
     <div class="cond-card">
-      <span class="cond-name" style="color:#1FC7D4;">12/30</span>
-      <span class="cond-desc">最近30個營業日內有12日經注意交易資訊</span>
+      <span class="cond-name">12日</span>
+      <span class="cond-desc">12個營業日內達注意8次（上市）/ 30日內12次（上櫃）</span>
     </div>
   </div>
 
