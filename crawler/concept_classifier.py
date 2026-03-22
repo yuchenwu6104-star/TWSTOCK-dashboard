@@ -101,9 +101,68 @@ def classify_stocks(limit_up_stocks: list[dict], universe_map: dict = None) -> d
             themes.setdefault(group, {"stocks": [], "icon": icon})
             themes[group]["stocks"].append(stock)
 
+    # --- 合併碎片族群 ---
+    # 細分類 → 母族群
+    MERGE_MAP = {
+        "半導體-其他": "IC設計／AI邊緣運算",
+        "NB/PC品牌": "電腦及週邊",
+        "IPC工業電腦": "電腦及週邊",
+        "ODM/代工": "電腦及週邊",
+        "EMS/代工": "電腦及週邊",
+        "測試/量測": "半導體檢測／封測",
+        "驅動IC": "IC設計／AI邊緣運算",
+        "功率半導體": "IC設計／AI邊緣運算",
+        "矽智財": "IC設計／AI邊緣運算",
+        "CIS/感測": "IC設計／AI邊緣運算",
+        "記憶體模組": "DRAM／記憶體",
+        "Flash/儲存IC": "DRAM／記憶體",
+        "電源供應器": "電子零組件",
+        "散熱模組": "AI伺服器／零組件",
+        "顯示技術": "面板",
+        "光學鏡頭": "光電",
+        "衛星/天線": "網通",
+        "電信服務": "網通",
+        "製藥": "生技醫材",
+        "新藥研發": "生技醫材",
+        "醫材": "生技醫材",
+        "生技": "生技醫材",
+        "通路/服務": "生技醫材",
+        "租賃": "金融保險",
+        "保全": "其他",
+    }
+
+    merged = {}
+    for name, info in themes.items():
+        target = MERGE_MAP.get(name, name)
+        if target not in merged:
+            # 用目標族群的 icon，如果目標已在 themes 裡就用它的
+            if target in themes:
+                merged[target] = {"stocks": list(themes[target]["stocks"]), "icon": themes[target]["icon"]}
+            else:
+                icon = SECTOR_ICON_MAP.get(target, info["icon"])
+                merged[target] = {"stocks": [], "icon": icon}
+        if name != target:
+            merged[target]["stocks"].extend(info["stocks"])
+
+    # 確保沒被合併的也進來
+    for name, info in themes.items():
+        if name not in merged and name not in MERGE_MAP:
+            merged[name] = info
+
+    # 少於 2 支的合進「個股表現亮點」
+    final = {}
+    singles = {"stocks": [], "icon": "💼"}
+    for name, info in merged.items():
+        if len(info["stocks"]) >= 2:
+            final[name] = info
+        else:
+            singles["stocks"].extend(info["stocks"])
+
+    if singles["stocks"]:
+        final["個股表現亮點"] = singles
+
     # 按族群股數降序排
-    sorted_themes = dict(sorted(themes.items(), key=lambda x: len(x[1]["stocks"]), reverse=True))
-    # 回傳格式: {name: {"stocks": [...], "icon": "..."}}
+    sorted_themes = dict(sorted(final.items(), key=lambda x: len(x[1]["stocks"]), reverse=True))
     return sorted_themes
 
 

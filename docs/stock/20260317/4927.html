@@ -153,6 +153,48 @@ tr:hover { background: var(--card-hover); }
 footer { text-align: center; padding: 32px 0 24px; color: var(--disabled); font-size: 12px; border-top: 1px solid var(--border); margin-top: 32px; background: rgba(255,255,255,0.6); }
 footer a { color: var(--teal); text-decoration: none; }
 
+/* Autocomplete search dropdown */
+.search-wrap { position: relative; display: flex; align-items: center; }
+#search-dropdown {
+  display: none; position: fixed; top: 42px;
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+  max-height: 280px; overflow-y: auto; min-width: 180px;
+  box-shadow: 0 4px 20px rgba(40,13,95,0.15); z-index: 10001;
+}
+#search-dropdown .sd-item {
+  padding: 7px 12px; font-size: 12px; cursor: pointer;
+  border-bottom: 1px solid var(--border); display: flex; gap: 8px; align-items: center;
+}
+#search-dropdown .sd-item:last-child { border-bottom: none; }
+#search-dropdown .sd-item:hover { background: var(--card-hover); }
+#search-dropdown .sd-name { flex: 1; }
+#search-dropdown .sd-code { color: var(--muted); font-size: 11px; white-space: nowrap; }
+/* Back to top */
+#back-to-top {
+  position: fixed; bottom: 24px; right: 20px;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--teal); color: #fff; border: none;
+  font-size: 20px; line-height: 1; cursor: pointer; z-index: 9999;
+  display: none; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(31,199,212,0.4); transition: opacity 0.3s, transform 0.2s;
+}
+#back-to-top:hover { transform: translateY(-2px); }
+/* Concept collapse */
+.concept-section.collapsed .concept-reason,
+.concept-section.collapsed .stock-grid { display: none; }
+.concept-title { cursor: pointer; user-select: none; }
+.concept-title .chevron {
+  transition: transform 0.2s; font-size: 11px; color: var(--muted);
+  margin-left: 4px; display: inline-block; line-height: 1;
+}
+.concept-section.collapsed .concept-title .chevron { transform: rotate(-90deg); }
+.section-title-wrap { display: flex; align-items: center; justify-content: space-between; margin: 16px 0 10px; }
+.section-title-wrap .section-title { margin: 0; }
+.collapse-all-btn {
+  background: var(--card); border: 1px solid var(--border); color: var(--muted);
+  padding: 4px 10px; border-radius: 16px; cursor: pointer; font-size: 11px; transition: all 0.2s;
+}
+.collapse-all-btn:hover { background: var(--card-hover); color: var(--text); }
 @media (min-width: 1025px) {
   .container { padding: 0 24px; }
   header h1 { font-size: 28px; }
@@ -187,7 +229,10 @@ footer a { color: var(--teal); text-decoration: none; }
   <a href="../../nextday-20260317.html" class="pill ">隔日表現</a>
   <a href="../../disposal-20260317.html" class="pill ">處置標準</a>
   <a href="../../stats.html" class="pill ">統計分析</a>
-  <input id="stock-search" type="text" inputmode="decimal" placeholder="🔍股號" />
+  <div class="search-wrap">
+    <input id="stock-search" type="text" inputmode="decimal" placeholder="🔍股號" />
+    <div id="search-dropdown"></div>
+  </div>
 </nav>
 
 <div class="container">
@@ -210,7 +255,7 @@ footer a { color: var(--teal); text-decoration: none; }
     <div style="margin-top:10px;padding-top:10px;border-top:1px solid #E7E3EB;">
       <span style="color:#1FC7D4;font-size:13px;font-weight:600;">PCB</span>
       
-      <span style="color:#7A6EAA;font-size:12px;margin-left:8px;">泰鼎-KY主要生產PCB，受惠於客戶訂單增加及泰國產能逐步開出，營運展望樂觀，加上股價位階偏低，吸引市場資金追捧，股價帶量攻上漲停。</span>
+      <span style="color:#7A6EAA;font-size:12px;margin-left:8px;">泰鼎-KY為泰國最大PCB廠，主要產品包括汽車板、伺服器板及網通板，受惠於AI伺服器需求爆發，雲端伺服器用板訂單大幅增加，產能利用率提升，營收動能強勁。</span>
       
     </div>
     
@@ -299,11 +344,26 @@ footer a { color: var(--teal); text-decoration: none; }
 
 
 
+<button id="back-to-top" title="回到頂部">↑</button>
 <script>
-// 搜尋股號
+// 搜尋自動補全
 (function(){
   const si = document.getElementById('stock-search');
-  if (!si) return;
+  const dd = document.getElementById('search-dropdown');
+  if (!si || !dd) return;
+  function buildStockList() {
+    const stocks = [];
+    document.querySelectorAll('.stock-card[data-code]').forEach(card => {
+      const code = card.dataset.code;
+      const nameEl = card.querySelector('.stock-name');
+      const name = nameEl ? nameEl.textContent.trim() : '';
+      const link = card.querySelector('a');
+      const href = link ? link.getAttribute('href') : null;
+      if (code) stocks.push({ code, name, href });
+    });
+    return stocks;
+  }
+  let stocks = buildStockList();
   const missEl = document.createElement('div');
   Object.assign(missEl.style, {
     position:'fixed', top:'42px', right:'8px', background:'#ED4B9E', color:'#fff',
@@ -312,32 +372,72 @@ footer a { color: var(--teal); text-decoration: none; }
   });
   missEl.textContent = '未在今日漲停';
   document.body.appendChild(missEl);
-  si.addEventListener('click', () => { si.value = ''; si.style.borderColor = '#E7E3EB'; });
-  const doSearch = () => {
-    const code = si.value.trim();
-    if (code.length < 4) return;
+  function posDropdown() {
+    const rect = si.getBoundingClientRect();
+    dd.style.left = rect.left + 'px';
+    dd.style.top = (rect.bottom + 4) + 'px';
+    dd.style.minWidth = Math.max(rect.width, 180) + 'px';
+  }
+  function showDropdown(matches) {
+    if (!matches.length) { dd.style.display = 'none'; return; }
+    dd.innerHTML = '';
+    matches.slice(0, 10).forEach(s => {
+      const item = document.createElement('div');
+      item.className = 'sd-item';
+      item.innerHTML = '<span class="sd-name">' + s.name + '</span><span class="sd-code">' + s.code + '</span>';
+      item.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        dd.style.display = 'none';
+        si.value = '';
+        if (s.href) { window.location.href = s.href; }
+        else { doHighlight(s.code); }
+      });
+      dd.appendChild(item);
+    });
+    posDropdown();
+    dd.style.display = 'block';
+  }
+  function doHighlight(code) {
     const card = document.querySelector('.stock-card[data-code="' + code + '"]');
     document.querySelectorAll('.stock-card.search-hit').forEach(c => { c.style.outline = ''; c.classList.remove('search-hit'); });
     if (card) {
-      si.style.borderColor = '#E7E3EB';
-      missEl.style.opacity = '0';
+      const section = card.closest('.concept-section');
+      if (section && section.classList.contains('collapsed')) section.classList.remove('collapsed');
+      si.style.borderColor = '#E7E3EB'; missEl.style.opacity = '0';
       card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      card.style.outline = '2px solid #1FC7D4';
-      card.classList.add('search-hit');
+      card.style.outline = '2px solid #1FC7D4'; card.classList.add('search-hit');
     } else {
-      si.style.borderColor = '#ED4B9E';
-      missEl.style.opacity = '1';
+      si.style.borderColor = '#ED4B9E'; missEl.style.opacity = '1';
       setTimeout(() => { missEl.style.opacity = '0'; }, 2000);
     }
-  };
-  si.addEventListener('input', doSearch);
-  si.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+  }
+  si.addEventListener('input', () => {
+    const val = si.value.trim();
+    if (!val) { dd.style.display = 'none'; return; }
+    if (!stocks.length) stocks = buildStockList();
+    const filtered = stocks.filter(s => s.code.startsWith(val) || s.name.includes(val));
+    showDropdown(filtered);
+  });
+  si.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { dd.style.display = 'none'; const val = si.value.trim(); if (val.length >= 4) doHighlight(val); }
+    if (e.key === 'Escape') { dd.style.display = 'none'; }
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-wrap')) dd.style.display = 'none';
+  });
 })();
 // 股票卡片 hover 動畫
 document.querySelectorAll('.stock-card a').forEach(card => {
   card.addEventListener('mouseenter', function() { this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 16px rgba(31,199,212,0.25)'; });
   card.addEventListener('mouseleave', function() { this.style.transform='translateY(0)'; this.style.boxShadow='none'; });
 });
+// 回到頂部
+(function(){
+  const btn = document.getElementById('back-to-top');
+  if (!btn) return;
+  window.addEventListener('scroll', () => { btn.style.display = window.scrollY > 300 ? 'flex' : 'none'; });
+  btn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+})();
 </script>
 </body>
 </html>

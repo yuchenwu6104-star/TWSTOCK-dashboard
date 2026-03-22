@@ -35,23 +35,33 @@ def _safe_int(val, default=0):
 
 
 def _calc_limit_up(prev_close: float) -> float:
-    """計算漲停價（10% 漲幅 + tick rule 四捨五入）。"""
+    """計算漲停價（10% 漲幅 + tick rule 無條件捨去）。
+
+    台股漲停價 = 前收 × 1.10，無條件捨去到該價位級距的 tick。
+    價位級距（TWSE/TPEx 通用）：
+      < 10    → tick 0.01
+      < 50    → tick 0.05
+      < 100   → tick 0.10
+      < 500   → tick 0.50
+      < 1000  → tick 1.00
+      >= 1000 → tick 5.00
+    """
+    import math
     if prev_close <= 0:
         return 0
     raw = prev_close * 1.10
-    # 簡化：直接用 10% 漲幅取到分
-    if prev_close < 10:
-        return round(raw, 2)
-    elif prev_close < 50:
-        return round(raw * 20) / 20  # tick 0.05
-    elif prev_close < 100:
-        return round(raw * 10) / 10  # tick 0.1
-    elif prev_close < 500:
-        return round(raw * 2) / 2    # tick 0.5
-    elif prev_close < 1000:
-        return round(raw)            # tick 1
+    if raw < 10:
+        return math.floor(raw * 100) / 100
+    elif raw < 50:
+        return math.floor(raw * 20) / 20
+    elif raw < 100:
+        return math.floor(raw * 10) / 10
+    elif raw < 500:
+        return math.floor(raw * 2) / 2
+    elif raw < 1000:
+        return math.floor(raw)
     else:
-        return round(raw / 5) * 5    # tick 5
+        return math.floor(raw / 5) * 5
 
 
 def fetch_twse() -> list[dict]:
