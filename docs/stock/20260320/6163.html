@@ -531,10 +531,18 @@ footer a { color: var(--teal); text-decoration: none; }
     </div>
   </div>
 
-  <!-- 主力買賣長條圖 -->
-  <div style="background:#1a1a2e;border:1px solid #2d2b5e;border-radius:16px;padding:16px;margin-bottom:20px;position:relative;">
-    <div style="font-size:12px;color:#B8ADD2;margin-bottom:8px;text-align:center;">← 買進（張）｜賣出（張）→</div>
-    <canvas id="barChart"></canvas>
+  <!-- 主力買賣排行圖 -->
+  <div style="background:#1a1a2e;border:1px solid #2d2b5e;border-radius:16px;padding:16px;margin-bottom:20px;">
+    <div style="display:flex;gap:8px;">
+      <div style="flex:1;min-width:0;">
+        <div style="text-align:center;font-size:12px;font-weight:600;color:#ED4B9E;margin-bottom:6px;">← 買超排行（張）</div>
+        <canvas id="buyChart"></canvas>
+      </div>
+      <div style="flex:1;min-width:0;">
+        <div style="text-align:center;font-size:12px;font-weight:600;color:#31D0AA;margin-bottom:6px;">賣超排行（張）→</div>
+        <canvas id="sellChart"></canvas>
+      </div>
+    </div>
   </div>
   
 
@@ -581,119 +589,133 @@ footer a { color: var(--teal); text-decoration: none; }
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script>
 (function() {
-  const ctx = document.getElementById('barChart').getContext('2d');
-  const chartData = {"labels": ["元大-竹科", "永豐金證券", "元大證券", "摩根大通", "國泰證券", "新加坡商瑞銀", "凱基-台北", "國票-安和", "國票-敦北法人", "凱基-東港", "合庫-自強", "富邦-台北", "富邦-敦南", "陽信", "合庫-高雄", "元大-仁愛", "台新-建北", "兆豐-埔墘", "統一", "美商高盛"], "buy_values": [399, 491, 883, 373, 27, 352, 1012, 179, 223, 22, 4, 189, 117, 0, 126, 105, 114, 110, 148, 406], "sell_values": [14, 147, 669, 175, 220, 180, 1163, 29, 74, 157, 124, 73, 7, 101, 26, 14, 24, 27, 67, 331], "net_values": [385, 344, 214, 198, -193, 172, -151, 150, 149, -135, -120, 116, 110, -101, 100, 91, 90, 83, 81, 75], "sides": ["buy", "buy", "buy", "buy", "sell", "buy", "sell", "buy", "buy", "sell", "sell", "buy", "buy", "sell", "buy", "buy", "buy", "buy", "buy", "buy"]};
+  const data = {"buy_rank": [{"name": "元大-竹科", "net": 385, "buy": 399, "sell": 14}, {"name": "永豐金證券", "net": 344, "buy": 491, "sell": 147}, {"name": "元大證券", "net": 214, "buy": 883, "sell": 669}, {"name": "摩根大通", "net": 198, "buy": 373, "sell": 175}, {"name": "新加坡商瑞銀", "net": 172, "buy": 352, "sell": 180}, {"name": "國票-安和", "net": 150, "buy": 179, "sell": 29}, {"name": "國票-敦北法人", "net": 149, "buy": 223, "sell": 74}, {"name": "富邦-台北", "net": 116, "buy": 189, "sell": 73}, {"name": "富邦-敦南", "net": 110, "buy": 117, "sell": 7}, {"name": "合庫-高雄", "net": 100, "buy": 126, "sell": 26}, {"name": "元大-仁愛", "net": 91, "buy": 105, "sell": 14}, {"name": "台新-建北", "net": 90, "buy": 114, "sell": 24}, {"name": "兆豐-埔墘", "net": 83, "buy": 110, "sell": 27}, {"name": "統一", "net": 81, "buy": 148, "sell": 67}, {"name": "美商高盛", "net": 75, "buy": 406, "sell": 331}], "sell_rank": [{"name": "國泰證券", "net": 193, "buy": 27, "sell": 220}, {"name": "凱基-台北", "net": 151, "buy": 1012, "sell": 1163}, {"name": "凱基-東港", "net": 135, "buy": 22, "sell": 157}, {"name": "合庫-自強", "net": 120, "buy": 4, "sell": 124}, {"name": "陽信", "net": 101, "buy": 0, "sell": 101}, {"name": "元富-世貿", "net": 71, "buy": 3, "sell": 74}, {"name": "元大-內湖民權", "net": 67, "buy": 9, "sell": 76}, {"name": "(牛牛牛)亞-網路", "net": 67, "buy": 3, "sell": 70}, {"name": "元富-大裕", "net": 59, "buy": 26, "sell": 85}, {"name": "國泰-台中", "net": 58, "buy": 38, "sell": 96}, {"name": "康和-高雄", "net": 55, "buy": 3, "sell": 58}, {"name": "永豐金-豐原", "net": 53, "buy": 24, "sell": 77}, {"name": "大昌", "net": 52, "buy": 10, "sell": 62}, {"name": "新光", "net": 51, "buy": 92, "sell": 143}, {"name": "國票-台中", "net": 50, "buy": 33, "sell": 83}]};
+  const buyRank = data.buy_rank;
+  const sellRank = data.sell_rank;
 
-  const labels = chartData.labels;
-  const buyVals = chartData.buy_values.map(v => -v); // 負值往左
-  const sellVals = chartData.sell_values;
-  const netVals = chartData.net_values;
-  const sides = chartData.sides;
-  let hoveredIdx = -1;
+  // 所有券商名（for cross-highlight）
+  const allNames = new Set([...buyRank.map(d=>d.name), ...sellRank.map(d=>d.name)]);
+  let hoveredName = null;
 
-  // 動態高度
-  const barH = Math.max(labels.length * 28, 300);
-  document.getElementById('barChart').parentElement.style.height = barH + 'px';
+  // 共用最大值讓兩邊比例一致
+  const maxNet = Math.max(
+    ...buyRank.map(d=>d.net), ...sellRank.map(d=>d.net), 1
+  );
 
-  const chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: '買進',
-          data: buyVals,
-          backgroundColor: buyVals.map((_, i) =>
-            hoveredIdx >= 0 && hoveredIdx !== i && labels[hoveredIdx] !== labels[i]
-              ? 'rgba(237,75,158,0.15)' : 'rgba(237,75,158,0.7)'
-          ),
-          borderColor: 'rgba(237,75,158,0.9)',
-          borderWidth: 1,
-          borderRadius: 4,
-          barPercentage: 0.7,
+  function mkColors(rank, baseColor, dimColor) {
+    return rank.map(d =>
+      hoveredName && d.name !== hoveredName ? dimColor : baseColor
+    );
+  }
+
+  function mkTooltip(color) {
+    return {
+      backgroundColor:'rgba(8,6,11,0.95)', titleColor:'#F4EEFF', bodyColor:'#B8ADD2',
+      borderColor:'#1FC7D4', borderWidth:1, cornerRadius:10, padding:10,
+      titleFont:{size:13,weight:'bold'}, bodyFont:{size:11}, displayColors:false,
+      callbacks: {
+        title: items => {
+          const d = items[0].dataIndex;
+          const rank = color === 'buy' ? buyRank : sellRank;
+          return (color === 'buy' ? '🔴 ' : '🟢 ') + rank[d].name;
         },
-        {
-          label: '賣出',
-          data: sellVals,
-          backgroundColor: sellVals.map((_, i) =>
-            hoveredIdx >= 0 && hoveredIdx !== i && labels[hoveredIdx] !== labels[i]
-              ? 'rgba(49,208,170,0.15)' : 'rgba(49,208,170,0.7)'
-          ),
-          borderColor: 'rgba(49,208,170,0.9)',
-          borderWidth: 1,
-          borderRadius: 4,
-          barPercentage: 0.7,
-        }
-      ]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: false,
-      plugins: {
-        legend: {
-          labels: { color: '#B8ADD2', font: { size: 11 }, usePointStyle: true, pointStyle: 'rect' }
-        },
-        tooltip: {
-          backgroundColor: 'rgba(8,6,11,0.95)', titleColor: '#F4EEFF', bodyColor: '#B8ADD2',
-          borderColor: '#1FC7D4', borderWidth: 1, cornerRadius: 10, padding: 10,
-          titleFont: { size: 13, weight: 'bold' }, bodyFont: { size: 11 }, displayColors: false,
-          callbacks: {
-            title: items => {
-              const i = items[0].dataIndex;
-              const net = netVals[i];
-              return (net >= 0 ? '🔴 ' : '🟢 ') + labels[i];
-            },
-            label: () => null,
-            afterBody: items => {
-              const i = items[0].dataIndex;
-              const net = netVals[i];
-              return [
-                '買進：' + Math.abs(buyVals[i]).toLocaleString() + ' 張',
-                '賣出：' + sellVals[i].toLocaleString() + ' 張',
-                '淨' + (net >= 0 ? '買超' : '賣超') + '：' + (net >= 0 ? '+' : '') + net.toLocaleString() + ' 張',
-              ];
-            }
-          }
-        }
-      },
-      scales: {
-        x: {
-          grid: { color: 'rgba(56,50,65,0.4)', lineWidth: 0.5 },
-          border: { color: '#383241' },
-          ticks: { color: '#B8ADD2', font: { size: 10 }, callback: v => Math.abs(Math.round(v)).toLocaleString() },
-          title: { display: false },
-        },
-        y: {
-          grid: { display: false },
-          border: { color: '#383241' },
-          ticks: {
-            color: (c) => {
-              const i = c.index;
-              if (i === undefined) return '#B8ADD2';
-              return netVals[i] >= 0 ? '#ED4B9E' : '#31D0AA';
-            },
-            font: { size: 11, weight: 'bold' },
-          },
-        }
-      },
-      onHover: (event, elements) => {
-        const newIdx = elements.length > 0 ? elements[0].index : -1;
-        if (newIdx !== hoveredIdx) {
-          hoveredIdx = newIdx;
-          // 同名券商同時高亮
-          const hName = newIdx >= 0 ? labels[newIdx] : null;
-          chart.data.datasets[0].backgroundColor = buyVals.map((_, i) =>
-            hName && labels[i] !== hName ? 'rgba(237,75,158,0.12)' : 'rgba(237,75,158,0.7)'
-          );
-          chart.data.datasets[1].backgroundColor = sellVals.map((_, i) =>
-            hName && labels[i] !== hName ? 'rgba(49,208,170,0.12)' : 'rgba(49,208,170,0.7)'
-          );
-          chart.update('none');
+        label: () => null,
+        afterBody: items => {
+          const d = items[0].dataIndex;
+          const rank = color === 'buy' ? buyRank : sellRank;
+          const b = rank[d];
+          return [
+            '買進：' + b.buy.toLocaleString() + ' 張',
+            '賣出：' + b.sell.toLocaleString() + ' 張',
+            '淨' + (color==='buy'?'買超':'賣超') + '：' + b.net.toLocaleString() + ' 張',
+          ];
         }
       }
+    };
+  }
+
+  // 買超圖（bar 往左 = 用負值 + 反轉 X 軸）
+  const buyChart = new Chart(document.getElementById('buyChart'), {
+    type: 'bar',
+    data: {
+      labels: buyRank.map(d => d.name),
+      datasets: [{
+        data: buyRank.map(d => d.net),
+        backgroundColor: mkColors(buyRank, 'rgba(237,75,158,0.7)', 'rgba(237,75,158,0.12)'),
+        borderColor: 'rgba(237,75,158,0.9)', borderWidth: 1, borderRadius: 4, barPercentage: 0.75,
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false }, tooltip: mkTooltip('buy') },
+      scales: {
+        x: {
+          reverse: true, max: Math.ceil(maxNet * 1.1),
+          grid: { color: 'rgba(56,50,65,0.3)' }, border: { color: '#383241' },
+          ticks: { color: '#B8ADD2', font: { size: 9 }, callback: v => v.toLocaleString() },
+        },
+        y: {
+          position: 'right',
+          grid: { display: false }, border: { display: false },
+          ticks: { color: '#ED4B9E', font: { size: 10, weight: '600' }, mirror: false },
+        }
+      },
+      onHover: (evt, els) => {
+        const name = els.length ? buyRank[els[0].index].name : null;
+        if (name !== hoveredName) { hoveredName = name; updateBoth(); }
+      }
     }
+  });
+
+  // 賣超圖
+  const sellChart = new Chart(document.getElementById('sellChart'), {
+    type: 'bar',
+    data: {
+      labels: sellRank.map(d => d.name),
+      datasets: [{
+        data: sellRank.map(d => d.net),
+        backgroundColor: mkColors(sellRank, 'rgba(49,208,170,0.7)', 'rgba(49,208,170,0.12)'),
+        borderColor: 'rgba(49,208,170,0.9)', borderWidth: 1, borderRadius: 4, barPercentage: 0.75,
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false }, tooltip: mkTooltip('sell') },
+      scales: {
+        x: {
+          max: Math.ceil(maxNet * 1.1),
+          grid: { color: 'rgba(56,50,65,0.3)' }, border: { color: '#383241' },
+          ticks: { color: '#B8ADD2', font: { size: 9 }, callback: v => v.toLocaleString() },
+        },
+        y: {
+          grid: { display: false }, border: { display: false },
+          ticks: { color: '#31D0AA', font: { size: 10, weight: '600' } },
+        }
+      },
+      onHover: (evt, els) => {
+        const name = els.length ? sellRank[els[0].index].name : null;
+        if (name !== hoveredName) { hoveredName = name; updateBoth(); }
+      }
+    }
+  });
+
+  // 動態高度
+  const h = Math.max(buyRank.length, sellRank.length) * 26 + 40;
+  document.getElementById('buyChart').parentElement.style.height = h + 'px';
+  document.getElementById('sellChart').parentElement.style.height = h + 'px';
+
+  function updateBoth() {
+    buyChart.data.datasets[0].backgroundColor = mkColors(buyRank, 'rgba(237,75,158,0.7)', 'rgba(237,75,158,0.12)');
+    sellChart.data.datasets[0].backgroundColor = mkColors(sellRank, 'rgba(49,208,170,0.7)', 'rgba(49,208,170,0.12)');
+    buyChart.update('none');
+    sellChart.update('none');
+  }
+
+  // 滑鼠離開時重置
+  ['buyChart','sellChart'].forEach(id => {
+    document.getElementById(id).addEventListener('mouseleave', () => {
+      if (hoveredName) { hoveredName = null; updateBoth(); }
+    });
   });
 })();
 </script>

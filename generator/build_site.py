@@ -72,50 +72,28 @@ def _get_margin(stock_code: str, trade_date) -> dict | None:
 
 
 def _build_bar_chart_data(buy_top: list, sell_top: list) -> dict:
-    """Build butterfly bar chart data: 合併買超+賣超券商，左買右賣。
+    """Build dual-ranking bar chart: 左=買超排行, 右=賣超排行。
 
     回傳 {
-        "labels": ["券商名", ...],  # 按 |淨量| 排序
-        "buy_values": [買進張數, ...],
-        "sell_values": [賣出張數, ...],
-        "net_values": [淨買賣超, ...],  # 正=買超, 負=賣超
-        "sides": ["buy"|"sell", ...],  # 主要在哪邊
+        "buy_rank": [{"name", "net", "buy", "sell"}, ...],  # 買超前15
+        "sell_rank": [{"name", "net", "buy", "sell"}, ...],  # 賣超前15
     }
     """
-    # 合併：同一家可能在買超和賣超都出現
-    merged = {}
-    for b in buy_top:
-        merged[b["name"]] = {
-            "buy": int(b["buy_lots"]), "sell": int(b["sell_lots"]),
-            "net": int(b["net_lots"]), "side": "buy",
-        }
-    for b in sell_top:
-        name = b["name"]
-        if name in merged:
-            # 同時在買超和賣超（用淨量判斷方向）
-            merged[name]["both"] = True
-        else:
-            merged[name] = {
-                "buy": int(b["buy_lots"]), "sell": int(b["sell_lots"]),
-                "net": -int(b["net_lots"]), "side": "sell",
-            }
+    buy_rank = [{
+        "name": b["name"],
+        "net": int(b["net_lots"]),
+        "buy": int(b["buy_lots"]),
+        "sell": int(b["sell_lots"]),
+    } for b in buy_top]
 
-    # 按 |淨量| 排序，取前 20
-    sorted_items = sorted(merged.items(), key=lambda x: abs(x[1]["net"]), reverse=True)[:20]
+    sell_rank = [{
+        "name": b["name"],
+        "net": int(b["net_lots"]),
+        "buy": int(b["buy_lots"]),
+        "sell": int(b["sell_lots"]),
+    } for b in sell_top]
 
-    labels = [item[0] for item in sorted_items]
-    buy_values = [item[1]["buy"] for item in sorted_items]
-    sell_values = [item[1]["sell"] for item in sorted_items]
-    net_values = [item[1]["net"] for item in sorted_items]
-    sides = [item[1]["side"] for item in sorted_items]
-
-    return {
-        "labels": labels,
-        "buy_values": buy_values,
-        "sell_values": sell_values,
-        "net_values": net_values,
-        "sides": sides,
-    }
+    return {"buy_rank": buy_rank, "sell_rank": sell_rank}
 
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "..", "docs")
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "templates")
