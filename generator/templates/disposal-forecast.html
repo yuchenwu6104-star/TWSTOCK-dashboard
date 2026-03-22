@@ -316,14 +316,28 @@
 {% block scripts %}
 <script>
 (function(){
-  var dt = '{{ date_compact }}';
+  // 功能 A — pblock tooltips (fallback, Jinja2 已在 title 屬性設定)
+  document.querySelectorAll('.pblocks').forEach(function(c){
+    c.querySelectorAll('.pblock').forEach(function(b,i){
+      if(!b.title){
+        var hit = !b.classList.contains('pb-empty');
+        b.title = '第'+(i+1)+'個交易日 — '+(hit?'已觸發':'未觸發');
+      }
+    });
+  });
+
+  // 功能 B — row click → stock page
+  var dt = '{{ stock_date_compact | default(date_compact) }}';
   document.querySelectorAll('.disposal-table tbody tr').forEach(function(tr){
     var code = tr.dataset.code || '';
     if(!code) return;
+    tr.style.cursor = 'pointer';
     tr.addEventListener('click', function(){
       window.location.href = 'stock/'+dt+'/'+code+'.html';
     });
   });
+
+  // 功能 C — date navigation 已由 Jinja2 靜態產生，無需 JS
 })();
 </script>
 {% endblock %}

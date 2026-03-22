@@ -4149,7 +4149,7 @@ document.querySelectorAll('.stock-card a').forEach(card => {
 </script>
 <script>
 (function(){
-  // 1. Pblock tooltips
+  // 功能 A — pblock tooltips
   document.querySelectorAll('.pblocks').forEach(function(c){
     c.querySelectorAll('.pblock').forEach(function(b,i){
       var hit = !b.classList.contains('pb-empty');
@@ -4157,7 +4157,7 @@ document.querySelectorAll('.stock-card a').forEach(card => {
     });
   });
 
-  // 2. Row click → stock page
+  // 功能 B — row click → stock page (股票個股目錄日期: 20260320)
   var dt = '20260320';
   document.querySelectorAll('.disposal-table tbody tr').forEach(function(tr){
     var tds = tr.querySelectorAll('td');
@@ -4170,14 +4170,15 @@ document.querySelectorAll('.stock-card a').forEach(card => {
     });
   });
 
-  // 3. Date navigation — insert into header
-  var hdr = document.querySelector('header');
-  if(hdr){
+  // 功能 C — date navigation (insert after subtitle)
+  var subtitle = document.querySelector('header .subtitle');
+  if(subtitle && !subtitle.nextElementSibling){
     var nav = document.createElement('div');
     nav.className = 'date-nav';
-    nav.style.marginTop = '8px';
-    nav.innerHTML = '<button class=\"nav-btn\" onclick=\"location.href='disposal-20260319.html'\">◄ 前一天</button><span class=\"date\">2026-03-20</span><button class=\"nav-btn\" onclick=\"location.href='disposal-20260321.html'\">後一天 ►</button>';
-    hdr.appendChild(nav);
+    nav.innerHTML = '<button class="nav-btn" onclick="location.href=\'disposal-20260321.html\'">◄ 前一天</button>'
+      + '<span class="date">2026-03-23</span>'
+      + '<button class="nav-btn" disabled>後一天 ►</button>';
+    subtitle.insertAdjacentElement('afterend', nav);
   }
 })();
 </script>
