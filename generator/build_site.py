@@ -409,10 +409,102 @@ def build(trade_date: datetime.date = None):
         f.write(html)
     print(f"✓ disposal-forecast.html ({disposal_stats['almost']} 差1次, {disposal_stats['in_disposal']} 處置中)")
 
+    # ---------- 5. 歷史日期頁面 ----------
+    build_history_pages(trade_date, env, avail_dates)
+
     # ---------- 清理舊頁 ----------
     cleanup_old_pages(trade_date)
 
     print(f"✅ 網站生成完成 → {OUTPUT_DIR}")
+
+
+def build_history_pages(current_date: datetime.date, env, avail_dates: list[str]):
+    """生成歷史日期的 index 頁面（index-YYYYMMDD.html）。"""
+    con = duckdb.connect(DB_PATH, read_only=True)
+    tpl_index = env.get_template("index.html")
+    current_compact = current_date.strftime("%Y%m%d")
+
+    count = 0
+    for date_compact in avail_dates:
+        if date_compact == current_compact:
+            continue  # 最新日用 index.html，不需要歷史頁
+
+        d = datetime.datetime.strptime(date_compact, "%Y%m%d").date()
+
+        # 讀族群
+        themes_raw = con.execute("""
+            SELECT theme_name, theme_summary, key_driver, stock_list, stock_count
+            FROM daily_theme WHERE date = ? ORDER BY stock_count DESC
+        """, [d]).fetchall()
+        if not themes_raw:
+            continue
+
+        # 讀漲停股
+        prices = con.execute("""
+            SELECT stock_code, stock_name, close_price, change_pct, volume,
+                   trade_value, market, change_price
+            FROM daily_price WHERE date = ? AND is_limit_up = true
+        """, [d]).fetchall()
+        price_map = {}
+        for r in prices:
+            vol = int(r[4])
+            vol_lots = vol // 1000 if vol >= 1000 else vol
+            price_map[r[0]] = {
+                "code": r[0], "name": r[1], "close_price": float(r[2]),
+                "change_pct": f"{float(r[3]):.2f}", "volume": vol,
+                "trade_value": int(r[5]), "market": r[6],
+                "change": f"{float(r[7]):.2f}" if r[7] else "0",
+                "volume_str": f"{vol_lots:,}",
+                "reason": "",
+            }
+
+        # 讀 reason
+        try:
+            reasons = con.execute("SELECT stock_code, reason FROM stock_reason WHERE date = ?", [d]).fetchall()
+            for r in reasons:
+                if r[0] in price_map:
+                    price_map[r[0]]["reason"] = r[1]
+        except Exception:
+            pass
+
+        # 組裝 themes
+        themes = {}
+        total_limit_up = 0
+        for row in themes_raw:
+            theme_name, summary, driver, stock_codes, cnt = row
+            stocks = [price_map[c] for c in (stock_codes or []) if c in price_map]
+            for s in stocks:
+                s["price"] = s["close_price"]
+            themes[theme_name] = {
+                "summary": summary, "driver": driver,
+                "stocks": stocks, "icon": _get_theme_icon(theme_name),
+            }
+            total_limit_up += len(stocks)
+
+        # 日期導航
+        idx = avail_dates.index(date_compact) if date_compact in avail_dates else -1
+        prev_date = avail_dates[idx + 1] if idx < len(avail_dates) - 1 else None
+        next_date = avail_dates[idx - 1] if idx > 0 else None
+
+        html = tpl_index.render(
+            site_root="",
+            date=d.strftime("%Y/%m/%d"),
+            date_compact=date_compact,
+            limit_up_count=total_limit_up,
+            themes=themes,
+            prev_date=prev_date,
+            next_date=next_date,
+            available_dates=avail_dates,
+        )
+
+        filename = f"index-{date_compact}.html"
+        with open(os.path.join(OUTPUT_DIR, filename), "w", encoding="utf-8") as f:
+            f.write(html)
+        count += 1
+
+    con.close()
+    if count:
+        print(f"✓ 歷史頁: {count} 天")
 
 
 def cleanup_old_pages(current_date: datetime.date):
