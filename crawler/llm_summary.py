@@ -135,23 +135,38 @@ def generate_theme_summaries(themes: dict, trade_date: str) -> dict:
 
         stock_codes_str = ", ".join(f'"{s["stock_code"]}"' for s in stocks[:15])
 
+        reasons_template = ", ".join(
+            '"' + s["stock_code"] + '": "<此股漲停原因>"' for s in stocks[:15]
+        )
         prompt = (
             f"你是台股分析師。{trade_date}「{theme_name}」族群 {len(stocks)} 支漲停：\n"
             f"{stock_info}\n\n"
-            f"用繁體中文分析，只回 JSON（不要 markdown 或解釋）：\n"
-            f'{{"summary": "該族群漲停的驅動因子，80字內",'
-            f'"driver": "一句話關鍵驅動，20字內",'
-            f'"reasons": {{{stock_codes_str}各寫30字內該股漲停原因}}}}'
+            f"分析漲停原因，只回 JSON，不要 markdown：\n"
+            f'{{"summary": "<族群整體漲停原因>", '
+            f'"driver": "<關鍵驅動因子>", '
+            f'"reasons": {{{reasons_template}}}}}'
         )
 
         text = call_llm(prompt)
         parsed = _try_parse_json(text) if text else None
 
+        # 過濾模板文字殘留
+        _junk = ("80字", "30字", "20字", "<填入", "<此股", "<族群", "<關鍵", "填入>", "該族群", "該股漲停原因")
+
+        def _is_junk(s: str) -> bool:
+            return any(j in s for j in _junk) if s else True
+
         if parsed and isinstance(parsed, dict):
-            reasons = parsed.get("reasons", {})
+            summary = parsed.get("summary", "")
+            driver = parsed.get("driver", "")
+            reasons = {k: v for k, v in parsed.get("reasons", {}).items() if not _is_junk(v)}
+            if _is_junk(summary):
+                summary = f"{theme_name}族群今日有{len(stocks)}檔漲停"
+            if _is_junk(driver):
+                driver = ""
             results[theme_name] = {
-                "summary": parsed.get("summary", ""),
-                "driver": parsed.get("driver", ""),
+                "summary": summary,
+                "driver": driver,
                 "stock_reasons": reasons,
             }
         else:
