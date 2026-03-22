@@ -246,6 +246,7 @@ def build(trade_date: datetime.date = None):
             s["price"] = s["close_price"]
 
     html = tpl_index.render(
+            site_root="",
         date=trade_date.strftime("%Y/%m/%d"),
         date_compact=date_compact,
         limit_up_count=total_limit_up,
@@ -301,6 +302,7 @@ def build(trade_date: datetime.date = None):
 
         import json as _json
         html = tpl_stock.render(
+            site_root="../../",
             date=trade_date.strftime("%Y/%m/%d"), date_compact=date_compact,
             stock=stock_data,
             buy_top=buy_top, sell_top=sell_top, broker_count=broker_count,
@@ -337,6 +339,7 @@ def build(trade_date: datetime.date = None):
         for s in nextday_result["stocks"]:
             s["next_return"] = s.get("close_return", 0)
         html = tpl_nextday.render(
+            site_root="",
             date=trade_date.strftime("%Y/%m/%d"), date_compact=date_compact,
             limit_up_date=nextday_result["limit_up_date"],
             next_date=nextday_result["next_date"],
@@ -348,6 +351,7 @@ def build(trade_date: datetime.date = None):
         print(f"✓ nextday-performance.html ({nextday_result['stats']['total_limit_up']}檔 → {nextday_result['next_date']})")
     else:
         html = tpl_nextday.render(
+            site_root="",
             date=trade_date.strftime("%Y/%m/%d"), date_compact=date_compact,
             limit_up_date="", next_date="",
             stats={"open_return": 0, "open_positive_rate": 0, "avg_return": 0,
@@ -391,6 +395,7 @@ def build(trade_date: datetime.date = None):
     ]
 
     html = tpl_disposal.render(
+        site_root="",
         date=date_str, date_compact=date_compact,
         applicable_date=forecast.get("applicable_date", ""),
         stats=disposal_stats,
