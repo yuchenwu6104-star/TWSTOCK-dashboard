@@ -478,13 +478,13 @@ footer a { color: var(--teal); text-decoration: none; }
   </div>
 
   <!-- 主力買賣排行圖 -->
-  <div style="background:#1a1a2e;border:1px solid #2d2b5e;border-radius:16px;padding:16px;margin-bottom:20px;">
+  <div style="background:#1a1a2e;border:1px solid #2d2b5e;border-radius:16px;padding:16px;margin-bottom:20px;overflow:hidden;">
     <div style="display:flex;gap:8px;">
-      <div style="flex:1;min-width:0;">
+      <div style="flex:1;min-width:0;height:420px;">
         <div style="text-align:center;font-size:12px;font-weight:600;color:#ED4B9E;margin-bottom:6px;">← 買超排行（張）</div>
         <canvas id="buyChart"></canvas>
       </div>
-      <div style="flex:1;min-width:0;">
+      <div style="flex:1;min-width:0;height:420px;">
         <div style="text-align:center;font-size:12px;font-weight:600;color:#31D0AA;margin-bottom:6px;">賣超排行（張）→</div>
         <canvas id="sellChart"></canvas>
       </div>
@@ -644,11 +644,6 @@ footer a { color: var(--teal); text-decoration: none; }
       }
     }
   });
-
-  // 動態高度
-  const h = Math.max(buyRank.length, sellRank.length) * 26 + 40;
-  document.getElementById('buyChart').parentElement.style.height = h + 'px';
-  document.getElementById('sellChart').parentElement.style.height = h + 'px';
 
   function updateBoth() {
     buyChart.data.datasets[0].backgroundColor = mkColors(buyRank, 'rgba(237,75,158,0.7)', 'rgba(237,75,158,0.12)');
