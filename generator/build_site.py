@@ -11,7 +11,7 @@ from jinja2 import Environment, FileSystemLoader
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from db.init_db import DB_PATH
-from crawler.concept_classifier import AI_CONCEPT_OVERLAY, SECTOR_ICON_MAP
+from crawler.concept_classifier import THEME_ICON
 from crawler.disposal_forecast import compute_forecast
 from crawler.broker_data import get_top_brokers
 from crawler.nextday_performance import compute_nextday, compute_history
@@ -122,10 +122,7 @@ TRIGGER_CONDITIONS = [
 
 
 def _get_theme_icon(theme_name: str) -> str:
-    """查找族群 icon。"""
-    if theme_name in AI_CONCEPT_OVERLAY:
-        return AI_CONCEPT_OVERLAY[theme_name]["icon"]
-    return SECTOR_ICON_MAP.get(theme_name, "📊")
+    return THEME_ICON.get(theme_name, "📊")
 
 
 def _get_available_dates(con) -> list[str]:
