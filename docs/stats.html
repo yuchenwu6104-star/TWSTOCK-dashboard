@@ -3615,9 +3615,227 @@ footer a { color: var(--teal); text-decoration: none; }
     <span class="icon">🏆</span><span>個股績效</span>
     <span class="count">229 支</span>
   </div>
-  <div style="margin-bottom:8px;">
-    <input id="stats-search" type="text" inputmode="decimal" placeholder="🔍 搜尋股號"
-      style="padding:5px 10px;border-radius:16px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:13px;width:120px;outline:none;">
+  <div id="theme-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
+    <span class="theme-tag active" data-theme="all"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--teal);color:#fff;">全部</span>
+    
+    <span class="theme-tag" data-theme="LED"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">LED (21)</span>
+    
+    <span class="theme-tag" data-theme="化學"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">化學 (21)</span>
+    
+    <span class="theme-tag" data-theme="IC設計／AI邊緣運算"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">IC設計／AI邊緣運算 (19)</span>
+    
+    <span class="theme-tag" data-theme="AI伺服器／零組件"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">AI伺服器／零組件 (17)</span>
+    
+    <span class="theme-tag" data-theme="半導體設備／材料"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">半導體設備／材料 (14)</span>
+    
+    <span class="theme-tag" data-theme="電腦及週邊"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">電腦及週邊 (13)</span>
+    
+    <span class="theme-tag" data-theme="網通"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">網通 (13)</span>
+    
+    <span class="theme-tag" data-theme="電機機械"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">電機機械 (12)</span>
+    
+    <span class="theme-tag" data-theme="DRAM／記憶體"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">DRAM／記憶體 (12)</span>
+    
+    <span class="theme-tag" data-theme="PCB"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">PCB (12)</span>
+    
+    <span class="theme-tag" data-theme="光電"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">光電 (11)</span>
+    
+    <span class="theme-tag" data-theme="連接器"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">連接器 (10)</span>
+    
+    <span class="theme-tag" data-theme="衛星/天線"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">衛星/天線 (10)</span>
+    
+    <span class="theme-tag" data-theme="半導體檢測／封測"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">半導體檢測／封測 (8)</span>
+    
+    <span class="theme-tag" data-theme="半導體-其他"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">半導體-其他 (8)</span>
+    
+    <span class="theme-tag" data-theme="汽車"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">汽車 (7)</span>
+    
+    <span class="theme-tag" data-theme="CCL／銅箔基板"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">CCL／銅箔基板 (7)</span>
+    
+    <span class="theme-tag" data-theme="生技醫材"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">生技醫材 (7)</span>
+    
+    <span class="theme-tag" data-theme="面板"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">面板 (7)</span>
+    
+    <span class="theme-tag" data-theme="顯示技術"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">顯示技術 (7)</span>
+    
+    <span class="theme-tag" data-theme="NB/PC品牌"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">NB/PC品牌 (6)</span>
+    
+    <span class="theme-tag" data-theme="塑化／化工"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">塑化／化工 (6)</span>
+    
+    <span class="theme-tag" data-theme="IPC工業電腦"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">IPC工業電腦 (5)</span>
+    
+    <span class="theme-tag" data-theme="資訊服務"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">資訊服務 (5)</span>
+    
+    <span class="theme-tag" data-theme="功率半導體"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">功率半導體 (5)</span>
+    
+    <span class="theme-tag" data-theme="電子零組件"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">電子零組件 (5)</span>
+    
+    <span class="theme-tag" data-theme="電子通路"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">電子通路 (5)</span>
+    
+    <span class="theme-tag" data-theme="其他"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">其他 (5)</span>
+    
+    <span class="theme-tag" data-theme="被動元件"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">被動元件 (5)</span>
+    
+    <span class="theme-tag" data-theme="光學鏡頭"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">光學鏡頭 (4)</span>
+    
+    <span class="theme-tag" data-theme="光通訊／矽光子"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">光通訊／矽光子 (4)</span>
+    
+    <span class="theme-tag" data-theme="測試/量測"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">測試/量測 (3)</span>
+    
+    <span class="theme-tag" data-theme="玻璃陶瓷"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">玻璃陶瓷 (3)</span>
+    
+    <span class="theme-tag" data-theme="通信網路"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">通信網路 (3)</span>
+    
+    <span class="theme-tag" data-theme="食品"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">食品 (3)</span>
+    
+    <span class="theme-tag" data-theme="紡織纖維"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">紡織纖維 (3)</span>
+    
+    <span class="theme-tag" data-theme="油電燃氣"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">油電燃氣 (3)</span>
+    
+    <span class="theme-tag" data-theme="太陽能／綠能"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">太陽能／綠能 (2)</span>
+    
+    <span class="theme-tag" data-theme="矽智財"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">矽智財 (2)</span>
+    
+    <span class="theme-tag" data-theme="貿易百貨"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">貿易百貨 (2)</span>
+    
+    <span class="theme-tag" data-theme="晶圓代工"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">晶圓代工 (2)</span>
+    
+    <span class="theme-tag" data-theme="EMS/代工"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">EMS/代工 (2)</span>
+    
+    <span class="theme-tag" data-theme="建材營造"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">建材營造 (2)</span>
+    
+    <span class="theme-tag" data-theme="鋼鐵／鋼價"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">鋼鐵／鋼價 (2)</span>
+    
+    <span class="theme-tag" data-theme="ETF"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">ETF (1)</span>
+    
+    <span class="theme-tag" data-theme="租賃"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">租賃 (1)</span>
+    
+    <span class="theme-tag" data-theme="文化創意"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">文化創意 (1)</span>
+    
+    <span class="theme-tag" data-theme="運動休閒"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">運動休閒 (1)</span>
+    
+    <span class="theme-tag" data-theme="航運"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">航運 (1)</span>
+    
+    <span class="theme-tag" data-theme="其他電子"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">其他電子 (1)</span>
+    
+    <span class="theme-tag" data-theme="ODM/代工"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">ODM/代工 (1)</span>
+    
+    <span class="theme-tag" data-theme="電信服務"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">電信服務 (1)</span>
+    
+    <span class="theme-tag" data-theme="驅動IC"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">驅動IC (1)</span>
+    
+    <span class="theme-tag" data-theme="居家生活"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">居家生活 (1)</span>
+    
   </div>
   <div style="overflow-x:auto;margin:0 0 20px;">
     <table class="disposal-table" id="stockTable" style="min-width:500px;">
@@ -5999,12 +6217,30 @@ footer a { color: var(--teal); text-decoration: none; }
   });
 })();
 
-// 個股搜尋
-document.getElementById('stats-search').addEventListener('input', function() {
-  const q = this.value.trim().toLowerCase();
-  document.querySelectorAll('#stockTable tbody tr').forEach(tr => {
-    const code = tr.getAttribute('data-code') || '';
-    tr.style.display = (!q || code.includes(q)) ? '' : 'none';
+// 族群標籤篩選
+document.querySelectorAll('.theme-tag').forEach(tag => {
+  tag.addEventListener('click', function() {
+    const theme = this.getAttribute('data-theme');
+    // 切換 active 樣式
+    document.querySelectorAll('.theme-tag').forEach(t => {
+      t.style.background = 'var(--card)';
+      t.style.color = 'var(--muted)';
+      t.style.border = '1px solid var(--border)';
+      t.classList.remove('active');
+    });
+    this.style.background = 'var(--teal)';
+    this.style.color = '#fff';
+    this.style.border = 'none';
+    this.classList.add('active');
+    // 篩選表格
+    document.querySelectorAll('#stockTable tbody tr').forEach(tr => {
+      if (theme === 'all') {
+        tr.style.display = '';
+      } else {
+        const rowTheme = tr.cells[2].textContent.trim();
+        tr.style.display = rowTheme === theme ? '' : 'none';
+      }
+    });
   });
 });
 

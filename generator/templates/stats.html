@@ -86,9 +86,15 @@
     <span class="icon">🏆</span><span>個股績效</span>
     <span class="count">{{ stock_table|length }} 支</span>
   </div>
-  <div style="margin-bottom:8px;">
-    <input id="stats-search" type="text" inputmode="decimal" placeholder="🔍 搜尋股號"
-      style="padding:5px 10px;border-radius:16px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:13px;width:120px;outline:none;">
+  <div id="theme-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
+    <span class="theme-tag active" data-theme="all"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--teal);color:#fff;">全部</span>
+    {% for t in theme_table %}
+    <span class="theme-tag" data-theme="{{ t.theme }}"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">{{ t.theme }} ({{ t.count }})</span>
+    {% endfor %}
   </div>
   <div style="overflow-x:auto;margin:0 0 20px;">
     <table class="disposal-table" id="stockTable" style="min-width:500px;">
@@ -186,12 +192,30 @@
   });
 })();
 
-// 個股搜尋
-document.getElementById('stats-search').addEventListener('input', function() {
-  const q = this.value.trim().toLowerCase();
-  document.querySelectorAll('#stockTable tbody tr').forEach(tr => {
-    const code = tr.getAttribute('data-code') || '';
-    tr.style.display = (!q || code.includes(q)) ? '' : 'none';
+// 族群標籤篩選
+document.querySelectorAll('.theme-tag').forEach(tag => {
+  tag.addEventListener('click', function() {
+    const theme = this.getAttribute('data-theme');
+    // 切換 active 樣式
+    document.querySelectorAll('.theme-tag').forEach(t => {
+      t.style.background = 'var(--card)';
+      t.style.color = 'var(--muted)';
+      t.style.border = '1px solid var(--border)';
+      t.classList.remove('active');
+    });
+    this.style.background = 'var(--teal)';
+    this.style.color = '#fff';
+    this.style.border = 'none';
+    this.classList.add('active');
+    // 篩選表格
+    document.querySelectorAll('#stockTable tbody tr').forEach(tr => {
+      if (theme === 'all') {
+        tr.style.display = '';
+      } else {
+        const rowTheme = tr.cells[2].textContent.trim();
+        tr.style.display = rowTheme === theme ? '' : 'none';
+      }
+    });
   });
 });
 
