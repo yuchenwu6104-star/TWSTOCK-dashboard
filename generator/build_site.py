@@ -71,33 +71,51 @@ def _get_margin(stock_code: str, trade_date) -> dict | None:
     return None
 
 
-def _build_bubble_datasets(buy_top: list, sell_top: list, close_price: float) -> tuple:
-    """Build 2 datasets for bubble chart: X=買進張數, Y=賣出張數, r=淨量.
+def _build_bar_chart_data(buy_top: list, sell_top: list) -> dict:
+    """Build butterfly bar chart data: 合併買超+賣超券商，左買右賣。
 
-    對角線以下 = 買超（紅），以上 = 賣超（綠）。
-    一眼看出每家券商買多少、賣多少。
+    回傳 {
+        "labels": ["券商名", ...],  # 按 |淨量| 排序
+        "buy_values": [買進張數, ...],
+        "sell_values": [賣出張數, ...],
+        "net_values": [淨買賣超, ...],  # 正=買超, 負=賣超
+        "sides": ["buy"|"sell", ...],  # 主要在哪邊
+    }
     """
-    import math
-
-    def mk(b, is_buyer: bool):
-        net = b["net_lots"] if is_buyer else -b["net_lots"]
-        r = round(max(4, min(30, math.sqrt(abs(b["net_lots"])) * 1.2)), 1)
-        return {
-            "x": int(b["buy_lots"]),
-            "y": int(b["sell_lots"]),
-            "r": r,
-            "label": b["name"],
-            "net": int(net),
-            "buyVol": int(b["buy_lots"]),
-            "sellVol": int(b["sell_lots"]),
-            "buyAvg": round(float(b["buy_avg"]), 2),
-            "sellAvg": round(float(b["sell_avg"]), 2),
+    # 合併：同一家可能在買超和賣超都出現
+    merged = {}
+    for b in buy_top:
+        merged[b["name"]] = {
+            "buy": int(b["buy_lots"]), "sell": int(b["sell_lots"]),
+            "net": int(b["net_lots"]), "side": "buy",
         }
+    for b in sell_top:
+        name = b["name"]
+        if name in merged:
+            # 同時在買超和賣超（用淨量判斷方向）
+            merged[name]["both"] = True
+        else:
+            merged[name] = {
+                "buy": int(b["buy_lots"]), "sell": int(b["sell_lots"]),
+                "net": -int(b["net_lots"]), "side": "sell",
+            }
 
-    buy_data = [mk(b, True) for b in buy_top]
-    sell_data = [mk(b, False) for b in sell_top]
+    # 按 |淨量| 排序，取前 20
+    sorted_items = sorted(merged.items(), key=lambda x: abs(x[1]["net"]), reverse=True)[:20]
 
-    return buy_data, sell_data
+    labels = [item[0] for item in sorted_items]
+    buy_values = [item[1]["buy"] for item in sorted_items]
+    sell_values = [item[1]["sell"] for item in sorted_items]
+    net_values = [item[1]["net"] for item in sorted_items]
+    sides = [item[1]["side"] for item in sorted_items]
+
+    return {
+        "labels": labels,
+        "buy_values": buy_values,
+        "sell_values": sell_values,
+        "net_values": net_values,
+        "sides": sides,
+    }
 
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "..", "docs")
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "templates")
@@ -300,9 +318,8 @@ def build(trade_date: datetime.date = None):
         inst = _get_institutional(code, trade_date)
         margin = _get_margin(code, trade_date)
 
-        # Bubble datasets (2 groups: buy_data, sell_data)
-        close_p = stock.get("close_price", 0)
-        buy_bubble, sell_bubble = _build_bubble_datasets(buy_top, sell_top, close_p)
+        # Bar chart data
+        bar_data = _build_bar_chart_data(buy_top, sell_top)
 
         import json as _json
         html = tpl_stock.render(
@@ -310,8 +327,7 @@ def build(trade_date: datetime.date = None):
             stock=stock_data,
             buy_top=buy_top, sell_top=sell_top, broker_count=broker_count,
             inst=inst, margin=margin,
-            buy_bubble_json=_json.dumps(buy_bubble, ensure_ascii=False),
-            sell_bubble_json=_json.dumps(sell_bubble, ensure_ascii=False),
+            bar_chart_json=_json.dumps(bar_data, ensure_ascii=False),
         )
         with open(os.path.join(stock_dir, f"{code}.html"), "w", encoding="utf-8") as f:
             f.write(html)

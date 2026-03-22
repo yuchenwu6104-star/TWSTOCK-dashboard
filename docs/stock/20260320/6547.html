@@ -493,9 +493,10 @@ footer a { color: var(--teal); text-decoration: none; }
     </div>
   </div>
 
-  <!-- 主力動向泡泡圖 (keep dark bg for chart readability) -->
+  <!-- 主力買賣長條圖 -->
   <div style="background:#1a1a2e;border:1px solid #2d2b5e;border-radius:16px;padding:16px;margin-bottom:20px;position:relative;">
-    <canvas id="bubbleChart"></canvas>
+    <div style="font-size:12px;color:#B8ADD2;margin-bottom:8px;text-align:center;">← 買進（張）｜賣出（張）→</div>
+    <canvas id="barChart"></canvas>
   </div>
   
 
@@ -542,135 +543,78 @@ footer a { color: var(--teal); text-decoration: none; }
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script>
 (function() {
-  const ctx = document.getElementById('bubbleChart').getContext('2d');
-  const buyData = [{"x": 1540, "y": 318, "r": 30, "label": "元大證券", "net": 1222, "buyVol": 1540, "sellVol": 318, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 513, "y": 1, "r": 27.2, "label": "華南永昌", "net": 512, "buyVol": 513, "sellVol": 1, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 201, "y": 0, "r": 17.0, "label": "凱基-信義", "net": 201, "buyVol": 201, "sellVol": 0, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 138, "y": 2, "r": 14.0, "label": "國票-安和", "net": 136, "buyVol": 138, "sellVol": 2, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 100, "y": 10, "r": 11.4, "label": "凱基-新莊", "net": 90, "buyVol": 100, "sellVol": 10, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 51, "y": 0, "r": 8.6, "label": "統一", "net": 51, "buyVol": 51, "sellVol": 0, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 40, "y": 8, "r": 6.8, "label": "統一-三重", "net": 32, "buyVol": 40, "sellVol": 8, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 18, "y": 0, "r": 5.1, "label": "元富-松德", "net": 18, "buyVol": 18, "sellVol": 0, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 10, "y": 0, "r": 4, "label": "群益金鼎", "net": 10, "buyVol": 10, "sellVol": 0, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 7, "y": 0, "r": 4, "label": "元富-西松", "net": 7, "buyVol": 7, "sellVol": 0, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 5, "y": 1, "r": 4, "label": "國票證券", "net": 4, "buyVol": 5, "sellVol": 1, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 4, "y": 0, "r": 4, "label": "中國信託-高雄", "net": 4, "buyVol": 4, "sellVol": 0, "buyAvg": 49.6, "sellAvg": 49.6}];
-  const sellData = [{"x": 0, "y": 247, "r": 18.9, "label": "新加坡商瑞銀", "net": -247, "buyVol": 0, "sellVol": 247, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 0, "y": 85, "r": 11.1, "label": "凱基-高雄", "net": -85, "buyVol": 0, "sellVol": 85, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 0, "y": 70, "r": 10.0, "label": "兆豐-新竹", "net": -70, "buyVol": 0, "sellVol": 70, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 2, "y": 65, "r": 9.5, "label": "國泰-敦南", "net": -63, "buyVol": 2, "sellVol": 65, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 0, "y": 55, "r": 8.9, "label": "玉山證券", "net": -55, "buyVol": 0, "sellVol": 55, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 0, "y": 53, "r": 8.7, "label": "兆豐-虎尾", "net": -53, "buyVol": 0, "sellVol": 53, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 0, "y": 40, "r": 7.6, "label": "第一金-新竹", "net": -40, "buyVol": 0, "sellVol": 40, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 0, "y": 40, "r": 7.6, "label": "光和", "net": -40, "buyVol": 0, "sellVol": 40, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 0, "y": 39, "r": 7.5, "label": "元大-大甲", "net": -39, "buyVol": 0, "sellVol": 39, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 0, "y": 39, "r": 7.5, "label": "新光-台南", "net": -39, "buyVol": 0, "sellVol": 39, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 0, "y": 39, "r": 7.5, "label": "新光", "net": -39, "buyVol": 0, "sellVol": 39, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 0, "y": 36, "r": 7.2, "label": "永豐金-嘉義", "net": -36, "buyVol": 0, "sellVol": 36, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 3, "y": 34, "r": 6.7, "label": "統一-內湖", "net": -31, "buyVol": 3, "sellVol": 34, "buyAvg": 49.6, "sellAvg": 49.6}, {"x": 0, "y": 27, "r": 6.2, "label": "富邦-竹東", "net": -27, "buyVol": 0, "sellVol": 27, "buyAvg": 49.6, "sellAvg": 49.6}];
+  const ctx = document.getElementById('barChart').getContext('2d');
+  const chartData = {"labels": ["元大證券", "華南永昌", "新加坡商瑞銀", "凱基-信義", "國票-安和", "凱基-新莊", "凱基-高雄", "兆豐-新竹", "國泰-敦南", "玉山證券", "兆豐-虎尾", "統一", "第一金-新竹", "光和", "元大-大甲", "新光-台南", "新光", "永豐金-嘉義", "統一-三重", "統一-內湖"], "buy_values": [1540, 513, 0, 201, 138, 100, 0, 0, 2, 0, 0, 51, 0, 0, 0, 0, 0, 0, 40, 3], "sell_values": [318, 1, 247, 0, 2, 10, 85, 70, 65, 55, 53, 0, 40, 40, 39, 39, 39, 36, 8, 34], "net_values": [1222, 512, -247, 201, 136, 90, -85, -70, -63, -55, -53, 51, -40, -40, -39, -39, -39, -36, 32, -31], "sides": ["buy", "buy", "sell", "buy", "buy", "buy", "sell", "sell", "sell", "sell", "sell", "buy", "sell", "sell", "sell", "sell", "sell", "sell", "buy", "sell"]};
 
-  let hoveredBroker = null;
-  const allData = [...buyData, ...sellData];
-  const maxVal = Math.ceil(Math.max(...allData.map(d => Math.max(d.x, d.y)), 1) * 1.15);
+  const labels = chartData.labels;
+  const buyVals = chartData.buy_values.map(v => -v); // 負值往左
+  const sellVals = chartData.sell_values;
+  const netVals = chartData.net_values;
+  const sides = chartData.sides;
+  let hoveredIdx = -1;
 
-  // 對角線 plugin（對角線以下=買超，以上=賣超）
-  const diagPlugin = {
-    id: 'diag',
-    beforeDatasetsDraw(chart) {
-      const { ctx: c, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
-      // 對角線
-      const x0 = x.getPixelForValue(0), y0 = y.getPixelForValue(0);
-      const xMax = x.getPixelForValue(maxVal), yMax = y.getPixelForValue(maxVal);
-      c.save();
-      c.strokeStyle = 'rgba(255,255,255,0.12)'; c.lineWidth = 1; c.setLineDash([6, 4]);
-      c.beginPath(); c.moveTo(x0, y0); c.lineTo(xMax, yMax); c.stroke();
-      c.setLineDash([]); c.restore();
-      // 區域標籤
-      c.save(); c.font = 'bold 11px sans-serif'; c.globalAlpha = 0.15;
-      c.fillStyle = '#ED4B9E'; c.textAlign = 'center';
-      c.fillText('買超區', (left + right) / 2 + (right - left) * 0.2, bottom - 20);
-      c.fillStyle = '#31D0AA';
-      c.fillText('賣超區', (left + right) / 2 - (right - left) * 0.2, top + 25);
-      c.restore();
-    },
-    afterDatasetsDraw(chart) {
-      const { ctx: c, chartArea: { left, right, bottom } } = chart;
-      // 底部標籤：買超前3 + 賣超前3
-      const top3Buy = buyData.slice(0, 3);
-      const top3Sell = sellData.slice(0, 3);
-      const labelY = bottom + 25;
+  // 動態高度
+  const barH = Math.max(labels.length * 28, 300);
+  document.getElementById('barChart').parentElement.style.height = barH + 'px';
 
-      const drawTag = (name, net, lx, color) => {
-        const netText = (net > 0 ? '+' : '') + net.toLocaleString();
-        c.font = 'bold 9px sans-serif';
-        const tw = Math.max(c.measureText(name).width, c.measureText(netText).width);
-        const isHov = hoveredBroker === name;
-        c.fillStyle = color.replace('A)', isHov ? '0.8)' : '0.4)');
-        c.fillRect(lx - tw/2 - 4, labelY - 10, tw + 8, 22);
-        c.fillStyle = '#fff'; c.textAlign = 'center'; c.textBaseline = 'middle';
-        c.fillText(name, lx, labelY - 2);
-        c.font = 'bold 7px sans-serif';
-        c.fillText(netText, lx, labelY + 7);
-        // 虛線連到泡泡
-        const all = [...buyData, ...sellData];
-        const bd = all.find(d => d.label === name);
-        if (bd) {
-          const di = buyData.includes(bd) ? 0 : 1;
-          const idx = (di === 0 ? buyData : sellData).indexOf(bd);
-          const meta = chart.getDatasetMeta(di);
-          const el = meta.data[idx];
-          if (el) {
-            c.save(); c.strokeStyle = isHov ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.25)';
-            c.lineWidth = isHov ? 2 : 1; c.setLineDash([3, 3]);
-            c.beginPath(); c.moveTo(lx, labelY - 12); c.lineTo(el.x, el.y); c.stroke();
-            c.setLineDash([]); c.restore();
-          }
-        }
-      };
-
-      const halfW = (right - left) / 2;
-      top3Buy.forEach((d, i) => {
-        drawTag(d.label, d.net, left + (i + 1) * halfW / 4, 'rgba(237,75,158,A)');
-      });
-      top3Sell.forEach((d, i) => {
-        drawTag(d.label, d.net, left + halfW + (i + 1) * halfW / 4, 'rgba(49,208,170,A)');
-      });
-    }
-  };
-
-  const mkAlpha = (base, raw, fill) => {
-    if (!raw) return 'transparent';
-    if (hoveredBroker === raw.label) return base.replace('A)', fill + ')');
-    if (hoveredBroker) return base.replace('A)', '0.08)');
-    return base.replace('A)', (fill * 0.7) + ')');
-  };
-  const R = 'rgba(237,75,158,A)', G = 'rgba(49,208,170,A)';
-
-  new Chart(ctx, {
-    type: 'bubble',
+  const chart = new Chart(ctx, {
+    type: 'bar',
     data: {
+      labels: labels,
       datasets: [
         {
-          label: '買超券商',
-          data: buyData,
-          backgroundColor: c => mkAlpha(R, c.raw, 0.6),
-          borderColor: c => mkAlpha(R, c.raw, 0.9),
-          borderWidth: 2,
-          hoverBackgroundColor: 'rgba(237,75,158,0.85)',
-          hoverBorderColor: '#fff', hoverBorderWidth: 2,
+          label: '買進',
+          data: buyVals,
+          backgroundColor: buyVals.map((_, i) =>
+            hoveredIdx >= 0 && hoveredIdx !== i && labels[hoveredIdx] !== labels[i]
+              ? 'rgba(237,75,158,0.15)' : 'rgba(237,75,158,0.7)'
+          ),
+          borderColor: 'rgba(237,75,158,0.9)',
+          borderWidth: 1,
+          borderRadius: 4,
+          barPercentage: 0.7,
         },
         {
-          label: '賣超券商',
-          data: sellData,
-          backgroundColor: c => mkAlpha(G, c.raw, 0.6),
-          borderColor: c => mkAlpha(G, c.raw, 0.9),
-          borderWidth: 2,
-          hoverBackgroundColor: 'rgba(49,208,170,0.85)',
-          hoverBorderColor: '#fff', hoverBorderWidth: 2,
-        },
+          label: '賣出',
+          data: sellVals,
+          backgroundColor: sellVals.map((_, i) =>
+            hoveredIdx >= 0 && hoveredIdx !== i && labels[hoveredIdx] !== labels[i]
+              ? 'rgba(49,208,170,0.15)' : 'rgba(49,208,170,0.7)'
+          ),
+          borderColor: 'rgba(49,208,170,0.9)',
+          borderWidth: 1,
+          borderRadius: 4,
+          barPercentage: 0.7,
+        }
       ]
     },
     options: {
-      responsive: true, maintainAspectRatio: true, aspectRatio: 1.3, animation: false,
-      layout: { padding: { top: 15, bottom: 50, left: 10, right: 10 } },
-      clip: false,
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
       plugins: {
         legend: {
-          labels: { color: '#B8ADD2', font: { size: 11 }, usePointStyle: true, pointStyle: 'circle' }
+          labels: { color: '#B8ADD2', font: { size: 11 }, usePointStyle: true, pointStyle: 'rect' }
         },
         tooltip: {
           backgroundColor: 'rgba(8,6,11,0.95)', titleColor: '#F4EEFF', bodyColor: '#B8ADD2',
-          borderColor: '#1FC7D4', borderWidth: 1, cornerRadius: 12, padding: 12,
+          borderColor: '#1FC7D4', borderWidth: 1, cornerRadius: 10, padding: 10,
           titleFont: { size: 13, weight: 'bold' }, bodyFont: { size: 11 }, displayColors: false,
           callbacks: {
             title: items => {
-              const d = items[0].raw;
-              return (d.net >= 0 ? '🔴' : '🟢') + ' ' + d.label;
+              const i = items[0].dataIndex;
+              const net = netVals[i];
+              return (net >= 0 ? '🔴 ' : '🟢 ') + labels[i];
             },
-            label: item => {
-              const d = item.raw;
-              const net = Math.round(d.net);
+            label: () => null,
+            afterBody: items => {
+              const i = items[0].dataIndex;
+              const net = netVals[i];
               return [
-                '淨' + (net > 0 ? '買超' : '賣超') + '：' + (net > 0 ? '+' : '') + net.toLocaleString() + ' 張',
-                '買進：' + d.buyVol.toLocaleString() + ' 張',
-                '賣出：' + d.sellVol.toLocaleString() + ' 張',
+                '買進：' + Math.abs(buyVals[i]).toLocaleString() + ' 張',
+                '賣出：' + sellVals[i].toLocaleString() + ' 張',
+                '淨' + (net >= 0 ? '買超' : '賣超') + '：' + (net >= 0 ? '+' : '') + net.toLocaleString() + ' 張',
               ];
             }
           }
@@ -678,46 +622,41 @@ footer a { color: var(--teal); text-decoration: none; }
       },
       scales: {
         x: {
-          title: { display: true, text: '買進（張）', color: '#B8ADD2', font: { size: 11 } },
           grid: { color: 'rgba(56,50,65,0.4)', lineWidth: 0.5 },
           border: { color: '#383241' },
-          ticks: { color: '#B8ADD2', font: { size: 10 }, callback: v => Math.round(v).toLocaleString() },
-          min: 0, max: maxVal,
+          ticks: { color: '#B8ADD2', font: { size: 10 }, callback: v => Math.abs(Math.round(v)).toLocaleString() },
+          title: { display: false },
         },
         y: {
-          title: { display: true, text: '賣出（張）', color: '#B8ADD2', font: { size: 11 } },
-          grid: { color: 'rgba(56,50,65,0.4)', lineWidth: 0.5 },
+          grid: { display: false },
           border: { color: '#383241' },
-          ticks: { color: '#B8ADD2', font: { size: 10 }, callback: v => Math.round(v).toLocaleString() },
-          min: 0, max: maxVal,
+          ticks: {
+            color: (c) => {
+              const i = c.index;
+              if (i === undefined) return '#B8ADD2';
+              return netVals[i] >= 0 ? '#ED4B9E' : '#31D0AA';
+            },
+            font: { size: 11, weight: 'bold' },
+          },
+        }
+      },
+      onHover: (event, elements) => {
+        const newIdx = elements.length > 0 ? elements[0].index : -1;
+        if (newIdx !== hoveredIdx) {
+          hoveredIdx = newIdx;
+          // 同名券商同時高亮
+          const hName = newIdx >= 0 ? labels[newIdx] : null;
+          chart.data.datasets[0].backgroundColor = buyVals.map((_, i) =>
+            hName && labels[i] !== hName ? 'rgba(237,75,158,0.12)' : 'rgba(237,75,158,0.7)'
+          );
+          chart.data.datasets[1].backgroundColor = sellVals.map((_, i) =>
+            hName && labels[i] !== hName ? 'rgba(49,208,170,0.12)' : 'rgba(49,208,170,0.7)'
+          );
+          chart.update('none');
         }
       }
-    },
-    plugins: [diagPlugin]
-  });
-
-  // Hover interaction
-  const canvas = document.getElementById('bubbleChart');
-  const chart = Chart.getChart(canvas);
-  canvas.addEventListener('mousemove', e => {
-    const rect = canvas.getBoundingClientRect();
-    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
-    let found = null;
-    for (let di = 0; di < chart.data.datasets.length; di++) {
-      const meta = chart.getDatasetMeta(di);
-      for (let pi = 0; pi < meta.data.length; pi++) {
-        const el = meta.data[pi];
-        const dx = el.x - mx, dy = el.y - my;
-        if (Math.sqrt(dx * dx + dy * dy) < el.options.radius + 5) {
-          found = chart.data.datasets[di].data[pi].label;
-          break;
-        }
-      }
-      if (found) break;
     }
-    if (found !== hoveredBroker) { hoveredBroker = found; chart.update('none'); }
   });
-  canvas.addEventListener('mouseleave', () => { if (hoveredBroker) { hoveredBroker = null; chart.update('none'); } });
 })();
 </script>
 
