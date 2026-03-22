@@ -23,22 +23,73 @@
     <span>差 1 次就處置</span>
     <span class="count">{{ almost_stocks | length }}檔</span>
   </div>
-  <div style="margin-top:8px;">
-    {% for s in almost_stocks %}
-    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #E7E3EB;background:#FFFFFF;">
-      <span class="mkt {{ 'mkt-twse' if s.market == 'TWSE' else 'mkt-tpex' }}">{{ s.market }}</span>
-      <span style="font-size:13px;font-weight:600;min-width:50px;">{{ s.code }}</span>
-      <span style="font-size:13px;min-width:70px;">{{ s.name }}</span>
-      <!-- 進度條 -->
-      <div style="flex:1;display:flex;align-items:center;gap:8px;">
-        <div style="flex:1;height:8px;background:#F6F1FF;border-radius:4px;overflow:hidden;border:1px solid #E7E3EB;">
-          <div style="width:{{ (s.count / s.threshold * 100)|int }}%;height:100%;background:#ED4B9E;border-radius:4px;box-shadow:0 0 6px rgba(237,75,158,0.5);"></div>
-        </div>
-        <span style="font-size:12px;font-weight:700;color:#ED4B9E;white-space:nowrap;">{{ s.count }}/{{ s.threshold }}</span>
-      </div>
-      <span style="font-size:11px;color:#7A6EAA;min-width:40px;text-align:right;">{{ s.rule }}</span>
-    </div>
-    {% endfor %}
+  <div style="margin-top:8px;overflow-x:auto;">
+    <table class="disposal-table" style="width:100%;min-width:640px;">
+      <thead>
+        <tr>
+          <th style="text-align:center;width:34px;">所</th>
+          <th style="text-align:left;width:50px;">代號</th>
+          <th style="text-align:left;min-width:80px;">名稱</th>
+          <th style="text-align:right;width:56px;">收盤</th>
+          <th style="text-align:left;">{{ applicable_date }} 處置條件</th>
+          <th style="text-align:center;width:50px;" title="連3日第1款">3①</th>
+          <th style="text-align:center;width:50px;" title="連5日任款">5</th>
+          <th style="text-align:center;width:50px;" title="10日內6日">6/10</th>
+          <th style="text-align:center;width:56px;" title="30日內12日">12/30</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in almost_stocks %}
+        {% set detail = stocks.get(s.code, {}) %}
+        {% set trigger = detail.get('trigger', {}) %}
+        {% set thresholds = detail.get('thresholds', []) %}
+        {% set close_val = detail.get('close', 0) %}
+        <tr>
+          <td style="text-align:center;">
+            <span class="mkt {{ 'mkt-twse' if s.market == 'TWSE' else 'mkt-tpex' }}">{{ '市' if s.market == 'TWSE' else '櫃' }}</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">{{ s.code }}</td>
+          <td style="font-size:12px;">{{ s.name }}</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            {{ close_val if close_val else '—' }}
+          </td>
+          <td style="font-size:11px;">
+            {% if trigger %}
+              {% set tstatus = trigger.get('status', '') %}
+              {% if tstatus == 'certain' %}
+                <span style="color:#1FC7D4;font-weight:600;">{{ trigger.get('status_text', '—') }}</span>
+              {% elif tstatus == 'possible' %}
+                <span style="color:#ED4B9E;font-weight:600;">{{ trigger.get('status_text', '—') }}</span>
+              {% elif tstatus == 'impossible' %}
+                <span style="color:#B8ADD2;">{{ trigger.get('status_text', '—') }}</span>
+              {% else %}
+                <span style="color:#B8ADD2;">{{ trigger.get('status_text', '—') }}</span>
+              {% endif %}
+            {% else %}
+              <span style="color:#B8ADD2;">—</span>
+            {% endif %}
+          </td>
+          {% if thresholds %}
+            {% for th in thresholds %}
+            <td style="text-align:center;">
+              {% if th.gap <= 0 %}
+                <span style="background:rgba(237,75,158,0.25);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:10px;font-weight:700;">✓</span>
+              {% elif th.gap == 1 %}
+                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">{{ th.count }}/{{ th.need }}</span>
+              {% elif th.gap == 2 %}
+                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">{{ th.count }}/{{ th.need }}</span>
+              {% else %}
+                <span style="color:#B8ADD2;font-size:11px;">{{ th.count }}/{{ th.need }}</span>
+              {% endif %}
+            </td>
+            {% endfor %}
+          {% else %}
+            <td>—</td><td>—</td><td>—</td><td>—</td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
   {% endif %}
 
@@ -49,21 +100,73 @@
     <span>差 2 次就處置</span>
     <span class="count">{{ two_more_stocks | length }}檔</span>
   </div>
-  <div style="margin-top:8px;">
-    {% for s in two_more_stocks %}
-    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #E7E3EB;background:#FFFFFF;">
-      <span class="mkt {{ 'mkt-twse' if s.market == 'TWSE' else 'mkt-tpex' }}">{{ s.market }}</span>
-      <span style="font-size:13px;font-weight:600;min-width:50px;">{{ s.code }}</span>
-      <span style="font-size:13px;min-width:70px;">{{ s.name }}</span>
-      <div style="flex:1;display:flex;align-items:center;gap:8px;">
-        <div style="flex:1;height:8px;background:#F6F1FF;border-radius:4px;overflow:hidden;border:1px solid #E7E3EB;">
-          <div style="width:{{ (s.count / s.threshold * 100)|int }}%;height:100%;background:#d68910;border-radius:4px;box-shadow:0 0 6px rgba(214,137,16,0.4);"></div>
-        </div>
-        <span style="font-size:12px;font-weight:700;color:#d68910;white-space:nowrap;">{{ s.count }}/{{ s.threshold }}</span>
-      </div>
-      <span style="font-size:11px;color:#7A6EAA;min-width:40px;text-align:right;">{{ s.rule }}</span>
-    </div>
-    {% endfor %}
+  <div style="margin-top:8px;overflow-x:auto;">
+    <table class="disposal-table" style="width:100%;min-width:640px;">
+      <thead>
+        <tr>
+          <th style="text-align:center;width:34px;">所</th>
+          <th style="text-align:left;width:50px;">代號</th>
+          <th style="text-align:left;min-width:80px;">名稱</th>
+          <th style="text-align:right;width:56px;">收盤</th>
+          <th style="text-align:left;">{{ applicable_date }} 處置條件</th>
+          <th style="text-align:center;width:50px;" title="連3日第1款">3①</th>
+          <th style="text-align:center;width:50px;" title="連5日任款">5</th>
+          <th style="text-align:center;width:50px;" title="10日內6日">6/10</th>
+          <th style="text-align:center;width:56px;" title="30日內12日">12/30</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in two_more_stocks %}
+        {% set detail = stocks.get(s.code, {}) %}
+        {% set trigger = detail.get('trigger', {}) %}
+        {% set thresholds = detail.get('thresholds', []) %}
+        {% set close_val = detail.get('close', 0) %}
+        <tr>
+          <td style="text-align:center;">
+            <span class="mkt {{ 'mkt-twse' if s.market == 'TWSE' else 'mkt-tpex' }}">{{ '市' if s.market == 'TWSE' else '櫃' }}</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">{{ s.code }}</td>
+          <td style="font-size:12px;">{{ s.name }}</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            {{ close_val if close_val else '—' }}
+          </td>
+          <td style="font-size:11px;">
+            {% if trigger %}
+              {% set tstatus = trigger.get('status', '') %}
+              {% if tstatus == 'certain' %}
+                <span style="color:#1FC7D4;font-weight:600;">{{ trigger.get('status_text', '—') }}</span>
+              {% elif tstatus == 'possible' %}
+                <span style="color:#ED4B9E;font-weight:600;">{{ trigger.get('status_text', '—') }}</span>
+              {% elif tstatus == 'impossible' %}
+                <span style="color:#B8ADD2;">{{ trigger.get('status_text', '—') }}</span>
+              {% else %}
+                <span style="color:#B8ADD2;">{{ trigger.get('status_text', '—') }}</span>
+              {% endif %}
+            {% else %}
+              <span style="color:#B8ADD2;">—</span>
+            {% endif %}
+          </td>
+          {% if thresholds %}
+            {% for th in thresholds %}
+            <td style="text-align:center;">
+              {% if th.gap <= 0 %}
+                <span style="background:rgba(237,75,158,0.25);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:10px;font-weight:700;">✓</span>
+              {% elif th.gap == 1 %}
+                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">{{ th.count }}/{{ th.need }}</span>
+              {% elif th.gap == 2 %}
+                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">{{ th.count }}/{{ th.need }}</span>
+              {% else %}
+                <span style="color:#B8ADD2;font-size:11px;">{{ th.count }}/{{ th.need }}</span>
+              {% endif %}
+            </td>
+            {% endfor %}
+          {% else %}
+            <td>—</td><td>—</td><td>—</td><td>—</td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
   {% endif %}
 
@@ -74,40 +177,44 @@
     <span>處置中</span>
     <span class="count">{{ in_disposal_stocks | length }}檔</span>
   </div>
-  <table class="disposal-table" style="margin-top:8px;">
-    <thead>
-      <tr>
-        <th style="text-align:left;">市場</th>
-        <th style="text-align:left;">股號</th>
-        <th style="text-align:left;">股名</th>
-        <th style="text-align:center;">等級</th>
-        <th style="text-align:center;">撮合</th>
-        <th style="text-align:left;">期間</th>
-        <th style="text-align:left;">條件</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for s in in_disposal_stocks %}
-      <tr>
-        <td style="text-align:left;"><span class="mkt {{ 'mkt-twse' if s.exchange == 'TWSE' else 'mkt-tpex' }}">{{ s.exchange }}</span></td>
-        <td style="text-align:left;font-weight:600;">{{ s.code }}</td>
-        <td style="text-align:left;">{{ s.name }}</td>
-        <td style="text-align:center;">
-          {% if s.level and s.level >= 2 %}
-          <span style="color:#ED4B9E;font-weight:700;">L{{ s.level }}</span>
-          {% elif s.level == 1 %}
-          <span style="color:#d68910;font-weight:600;">L1</span>
-          {% else %}
-          <span style="color:#B8ADD2;">-</span>
-          {% endif %}
-        </td>
-        <td style="text-align:center;font-size:11px;">{{ s.interval }}</td>
-        <td style="text-align:left;font-size:11px;">{{ s.start_date[5:] }} ~ {{ s.end_date[5:] }}</td>
-        <td style="text-align:left;font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ s.rule_group }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div style="margin-top:8px;overflow-x:auto;">
+    <table class="disposal-table" style="width:100%;min-width:560px;">
+      <thead>
+        <tr>
+          <th style="text-align:center;width:34px;">所</th>
+          <th style="text-align:left;width:50px;">代號</th>
+          <th style="text-align:left;min-width:80px;">股名</th>
+          <th style="text-align:center;width:36px;">級別</th>
+          <th style="text-align:center;width:60px;">撮合間隔</th>
+          <th style="text-align:left;min-width:120px;">期間</th>
+          <th style="text-align:left;">條件</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in in_disposal_stocks %}
+        <tr>
+          <td style="text-align:center;">
+            <span class="mkt {{ 'mkt-twse' if s.exchange == 'TWSE' else 'mkt-tpex' }}">{{ '市' if s.exchange == 'TWSE' else '櫃' }}</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">{{ s.code }}</td>
+          <td style="font-size:12px;">{{ s.name }}</td>
+          <td style="text-align:center;">
+            {% if s.level and s.level >= 2 %}
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L{{ s.level }}</span>
+            {% elif s.level == 1 %}
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            {% else %}
+            <span style="color:#B8ADD2;">-</span>
+            {% endif %}
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">{{ s.interval }}</td>
+          <td style="font-size:11px;color:#280D5F;">{{ s.start_date[5:] }} ~ {{ s.end_date[5:] }}</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ s.rule_group }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
   {% endif %}
 
   <!-- ========== 門檻說明 ========== -->
