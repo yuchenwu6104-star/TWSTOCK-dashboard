@@ -423,7 +423,7 @@ def build(trade_date: datetime.date = None):
 
     # ---------- 5. 統計分析頁 (stats.html) ----------
     tpl_stats = env.get_template("stats.html")
-    stats_data = compute_stats(trade_date, lookback_days=5)
+    stats_data = compute_stats(trade_date, lookback_days=7)
 
     if stats_data["dates"]:
         import json as _json3
