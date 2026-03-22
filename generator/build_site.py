@@ -72,65 +72,32 @@ def _get_margin(stock_code: str, trade_date) -> dict | None:
 
 
 def _build_bubble_datasets(buy_top: list, sell_top: list, close_price: float) -> tuple:
-    """Build 4 datasets for bubble chart.
+    """Build 2 datasets for bubble chart: X=買進張數, Y=賣出張數, r=淨量.
 
-    因為富邦只有合計均價（每家都一樣），Y 軸用收盤價 ± 隨機偏移讓泡泡散開。
-    X 軸 = 淨買賣超張數（買超在左/負值，賣超在右/正值）。
+    對角線以下 = 買超（紅），以上 = 賣超（綠）。
+    一眼看出每家券商買多少、賣多少。
     """
     import math
-    import random
-    random.seed(42)  # 固定種子讓同資料每次一樣
 
-    price_range = close_price * 0.02  # ±2% 範圍散開
-
-    def mk(b, x_val, net_lots, idx):
-        # Y 軸：買方用 avg_buy_cost，賣方用 avg_sell_cost
-        # 富邦只有全市場平均，所有券商一樣 → 加微小偏移散開
-        # 嚴格限制在 [close_price * 0.9, close_price] 之間（不超過漲停）
-        base = b["buy_avg"] if x_val < 0 else b["sell_avg"]
-        if base <= 0:
-            base = close_price
-        # 微偏移：在 ±0.5% 內散開，確保不超過漲停
-        max_offset = close_price * 0.005
-        steps = (idx % 7 - 3)  # -3 ~ +3
-        offset = steps * max_offset / 3
-        y_raw = base + offset
-        # 依股價級距 round
-        if close_price >= 1000:
-            y_val = round(y_raw)
-        elif close_price >= 100:
-            y_val = round(y_raw, 1)
-        else:
-            y_val = round(y_raw, 2)
-        # 夾在合理範圍（不超過收盤價）
-        y_val = min(y_val, close_price)
-        y_val = max(y_val, round(close_price * 0.9, 2))
-        r = round(max(3, min(28, math.sqrt(abs(b["net_lots"])) * 0.8)), 1)
+    def mk(b, is_buyer: bool):
+        net = b["net_lots"] if is_buyer else -b["net_lots"]
+        r = round(max(4, min(30, math.sqrt(abs(b["net_lots"])) * 1.2)), 1)
         return {
-            "x": int(x_val),
-            "y": y_val,
+            "x": int(b["buy_lots"]),
+            "y": int(b["sell_lots"]),
             "r": r,
             "label": b["name"],
-            "net": int(net_lots),
+            "net": int(net),
             "buyVol": int(b["buy_lots"]),
             "sellVol": int(b["sell_lots"]),
             "buyAvg": round(float(b["buy_avg"]), 2),
             "sellAvg": round(float(b["sell_avg"]), 2),
         }
 
-    buyer_buy, buyer_sell, seller_sell, seller_buy = [], [], [], []
+    buy_data = [mk(b, True) for b in buy_top]
+    sell_data = [mk(b, False) for b in sell_top]
 
-    for i, b in enumerate(buy_top):
-        nl = b["net_lots"]  # 正值
-        buyer_buy.append(mk(b, -b["buy_lots"], nl, i))
-        buyer_sell.append(mk(b, b["sell_lots"], nl, i))
-
-    for i, b in enumerate(sell_top):
-        nl = -b["net_lots"]  # 負值（賣超）
-        seller_sell.append(mk(b, b["sell_lots"], nl, i + 20))
-        seller_buy.append(mk(b, -b["buy_lots"], nl, i + 20))
-
-    return buyer_buy, buyer_sell, seller_sell, seller_buy
+    return buy_data, sell_data
 
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "..", "docs")
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "templates")
@@ -333,9 +300,9 @@ def build(trade_date: datetime.date = None):
         inst = _get_institutional(code, trade_date)
         margin = _get_margin(code, trade_date)
 
-        # Bubble datasets (4 groups)
+        # Bubble datasets (2 groups: buy_data, sell_data)
         close_p = stock.get("close_price", 0)
-        bb, bs, ss, sb = _build_bubble_datasets(buy_top, sell_top, close_p)
+        buy_bubble, sell_bubble = _build_bubble_datasets(buy_top, sell_top, close_p)
 
         import json as _json
         html = tpl_stock.render(
@@ -343,10 +310,8 @@ def build(trade_date: datetime.date = None):
             stock=stock_data,
             buy_top=buy_top, sell_top=sell_top, broker_count=broker_count,
             inst=inst, margin=margin,
-            buyer_buy_json=_json.dumps(bb, ensure_ascii=False),
-            buyer_sell_json=_json.dumps(bs, ensure_ascii=False),
-            seller_sell_json=_json.dumps(ss, ensure_ascii=False),
-            seller_buy_json=_json.dumps(sb, ensure_ascii=False),
+            buy_bubble_json=_json.dumps(buy_bubble, ensure_ascii=False),
+            sell_bubble_json=_json.dumps(sell_bubble, ensure_ascii=False),
         )
         with open(os.path.join(stock_dir, f"{code}.html"), "w", encoding="utf-8") as f:
             f.write(html)
