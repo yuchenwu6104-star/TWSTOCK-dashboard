@@ -15,6 +15,7 @@ from crawler.concept_classifier import AI_CONCEPT_OVERLAY, SECTOR_ICON_MAP
 from crawler.disposal_forecast import compute_forecast
 from crawler.broker_data import get_top_brokers
 from crawler.nextday_performance import compute_nextday, compute_history
+from crawler.stats_aggregate import compute_stats
 
 SUPP_DB = "/Users/slking/taiwan_stock_dashboard/收盤觀察/market_supplementary.duckdb"
 
@@ -409,7 +410,36 @@ def build(trade_date: datetime.date = None):
         f.write(html)
     print(f"✓ disposal-forecast.html ({disposal_stats['almost']} 差1次, {disposal_stats['in_disposal']} 處置中)")
 
-    # ---------- 5. 歷史日期頁面 ----------
+    # ---------- 5. 統計分析頁 (stats.html) ----------
+    tpl_stats = env.get_template("stats.html")
+    stats_data = compute_stats(trade_date, lookback_days=10)
+
+    if stats_data["dates"]:
+        import json as _json3
+        # 熱力圖：確保每個族群有所有日期的 cell（缺的補 0）
+        all_dates_short = [t["date_short"] for t in stats_data["trend"]]
+        heatmap_filled = {}
+        for th, cells in stats_data["heatmap"].items():
+            cell_map = {c["date_short"]: c for c in cells}
+            heatmap_filled[th] = [
+                cell_map.get(ds, {"date_short": ds, "close_return": 0, "count": 0})
+                for ds in all_dates_short
+            ]
+
+        html = tpl_stats.render(
+            site_root="", page_suffix="",
+            dates=stats_data["dates"],
+            heatmap_dates=all_dates_short,
+            trend_json=_json3.dumps(stats_data["trend"], ensure_ascii=False),
+            heatmap=heatmap_filled,
+            theme_table=stats_data["theme_table"],
+            stock_table=stats_data["stock_table"],
+        )
+        with open(os.path.join(OUTPUT_DIR, "stats.html"), "w", encoding="utf-8") as f:
+            f.write(html)
+        print(f"✓ stats.html ({len(stats_data['dates'])}天, {len(stats_data['theme_table'])}族群, {len(stats_data['stock_table'])}股)")
+
+    # ---------- 6. 歷史日期頁面 ----------
     build_history_pages(trade_date, env, avail_dates)
 
     # ---------- 清理舊頁 ----------

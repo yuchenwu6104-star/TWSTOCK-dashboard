@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% set active_tab = "stats" %}
+{% block title %}漲停統計分析{% endblock %}
+
+{% block content %}
+<div class="container">
+  <header>
+    <h1><span class="rabbit">🐰</span> 漲停統計分析</h1>
+    <div class="subtitle">{{ dates|first }} ~ {{ dates|last }}（{{ dates|length }} 個交易日）</div>
+  </header>
+
+  <!-- 趨勢圖 -->
+  <div class="concept-title" style="border-left-color:var(--teal);">
+    <span class="icon">📈</span><span>趨勢圖</span>
+  </div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin:8px 0 20px;">
+    <canvas id="trendChart" height="200"></canvas>
+  </div>
+
+  <!-- 族群熱力圖 -->
+  <div class="concept-title" style="border-left-color:var(--teal);">
+    <span class="icon">🗺️</span><span>族群熱力圖</span>
+    <span class="count">顏色 = 隔日收盤報酬，數字 = 漲停股數</span>
+  </div>
+  <div style="overflow-x:auto;margin:8px 0 20px;">
+    <table style="min-width:600px;background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+      <thead>
+        <tr>
+          <th style="text-align:left;min-width:120px;position:sticky;left:0;background:var(--card);z-index:5;">族群</th>
+          {% for d in heatmap_dates %}
+          <th style="text-align:center;min-width:50px;">{{ d }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for theme, cells in heatmap.items() %}
+        <tr>
+          <td style="text-align:left;font-weight:600;font-size:11px;position:sticky;left:0;background:var(--card);z-index:5;">{{ theme }}</td>
+          {% for cell in cells %}
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:{% if cell.close_return >= 8 %}rgba(237,75,158,0.5){% elif cell.close_return >= 4 %}rgba(237,75,158,0.3){% elif cell.close_return >= 1 %}rgba(237,75,158,0.15){% elif cell.close_return >= -1 %}rgba(128,128,128,0.1){% elif cell.close_return >= -4 %}rgba(49,208,170,0.15){% else %}rgba(49,208,170,0.35){% endif %};
+            color:{% if cell.close_return >= 1 %}var(--up){% elif cell.close_return <= -1 %}var(--down){% else %}var(--muted){% endif %};">
+            {% if cell.count > 0 %}{{ cell.count }}{% else %}-{% endif %}
+          </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 族群統計表 -->
+  <div class="concept-title" style="border-left-color:var(--purple);">
+    <span class="icon">📊</span><span>族群統計</span>
+    <span class="count">{{ theme_table|length }} 族群</span>
+  </div>
+  <div style="overflow-x:auto;margin:8px 0 20px;">
+    <table class="disposal-table" style="min-width:500px;">
+      <thead>
+        <tr>
+          <th style="text-align:left;">族群</th>
+          <th style="text-align:center;">天數</th>
+          <th style="text-align:center;">股數</th>
+          <th style="text-align:right;">開盤</th>
+          <th style="text-align:right;">均價</th>
+          <th style="text-align:right;">收盤</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in theme_table %}
+        <tr>
+          <td style="text-align:left;font-weight:600;font-size:12px;">{{ t.theme }}</td>
+          <td style="text-align:center;">{{ t.days }}</td>
+          <td style="text-align:center;">{{ t.count }}</td>
+          <td style="text-align:right;color:{% if t.open_return >= 0 %}var(--up){% else %}var(--down){% endif %};">{{ "%+.2f"|format(t.open_return) }}%</td>
+          <td style="text-align:right;color:{% if t.avg_return >= 0 %}var(--up){% else %}var(--down){% endif %};">{{ "%+.2f"|format(t.avg_return) }}%</td>
+          <td style="text-align:right;color:{% if t.close_return >= 0 %}var(--up){% else %}var(--down){% endif %};font-weight:700;">{{ "%+.2f"|format(t.close_return) }}%</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 個股績效表 -->
+  <div class="concept-title" style="border-left-color:var(--up);">
+    <span class="icon">🏆</span><span>個股績效</span>
+    <span class="count">{{ stock_table|length }} 支</span>
+  </div>
+  <div style="margin-bottom:8px;">
+    <input id="stats-search" type="text" inputmode="decimal" placeholder="🔍 搜尋股號"
+      style="padding:5px 10px;border-radius:16px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:13px;width:120px;outline:none;">
+  </div>
+  <div style="overflow-x:auto;margin:0 0 20px;">
+    <table class="disposal-table" id="stockTable" style="min-width:500px;">
+      <thead>
+        <tr>
+          <th style="text-align:left;cursor:pointer;" onclick="sortTable(0)">代號</th>
+          <th style="text-align:left;cursor:pointer;" onclick="sortTable(1)">名稱</th>
+          <th style="text-align:left;">族群</th>
+          <th style="text-align:center;cursor:pointer;" onclick="sortTable(3)">天數</th>
+          <th style="text-align:right;cursor:pointer;" onclick="sortTable(4)">開盤</th>
+          <th style="text-align:right;cursor:pointer;" onclick="sortTable(5)">均價</th>
+          <th style="text-align:right;cursor:pointer;" onclick="sortTable(6)">收盤</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in stock_table %}
+        <tr data-code="{{ s.code }}">
+          <td style="text-align:left;font-weight:600;">{{ s.code }}</td>
+          <td style="text-align:left;">{{ s.name }}</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">{{ s.theme }}</td>
+          <td style="text-align:center;">{{ s.days }}</td>
+          <td style="text-align:right;color:{% if s.open_return >= 0 %}var(--up){% else %}var(--down){% endif %};">{{ "%+.2f"|format(s.open_return) }}%</td>
+          <td style="text-align:right;color:{% if s.avg_return >= 0 %}var(--up){% else %}var(--down){% endif %};">{{ "%+.2f"|format(s.avg_return) }}%</td>
+          <td style="text-align:right;color:{% if s.close_return >= 0 %}var(--up){% else %}var(--down){% endif %};font-weight:700;">{{ "%+.2f"|format(s.close_return) }}%</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script>
+// 趨勢圖
+(function(){
+  const trend = {{ trend_json | safe }};
+  const labels = trend.map(t => t.date_short);
+
+  new Chart(document.getElementById('trendChart'), {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: '漲停數', data: trend.map(t => t.total),
+          backgroundColor: 'rgba(118,69,217,0.4)', borderColor: 'rgba(118,69,217,0.8)',
+          borderWidth: 1, borderRadius: 6, order: 2, yAxisID: 'y',
+        },
+        {
+          label: '續漲停', data: trend.map(t => t.continuation),
+          backgroundColor: 'rgba(31,199,212,0.4)', borderColor: 'rgba(31,199,212,0.8)',
+          borderWidth: 1, borderRadius: 6, order: 2, yAxisID: 'y',
+        },
+        {
+          label: '開盤報酬', data: trend.map(t => t.open_return),
+          type: 'line', borderColor: '#ED4B9E', backgroundColor: 'transparent',
+          borderWidth: 2, pointRadius: 4, tension: 0.3, order: 1, yAxisID: 'y1',
+        },
+        {
+          label: '均價報酬', data: trend.map(t => t.avg_return),
+          type: 'line', borderColor: '#f39c12', backgroundColor: 'transparent',
+          borderWidth: 2, pointRadius: 4, tension: 0.3, order: 1, yAxisID: 'y1',
+        },
+        {
+          label: '收盤報酬', data: trend.map(t => t.close_return),
+          type: 'line', borderColor: '#31D0AA', backgroundColor: 'transparent',
+          borderWidth: 2, pointRadius: 4, tension: 0.3, order: 1, yAxisID: 'y1',
+        },
+      ]
+    },
+    options: {
+      responsive: true, animation: false,
+      plugins: {
+        legend: { labels: { color: '#B8ADD2', font: { size: 11 }, usePointStyle: true } },
+        tooltip: {
+          backgroundColor: 'rgba(8,6,11,0.95)', titleColor: '#F4EEFF',
+          bodyColor: '#B8ADD2', borderColor: '#1FC7D4', borderWidth: 1,
+          cornerRadius: 10, padding: 10,
+        }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(56,50,65,0.3)' }, ticks: { color: '#B8ADD2', font: { size: 10 } } },
+        y: {
+          position: 'left', title: { display: true, text: '漲停數', color: '#B8ADD2', font: { size: 10 } },
+          grid: { color: 'rgba(56,50,65,0.3)' }, ticks: { color: '#B8ADD2', font: { size: 10 } },
+        },
+        y1: {
+          position: 'right', title: { display: true, text: '報酬率 %', color: '#B8ADD2', font: { size: 10 } },
+          grid: { display: false }, ticks: { color: '#B8ADD2', font: { size: 10 }, callback: v => v + '%' },
+        }
+      }
+    }
+  });
+})();
+
+// 個股搜尋
+document.getElementById('stats-search').addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  document.querySelectorAll('#stockTable tbody tr').forEach(tr => {
+    const code = tr.getAttribute('data-code') || '';
+    tr.style.display = (!q || code.includes(q)) ? '' : 'none';
+  });
+});
+
+// 表格排序
+let sortDir = {};
+function sortTable(col) {
+  const table = document.getElementById('stockTable');
+  const rows = Array.from(table.tBodies[0].rows);
+  const dir = sortDir[col] = !(sortDir[col] || false);
+  rows.sort((a, b) => {
+    let va = a.cells[col].textContent.replace('%','').trim();
+    let vb = b.cells[col].textContent.replace('%','').trim();
+    const na = parseFloat(va), nb = parseFloat(vb);
+    if (!isNaN(na) && !isNaN(nb)) return dir ? na - nb : nb - na;
+    return dir ? va.localeCompare(vb) : vb.localeCompare(va);
+  });
+  rows.forEach(r => table.tBodies[0].appendChild(r));
+}
+</script>
+{% endblock %}
