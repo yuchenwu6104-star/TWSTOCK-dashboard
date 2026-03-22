@@ -84,20 +84,27 @@ def _build_bubble_datasets(buy_top: list, sell_top: list, close_price: float) ->
     price_range = close_price * 0.02  # ±2% 範圍散開
 
     def mk(b, x_val, net_lots, idx):
-        # Y 軸：收盤價 ± 偏移（用 index 做確定性偏移）
-        # 用整數 tick size 避免浮點數
+        # Y 軸：買方用 avg_buy_cost，賣方用 avg_sell_cost
+        # 富邦只有全市場平均，所有券商一樣 → 加微小偏移散開
+        # 嚴格限制在 [close_price * 0.9, close_price] 之間（不超過漲停）
+        base = b["buy_avg"] if x_val < 0 else b["sell_avg"]
+        if base <= 0:
+            base = close_price
+        # 微偏移：在 ±0.5% 內散開，確保不超過漲停
+        max_offset = close_price * 0.005
+        steps = (idx % 7 - 3)  # -3 ~ +3
+        offset = steps * max_offset / 3
+        y_raw = base + offset
+        # 依股價級距 round
         if close_price >= 1000:
-            tick = 5
-        elif close_price >= 500:
-            tick = 1
+            y_val = round(y_raw)
         elif close_price >= 100:
-            tick = 0.5
-        elif close_price >= 50:
-            tick = 0.1
+            y_val = round(y_raw, 1)
         else:
-            tick = 0.05
-        steps = idx % 7 - 3  # -3 ~ +3
-        y_val = round(close_price + steps * tick * 3, 2)
+            y_val = round(y_raw, 2)
+        # 夾在合理範圍（不超過收盤價）
+        y_val = min(y_val, close_price)
+        y_val = max(y_val, round(close_price * 0.9, 2))
         r = round(max(3, min(28, math.sqrt(abs(b["net_lots"])) * 0.8)), 1)
         return {
             "x": int(x_val),
