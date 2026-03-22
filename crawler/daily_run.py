@@ -63,14 +63,32 @@ def run(trade_date: datetime.date = None, skip_broker: bool = False):
     # Step 0: 初始化 DB
     init_db()
 
-    # Step 1: 抓行情
+    # Step 1: 抓行情（含 retry）
     print(f"\n📥 Step 1: 抓取行情...")
-    twse_data = fetch_twse()
-    print(f"  TWSE: {len(twse_data)} 檔")
+    twse_data = []
+    for attempt in range(3):
+        try:
+            twse_data = fetch_twse()
+            print(f"  TWSE: {len(twse_data)} 檔")
+            break
+        except Exception as e:
+            print(f"  ⚠ TWSE attempt {attempt+1} failed: {e}")
+            time.sleep(5)
 
     time.sleep(3)
-    tpex_data = fetch_tpex()
-    print(f"  TPEx: {len(tpex_data)} 檔")
+    tpex_data = []
+    for attempt in range(3):
+        try:
+            tpex_data = fetch_tpex()
+            print(f"  TPEx: {len(tpex_data)} 檔")
+            break
+        except Exception as e:
+            print(f"  ⚠ TPEx attempt {attempt+1} failed: {e}")
+            time.sleep(5)
+
+    if not twse_data and not tpex_data:
+        print("  ❌ 兩邊都抓不到，可能是假日或 API 異常，結束。")
+        return {"date": date_str, "themes": {}, "limit_up_count": 0}
 
     all_data = twse_data + tpex_data
     save_daily_prices(all_data, trade_date)

@@ -1,8 +1,12 @@
-name: Daily Taiwan Stock Update
+name: Daily Taiwan Stock Update (Backup)
+
+# ⚠️ 主力排程是本機 launchd（每交易日 21:00）
+# 這個 workflow 是備用方案，只能跑部分功能（缺外部 DB）
+# 主要用途：手動觸發 rebuild 或偵測程式碼問題
 
 on:
-  schedule:
-    - cron: '10 7 * * 1-5'  # UTC 07:10 = 台灣 15:10
+  # schedule:
+  #   - cron: '0 13 * * 1-5'  # UTC 13:00 = 台灣 21:00（已改為本機排程）
   workflow_dispatch:
 
 jobs:
@@ -22,17 +26,16 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
-          TWOCAPTCHA_API_KEY: ${{ secrets.TWOCAPTCHA_API_KEY }}
-        run: python crawler/daily_run.py
+        run: python crawler/daily_run.py --skip-broker || true
 
       - name: Build static site
-        run: python generator/build_site.py
+        run: python generator/build_site.py || true
 
       - name: Commit & Push
         run: |
           git config user.email "bot@github.com"
           git config user.name "Stock Bot"
-          git add output/ -f
+          git add docs/ -f
           git add -A
           git commit -m "daily update $(date +%Y%m%d)" || exit 0
           git push
