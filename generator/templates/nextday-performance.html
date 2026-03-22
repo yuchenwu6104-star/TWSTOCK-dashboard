@@ -5,7 +5,13 @@
 {% block content %}
 <div class="container">
     <div class="date-nav" style="padding:12px 0;">
-        <span class="current-date" style="color:#280D5F;font-size:15px;font-weight:600;">{{ date }} 漲停股隔日表現</span>
+        <span class="current-date" style="color:var(--purple);font-size:15px;font-weight:600;">
+            {% if limit_up_date and next_date %}
+            漲停日 {{ limit_up_date }} → 隔日 {{ next_date }}
+            {% else %}
+            {{ date }} 漲停股隔日表現
+            {% endif %}
+        </span>
     </div>
 
     <div class="perf-cards">
@@ -37,36 +43,155 @@
         </div>
     </div>
 
+    {% if history_json and history_json != '[]' %}
+    <!-- 歷史趨勢折線圖 -->
+    <div class="concept-title" style="border-left-color:var(--teal);margin-top:20px;">
+        <span class="icon">📈</span><span>歷史趨勢</span>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin:8px 0 20px;">
+        <canvas id="historyChart" height="180"></canvas>
+    </div>
+    {% endif %}
+
+    {% if theme_stats %}
+    <!-- 族群勝率表 -->
+    <div class="concept-title" style="border-left-color:var(--purple);">
+        <span class="icon">📊</span><span>族群隔日勝率</span>
+        <span class="count">{{ theme_stats|length }} 族群</span>
+    </div>
+    <div style="overflow-x:auto;margin:8px 0 20px;">
+        <table class="disposal-table" style="min-width:450px;">
+            <thead>
+                <tr>
+                    <th style="text-align:left;">族群</th>
+                    <th style="text-align:center;">股數</th>
+                    <th style="text-align:center;">勝率</th>
+                    <th style="text-align:right;">開盤</th>
+                    <th style="text-align:right;">收盤</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in theme_stats %}
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">{{ t.theme }}</td>
+                    <td style="text-align:center;">{{ t.count }}</td>
+                    <td style="text-align:center;font-weight:700;color:{% if t.win_rate >= 60 %}var(--up){% elif t.win_rate >= 40 %}var(--muted){% else %}var(--down){% endif %};">
+                        {{ "%.0f"|format(t.win_rate) }}% <span style="font-weight:400;color:var(--muted);">{{ t.win_count }}/{{ t.count }}</span>
+                    </td>
+                    <td style="text-align:right;color:{% if t.avg_open_return >= 0 %}var(--up){% else %}var(--down){% endif %};">{{ "%+.2f"|format(t.avg_open_return) }}%</td>
+                    <td style="text-align:right;font-weight:700;color:{% if t.avg_close_return >= 0 %}var(--up){% else %}var(--down){% endif %};">{{ "%+.2f"|format(t.avg_close_return) }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
     {% if stocks %}
-    <h3 style="padding: 16px 0 12px; font-size: 1rem; color: var(--text);">個股隔日報酬明細</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>股號</th>
-                <th>股名</th>
-                <th>族群</th>
-                <th>漲停收盤價</th>
-                <th>隔日開盤</th>
-                <th>隔日收盤</th>
-                <th>報酬率</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for s in stocks %}
-            <tr>
-                <td>{{ s.code }}</td>
-                <td>{{ s.name }}</td>
-                <td>{{ s.theme }}</td>
-                <td>${{ s.limit_up_price }}</td>
-                <td>{{ s.next_open | default("-") }}</td>
-                <td>{{ s.next_close | default("-") }}</td>
-                <td style="color: {% if s.next_return and s.next_return >= 0 %}var(--up){% else %}var(--down){% endif %};">
-                    {{ "%+.2f"|format(s.next_return) if s.next_return is not none else "-" }}%
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <!-- 個股明細 -->
+    <div class="concept-title" style="border-left-color:var(--up);">
+        <span class="icon">📋</span><span>個股隔日報酬明細</span>
+        <span class="count">{{ stocks|length }} 支</span>
+    </div>
+    <div style="overflow-x:auto;margin:8px 0 20px;">
+        <table class="disposal-table" style="min-width:500px;">
+            <thead>
+                <tr>
+                    <th style="text-align:left;">股號</th>
+                    <th style="text-align:left;">股名</th>
+                    <th style="text-align:left;">族群</th>
+                    <th style="text-align:right;">漲停價</th>
+                    <th style="text-align:right;">隔日開</th>
+                    <th style="text-align:right;">隔日收</th>
+                    <th style="text-align:right;">報酬率</th>
+                    <th style="text-align:center;">標籤</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in stocks %}
+                <tr>
+                    <td style="text-align:left;font-weight:600;">{{ s.code }}</td>
+                    <td style="text-align:left;">{{ s.name }}</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">{{ s.theme }}</td>
+                    <td style="text-align:right;">${{ s.limit_up_price }}</td>
+                    <td style="text-align:right;color:{% if s.open_return >= 0 %}var(--up){% else %}var(--down){% endif %};">
+                        {{ "%+.2f"|format(s.open_return) }}%
+                    </td>
+                    <td style="text-align:right;">{{ s.next_close | default("-") }}</td>
+                    <td style="text-align:right;font-weight:700;color:{% if s.next_return >= 0 %}var(--up){% else %}var(--down){% endif %};">
+                        {{ "%+.2f"|format(s.next_return) }}%
+                    </td>
+                    <td style="text-align:center;">
+                        {% if s.label %}
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            {% if s.label_color == 'red' %}background:rgba(237,75,158,0.15);color:var(--up);
+                            {% elif s.label_color == 'orange' %}background:rgba(214,137,16,0.15);color:#d68910;
+                            {% elif s.label_color == 'blue' %}background:rgba(31,199,212,0.15);color:var(--teal);
+                            {% elif s.label_color == 'yellow' %}background:rgba(241,196,15,0.15);color:#f1c40f;
+                            {% elif s.label_color == 'green' %}background:rgba(49,208,170,0.15);color:var(--down);
+                            {% else %}background:rgba(128,128,128,0.1);color:var(--muted);{% endif %}">{{ s.label }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+{% if history_json and history_json != '[]' %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script>
+(function(){
+    const history = {{ history_json | safe }};
+    if (!history.length) return;
+
+    new Chart(document.getElementById('historyChart'), {
+        type: 'line',
+        data: {
+            labels: history.map(h => h.date.slice(5)),
+            datasets: [
+                {
+                    label: '開盤報酬', data: history.map(h => h.open_return),
+                    borderColor: '#ED4B9E', backgroundColor: 'transparent',
+                    borderWidth: 2, pointRadius: 4, tension: 0.3,
+                },
+                {
+                    label: '均價報酬', data: history.map(h => h.avg_return),
+                    borderColor: '#f39c12', backgroundColor: 'transparent',
+                    borderWidth: 2, pointRadius: 4, tension: 0.3,
+                },
+                {
+                    label: '收盤報酬', data: history.map(h => h.close_return),
+                    borderColor: '#31D0AA', backgroundColor: 'transparent',
+                    borderWidth: 2, pointRadius: 4, tension: 0.3,
+                },
+            ]
+        },
+        options: {
+            responsive: true, animation: false,
+            plugins: {
+                legend: { labels: { color: '#B8ADD2', font: { size: 11 }, usePointStyle: true } },
+                tooltip: {
+                    backgroundColor: 'rgba(8,6,11,0.95)', titleColor: '#F4EEFF',
+                    bodyColor: '#B8ADD2', borderColor: '#1FC7D4', borderWidth: 1,
+                    cornerRadius: 10, padding: 10,
+                    callbacks: { label: item => item.dataset.label + '：' + item.raw.toFixed(2) + '%' }
+                }
+            },
+            scales: {
+                x: { grid: { color: 'rgba(56,50,65,0.3)' }, ticks: { color: '#B8ADD2', font: { size: 10 } } },
+                y: {
+                    grid: { color: 'rgba(56,50,65,0.3)' },
+                    ticks: { color: '#B8ADD2', font: { size: 10 }, callback: v => v + '%' },
+                }
+            }
+        }
+    });
+})();
+</script>
+{% endif %}
 {% endblock %}
