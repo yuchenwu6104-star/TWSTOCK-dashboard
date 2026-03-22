@@ -443,14 +443,18 @@ footer a { color: var(--teal); text-decoration: none; }
 
   <!-- 主力買賣排行圖 -->
   <div style="background:#1a1a2e;border:1px solid #2d2b5e;border-radius:16px;padding:16px;margin-bottom:20px;overflow:hidden;">
-    <div style="display:flex;gap:8px;">
-      <div style="flex:1;min-width:0;height:420px;">
+    <div style="display:flex;gap:8px;height:400px;">
+      <div style="flex:1;min-width:0;position:relative;">
         <div style="text-align:center;font-size:12px;font-weight:600;color:#ED4B9E;margin-bottom:6px;">← 買超排行（張）</div>
-        <canvas id="buyChart"></canvas>
+        <div style="position:absolute;top:24px;bottom:0;left:0;right:0;">
+          <canvas id="buyChart"></canvas>
+        </div>
       </div>
-      <div style="flex:1;min-width:0;height:420px;">
+      <div style="flex:1;min-width:0;position:relative;">
         <div style="text-align:center;font-size:12px;font-weight:600;color:#31D0AA;margin-bottom:6px;">賣超排行（張）→</div>
-        <canvas id="sellChart"></canvas>
+        <div style="position:absolute;top:24px;bottom:0;left:0;right:0;">
+          <canvas id="sellChart"></canvas>
+        </div>
       </div>
     </div>
   </div>
