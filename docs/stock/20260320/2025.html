@@ -161,12 +161,39 @@ footer a { color: var(--teal); text-decoration: none; }
 }
 @media (max-width: 900px) { .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 700px) {
-  .container { padding: 4px; }
+  .container { padding: 6px; }
   .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
   header .cta-hint { position: static; margin: 8px auto 0; min-width: auto; width: fit-content; font-size: 10px; padding: 6px 10px; }
   .date-nav .nav-btn { padding: 3px 8px; font-size: 10px; }
   .date-nav .date { font-size: 13px; }
+  .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); }
+  nav.topnav { gap: 4px; padding: 5px 4px; }
+  nav.topnav a.pill { padding: 4px 8px; font-size: 10px; }
+  #stock-search { width: 58px; padding: 4px 6px; font-size: 14px; }
+  /* 個股頁 */
+  .stock-info-bar { flex-direction: column !important; text-align: center !important; gap: 8px !important; }
+  .stock-info-right { text-align: center !important; }
+  .inst-grid, .margin-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .broker-dual { flex-direction: column !important; }
+  .broker-dual > div { min-width: 100% !important; }
+  .bar-chart-wrap { height: 320px !important; }
+  .bar-chart-inner { flex-direction: column !important; height: auto !important; }
+  .bar-chart-inner > div { height: 280px !important; }
+  /* 處置頁進度條 */
+  .disposal-row { flex-wrap: wrap !important; }
+  .disposal-row > span:nth-child(3) { min-width: 50px !important; }
+}
+@media (max-width: 480px) {
+  .stock-grid { grid-template-columns: 1fr; }
   .perf-grid, .perf-cards { grid-template-columns: 1fr; }
+  nav.topnav a.pill { padding: 3px 6px; font-size: 9px; }
+  header h1 { font-size: 18px; }
+  .concept-title { font-size: 12px; }
+  .stock-name { font-size: 12px; }
+  .stock-close { font-size: 12px; }
+  .stock-change { font-size: 10px; }
+  th { font-size: 9px; padding: 2px 3px; }
+  td { font-size: 10px; padding: 3px 3px; }
 }
 </style>
 </head>
@@ -179,16 +206,16 @@ footer a { color: var(--teal); text-decoration: none; }
 </nav>
 
 <div class="container">
-  <a href="../../index.html" style="display:inline-block;color:#1FC7D4;text-decoration:none;margin-bottom:16px;font-size:14px;">← 返回漲停總覽</a>
+  <a href="../../index.html" style="display:inline-block;color:#1FC7D4;text-decoration:none;margin-bottom:12px;font-size:14px;padding:4px 0;">← 返回漲停總覽</a>
 
   <!-- Info Bar -->
   <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 4px 12px rgba(40,13,95,0.08);">
-    <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div class="stock-info-bar" style="display:flex;justify-content:space-between;align-items:center;">
       <div>
         <h2 style="font-size:22px;">🐰 千興</h2>
         <div style="color:#7A6EAA;font-size:14px;margin-top:2px;">2025 · 2026/03/20</div>
       </div>
-      <div style="text-align:right;">
+      <div class="stock-info-right" style="text-align:right;">
         <div class="up" style="font-size:24px;font-weight:700;">$11.6</div>
         <div style="margin-top:4px;"><span class="badge up">1.05 (9.95%) 漲停</span></div>
       </div>
@@ -212,7 +239,7 @@ footer a { color: var(--teal); text-decoration: none; }
     <span class="icon">🏛️</span><span>三大法人買賣超</span>
     <span class="count">03/20</span>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 16px;">
+  <div class="inst-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 16px;">
     <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
       <div style="font-size:11px;color:#7A6EAA;">外資</div>
       <div style="font-size:16px;font-weight:700;margin-top:4px;color:#ED4B9E;">
@@ -242,7 +269,7 @@ footer a { color: var(--teal); text-decoration: none; }
 
   
   <!-- 買賣超雙欄表 -->
-  <div style="display:flex;gap:16px;margin-bottom:20px;">
+  <div class="broker-dual" style="display:flex;gap:16px;margin-bottom:20px;">
     <div style="flex:1;min-width:0;">
       <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid #ED4B9E;color:#ED4B9E;margin-bottom:4px;">買超 Top13</div>
       <table>
@@ -503,8 +530,8 @@ footer a { color: var(--teal); text-decoration: none; }
   </div>
 
   <!-- 主力買賣排行圖 -->
-  <div style="background:#1a1a2e;border:1px solid #2d2b5e;border-radius:16px;padding:16px;margin-bottom:20px;overflow:hidden;">
-    <div style="display:flex;gap:8px;height:400px;">
+  <div class="bar-chart-wrap" style="background:#1a1a2e;border:1px solid #2d2b5e;border-radius:16px;padding:16px;margin-bottom:20px;overflow:hidden;">
+    <div class="bar-chart-inner" style="display:flex;gap:8px;height:400px;">
       <div style="flex:1;min-width:0;position:relative;">
         <div style="text-align:center;font-size:12px;font-weight:600;color:#ED4B9E;margin-bottom:6px;">← 買超排行（張）</div>
         <div style="position:absolute;top:24px;bottom:0;left:0;right:0;">
@@ -527,7 +554,7 @@ footer a { color: var(--teal); text-decoration: none; }
     <span class="icon">💰</span><span>融資融券</span>
     <span class="count">03/20</span>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 20px;">
+  <div class="margin-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 20px;">
     <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
       <div style="font-size:11px;color:#7A6EAA;">融資餘額</div>
       <div style="font-size:16px;font-weight:700;margin-top:4px;color:#280D5F;">0 張</div>

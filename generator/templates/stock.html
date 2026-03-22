@@ -4,16 +4,16 @@
 
 {% block content %}
 <div class="container">
-  <a href="../../index.html" style="display:inline-block;color:#1FC7D4;text-decoration:none;margin-bottom:16px;font-size:14px;">← 返回漲停總覽</a>
+  <a href="{{ site_root }}index.html" style="display:inline-block;color:#1FC7D4;text-decoration:none;margin-bottom:12px;font-size:14px;padding:4px 0;">← 返回漲停總覽</a>
 
   <!-- Info Bar -->
   <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 4px 12px rgba(40,13,95,0.08);">
-    <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div class="stock-info-bar" style="display:flex;justify-content:space-between;align-items:center;">
       <div>
         <h2 style="font-size:22px;">🐰 {{ stock.name }}</h2>
         <div style="color:#7A6EAA;font-size:14px;margin-top:2px;">{{ stock.code }} · {{ date }}</div>
       </div>
-      <div style="text-align:right;">
+      <div class="stock-info-right" style="text-align:right;">
         <div class="up" style="font-size:24px;font-weight:700;">${{ stock.close_price }}</div>
         <div style="margin-top:4px;"><span class="badge up">{{ stock.change }} ({{ stock.change_pct }}%) 漲停</span></div>
       </div>
@@ -39,7 +39,7 @@
     <span class="icon">🏛️</span><span>三大法人買賣超</span>
     {% if inst.data_date %}<span class="count">{{ inst.data_date }}</span>{% endif %}
   </div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 16px;">
+  <div class="inst-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 16px;">
     <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
       <div style="font-size:11px;color:#7A6EAA;">外資</div>
       <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#ED4B9E' if inst.foreign_net > 0 else '#31D0AA' }};">
@@ -69,7 +69,7 @@
 
   {% if buy_top or sell_top %}
   <!-- 買賣超雙欄表 -->
-  <div style="display:flex;gap:16px;margin-bottom:20px;">
+  <div class="broker-dual" style="display:flex;gap:16px;margin-bottom:20px;">
     <div style="flex:1;min-width:0;">
       <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid #ED4B9E;color:#ED4B9E;margin-bottom:4px;">買超 Top{{ buy_top|length }}</div>
       <table>
@@ -105,8 +105,8 @@
   </div>
 
   <!-- 主力買賣排行圖 -->
-  <div style="background:#1a1a2e;border:1px solid #2d2b5e;border-radius:16px;padding:16px;margin-bottom:20px;overflow:hidden;">
-    <div style="display:flex;gap:8px;height:400px;">
+  <div class="bar-chart-wrap" style="background:#1a1a2e;border:1px solid #2d2b5e;border-radius:16px;padding:16px;margin-bottom:20px;overflow:hidden;">
+    <div class="bar-chart-inner" style="display:flex;gap:8px;height:400px;">
       <div style="flex:1;min-width:0;position:relative;">
         <div style="text-align:center;font-size:12px;font-weight:600;color:#ED4B9E;margin-bottom:6px;">← 買超排行（張）</div>
         <div style="position:absolute;top:24px;bottom:0;left:0;right:0;">
@@ -131,7 +131,7 @@
     <span class="icon">💰</span><span>融資融券</span>
     {% if margin.data_date %}<span class="count">{{ margin.data_date }}</span>{% endif %}
   </div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 20px;">
+  <div class="margin-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 20px;">
     <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
       <div style="font-size:11px;color:#7A6EAA;">融資餘額</div>
       <div style="font-size:16px;font-weight:700;margin-top:4px;color:#280D5F;">{{ "{:,}".format(margin.margin_bal) }} 張</div>

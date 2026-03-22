@@ -161,12 +161,39 @@ footer a { color: var(--teal); text-decoration: none; }
 }
 @media (max-width: 900px) { .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 700px) {
-  .container { padding: 4px; }
+  .container { padding: 6px; }
   .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
   header .cta-hint { position: static; margin: 8px auto 0; min-width: auto; width: fit-content; font-size: 10px; padding: 6px 10px; }
   .date-nav .nav-btn { padding: 3px 8px; font-size: 10px; }
   .date-nav .date { font-size: 13px; }
+  .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); }
+  nav.topnav { gap: 4px; padding: 5px 4px; }
+  nav.topnav a.pill { padding: 4px 8px; font-size: 10px; }
+  #stock-search { width: 58px; padding: 4px 6px; font-size: 14px; }
+  /* 個股頁 */
+  .stock-info-bar { flex-direction: column !important; text-align: center !important; gap: 8px !important; }
+  .stock-info-right { text-align: center !important; }
+  .inst-grid, .margin-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .broker-dual { flex-direction: column !important; }
+  .broker-dual > div { min-width: 100% !important; }
+  .bar-chart-wrap { height: 320px !important; }
+  .bar-chart-inner { flex-direction: column !important; height: auto !important; }
+  .bar-chart-inner > div { height: 280px !important; }
+  /* 處置頁進度條 */
+  .disposal-row { flex-wrap: wrap !important; }
+  .disposal-row > span:nth-child(3) { min-width: 50px !important; }
+}
+@media (max-width: 480px) {
+  .stock-grid { grid-template-columns: 1fr; }
   .perf-grid, .perf-cards { grid-template-columns: 1fr; }
+  nav.topnav a.pill { padding: 3px 6px; font-size: 9px; }
+  header h1 { font-size: 18px; }
+  .concept-title { font-size: 12px; }
+  .stock-name { font-size: 12px; }
+  .stock-close { font-size: 12px; }
+  .stock-change { font-size: 10px; }
+  th { font-size: 9px; padding: 2px 3px; }
+  td { font-size: 10px; padding: 3px 3px; }
 }
 </style>
 </head>
