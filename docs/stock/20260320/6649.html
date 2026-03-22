@@ -613,8 +613,8 @@ footer a { color: var(--teal); text-decoration: none; }
 
       const drawLabel = (brokerName, lx, labelY, isHovered, color, brokerData, datasetData, datasetIndex) => {
         if (!brokerName) return;
-        const netVol = brokerData ? brokerData.net : 0;
-        const netText = (netVol > 0 ? '+' : '') + netVol;
+        const netVol = brokerData ? Math.round(brokerData.net) : 0;
+        const netText = (netVol > 0 ? '+' : '') + netVol.toLocaleString();
         ctx.font = 'bold 9px sans-serif';
         const tw = Math.max(ctx.measureText(brokerName).width, ctx.measureText(netText).width);
         const bgX = lx - tw/2 - 4, bgY = labelY - 12, bgW = tw + 8, bgH = 24;
@@ -692,9 +692,9 @@ footer a { color: var(--teal); text-decoration: none; }
 
   const allX = [...buyerBuyData.map(d=>d.x), ...buyerSellData.map(d=>d.x), ...sellerSellData.map(d=>d.x), ...sellerBuyData.map(d=>d.x)];
   const allY = [...buyerBuyData.map(d=>d.y), ...sellerSellData.map(d=>d.y), closePrice].filter(v=>v>0);
-  const xAbs = Math.max(...allX.map(Math.abs)) * 1.15 || 100;
-  const yMin = allY.length ? Math.min(...allY) * 0.998 : closePrice * 0.95;
-  const yMax = allY.length ? Math.max(...allY) * 1.002 : closePrice * 1.05;
+  const xAbs = Math.ceil(Math.max(...allX.map(Math.abs)) * 1.15) || 100;
+  const yMin = allY.length ? Math.floor(Math.min(...allY) * 100) / 100 : Math.floor(closePrice * 0.95 * 100) / 100;
+  const yMax = allY.length ? Math.ceil(Math.max(...allY) * 100) / 100 : Math.ceil(closePrice * 1.05 * 100) / 100;
 
   new Chart(ctx, {
     type: 'bubble',
@@ -719,9 +719,10 @@ footer a { color: var(--teal); text-decoration: none; }
             title: items => { const d=items[0].raw; return (d.net>=0?'🔴':'🟢')+' '+d.label; },
             label: item => {
               const d=item.raw, lines=[];
-              lines.push('淨買超：'+(d.net>0?'+':'')+d.net+' 張');
-              lines.push('買進：'+d.buyVol+' 張'+(d.buyAvg?' @ $'+d.buyAvg.toFixed(2):''));
-              lines.push('賣出：'+d.sellVol+' 張'+(d.sellAvg?' @ $'+d.sellAvg.toFixed(2):''));
+              const net=Math.round(d.net);
+              lines.push('淨買超：'+(net>0?'+':'')+net.toLocaleString()+' 張');
+              lines.push('買進：'+Math.round(d.buyVol).toLocaleString()+' 張'+(d.buyAvg?' @ $'+d.buyAvg.toFixed(2):''));
+              lines.push('賣出：'+Math.round(d.sellVol).toLocaleString()+' 張'+(d.sellAvg?' @ $'+d.sellAvg.toFixed(2):''));
               return lines;
             }
           }
@@ -731,8 +732,8 @@ footer a { color: var(--teal); text-decoration: none; }
         x: {
           title:{display:true, text:'買賣超（張）', color:'#B8ADD2', font:{size:11}},
           grid:{color:'rgba(56,50,65,0.4)', lineWidth:0.5}, border:{color:'#383241'},
-          ticks:{color:'#B8ADD2', font:{size:10}, callback:v=>v===0?'0':-v},
-          min:-xAbs, max:xAbs,
+          ticks:{color:'#B8ADD2', font:{size:10}, callback:v=>v===0?'0':Math.round(-v).toLocaleString()},
+          min:-Math.ceil(xAbs), max:Math.ceil(xAbs),
         },
         y: {
           title:{display:false},
