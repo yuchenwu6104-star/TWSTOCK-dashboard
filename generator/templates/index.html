@@ -26,14 +26,18 @@
   </header>
 
   <div class="content-wrapper">
-    <div class="section-title" id="stocks-section">🔴 漲停 ({{ limit_up_count }})</div>
+    <div class="section-title-wrap">
+      <div class="section-title" id="stocks-section">🔴 漲停 ({{ limit_up_count }})</div>
+      <button class="collapse-all-btn" onclick="toggleAllConcepts(this)">全部收合</button>
+    </div>
 
     {% for theme_name, theme in themes.items() %}
     <div class="concept-section">
-      <div class="concept-title">
+      <div class="concept-title" onclick="toggleConcept(this)">
         <span class="icon">{{ theme.icon | default("📊") }}</span>
         <span>{{ theme_name }}</span>
         <span class="count">{{ theme.stocks | length }}檔</span>
+        <span class="chevron">▼</span>
       </div>
       {% if theme.summary %}
       <div class="concept-reason">{{ theme.summary }}</div>
@@ -68,6 +72,16 @@
 
 {% block scripts %}
 <script>
+// 族群折疊
+window.toggleConcept = function(titleEl) {
+  titleEl.closest('.concept-section').classList.toggle('collapsed');
+};
+window.toggleAllConcepts = function(btn) {
+  const all = document.querySelectorAll('.concept-section');
+  const anyExpanded = Array.from(all).some(s => !s.classList.contains('collapsed'));
+  all.forEach(s => { anyExpanded ? s.classList.add('collapsed') : s.classList.remove('collapsed'); });
+  btn.textContent = anyExpanded ? '全部展開' : '全部收合';
+};
 window.navigateDate = function(currentDate, direction) {
   const availableDates = {{ available_dates | tojson }};
   const currentIndex = availableDates.indexOf(currentDate);
