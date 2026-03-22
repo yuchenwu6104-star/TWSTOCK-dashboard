@@ -161,12 +161,23 @@ footer a { color: var(--teal); text-decoration: none; }
 }
 @media (max-width: 900px) { .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 700px) {
-  .container { padding: 4px; }
+  .container { padding: 6px; }
   .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
   header .cta-hint { position: static; margin: 8px auto 0; min-width: auto; width: fit-content; font-size: 10px; padding: 6px 10px; }
   .date-nav .nav-btn { padding: 3px 8px; font-size: 10px; }
   .date-nav .date { font-size: 13px; }
-  .perf-grid, .perf-cards { grid-template-columns: 1fr; }
+  .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); }
+  nav.topnav { gap: 4px; padding: 5px 4px; }
+  nav.topnav a.pill { padding: 4px 8px; font-size: 10px; }
+  #stock-search { width: 58px; padding: 4px 6px; font-size: 14px; }
+  /* 個股頁 */
+  .stock-info-bar { flex-direction: column !important; text-align: center !important; gap: 8px !important; }
+  .stock-info-right { text-align: center !important; }
+  .inst-grid, .margin-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .broker-dual { flex-direction: column !important; gap: 8px !important; }
+  .broker-dual > div { min-width: 100% !important; }
+  /* 長條圖：手機保持左右排列，只縮矮 */
+  .bar-chart-inner { height: 300px !important; }
 }
 </style>
 </head>
@@ -177,6 +188,17 @@ footer a { color: var(--teal); text-decoration: none; }
   <a href="disposal-forecast.html" class="pill active">處置標準</a>
   <input id="stock-search" type="text" inputmode="decimal" placeholder="🔍股號" />
 </nav>
+
+<style>
+.pblocks { display:inline-flex; gap:2px; align-items:center; flex-wrap:wrap; }
+.pblock  { display:inline-block; width:11px; height:11px; border-radius:2px; }
+.pb-done   { background:#ED4B9E; }
+.pb-danger { background:#ED4B9E; }
+.pb-warn   { background:#f39c12; }
+.pb-info   { background:#1FC7D4; }
+.pb-empty  { background:#3d3450; border:1px solid #5a4f6a; }
+.disp-rule-cell { text-align:center; padding:4px 2px !important; }
+</style>
 
 <div class="container">
   <header>
@@ -199,21 +221,23 @@ footer a { color: var(--teal); text-decoration: none; }
     <span class="count">14檔</span>
   </div>
   <div style="margin-top:8px;overflow-x:auto;">
-    <table class="disposal-table" style="width:100%;min-width:640px;">
+    <table class="disposal-table" style="width:100%;min-width:700px;">
       <thead>
         <tr>
-          <th style="text-align:center;width:34px;">所</th>
-          <th style="text-align:left;width:50px;">代號</th>
-          <th style="text-align:left;min-width:80px;">名稱</th>
-          <th style="text-align:right;width:56px;">收盤</th>
-          <th style="text-align:left;">2026-03-23 處置條件</th>
-          <th style="text-align:center;width:50px;" title="連3日第1款">3①</th>
-          <th style="text-align:center;width:50px;" title="連5日任款">5</th>
-          <th style="text-align:center;width:50px;" title="10日內6日">6/10</th>
-          <th style="text-align:center;width:56px;" title="30日內12日">12/30</th>
+          <th style="text-align:center;width:30px;">所</th>
+          <th style="text-align:left;width:48px;">代號</th>
+          <th style="text-align:left;min-width:76px;">名稱</th>
+          <th style="text-align:right;width:52px;">收盤</th>
+          <th style="text-align:left;min-width:120px;">2026-03-23 處置條件</th>
+          <th style="text-align:left;width:100px;">最快處置</th>
+          <th class="disp-rule-cell" style="width:46px;" title="連3日第1款">3①</th>
+          <th class="disp-rule-cell" style="width:62px;" title="連5日任款">5日</th>
+          <th class="disp-rule-cell" style="width:74px;" title="10日內6日">6/10</th>
+          <th class="disp-rule-cell" style="width:110px;" title="30日內12日">12/30</th>
         </tr>
       </thead>
       <tbody>
+        
         
         
         
@@ -236,34 +260,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            03-24 第2次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">0/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">5/6</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">5/12</span>
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -286,34 +322,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            03-24 第21次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">2/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">5/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.25);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:10px;font-weight:700;">✓</span>
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -336,34 +384,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            03-24 第6次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">4/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">5/6</span>
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">9/12</span>
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -386,34 +446,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            03-24 第3次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">2/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">2/5</span>
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">3/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">7/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -436,34 +508,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            03-24 第16次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">0/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">4/6</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">11/12</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -486,34 +570,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            03-24 第1次5分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">0/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">5/6</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">6/12</span>
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -536,34 +632,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            03-24 第3次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">1/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">5/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">5/12</span>
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -586,34 +694,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            03-24 第7次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">4/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.25);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:10px;font-weight:700;">✓</span>
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.25);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:10px;font-weight:700;">✓</span>
+                
+<span class="pblocks"><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -636,34 +756,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            03-24 第9次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">2/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">2/5</span>
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">2/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">2/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -686,34 +818,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            03-24 第2次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">0/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">5/6</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">7/12</span>
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -736,34 +880,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            03-24 第3次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.25);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:10px;font-weight:700;">✓</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">3/5</span>
+                
+<span class="pblocks"><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">3/6</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">11/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -786,34 +942,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            03-24 第1次5分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">2/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">2/5</span>
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">2/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">2/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -836,34 +1004,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            03-24 第1次5分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">2/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">2/5</span>
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">2/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">4/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -886,29 +1066,40 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            03-24 第14次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">1/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">4/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">11/12</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
@@ -928,21 +1119,23 @@ footer a { color: var(--teal); text-decoration: none; }
     <span class="count">29檔</span>
   </div>
   <div style="margin-top:8px;overflow-x:auto;">
-    <table class="disposal-table" style="width:100%;min-width:640px;">
+    <table class="disposal-table" style="width:100%;min-width:700px;">
       <thead>
         <tr>
-          <th style="text-align:center;width:34px;">所</th>
-          <th style="text-align:left;width:50px;">代號</th>
-          <th style="text-align:left;min-width:80px;">名稱</th>
-          <th style="text-align:right;width:56px;">收盤</th>
-          <th style="text-align:left;">2026-03-23 處置條件</th>
-          <th style="text-align:center;width:50px;" title="連3日第1款">3①</th>
-          <th style="text-align:center;width:50px;" title="連5日任款">5</th>
-          <th style="text-align:center;width:50px;" title="10日內6日">6/10</th>
-          <th style="text-align:center;width:56px;" title="30日內12日">12/30</th>
+          <th style="text-align:center;width:30px;">所</th>
+          <th style="text-align:left;width:48px;">代號</th>
+          <th style="text-align:left;min-width:76px;">名稱</th>
+          <th style="text-align:right;width:52px;">收盤</th>
+          <th style="text-align:left;min-width:120px;">2026-03-23 處置條件</th>
+          <th style="text-align:left;width:100px;">最快處置</th>
+          <th class="disp-rule-cell" style="width:46px;" title="連3日第1款">3①</th>
+          <th class="disp-rule-cell" style="width:62px;" title="連5日任款">5日</th>
+          <th class="disp-rule-cell" style="width:74px;" title="10日內6日">6/10</th>
+          <th class="disp-rule-cell" style="width:110px;" title="30日內12日">12/30</th>
         </tr>
       </thead>
       <tbody>
+        
         
         
         
@@ -965,34 +1158,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第8次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">0/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/6</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">10/12</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1015,34 +1220,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第3次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.25);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:10px;font-weight:700;">✓</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">3/5</span>
+                
+<span class="pblocks"><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">3/6</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">3/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1065,34 +1282,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第2次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.25);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:10px;font-weight:700;">✓</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">3/5</span>
+                
+<span class="pblocks"><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">3/6</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">3/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1115,34 +1344,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第1次5分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">1/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">1/5</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">1/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">3/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1165,34 +1406,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第11次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">1/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">1/5</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">1/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">1/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1215,34 +1468,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第1次5分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">1/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">3/5</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">3/6</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">3/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1265,34 +1530,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第3次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">0/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">3/6</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">10/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1315,34 +1592,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第1次5分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">3/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">3/6</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">3/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1365,34 +1654,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第1次5分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">0/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">4/6</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">4/12</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1415,34 +1716,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第7次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.25);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:10px;font-weight:700;">✓</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">3/5</span>
+                
+<span class="pblocks"><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">4/6</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">5/12</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1465,34 +1778,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第2次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">1/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">1/5</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">1/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">1/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1515,34 +1840,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第2次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">0/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">4/6</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">4/12</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1565,34 +1902,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第4次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">0/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">4/6</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">6/12</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1615,34 +1964,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第4次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">0/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">4/6</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">10/12</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1665,34 +2026,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第12次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">1/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">1/5</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">2/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">10/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1715,34 +2088,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-24 第16次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">0/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">4/6</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">11/12</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1765,34 +2150,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第3次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">1/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">1/5</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">1/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">1/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1815,34 +2212,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第12次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">1/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">1/5</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">2/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">9/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1865,34 +2274,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第7次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">1/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">1/5</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">1/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">1/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1915,34 +2336,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第7次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">3/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">3/6</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">3/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -1965,34 +2398,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第7次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">1/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">1/5</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">1/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">1/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -2015,34 +2460,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第6次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">1/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">1/5</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">2/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">9/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -2065,34 +2522,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第4次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">1/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">1/5</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">4/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.25);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:10px;font-weight:700;">✓</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -2115,34 +2584,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第9次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">1/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">4/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">4/12</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -2165,34 +2646,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-24 第3次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.25);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:10px;font-weight:700;">✓</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">3/5</span>
+                
+<span class="pblocks"><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">3/6</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">11/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -2215,34 +2708,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第4次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">1/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">4/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">6/12</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -2265,34 +2770,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-24 第14次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">1/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">4/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.15);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;">11/12</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-danger"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -2315,34 +2832,46 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第54次20分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">0/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">2/5</span>
+                
+<span class="pblocks"><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">4/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(237,75,158,0.25);color:#ED4B9E;padding:2px 5px;border-radius:4px;font-size:10px;font-weight:700;">✓</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span><span class="pblock pb-done"></span></span>
+
               
             </td>
             
           
         </tr>
+        
         
         
         
@@ -2365,29 +2894,40 @@ footer a { color: var(--teal); text-decoration: none; }
               
             
           </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            03-25 第1次5分
+          </td>
           
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="background:rgba(243,156,18,0.15);color:#d68910;padding:2px 5px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;">1/3</span>
-              
-            </td>
-            
-            <td style="text-align:center;">
-              
-                <span style="color:#B8ADD2;font-size:11px;">1/5</span>
+                
+<span class="pblocks"><span class="pblock pb-warn"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">1/6</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
-            <td style="text-align:center;">
+            <td class="disp-rule-cell">
               
-                <span style="color:#B8ADD2;font-size:11px;">1/12</span>
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span><span class="pblock pb-empty"></span></span>
+
               
             </td>
             
@@ -3386,8 +3926,18 @@ footer a { color: var(--teal); text-decoration: none; }
   </div>
   
 
+  <!-- ========== 圖例說明 ========== -->
+  <div style="margin-top:20px;padding:10px 14px;background:#FFFFFF;border:1px solid #E7E3EB;border-radius:10px;font-size:11px;color:#7A6EAA;display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
+    <span style="font-weight:600;color:#280D5F;">規則指標圖例：</span>
+    <span><span class="pblock pb-danger" style="display:inline-block;vertical-align:middle;margin-right:3px;"></span>已觸發（差1次）</span>
+    <span><span class="pblock pb-warn" style="display:inline-block;vertical-align:middle;margin-right:3px;"></span>已觸發（差2次）</span>
+    <span><span class="pblock pb-info" style="display:inline-block;vertical-align:middle;margin-right:3px;"></span>已觸發（較遠）</span>
+    <span><span class="pblock pb-empty" style="display:inline-block;vertical-align:middle;margin-right:3px;"></span>未觸發</span>
+    <span><span class="pblock pb-done" style="display:inline-block;vertical-align:middle;margin-right:3px;"></span>已達門檻</span>
+  </div>
+
   <!-- ========== 門檻說明 ========== -->
-  <div class="concept-title" style="margin-top:28px;border-left-color:#666171;">
+  <div class="concept-title" style="margin-top:24px;border-left-color:#666171;">
     <span class="icon">📖</span>
     <span>處置門檻說明</span>
   </div>
@@ -3397,7 +3947,7 @@ footer a { color: var(--teal); text-decoration: none; }
       <span class="cond-desc">連續3個營業日經<strong>第1款</strong>公布注意交易資訊</span>
     </div>
     <div class="cond-card">
-      <span class="cond-name" style="color:#f39c12;">5</span>
+      <span class="cond-name" style="color:#f39c12;">5日</span>
       <span class="cond-desc">連續5個營業日經第1~8款公布注意交易資訊</span>
     </div>
     <div class="cond-card">

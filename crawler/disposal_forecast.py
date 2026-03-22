@@ -310,6 +310,23 @@ def compute_forecast(as_of_date: datetime.date = None) -> dict:
             stock_attn[sym]["dates"][dt] = []
         stock_attn[sym]["dates"][dt].append(rule)
 
+    # --- 3b. 查歷史處置次數（用於推算最快處置級別）---
+    prior_disposals = {}
+    all_attn_symbols = list(stock_attn.keys())
+    if all_attn_symbols:
+        try:
+            placeholders = ",".join(["?"] * len(all_attn_symbols))
+            rows_pd = con.execute(f"""
+                SELECT symbol, COUNT(*) as cnt
+                FROM disposal_events
+                WHERE symbol IN ({placeholders}) AND end_date < ?
+                GROUP BY symbol
+            """, all_attn_symbols + [as_of_date]).fetchall()
+            for r in rows_pd:
+                prior_disposals[r[0]] = r[1]
+        except Exception:
+            pass
+
     con.close()
 
     # --- 4. 取市場資料 ---
@@ -462,6 +479,19 @@ def compute_forecast(as_of_date: datetime.date = None) -> dict:
                 "current_turnover": current_turnover,
             }
 
+        # 最快處置預估
+        earliest_disposal_label = ""
+        if closest_gap < 999:
+            # 每補一次注意需 1 個交易日，處置再多 1 日才生效
+            earliest_date = _nth_next_trading_day(as_of_date, closest_gap + 1)
+            prior_count = prior_disposals.get(sym, 0)
+            next_level = prior_count + 1
+            interval_min = 5 if next_level == 1 else 20
+            earliest_disposal_label = (
+                f"{earliest_date.strftime('%m-%d')} "
+                f"第{next_level}次{interval_min}分"
+            )
+
         stocks_detail[sym] = {
             "symbol": sym,
             "name": info["name"],
@@ -477,6 +507,7 @@ def compute_forecast(as_of_date: datetime.date = None) -> dict:
             "rule3": rule3_info,
             "rule4": rule4_info,
             "accum_pct_30d": mkt.get("accum_pct_30d", 0),
+            "earliest_disposal": earliest_disposal_label,
         }
 
     # 去重
@@ -496,6 +527,16 @@ def compute_forecast(as_of_date: datetime.date = None) -> dict:
         "two_more": sorted(two_more_dedup, key=lambda x: x["threshold"] - x["count"]),
         "stocks": stocks_detail,
     }
+
+
+def _nth_next_trading_day(from_date: datetime.date, n: int) -> datetime.date:
+    """從 from_date 算起，第 n 個交易日（跳過週六日）。"""
+    d = from_date
+    while n > 0:
+        d += datetime.timedelta(days=1)
+        if d.weekday() < 5:
+            n -= 1
+    return d
 
 
 def _dedup_closest(items: list[dict]) -> list[dict]:
