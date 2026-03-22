@@ -246,7 +246,7 @@ def build(trade_date: datetime.date = None):
             s["price"] = s["close_price"]
 
     html = tpl_index.render(
-            site_root="",
+            site_root="", page_suffix="",
         date=trade_date.strftime("%Y/%m/%d"),
         date_compact=date_compact,
         limit_up_count=total_limit_up,
@@ -302,7 +302,7 @@ def build(trade_date: datetime.date = None):
 
         import json as _json
         html = tpl_stock.render(
-            site_root="../../",
+            site_root="../../", page_suffix="",
             date=trade_date.strftime("%Y/%m/%d"), date_compact=date_compact,
             stock=stock_data,
             buy_top=buy_top, sell_top=sell_top, broker_count=broker_count,
@@ -339,7 +339,7 @@ def build(trade_date: datetime.date = None):
         for s in nextday_result["stocks"]:
             s["next_return"] = s.get("close_return", 0)
         html = tpl_nextday.render(
-            site_root="",
+            site_root="", page_suffix="",
             date=trade_date.strftime("%Y/%m/%d"), date_compact=date_compact,
             limit_up_date=nextday_result["limit_up_date"],
             next_date=nextday_result["next_date"],
@@ -351,7 +351,7 @@ def build(trade_date: datetime.date = None):
         print(f"✓ nextday-performance.html ({nextday_result['stats']['total_limit_up']}檔 → {nextday_result['next_date']})")
     else:
         html = tpl_nextday.render(
-            site_root="",
+            site_root="", page_suffix="",
             date=trade_date.strftime("%Y/%m/%d"), date_compact=date_compact,
             limit_up_date="", next_date="",
             stats={"open_return": 0, "open_positive_rate": 0, "avg_return": 0,
@@ -361,7 +361,7 @@ def build(trade_date: datetime.date = None):
         )
         print(f"✓ nextday-performance.html (無資料)")
 
-    with open(os.path.join(OUTPUT_DIR, "nextday-performance.html"), "w", encoding="utf-8") as f:
+    with open(os.path.join(OUTPUT_DIR, "nextday.html"), "w", encoding="utf-8") as f:
         f.write(html)
 
     # ---------- 4. 處置標準 (disposal-forecast.html) ----------
@@ -395,7 +395,7 @@ def build(trade_date: datetime.date = None):
     ]
 
     html = tpl_disposal.render(
-        site_root="",
+        site_root="", page_suffix="",
         date=date_str, date_compact=date_compact,
         applicable_date=forecast.get("applicable_date", ""),
         stats=disposal_stats,
@@ -405,7 +405,7 @@ def build(trade_date: datetime.date = None):
         stocks=forecast.get("stocks", {}),
         conditions=TRIGGER_CONDITIONS,
     )
-    with open(os.path.join(OUTPUT_DIR, "disposal-forecast.html"), "w", encoding="utf-8") as f:
+    with open(os.path.join(OUTPUT_DIR, "disposal.html"), "w", encoding="utf-8") as f:
         f.write(html)
     print(f"✓ disposal-forecast.html ({disposal_stats['almost']} 差1次, {disposal_stats['in_disposal']} 處置中)")
 
@@ -419,92 +419,153 @@ def build(trade_date: datetime.date = None):
 
 
 def build_history_pages(current_date: datetime.date, env, avail_dates: list[str]):
-    """生成歷史日期的 index 頁面（index-YYYYMMDD.html）。"""
+    """生成歷史日期的三種頁面：index / nextday / disposal。"""
+    import json as _json
     con = duckdb.connect(DB_PATH, read_only=True)
     tpl_index = env.get_template("index.html")
+    tpl_nextday = env.get_template("nextday-performance.html")
+    tpl_disposal = env.get_template("disposal-forecast.html")
     current_compact = current_date.strftime("%Y%m%d")
 
-    count = 0
+    idx_count = 0
+    nd_count = 0
+    disp_count = 0
+
     for date_compact in avail_dates:
         if date_compact == current_compact:
-            continue  # 最新日用 index.html，不需要歷史頁
+            continue
 
         d = datetime.datetime.strptime(date_compact, "%Y%m%d").date()
+        suffix = f"-{date_compact}"
 
-        # 讀族群
+        # 日期導航（同類型頁面間跳）
+        idx_in_list = avail_dates.index(date_compact) if date_compact in avail_dates else -1
+        prev_dc = avail_dates[idx_in_list + 1] if idx_in_list < len(avail_dates) - 1 else None
+        next_dc = avail_dates[idx_in_list - 1] if idx_in_list > 0 else None
+
+        # ---- 1. Index 歷史頁 ----
         themes_raw = con.execute("""
             SELECT theme_name, theme_summary, key_driver, stock_list, stock_count
             FROM daily_theme WHERE date = ? ORDER BY stock_count DESC
         """, [d]).fetchall()
-        if not themes_raw:
-            continue
 
-        # 讀漲停股
-        prices = con.execute("""
-            SELECT stock_code, stock_name, close_price, change_pct, volume,
-                   trade_value, market, change_price
-            FROM daily_price WHERE date = ? AND is_limit_up = true
-        """, [d]).fetchall()
-        price_map = {}
-        for r in prices:
-            vol = int(r[4])
-            vol_lots = vol // 1000 if vol >= 1000 else vol
-            price_map[r[0]] = {
-                "code": r[0], "name": r[1], "close_price": float(r[2]),
-                "change_pct": f"{float(r[3]):.2f}", "volume": vol,
-                "trade_value": int(r[5]), "market": r[6],
-                "change": f"{float(r[7]):.2f}" if r[7] else "0",
-                "volume_str": f"{vol_lots:,}",
-                "reason": "",
+        if themes_raw:
+            prices = con.execute("""
+                SELECT stock_code, stock_name, close_price, change_pct, volume,
+                       trade_value, market, change_price
+                FROM daily_price WHERE date = ? AND is_limit_up = true
+            """, [d]).fetchall()
+            price_map = {}
+            for r in prices:
+                vol = int(r[4])
+                price_map[r[0]] = {
+                    "code": r[0], "name": r[1], "close_price": float(r[2]),
+                    "change_pct": f"{float(r[3]):.2f}", "volume": vol,
+                    "trade_value": int(r[5]), "market": r[6],
+                    "change": f"{float(r[7]):.2f}" if r[7] else "0",
+                    "volume_str": f"{vol // 1000:,}" if vol >= 1000 else str(vol),
+                    "reason": "", "price": float(r[2]),
+                }
+            try:
+                for r in con.execute("SELECT stock_code, reason FROM stock_reason WHERE date=?", [d]).fetchall():
+                    if r[0] in price_map:
+                        price_map[r[0]]["reason"] = r[1]
+            except Exception:
+                pass
+
+            themes = {}
+            total_lu = 0
+            for row in themes_raw:
+                name, summary, driver, codes, cnt = row
+                stocks = [price_map[c] for c in (codes or []) if c in price_map]
+                themes[name] = {"summary": summary, "driver": driver,
+                                "stocks": stocks, "icon": _get_theme_icon(name)}
+                total_lu += len(stocks)
+
+            html = tpl_index.render(
+                site_root="", page_suffix=suffix,
+                date=d.strftime("%Y/%m/%d"), date_compact=date_compact,
+                limit_up_count=total_lu, themes=themes,
+                prev_date=prev_dc, next_date=next_dc,
+                available_dates=avail_dates,
+            )
+            with open(os.path.join(OUTPUT_DIR, f"index{suffix}.html"), "w", encoding="utf-8") as f:
+                f.write(html)
+            idx_count += 1
+
+        # ---- 2. Nextday 歷史頁 ----
+        # 用前一天的漲停算隔日表現
+        prev_trade_dates = [dd for dd in avail_dates if dd < date_compact]
+        for ptd in prev_trade_dates:
+            pd = datetime.datetime.strptime(ptd, "%Y%m%d").date()
+            nd_result = compute_nextday(pd)
+            if nd_result["stats"]["total_limit_up"] > 0 and nd_result["next_date"]:
+                for s in nd_result["stocks"]:
+                    s["next_return"] = s.get("close_return", 0)
+                html = tpl_nextday.render(
+                    site_root="", page_suffix=suffix,
+                    date=d.strftime("%Y/%m/%d"), date_compact=date_compact,
+                    limit_up_date=nd_result["limit_up_date"],
+                    next_date=nd_result["next_date"],
+                    stats=nd_result["stats"],
+                    stocks=nd_result["stocks"],
+                    theme_stats=nd_result.get("theme_stats", []),
+                    history_json="[]",
+                )
+                with open(os.path.join(OUTPUT_DIR, f"nextday{suffix}.html"), "w", encoding="utf-8") as f:
+                    f.write(html)
+                nd_count += 1
+                break
+
+        # ---- 3. Disposal 歷史頁 ----
+        forecast = compute_forecast(d)
+        if forecast.get("in_disposal") or forecast.get("almost"):
+            disp_stats = {
+                "almost": len(forecast["almost"]),
+                "two_more": len(forecast["two_more"]),
+                "in_disposal": len(forecast["in_disposal"]),
             }
+            almost_s = [{"code": s["symbol"], "name": s["name"],
+                         "market": s.get("exchange", "TWSE"),
+                         "rule": s["rule_id"], "count": s["count"],
+                         "threshold": s["threshold"]}
+                        for s in forecast["almost"]]
+            two_more_s = [{"code": s["symbol"], "name": s["name"],
+                           "market": s.get("exchange", "TWSE"),
+                           "rule": s["rule_id"], "count": s["count"],
+                           "threshold": s["threshold"]}
+                          for s in forecast["two_more"]]
+            in_disp_s = [{"code": s["symbol"], "name": s["name"],
+                          "exchange": s.get("exchange", "TWSE"),
+                          "level": s.get("level", 1),
+                          "start_date": s["start_date"], "end_date": s["end_date"],
+                          "interval": s["interval"], "rule_group": s["rule_group"]}
+                         for s in forecast["in_disposal"]]
 
-        # 讀 reason
-        try:
-            reasons = con.execute("SELECT stock_code, reason FROM stock_reason WHERE date = ?", [d]).fetchall()
-            for r in reasons:
-                if r[0] in price_map:
-                    price_map[r[0]]["reason"] = r[1]
-        except Exception:
-            pass
-
-        # 組裝 themes
-        themes = {}
-        total_limit_up = 0
-        for row in themes_raw:
-            theme_name, summary, driver, stock_codes, cnt = row
-            stocks = [price_map[c] for c in (stock_codes or []) if c in price_map]
-            for s in stocks:
-                s["price"] = s["close_price"]
-            themes[theme_name] = {
-                "summary": summary, "driver": driver,
-                "stocks": stocks, "icon": _get_theme_icon(theme_name),
-            }
-            total_limit_up += len(stocks)
-
-        # 日期導航
-        idx = avail_dates.index(date_compact) if date_compact in avail_dates else -1
-        prev_date = avail_dates[idx + 1] if idx < len(avail_dates) - 1 else None
-        next_date = avail_dates[idx - 1] if idx > 0 else None
-
-        html = tpl_index.render(
-            site_root="",
-            date=d.strftime("%Y/%m/%d"),
-            date_compact=date_compact,
-            limit_up_count=total_limit_up,
-            themes=themes,
-            prev_date=prev_date,
-            next_date=next_date,
-            available_dates=avail_dates,
-        )
-
-        filename = f"index-{date_compact}.html"
-        with open(os.path.join(OUTPUT_DIR, filename), "w", encoding="utf-8") as f:
-            f.write(html)
-        count += 1
+            html = tpl_disposal.render(
+                site_root="", page_suffix=suffix,
+                date=d.strftime("%Y-%m-%d"), date_compact=date_compact,
+                applicable_date=forecast.get("applicable_date", ""),
+                stats=disp_stats,
+                almost_stocks=almost_s, two_more_stocks=two_more_s,
+                in_disposal_stocks=in_disp_s,
+                stocks=forecast.get("stocks", {}),
+                conditions=TRIGGER_CONDITIONS,
+            )
+            with open(os.path.join(OUTPUT_DIR, f"disposal{suffix}.html"), "w", encoding="utf-8") as f:
+                f.write(html)
+            disp_count += 1
 
     con.close()
-    if count:
-        print(f"✓ 歷史頁: {count} 天")
+    parts = []
+    if idx_count:
+        parts.append(f"index {idx_count}")
+    if nd_count:
+        parts.append(f"nextday {nd_count}")
+    if disp_count:
+        parts.append(f"disposal {disp_count}")
+    if parts:
+        print(f"✓ 歷史頁: {', '.join(parts)}")
 
 
 def cleanup_old_pages(current_date: datetime.date):

@@ -183,9 +183,9 @@ footer a { color: var(--teal); text-decoration: none; }
 </head>
 <body>
 <nav class="topnav">
-  <a href="{{ site_root }}index.html" class="pill {% if active_tab == 'index' %}active{% endif %}">漲停族群AI分類</a>
-  <a href="{{ site_root }}nextday-performance.html" class="pill {% if active_tab == 'nextday' %}active{% endif %}">隔日表現</a>
-  <a href="{{ site_root }}disposal-forecast.html" class="pill {% if active_tab == 'disposal' %}active{% endif %}">處置標準</a>
+  <a href="{{ site_root }}{{ 'index' + page_suffix + '.html' }}" class="pill {% if active_tab == 'index' %}active{% endif %}">漲停族群AI分類</a>
+  <a href="{{ site_root }}{{ 'nextday' + page_suffix + '.html' }}" class="pill {% if active_tab == 'nextday' %}active{% endif %}">隔日表現</a>
+  <a href="{{ site_root }}{{ 'disposal' + page_suffix + '.html' }}" class="pill {% if active_tab == 'disposal' %}active{% endif %}">處置標準</a>
   <input id="stock-search" type="text" inputmode="decimal" placeholder="🔍股號" />
 </nav>
 {% block content %}{% endblock %}
