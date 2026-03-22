@@ -23,12 +23,12 @@
     <span class="count">顏色 = 隔日收盤報酬，數字 = 漲停股數</span>
   </div>
   <div style="overflow-x:auto;margin:8px 0 20px;">
-    <table style="min-width:600px;background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+    <table id="heatmapTable" style="min-width:600px;background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;">
       <thead>
         <tr>
           <th style="text-align:left;min-width:120px;position:sticky;left:0;background:var(--card);z-index:5;">族群</th>
           {% for d in heatmap_dates %}
-          <th style="text-align:center;min-width:50px;">{{ d }}</th>
+          <th style="text-align:center;min-width:50px;" data-date="{{ dates[loop.index0] }}">{{ d }}</th>
           {% endfor %}
         </tr>
       </thead>
@@ -39,7 +39,7 @@
           {% for cell in cells %}
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:{% if cell.close_return >= 8 %}rgba(237,75,158,0.5){% elif cell.close_return >= 4 %}rgba(237,75,158,0.3){% elif cell.close_return >= 1 %}rgba(237,75,158,0.15){% elif cell.close_return >= -1 %}rgba(128,128,128,0.1){% elif cell.close_return >= -4 %}rgba(49,208,170,0.15){% else %}rgba(49,208,170,0.35){% endif %};
-            color:{% if cell.close_return >= 1 %}var(--up){% elif cell.close_return <= -1 %}var(--down){% else %}var(--muted){% endif %};">
+            color:{% if cell.close_return >= 1 %}var(--up){% elif cell.close_return <= -1 %}var(--down){% else %}var(--muted){% endif %};{% if cell.count > 0 %}cursor:pointer;{% endif %}"{% if cell.count > 0 %} data-col="{{ loop.index0 }}"{% endif %}>
             {% if cell.count > 0 %}{{ cell.count }}{% else %}-{% endif %}
           </td>
           {% endfor %}
@@ -195,6 +195,20 @@
         }
       }
     }
+  });
+})();
+
+// 熱力圖點擊跳頁
+(function(){
+  var table = document.getElementById('heatmapTable');
+  if (!table) return;
+  var headerThs = table.querySelectorAll('thead th[data-date]');
+  table.querySelectorAll('tbody td[data-col]').forEach(function(td){
+    td.addEventListener('click', function(){
+      var col = parseInt(this.getAttribute('data-col'));
+      var dateStr = headerThs[col].getAttribute('data-date').replace(/-/g,'');
+      window.location.href = 'index-' + dateStr + '.html';
+    });
   });
 })();
 

@@ -237,14 +237,14 @@ footer a { color: var(--teal); text-decoration: none; }
         <span class="count">18 族群</span>
     </div>
     <div style="overflow-x:auto;margin:8px 0 20px;">
-        <table class="disposal-table" style="min-width:450px;">
+        <table class="disposal-table" id="themeTable" style="min-width:450px;">
             <thead>
                 <tr>
-                    <th style="text-align:left;">族群</th>
-                    <th style="text-align:center;">股數</th>
-                    <th style="text-align:center;">勝率</th>
-                    <th style="text-align:right;">開盤</th>
-                    <th style="text-align:right;">收盤</th>
+                    <th style="text-align:left;cursor:pointer;" onclick="sortNdTable('themeTable',0)">族群<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:center;cursor:pointer;" onclick="sortNdTable('themeTable',1)">股數<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:center;cursor:pointer;" onclick="sortNdTable('themeTable',2)">勝率<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('themeTable',3)">開盤<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('themeTable',4)">收盤<span class="nd-arrow"> ↕</span></th>
                 </tr>
             </thead>
             <tbody>
@@ -441,16 +441,16 @@ footer a { color: var(--teal); text-decoration: none; }
         <span class="count">24 支</span>
     </div>
     <div style="overflow-x:auto;margin:8px 0 20px;">
-        <table class="disposal-table" style="min-width:500px;">
+        <table class="disposal-table" id="stockNdTable" style="min-width:500px;">
             <thead>
                 <tr>
-                    <th style="text-align:left;">股號</th>
-                    <th style="text-align:left;">股名</th>
-                    <th style="text-align:left;">族群</th>
-                    <th style="text-align:right;">漲停價</th>
-                    <th style="text-align:right;">隔日開</th>
-                    <th style="text-align:right;">隔日收</th>
-                    <th style="text-align:right;">報酬率</th>
+                    <th style="text-align:left;cursor:pointer;" onclick="sortNdTable('stockNdTable',0)">股號<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:left;cursor:pointer;" onclick="sortNdTable('stockNdTable',1)">股名<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:left;cursor:pointer;" onclick="sortNdTable('stockNdTable',2)">族群<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('stockNdTable',3)">漲停價<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('stockNdTable',4)">隔日開<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('stockNdTable',5)">隔日收<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('stockNdTable',6)">報酬率<span class="nd-arrow"> ↕</span></th>
                     <th style="text-align:center;">標籤</th>
                 </tr>
             </thead>
@@ -1012,6 +1012,28 @@ document.querySelectorAll('.stock-card a').forEach(card => {
   card.addEventListener('mouseenter', function() { this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 16px rgba(31,199,212,0.25)'; });
   card.addEventListener('mouseleave', function() { this.style.transform='translateY(0)'; this.style.boxShadow='none'; });
 });
+</script>
+<script>
+(function(){
+  var ndSortDir = {};
+  window.sortNdTable = function(tableId, col) {
+    var table = document.getElementById(tableId);
+    var rows = Array.from(table.tBodies[0].rows);
+    var key = tableId + col;
+    var dir = ndSortDir[key] = !ndSortDir[key];
+    rows.sort(function(a, b) {
+      var va = a.cells[col].textContent.replace(/%/g,'').replace(/\$/g,'').trim();
+      var vb = b.cells[col].textContent.replace(/%/g,'').replace(/\$/g,'').trim();
+      var na = parseFloat(va), nb = parseFloat(vb);
+      if (!isNaN(na) && !isNaN(nb)) return dir ? na - nb : nb - na;
+      return dir ? va.localeCompare(vb) : vb.localeCompare(va);
+    });
+    rows.forEach(function(r){ table.tBodies[0].appendChild(r); });
+    table.querySelectorAll('th .nd-arrow').forEach(function(span, i){
+      span.textContent = i === col ? (dir ? ' ▲' : ' ▼') : ' ↕';
+    });
+  };
+})();
 </script>
 </body>
 </html>
