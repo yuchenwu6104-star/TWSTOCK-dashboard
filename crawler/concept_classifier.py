@@ -148,6 +148,40 @@ THEME_ICON = {
 }
 
 
+# ============================================================
+# Ticker override — sector_mapping.py 分錯的，在這裡修正
+# key = stock_code, value = 直接指定的顯示主題
+# ============================================================
+TICKER_OVERRIDE = {
+    # 半導體測試介面（被 sector_mapping 歸到電子零組件-其他）
+    "6217": "半導體檢測／封測",   # 中探針（探針卡）
+    "7769": "半導體檢測／封測",   # 鴻勁精密（測試設備）
+    "6510": "半導體檢測／封測",   # 精測（測試介面）
+    "6515": "半導體設備／材料",   # 穎崴（探針卡）
+    "4577": "半導體設備／材料",   # 達航科技（半導體材料）
+    "6438": "半導體設備／材料",   # 迅得（自動化設備）
+    # 光通訊（分到通信網路-其他）
+    "6451": "光通訊／矽光子",    # 訊芯-KY（光收發模組）
+    "4903": "光通訊／矽光子",    # 聯光通
+    "5765": "光通訊／矽光子",    # 光星-KY
+    # AI 伺服器（被歸到電腦週邊-其他）
+    "3017": "AI伺服器／零組件",  # 奇鋐（散熱）
+    "3653": "AI伺服器／零組件",  # 健策（散熱基板）
+    "2059": "AI伺服器／零組件",  # 川湖（伺服器滑軌）
+    "6669": "AI伺服器／零組件",  # 緯穎
+    "8210": "AI伺服器／零組件",  # 勤誠（機殼）
+    # 化合物半導體（被歸到晶圓代工）
+    "3105": "半導體",           # 穩懋（GaAs 代工，保留半導體）
+    # 記憶體相關
+    "3006": "DRAM／記憶體",     # 晶豪科（記憶體 IC）
+    "5351": "DRAM／記憶體",     # 鈺創（記憶體介面 IC）
+    # PCB/CCL
+    "6274": "PCB／CCL",        # 台燿（CCL）
+    "6213": "PCB／CCL",        # 聯茂（CCL）
+    "2383": "PCB／CCL",        # 台光電（CCL）
+}
+
+
 def load_universe_map() -> dict:
     """從 universe 表載入 stock_code → {name, industry, sector_group}。"""
     if not os.path.exists(UNIVERSE_DB):
@@ -181,8 +215,11 @@ def classify_stocks(limit_up_stocks: list[dict], universe_map: dict = None) -> d
         sector = meta.get("sector_group", "")
         industry = meta.get("industry", "")
 
-        # 用 THEME_MAP 歸類
-        theme = THEME_MAP.get(sector)
+        # 優先用 ticker override
+        theme = TICKER_OVERRIDE.get(code)
+        # 否則用 THEME_MAP
+        if not theme:
+            theme = THEME_MAP.get(sector)
         if not theme:
             theme = THEME_MAP.get(industry, "其他")
 
