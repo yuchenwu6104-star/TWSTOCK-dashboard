@@ -650,8 +650,10 @@ footer a { color: var(--teal); text-decoration: none; }
   const allX = [...buyerBuyData.map(d=>d.x), ...buyerSellData.map(d=>d.x), ...sellerSellData.map(d=>d.x), ...sellerBuyData.map(d=>d.x)];
   const allY = [...buyerBuyData.map(d=>d.y), ...sellerSellData.map(d=>d.y), closePrice].filter(v=>v>0);
   const xAbs = Math.ceil(Math.max(...allX.map(Math.abs)) * 1.15) || 100;
-  const yMin = allY.length ? Math.floor(Math.min(...allY) * 100) / 100 : Math.floor(closePrice * 0.95 * 100) / 100;
-  const yMax = allY.length ? Math.ceil(Math.max(...allY) * 100) / 100 : Math.ceil(closePrice * 1.05 * 100) / 100;
+  const yRange = allY.length ? Math.max(...allY) - Math.min(...allY) : closePrice * 0.1;
+  const yPad = Math.max(yRange * 0.3, closePrice * 0.005);
+  const yMin = allY.length ? Math.floor((Math.min(...allY) - yPad) * 100) / 100 : Math.floor(closePrice * 0.95 * 100) / 100;
+  const yMax = allY.length ? Math.ceil((Math.max(...allY) + yPad) * 100) / 100 : Math.ceil(closePrice * 1.05 * 100) / 100;
 
   new Chart(ctx, {
     type: 'bubble',
@@ -665,7 +667,8 @@ footer a { color: var(--teal); text-decoration: none; }
     },
     options: {
       responsive:true, maintainAspectRatio:true, aspectRatio:1.5, animation:false,
-      layout:{ padding:{ bottom:70 } },
+      layout:{ padding:{ top:30, bottom:70, left:10, right:10 } },
+      clip: false,
       plugins: {
         legend:{ display:false },
         tooltip: {
