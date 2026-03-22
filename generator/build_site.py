@@ -403,6 +403,7 @@ def build(trade_date: datetime.date = None):
         almost_stocks=almost_stocks,
         two_more_stocks=two_more_stocks,
         in_disposal_stocks=in_disposal_stocks,
+        stocks=forecast.get("stocks", {}),
         conditions=TRIGGER_CONDITIONS,
     )
     with open(os.path.join(OUTPUT_DIR, "disposal-forecast.html"), "w", encoding="utf-8") as f:
