@@ -4147,6 +4147,14 @@ document.querySelectorAll('.stock-card a').forEach(card => {
   btn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 })();
 </script>
+<style>
+.detail-row td {
+  background: #faf5ff;
+  border-left: 4px solid #7645D9;
+  padding: 16px;
+  border-bottom: 1px solid #EDE9FF;
+}
+</style>
 <script>
 (function(){
   // 功能 A — pblock tooltips
@@ -4157,16 +4165,51 @@ document.querySelectorAll('.stock-card a').forEach(card => {
     });
   });
 
-  // 功能 B — row click → stock page (股票個股目錄日期: 20260320)
-  var dt = '20260320';
+  // 功能 B — row click → accordion detail
   document.querySelectorAll('.disposal-table tbody tr').forEach(function(tr){
+    if(tr.classList.contains('detail-row')) return;
     var tds = tr.querySelectorAll('td');
     if(tds.length < 2) return;
     var code = tds[1].textContent.trim();
     if(!code || code === '—') return;
     tr.style.cursor = 'pointer';
     tr.addEventListener('click', function(){
-      window.location.href = 'stock/'+dt+'/'+code+'.html';
+      var table = tr.closest('table');
+      // 先記錄自己是否已展開
+      var next = tr.nextElementSibling;
+      var isOpen = next && next.classList.contains('detail-row');
+      // 收合所有 detail-row
+      table.querySelectorAll('.detail-row').forEach(function(r){ r.remove(); });
+      if(isOpen) return; // 已展開 → 收合即可
+      // 讀取資料
+      var name = tds[2].textContent.trim();
+      var close = tds[3].textContent.trim();
+      var condition = tds[4].textContent.trim();
+      var earliest = tds[5].textContent.trim();
+      // 四規則觸發狀態
+      var ruleNames = ['3日','5日','6日','12日'];
+      var ruleStatus = ruleNames.map(function(n, i){
+        var cell = tds[6+i];
+        if(!cell) return n + '：—';
+        var triggered = Array.from(cell.querySelectorAll('.pblock'))
+          .some(function(b){ return !b.classList.contains('pb-empty'); });
+        return n + '：' + (triggered ? '⚠ 已觸發' : '○ 未觸發');
+      });
+      var goodinfo = 'https://goodinfo.tw/tw/StockDetail.php?STOCK_ID=' + code;
+      var dr = document.createElement('tr');
+      dr.className = 'detail-row';
+      dr.innerHTML = '<td colspan="' + tds.length + '">'
+        + '<b>' + name + '（' + code + '）</b>'
+        + '&emsp;收盤：<b>' + close + '</b>'
+        + '&emsp;處置條件：' + condition
+        + '&emsp;最快處置：<b>' + earliest + '</b>'
+        + '<br style="margin-bottom:6px;">'
+        + ruleStatus.map(function(s){ return '<span style="margin-right:16px;">' + s + '</span>'; }).join('')
+        + '<br style="margin-bottom:6px;">'
+        + '<a href="' + goodinfo + '" target="_blank" rel="noopener"'
+        + ' style="color:#7645D9;font-size:11px;text-decoration:none;">Goodinfo ↗</a>'
+        + '</td>';
+      tr.insertAdjacentElement('afterend', dr);
     });
   });
 
