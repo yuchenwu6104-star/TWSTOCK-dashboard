@@ -14,28 +14,28 @@
     <array>
         <dict>
             <key>Weekday</key><integer>1</integer>
-            <key>Hour</key><integer>21</integer>
-            <key>Minute</key><integer>0</integer>
+            <key>Hour</key><integer>20</integer>
+            <key>Minute</key><integer>30</integer>
         </dict>
         <dict>
             <key>Weekday</key><integer>2</integer>
-            <key>Hour</key><integer>21</integer>
-            <key>Minute</key><integer>0</integer>
+            <key>Hour</key><integer>20</integer>
+            <key>Minute</key><integer>30</integer>
         </dict>
         <dict>
             <key>Weekday</key><integer>3</integer>
-            <key>Hour</key><integer>21</integer>
-            <key>Minute</key><integer>0</integer>
+            <key>Hour</key><integer>20</integer>
+            <key>Minute</key><integer>30</integer>
         </dict>
         <dict>
             <key>Weekday</key><integer>4</integer>
-            <key>Hour</key><integer>21</integer>
-            <key>Minute</key><integer>0</integer>
+            <key>Hour</key><integer>20</integer>
+            <key>Minute</key><integer>30</integer>
         </dict>
         <dict>
             <key>Weekday</key><integer>5</integer>
-            <key>Hour</key><integer>21</integer>
-            <key>Minute</key><integer>0</integer>
+            <key>Hour</key><integer>20</integer>
+            <key>Minute</key><integer>30</integer>
         </dict>
     </array>
 
