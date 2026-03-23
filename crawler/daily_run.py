@@ -93,29 +93,37 @@ def run(trade_date: datetime.date = None, skip_broker: bool = False):
 
     # Step 1: 抓行情（含 retry）
     print(f"\n📥 Step 1: 抓取行情...")
-    twse_data = []
+    twse_data, twse_api_date = [], None
     for attempt in range(3):
         try:
-            twse_data = fetch_twse()
-            print(f"  TWSE: {len(twse_data)} 檔")
+            twse_data, twse_api_date = fetch_twse(expected_date=trade_date)
+            print(f"  TWSE: {len(twse_data)} 檔 (API date: {twse_api_date})")
             break
         except Exception as e:
             print(f"  ⚠ TWSE attempt {attempt+1} failed: {e}")
             time.sleep(5)
 
     time.sleep(3)
-    tpex_data = []
+    tpex_data, tpex_api_date = [], None
     for attempt in range(3):
         try:
-            tpex_data = fetch_tpex()
-            print(f"  TPEx: {len(tpex_data)} 檔")
+            tpex_data, tpex_api_date = fetch_tpex()
+            print(f"  TPEx: {len(tpex_data)} 檔 (API date: {tpex_api_date})")
             break
         except Exception as e:
             print(f"  ⚠ TPEx attempt {attempt+1} failed: {e}")
             time.sleep(5)
 
+    # 日期驗證：API 回傳日期必須與 trade_date 一致，不一致則丟棄該市場資料
+    if twse_data and twse_api_date and twse_api_date != trade_date:
+        print(f"  ⚠ TWSE 日期不一致！API={twse_api_date}, 預期={trade_date}，丟棄 {len(twse_data)} 筆上市資料")
+        twse_data = []
+    if tpex_data and tpex_api_date and tpex_api_date != trade_date:
+        print(f"  ⚠ TPEx 日期不一致！API={tpex_api_date}, 預期={trade_date}，丟棄 {len(tpex_data)} 筆上櫃資料")
+        tpex_data = []
+
     if not twse_data and not tpex_data:
-        print("  ❌ 兩邊都抓不到，可能是假日或 API 異常，結束。")
+        print("  ❌ 兩邊都沒有有效資料（API 異常或日期不一致），結束。")
         return {"date": date_str, "themes": {}, "limit_up_count": 0}
 
     all_data = twse_data + tpex_data
