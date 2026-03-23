@@ -7,7 +7,7 @@ import re
 import requests
 import time
 
-DISP_DB = "/Users/slking/taiwan_stock_dashboard/處置股研究/disposition_research.duckdb"
+from db.paths import DISP_DB
 
 TWSE_URL = "https://openapi.twse.com.tw/v1/opendata/t187ap03_L"
 TPEX_URL = "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_O"

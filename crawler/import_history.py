@@ -7,10 +7,11 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from db.init_db import DB_PATH, init_db
+from db.paths import DB_PATH, MARKET_DB
+from db.init_db import init_db
 from crawler.twse_api import _calc_limit_up
 
-MARKET_DB = "/Users/slking/taiwan_stock_dashboard/收盤觀察/market_daily.duckdb"
+# MARKET_DB imported from db.paths
 
 
 def import_date(trade_date: datetime.date):

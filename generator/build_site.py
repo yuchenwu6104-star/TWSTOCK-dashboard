@@ -10,14 +10,14 @@ import sys
 from jinja2 import Environment, FileSystemLoader
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from db.init_db import DB_PATH
+from db.paths import DB_PATH, SUPP_DB
 from crawler.concept_classifier import THEME_ICON
 from crawler.disposal_forecast import compute_forecast
 from crawler.broker_data import get_top_brokers
 from crawler.nextday_performance import compute_nextday, compute_history
 from crawler.stats_aggregate import compute_stats
 
-SUPP_DB = "/Users/slking/taiwan_stock_dashboard/收盤觀察/market_supplementary.duckdb"
+# SUPP_DB imported from db.paths
 
 
 def _get_institutional(stock_code: str, trade_date) -> dict | None:

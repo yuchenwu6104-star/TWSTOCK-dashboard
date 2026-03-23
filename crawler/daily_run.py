@@ -11,15 +11,16 @@ import time
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from db.init_db import DB_PATH, init_db
+from db.paths import DB_PATH, DISP_DB, BACKFILL_SCRIPT
+from db.init_db import init_db
 from crawler.twse_api import fetch_twse, fetch_tpex, save_daily_prices
 from crawler.concept_classifier import load_universe_map, classify_stocks, save_stock_meta
 from crawler.llm_summary import generate_theme_summaries
 from crawler.disposal_forecast import compute_forecast, sync_to_local_db
 from crawler.broker_data import fetch_multiple_stocks, save_broker_data
 
-DISP_DB = "/Users/slking/taiwan_stock_dashboard/處置股研究/disposition_research.duckdb"
-BACKFILL_SCRIPT = "/Users/slking/taiwan_stock_dashboard/處置股研究/official_event_backfill.py"
+# DISP_DB imported from db.paths
+# BACKFILL_SCRIPT imported from db.paths
 
 
 def refresh_attention_events(trade_date: datetime.date):

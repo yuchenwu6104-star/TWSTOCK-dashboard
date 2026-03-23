@@ -7,9 +7,9 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from db.init_db import DB_PATH
+from db.paths import DB_PATH, MARKET_DB
 
-MARKET_DB = "/Users/slking/taiwan_stock_dashboard/收盤觀察/market_daily.duckdb"
+# MARKET_DB imported from db.paths
 
 
 def _get_next_trading_day(con, after_date: datetime.date) -> datetime.date | None:

@@ -10,7 +10,7 @@
 import duckdb
 import os
 
-UNIVERSE_DB = "/Users/slking/taiwan_stock_dashboard/backend/heatmap_history.db"
+from db.paths import UNIVERSE_DB
 
 # ============================================================
 # sector_group → 顯示主題 mapping

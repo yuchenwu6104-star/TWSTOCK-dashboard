@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """TWSE / TPEx 每日行情爬蟲 + 漲停篩選。"""
 
+import math
 import requests
 import duckdb
 import datetime
@@ -46,7 +47,6 @@ def _calc_limit_up(prev_close: float) -> float:
       < 1000  → tick 1.00
       >= 1000 → tick 5.00
     """
-    import math
     if prev_close <= 0:
         return 0
     raw = prev_close * 1.10
@@ -62,6 +62,25 @@ def _calc_limit_up(prev_close: float) -> float:
         return math.floor(raw)
     else:
         return math.floor(raw / 5) * 5
+
+
+def _calc_limit_down(prev_close: float) -> float:
+    """計算跌停價（10% 跌幅 + tick rule 無條件進位）。"""
+    if prev_close <= 0:
+        return 0
+    raw = prev_close * 0.90
+    if raw < 10:
+        return math.ceil(raw * 100) / 100
+    elif raw < 50:
+        return math.ceil(raw * 20) / 20
+    elif raw < 100:
+        return math.ceil(raw * 10) / 10
+    elif raw < 500:
+        return math.ceil(raw * 2) / 2
+    elif raw < 1000:
+        return math.ceil(raw)
+    else:
+        return math.ceil(raw / 5) * 5
 
 
 def fetch_twse() -> list[dict]:

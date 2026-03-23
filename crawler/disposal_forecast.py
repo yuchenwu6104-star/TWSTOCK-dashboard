@@ -8,10 +8,8 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from db.init_db import DB_PATH
-
-DISP_DB = "/Users/slking/taiwan_stock_dashboard/處置股研究/disposition_research.duckdb"
-MARKET_DB = "/Users/slking/taiwan_stock_dashboard/收盤觀察/market_daily.duckdb"
+from db.paths import DB_PATH, DISP_DB, MARKET_DB
+from crawler.twse_api import _calc_limit_up
 
 # 處置門檻定義
 THRESHOLDS = [
@@ -116,41 +114,8 @@ def _rule1_threshold_desc(start_price: float, exchange: str) -> str:
         return "適用 23%+40元 門檻"
 
 
-def _calc_limit_up(prev_close: float) -> float:
-    """計算漲停價。"""
-    if prev_close <= 0:
-        return 0
-    raw = prev_close * 1.10
-    if prev_close < 10:
-        return round(raw, 2)
-    elif prev_close < 50:
-        return round(raw * 20) / 20
-    elif prev_close < 100:
-        return round(raw * 10) / 10
-    elif prev_close < 500:
-        return round(raw * 2) / 2
-    elif prev_close < 1000:
-        return round(raw)
-    else:
-        return round(raw / 5) * 5
-
-
-def _calc_limit_down(prev_close: float) -> float:
-    if prev_close <= 0:
-        return 0
-    raw = prev_close * 0.90
-    if prev_close < 10:
-        return round(raw, 2)
-    elif prev_close < 50:
-        return round(raw * 20) / 20
-    elif prev_close < 100:
-        return round(raw * 10) / 10
-    elif prev_close < 500:
-        return round(raw * 2) / 2
-    elif prev_close < 1000:
-        return round(raw)
-    else:
-        return round(raw / 5) * 5
+# _calc_limit_up and _calc_limit_down imported from crawler.twse_api
+from crawler.twse_api import _calc_limit_down
 
 
 # ---- 股本資料 ----
