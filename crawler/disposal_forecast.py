@@ -259,29 +259,38 @@ def compute_forecast(as_of_date: datetime.date = None) -> dict:
         row = con.execute("SELECT MAX(announcement_date) FROM attention_events").fetchone()
         as_of_date = row[0] if row[0] else datetime.date.today()
 
-    # --- 1. 處置中 ---
+    # --- 1. 處置中（用今天日期判斷，不是 as_of_date）---
     in_disposal = []
+    today = datetime.date.today()
+    check_date = max(as_of_date, today)  # 取較新的
     disp_rows = con.execute("""
         SELECT symbol, name, disposal_level, start_date, end_date,
                rule_group, matching_interval_seconds, exchange
         FROM disposal_events
         WHERE end_date >= ? AND start_date <= ?
         ORDER BY disposal_level DESC, symbol
-    """, [as_of_date, as_of_date + datetime.timedelta(days=1)]).fetchall()
+    """, [check_date, check_date]).fetchall()
 
-    in_disposal_symbols = set()
+    # 去重：同股多筆處置保留最高 level
+    in_disposal_dedup = {}
     for r in disp_rows:
-        if not _is_common_stock(r[0]):
+        sym = r[0]
+        if not _is_common_stock(sym):
             continue
+        level = r[2] or 0
         interval_min = r[6] // 60 if r[6] else 5
-        in_disposal.append({
-            "symbol": r[0], "name": r[1], "level": r[2],
+        entry = {
+            "symbol": sym, "name": r[1], "level": level,
             "start_date": str(r[3]), "end_date": str(r[4]),
             "rule_group": r[5] or "",
             "interval": f"{interval_min}分鐘",
             "exchange": r[7] or "TWSE",
-        })
-        in_disposal_symbols.add(r[0])
+        }
+        if sym not in in_disposal_dedup or level > (in_disposal_dedup[sym]["level"] or 0):
+            in_disposal_dedup[sym] = entry
+
+    in_disposal = sorted(in_disposal_dedup.values(), key=lambda x: (-(x["level"] or 0), x["symbol"]))
+    in_disposal_symbols = set(in_disposal_dedup.keys())
 
     # --- 2. 營業日 ---
     trading_days = _get_trading_days(con, as_of_date, 35)
