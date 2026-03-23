@@ -410,7 +410,7 @@ def build(trade_date: datetime.date = None):
     ]
 
     # 最新頁：後一天 disable，前一天指向前一個歷史日
-    disp_prev = avail_dates[1] if len(avail_dates) > 1 else None
+    disp_prev = avail_dates[0] if avail_dates else None  # 指向最新日的歷史版
     html = tpl_disposal.render(
         site_root="", page_suffix="",
         date=date_str, date_compact=date_compact,
