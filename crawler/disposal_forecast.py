@@ -259,10 +259,9 @@ def compute_forecast(as_of_date: datetime.date = None) -> dict:
         row = con.execute("SELECT MAX(announcement_date) FROM attention_events").fetchone()
         as_of_date = row[0] if row[0] else datetime.date.today()
 
-    # --- 1. 處置中（用今天日期判斷，不是 as_of_date）---
+    # --- 1. 處置中 ---
     in_disposal = []
-    today = datetime.date.today()
-    check_date = max(as_of_date, today)  # 取較新的
+    check_date = as_of_date  # 歷史頁用 as_of_date，最新頁由呼叫端傳今天
     disp_rows = con.execute("""
         SELECT symbol, name, disposal_level, start_date, end_date,
                rule_group, matching_interval_seconds, exchange

@@ -153,6 +153,10 @@ def _cached_forecast(d):
     return _forecast_cache[key]
 
 
+def _cached_forecast_clear():
+    _forecast_cache.clear()
+
+
 def build(trade_date: datetime.date = None):
     if trade_date is None:
         trade_date = _last_trading_day()
@@ -376,7 +380,8 @@ def build(trade_date: datetime.date = None):
 
     # ---------- 4. 處置標準 (disposal-forecast.html) ----------
     tpl_disposal = env.get_template("disposal-forecast.html")
-    forecast = _cached_forecast(trade_date)
+    # 最新頁用今天（確保今天生效的處置納入）
+    forecast = compute_forecast(datetime.date.today())
 
     disposal_stats = {
         "almost": len(forecast["almost"]),
@@ -404,18 +409,20 @@ def build(trade_date: datetime.date = None):
         for s in forecast["in_disposal"]
     ]
 
+    # 最新頁：後一天 disable，前一天指向前一個歷史日
+    disp_prev = avail_dates[1] if len(avail_dates) > 1 else None
     html = tpl_disposal.render(
         site_root="", page_suffix="",
         date=date_str, date_compact=date_compact,
-        applicable_date=forecast.get("applicable_date", ""),
+        applicable_date=str(datetime.date.today()),
         stats=disposal_stats,
         almost_stocks=almost_stocks,
         two_more_stocks=two_more_stocks,
         in_disposal_stocks=in_disposal_stocks,
         stocks=forecast.get("stocks", {}),
         conditions=TRIGGER_CONDITIONS,
-        prev_date=prev_date,
-        next_date=next_date,
+        prev_date=disp_prev,
+        next_date=None,  # 最新頁沒有後一天
     )
     with open(os.path.join(OUTPUT_DIR, "disposal.html"), "w", encoding="utf-8") as f:
         f.write(html)
@@ -473,9 +480,6 @@ def build_history_pages(current_date: datetime.date, env, avail_dates: list[str]
     disp_count = 0
 
     for date_compact in avail_dates:
-        if date_compact == current_compact:
-            continue
-
         d = datetime.datetime.strptime(date_compact, "%Y%m%d").date()
         suffix = f"-{date_compact}"
 
