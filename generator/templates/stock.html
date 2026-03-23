@@ -4,14 +4,14 @@
 
 {% block content %}
 <div class="container">
-  <a href="{{ site_root }}index.html" style="display:inline-block;color:#1FC7D4;text-decoration:none;margin-bottom:12px;font-size:14px;padding:4px 0;">← 返回漲停總覽</a>
+  <a href="{{ site_root }}index.html" style="display:inline-block;color:var(--teal);text-decoration:none;margin-bottom:12px;font-size:14px;padding:4px 0;">← 返回漲停總覽</a>
 
   <!-- Info Bar -->
-  <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 4px 12px rgba(40,13,95,0.08);">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 4px 12px rgba(40,13,95,0.08);">
     <div class="stock-info-bar" style="display:flex;justify-content:space-between;align-items:center;">
       <div>
         <h2 style="font-size:22px;">🐰 {{ stock.name }}</h2>
-        <div style="color:#7A6EAA;font-size:14px;margin-top:2px;">{{ stock.code }} · {{ date }}</div>
+        <div style="color:var(--muted);font-size:14px;margin-top:2px;">{{ stock.code }} · {{ date }}</div>
       </div>
       <div class="stock-info-right" style="text-align:right;">
         <div class="up" style="font-size:24px;font-weight:700;">${{ stock.close_price }}</div>
@@ -20,47 +20,47 @@
     </div>
     <!-- 族群 + 個股原因 -->
     {% if stock.theme %}
-    <div style="margin-top:10px;padding-top:10px;border-top:1px solid #E7E3EB;">
-      <span style="color:#1FC7D4;font-size:13px;font-weight:600;">{{ stock.theme }}</span>
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+      <span style="color:var(--teal);font-size:13px;font-weight:600;">{{ stock.theme }}</span>
       {% if stock.reason %}
-      <span style="color:#7A6EAA;font-size:12px;margin-left:8px;">{{ stock.reason }}</span>
+      <span style="color:var(--muted);font-size:12px;margin-left:8px;">{{ stock.reason }}</span>
       {% endif %}
     </div>
     {% endif %}
     <!-- 成交資訊 -->
-    <div style="font-size:12px;color:#7A6EAA;margin-top:8px;">
+    <div style="font-size:12px;color:var(--muted);margin-top:8px;">
       成交量 {{ stock.volume_str }}張{% if broker_count %} · 共 {{ broker_count }} 家券商交易{% endif %}
     </div>
   </div>
 
   {% if inst %}
   <!-- 三大法人（放在表格上方） -->
-  <div class="concept-title" style="border-left-color:#1FC7D4;margin-top:0;">
+  <div class="concept-title" style="border-left-color:var(--teal);margin-top:0;">
     <span class="icon">🏛️</span><span>三大法人買賣超</span>
     {% if inst.data_date %}<span class="count">{{ inst.data_date }}</span>{% endif %}
   </div>
   <div class="inst-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 16px;">
-    <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
-      <div style="font-size:11px;color:#7A6EAA;">外資</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#ED4B9E' if inst.foreign_net > 0 else '#31D0AA' }};">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:var(--muted);">外資</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ 'var(--up)' if inst.foreign_net > 0 else 'var(--down)' }};">
         {{ "{:+,}".format(inst.foreign_net // 1000) }} 張
       </div>
     </div>
-    <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
-      <div style="font-size:11px;color:#7A6EAA;">投信</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#ED4B9E' if inst.sitc_net > 0 else '#31D0AA' }};">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:var(--muted);">投信</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ 'var(--up)' if inst.sitc_net > 0 else 'var(--down)' }};">
         {{ "{:+,}".format(inst.sitc_net // 1000) }} 張
       </div>
     </div>
-    <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
-      <div style="font-size:11px;color:#7A6EAA;">自營商</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#ED4B9E' if inst.dealer_net > 0 else '#31D0AA' }};">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:var(--muted);">自營商</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ 'var(--up)' if inst.dealer_net > 0 else 'var(--down)' }};">
         {{ "{:+,}".format(inst.dealer_net // 1000) }} 張
       </div>
     </div>
-    <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
-      <div style="font-size:11px;color:#7A6EAA;">合計</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ '#ED4B9E' if inst.total_net > 0 else '#31D0AA' }};">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:var(--muted);">合計</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:{{ 'var(--up)' if inst.total_net > 0 else 'var(--down)' }};">
         {{ "{:+,}".format(inst.total_net // 1000) }} 張
       </div>
     </div>
@@ -71,13 +71,13 @@
   <!-- 買賣超雙欄表 -->
   <div class="broker-dual" style="display:flex;gap:16px;margin-bottom:20px;">
     <div style="flex:1;min-width:0;">
-      <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid #ED4B9E;color:#ED4B9E;margin-bottom:4px;">買超 Top{{ buy_top|length }}</div>
+      <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid var(--up);color:var(--up);margin-bottom:4px;">買超 Top{{ buy_top|length }}</div>
       <table>
         <tr><th style="text-align:left;">券商</th><th>買超</th><th>買均</th><th>買張</th><th>賣張</th><th>賣均</th></tr>
         {% for b in buy_top %}
         <tr>
           <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">{{ b.name }}</td>
-          <td class="net" style="color:#ED4B9E;">{{ "{:,}".format(b.net_lots) }}</td>
+          <td class="net" style="color:var(--up);">{{ "{:,}".format(b.net_lots) }}</td>
           <td>{{ "%.2f"|format(b.buy_avg) if b.buy_avg else "-" }}</td>
           <td>{{ "{:,}".format(b.buy_lots) }}</td>
           <td>{{ "{:,}".format(b.sell_lots) }}</td>
@@ -87,13 +87,13 @@
       </table>
     </div>
     <div style="flex:1;min-width:0;">
-      <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid #31D0AA;color:#31D0AA;margin-bottom:4px;">賣超 Top{{ sell_top|length }}</div>
+      <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid var(--down);color:var(--down);margin-bottom:4px;">賣超 Top{{ sell_top|length }}</div>
       <table>
         <tr><th style="text-align:left;">券商</th><th>賣超</th><th>買均</th><th>買張</th><th>賣張</th><th>賣均</th></tr>
         {% for b in sell_top %}
         <tr>
           <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">{{ b.name }}</td>
-          <td class="net" style="color:#31D0AA;">{{ "{:,}".format(b.net_lots) }}</td>
+          <td class="net" style="color:var(--down);">{{ "{:,}".format(b.net_lots) }}</td>
           <td>{{ "%.2f"|format(b.buy_avg) if b.buy_avg else "-" }}</td>
           <td>{{ "{:,}".format(b.buy_lots) }}</td>
           <td>{{ "{:,}".format(b.sell_lots) }}</td>
@@ -105,16 +105,16 @@
   </div>
 
   <!-- 主力買賣排行圖 -->
-  <div class="bar-chart-wrap" style="background:#1a1a2e;border:1px solid #2d2b5e;border-radius:16px;padding:16px;margin-bottom:20px;overflow:hidden;">
+  <div class="bar-chart-wrap" style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:20px;overflow:hidden;">
     <div class="bar-chart-inner" style="display:flex;gap:8px;height:400px;">
       <div style="flex:1;min-width:0;position:relative;">
-        <div style="text-align:center;font-size:12px;font-weight:600;color:#ED4B9E;margin-bottom:6px;">← 買超排行（張）</div>
+        <div style="text-align:center;font-size:12px;font-weight:600;color:var(--up);margin-bottom:6px;">← 買超排行（張）</div>
         <div style="position:absolute;top:24px;bottom:0;left:0;right:0;">
           <canvas id="buyChart"></canvas>
         </div>
       </div>
       <div style="flex:1;min-width:0;position:relative;">
-        <div style="text-align:center;font-size:12px;font-weight:600;color:#31D0AA;margin-bottom:6px;">賣超排行（張）→</div>
+        <div style="text-align:center;font-size:12px;font-weight:600;color:var(--down);margin-bottom:6px;">賣超排行（張）→</div>
         <div style="position:absolute;top:24px;bottom:0;left:0;right:0;">
           <canvas id="sellChart"></canvas>
         </div>
@@ -122,37 +122,37 @@
     </div>
   </div>
   {% else %}
-  <div style="text-align:center;padding:40px;color:#7A6EAA;font-size:13px;">券商分點資料尚未載入</div>
+  <div style="text-align:center;padding:40px;color:var(--muted);font-size:13px;">券商分點資料尚未載入</div>
   {% endif %}
 
   {% if margin %}
   <!-- 融資融券 -->
-  <div class="concept-title" style="border-left-color:#f39c12;">
+  <div class="concept-title" style="border-left-color:var(--purple);">
     <span class="icon">💰</span><span>融資融券</span>
     {% if margin.data_date %}<span class="count">{{ margin.data_date }}</span>{% endif %}
   </div>
   <div class="margin-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 20px;">
-    <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
-      <div style="font-size:11px;color:#7A6EAA;">融資餘額</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#280D5F;">{{ "{:,}".format(margin.margin_bal) }} 張</div>
-      <div style="font-size:10px;color:{{ '#ED4B9E' if margin.margin_change > 0 else '#31D0AA' }};margin-top:2px;">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:var(--muted);">融資餘額</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--text);">{{ "{:,}".format(margin.margin_bal) }} 張</div>
+      <div style="font-size:10px;color:{{ 'var(--up)' if margin.margin_change > 0 else 'var(--down)' }};margin-top:2px;">
         {{ "{:+,}".format(margin.margin_change) }}
       </div>
     </div>
-    <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
-      <div style="font-size:11px;color:#7A6EAA;">融資買</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#ED4B9E;">{{ "{:,}".format(margin.margin_buy) }}</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:var(--muted);">融資買</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--up);">{{ "{:,}".format(margin.margin_buy) }}</div>
     </div>
-    <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
-      <div style="font-size:11px;color:#7A6EAA;">融券餘額</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#280D5F;">{{ "{:,}".format(margin.short_bal) }} 張</div>
-      <div style="font-size:10px;color:{{ '#31D0AA' if margin.short_change > 0 else '#ED4B9E' }};margin-top:2px;">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:var(--muted);">融券餘額</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--text);">{{ "{:,}".format(margin.short_bal) }} 張</div>
+      <div style="font-size:10px;color:{{ 'var(--down)' if margin.short_change > 0 else 'var(--up)' }};margin-top:2px;">
         {{ "{:+,}".format(margin.short_change) }}
       </div>
     </div>
-    <div style="background:#FFFFFF;border:1px solid #E7E3EB;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
-      <div style="font-size:11px;color:#7A6EAA;">券資比</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:#280D5F;">{{ "%.1f"|format(margin.ratio) }}%</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:var(--muted);">券資比</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--text);">{{ "%.1f"|format(margin.ratio) }}%</div>
     </div>
   </div>
   {% endif %}
@@ -185,8 +185,8 @@
 
   function mkTooltip(color) {
     return {
-      backgroundColor:'rgba(8,6,11,0.95)', titleColor:'#F4EEFF', bodyColor:'#B8ADD2',
-      borderColor:'#1FC7D4', borderWidth:1, cornerRadius:10, padding:10,
+      backgroundColor:'rgba(8,6,11,0.95)', titleColor:'var(--text)', bodyColor:'var(--muted)',
+      borderColor:'var(--teal)', borderWidth:1, cornerRadius:10, padding:10,
       titleFont:{size:13,weight:'bold'}, bodyFont:{size:11}, displayColors:false,
       callbacks: {
         title: items => {
@@ -226,13 +226,13 @@
       scales: {
         x: {
           reverse: true, max: Math.ceil(maxNet * 1.1),
-          grid: { color: 'rgba(56,50,65,0.3)' }, border: { color: '#383241' },
-          ticks: { color: '#B8ADD2', font: { size: 9 }, callback: v => v.toLocaleString() },
+          grid: { color: 'rgba(56,50,65,0.3)' }, border: { color: 'var(--border)' },
+          ticks: { color: 'var(--muted)', font: { size: 9 }, callback: v => v.toLocaleString() },
         },
         y: {
           position: 'right',
           grid: { display: false }, border: { display: false },
-          ticks: { color: '#ED4B9E', font: { size: 10, weight: '600' }, mirror: false },
+          ticks: { color: 'var(--up)', font: { size: 10, weight: '600' }, mirror: false },
         }
       },
       onHover: (evt, els) => {
@@ -259,12 +259,12 @@
       scales: {
         x: {
           max: Math.ceil(maxNet * 1.1),
-          grid: { color: 'rgba(56,50,65,0.3)' }, border: { color: '#383241' },
-          ticks: { color: '#B8ADD2', font: { size: 9 }, callback: v => v.toLocaleString() },
+          grid: { color: 'rgba(56,50,65,0.3)' }, border: { color: 'var(--border)' },
+          ticks: { color: 'var(--muted)', font: { size: 9 }, callback: v => v.toLocaleString() },
         },
         y: {
           grid: { display: false }, border: { display: false },
-          ticks: { color: '#31D0AA', font: { size: 10, weight: '600' } },
+          ticks: { color: 'var(--down)', font: { size: 10, weight: '600' } },
         }
       },
       onHover: (evt, els) => {
