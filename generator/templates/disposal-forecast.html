@@ -39,7 +39,7 @@
       {% else %}
       <button class="nav-btn" disabled>◄ 前一天</button>
       {% endif %}
-      <span class="date">{{ date }}</span>
+      <span class="date">{{ applicable_date }}</span>
       {% if next_date is defined and next_date %}
       <button class="nav-btn" onclick="location.href='disposal-{{ next_date }}.html'">後一天 ►</button>
       {% else %}
