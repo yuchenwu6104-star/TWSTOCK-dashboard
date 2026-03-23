@@ -406,10 +406,10 @@ def compute_forecast(as_of_date: datetime.date = None) -> dict:
             accum = mkt.get("accum_pct_6d", 0)
             diff = round(trigger_price - start_6d, 2) if trigger_price else 0
 
-            # 判斷觸發難度
+            # 判斷第1款觸發難度
             if trigger_price <= 0:
                 status = "exempt"
-                status_text = "豁免（價差不足）"
+                status_text = "第1款豁免（價差不足）"
             elif trigger_price <= limit_down:
                 status = "certain"
                 status_text = "無論漲跌皆符合"
@@ -421,8 +421,13 @@ def compute_forecast(as_of_date: datetime.date = None) -> dict:
                 status = "possible"
                 status_text = f"{trigger_price} ↑(含) (+{pct_needed}%)"
             else:
-                status = "impossible"
-                status_text = "超過漲停，不可能觸發"
+                # 第1款不可能，但如果最接近門檻不是 3①，其他款仍可觸發
+                if closest_threshold != "3①":
+                    status = "other_possible"
+                    status_text = "第1款超過漲停，但第2~8款任一觸發即計入"
+                else:
+                    status = "impossible"
+                    status_text = "超過漲停，不可能觸發"
 
             trigger_info = {
                 "start_6d": start_6d,
