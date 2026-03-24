@@ -34,6 +34,16 @@ def _has_first_rule(rule_code: str) -> bool:
     return "第一款" in rule_code
 
 
+_RULES_1_TO_8 = {"第一款", "第二款", "第三款", "第四款", "第五款", "第六款", "第七款", "第八款"}
+
+
+def _has_rules_1_to_8(rule_code: str) -> bool:
+    """檢查 rule_code 是否含第1~8款之一（不含第九款以上）。"""
+    if not rule_code:
+        return False
+    return any(r in rule_code for r in _RULES_1_TO_8)
+
+
 def _get_trading_days(con, end_date: datetime.date, lookback: int = 35) -> list[datetime.date]:
     rows = con.execute("""
         SELECT DISTINCT announcement_date
@@ -342,7 +352,11 @@ def compute_forecast(as_of_date: datetime.date = None) -> dict:
                             else:
                                 break
                         else:
-                            count += 1
+                            # "any" 仍需含第1~8款之一，第九款以上不計入
+                            if any(_has_rules_1_to_8(rc) for rc in info["dates"][d]):
+                                count += 1
+                            else:
+                                break
                     else:
                         break
             else:
@@ -353,7 +367,9 @@ def compute_forecast(as_of_date: datetime.date = None) -> dict:
                             if any(_has_first_rule(rc) for rc in info["dates"][d]):
                                 count += 1
                         else:
-                            count += 1
+                            # "any" 仍需含第1~8款之一，第九款以上不計入
+                            if any(_has_rules_1_to_8(rc) for rc in info["dates"][d]):
+                                count += 1
 
             gap = need - count
             thresholds_progress.append({
