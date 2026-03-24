@@ -34,6 +34,16 @@ def _has_first_rule(rule_code: str) -> bool:
     return "第一款" in rule_code
 
 
+_RULE_1_TO_8_NAMES = {"第一款", "第二款", "第三款", "第四款", "第五款", "第六款", "第七款", "第八款"}
+
+
+def _has_rule_1_to_8(rule_code: str) -> bool:
+    """是否含第1~8款（第9款以上不計入5/10/30日門檻）。"""
+    if not rule_code:
+        return False
+    return any(r in rule_code for r in _RULE_1_TO_8_NAMES)
+
+
 def _get_trading_days(con, end_date: datetime.date, lookback: int = 35) -> list[datetime.date]:
     rows = con.execute("""
         SELECT DISTINCT announcement_date
@@ -51,44 +61,37 @@ def _rule1_trigger_price(start_price: float, exchange: str) -> float:
     """計算第1款觸發價。
 
     TWSE 規則（6日累積漲跌幅門檻）：
-      價差 < 3 元 → 不適用（豁免）
-      價差 < 40 元 → 30%
-      價差 < 50 元 → 32%
-      價差 ≥ 50 元 → 23% + 40 元
+      差額 < 3 元   → 不適用（豁免）
+      差額 < 50 元  → 須達 32%
+      差額 ≥ 50 元  → 須達 25% 且差額 ≥ 50 元（即 25%+50元）
     TPEx 規則：
-      價差 < 3 元 → 不適用
-      價差 < 50 元 → 25%
-      價差 ≥ 50 元 → 25% + 50 元
+      差額 < 3 元   → 不適用
+      差額 < 40 元  → 須達 30%
+      差額 ≥ 40 元  → 須達 23% 且差額 ≥ 40 元（即 23%+40元）
+
+    # TODO: 第1款嚴格版本需扣除大盤及同類股漲跌幅差值，
+    #       目前無大盤/類股指數資料，暫以股票本身累積漲幅計算。
     """
     if start_price <= 0:
         return 0
 
     if exchange == "TPEx":
-        # 先試 25%
-        trigger = start_price * 1.25
-        diff = trigger - start_price
-        if diff < 3:
-            return 0  # 豁免
-        if diff < 50:
-            return round(trigger, 2)
-        # ≥ 50 → 25% + 50 元
-        return round(start_price + 50 + start_price * 0.25, 2)
-    else:
-        # TWSE: 試不同級距
-        # 30% 門檻
-        trigger_30 = start_price * 1.30
-        diff_30 = trigger_30 - start_price
+        diff_30 = start_price * 0.30
         if diff_30 < 3:
-            return 0
+            return 0  # 豁免
         if diff_30 < 40:
-            return round(trigger_30, 2)
-        # 32% 門檻
-        trigger_32 = start_price * 1.32
-        diff_32 = trigger_32 - start_price
-        if diff_32 < 50:
-            return round(trigger_32, 2)
-        # 23% + 40 元
+            return round(start_price * 1.30, 2)
+        # 差額 ≥ 40 → 23% + 40 元
         return round(start_price * 1.23 + 40, 2)
+    else:
+        # TWSE
+        diff_32 = start_price * 0.32
+        if diff_32 < 3:
+            return 0  # 豁免
+        if diff_32 < 50:
+            return round(start_price * 1.32, 2)
+        # 差額 ≥ 50 → 25% + 50 元
+        return round(start_price * 1.25 + 50, 2)
 
 
 def _rule1_threshold_desc(start_price: float, exchange: str) -> str:
@@ -96,22 +99,19 @@ def _rule1_threshold_desc(start_price: float, exchange: str) -> str:
     if start_price <= 0:
         return ""
     if exchange == "TPEx":
-        diff = start_price * 0.25
-        if diff < 3:
-            return "豁免（價差<3元）"
-        if diff < 50:
-            return "須達 25% 門檻"
-        return "適用 25%+50元 門檻"
-    else:
         diff_30 = start_price * 0.30
         if diff_30 < 3:
             return "豁免（價差<3元）"
         if diff_30 < 40:
             return "須達 30% 門檻"
+        return "適用 23%+40元 門檻"
+    else:
         diff_32 = start_price * 0.32
+        if diff_32 < 3:
+            return "豁免（價差<3元）"
         if diff_32 < 50:
             return "須達 32% 門檻"
-        return "適用 23%+40元 門檻"
+        return "適用 25%+50元 門檻"
 
 
 # _calc_limit_up and _calc_limit_down imported from crawler.twse_api
@@ -342,7 +342,11 @@ def compute_forecast(as_of_date: datetime.date = None) -> dict:
                             else:
                                 break
                         else:
-                            count += 1
+                            # 5日/10日/30日門檻只計入第1~8款（第9款以上不算）
+                            if any(_has_rule_1_to_8(rc) for rc in info["dates"][d]):
+                                count += 1
+                            else:
+                                break
                     else:
                         break
             else:
@@ -353,7 +357,9 @@ def compute_forecast(as_of_date: datetime.date = None) -> dict:
                             if any(_has_first_rule(rc) for rc in info["dates"][d]):
                                 count += 1
                         else:
-                            count += 1
+                            # 5日/10日/30日門檻只計入第1~8款（第9款以上不算）
+                            if any(_has_rule_1_to_8(rc) for rc in info["dates"][d]):
+                                count += 1
 
             gap = need - count
             thresholds_progress.append({
@@ -443,22 +449,29 @@ def compute_forecast(as_of_date: datetime.date = None) -> dict:
                 "status_text": status_text,
             }
 
-        # 第3款（量）、第4款（週轉率）附加條件
-        rule3_info = {}
+        # 第5款（量 > 60日均量×5倍）、第4款（週轉率）附加條件
+        # 舊鍵名 rule3 實際對應第5款，已改為 rule5
+        rule5_info = {}
         rule4_info = {}
         if mkt:
             avg_vol_lots = mkt.get("avg_volume_60d_lots", 0)
             vol_ratio = mkt.get("volume_ratio", 0)
-            rule3_info = {
+            rule5_info = {
                 "need_volume_lots": avg_vol_lots,
                 "current_ratio": vol_ratio,
+                "triggered": vol_ratio >= 5.0,  # 第5款：成交量 > 60日均量×5倍
             }
             # 週轉率 = 當日成交量 / 發行股數 * 100
+            # 上市(TWSE)：≥ 10%；上櫃(TPEx)：≥ 5%
             shares = _get_issued_shares(sym)
             current_turnover = round(mkt.get("volume", 0) / shares * 100, 2) if shares > 0 else 0
+            need_turnover = 5.0 if exchange == "TPEx" else 10.0
             rule4_info = {
-                "need_turnover": 10.0,
+                "need_turnover": need_turnover,
                 "current_turnover": current_turnover,
+                "triggered": current_turnover >= need_turnover,
+                # TODO: 第2/3款條件需要 PE/PB 資料，目前無資料源，暫不計算。
+                # TODO: 第6/7/8款依賴官方公告 rule_code，此處不自算，以 attention_events 為準。
             }
 
         # 最快處置預估
@@ -486,7 +499,7 @@ def compute_forecast(as_of_date: datetime.date = None) -> dict:
             "closest_gap": closest_gap,
             "recent_notices": recent_notices,
             "trigger": trigger_info,
-            "rule3": rule3_info,
+            "rule5": rule5_info,
             "rule4": rule4_info,
             "accum_pct_30d": mkt.get("accum_pct_30d", 0),
             "earliest_disposal": earliest_disposal_label,
