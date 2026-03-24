@@ -225,8 +225,12 @@ def compute_forecast(as_of_date: datetime.date = None) -> dict:
         as_of_date = row[0] if row[0] else datetime.date.today()
 
     # --- 1. 處置中 ---
+    # 適用日期 = 下一個交易日，處置到期日 < 適用日期的不再列入
+    applicable = as_of_date + datetime.timedelta(days=1)
+    while applicable.weekday() >= 5:
+        applicable += datetime.timedelta(days=1)
+    check_date = applicable
     in_disposal = []
-    check_date = as_of_date  # 歷史頁用 as_of_date，最新頁由呼叫端傳今天
     disp_rows = con.execute("""
         SELECT symbol, name, disposal_level, start_date, end_date,
                rule_group, matching_interval_seconds, exchange
@@ -491,11 +495,6 @@ def compute_forecast(as_of_date: datetime.date = None) -> dict:
     # 去重
     almost_dedup = _dedup_closest(almost)
     two_more_dedup = _dedup_closest(two_more)
-
-    # 適用日期
-    applicable = as_of_date + datetime.timedelta(days=1)
-    while applicable.weekday() >= 5:
-        applicable += datetime.timedelta(days=1)
 
     return {
         "as_of_date": str(as_of_date),

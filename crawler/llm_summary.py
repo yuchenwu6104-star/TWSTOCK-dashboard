@@ -60,7 +60,7 @@ def _call_anthropic(cfg: dict, prompt: str) -> str | None:
     }
     body = json.dumps({
         "model": cfg["model"],
-        "max_tokens": 1024,
+        "max_tokens": 2048,
         "messages": [{"role": "user", "content": prompt}],
     }).encode()
     req = urllib.request.Request(cfg["url"], data=body, headers=headers)
@@ -80,7 +80,7 @@ def _call_openai_compat(cfg: dict, prompt: str) -> str | None:
             {"role": "system", "content": "你是台股分析師。只回傳 JSON，不要 markdown 或其他文字。"},
             {"role": "user", "content": prompt},
         ],
-        "max_tokens": 1024,
+        "max_tokens": 2048,
         "response_format": {"type": "json_object"},
     }).encode()
     req = urllib.request.Request(cfg["url"], data=body, headers=headers)
@@ -170,21 +170,36 @@ def generate_theme_summaries(themes: dict, trade_date: str) -> dict:
                 "stock_reasons": reasons,
             }
         else:
-            # Fallback: 嘗試舊格式解析
+            # Fallback: 嘗試從截斷 JSON 提取 summary/driver
             summary, driver = "", ""
+            reasons = {}
             if text:
-                for line in text.strip().split("\n"):
-                    line = line.strip()
-                    if line.startswith("摘要"):
-                        summary = line.split("：", 1)[-1].strip()
-                    elif line.startswith("驅動因子"):
-                        driver = line.split("：", 1)[-1].strip()
+                # 先嘗試 regex 提取（即使 JSON 截斷也能抓到前面的欄位）
+                m_sum = re.search(r'"summary"\s*:\s*"([^"]+)"', text)
+                m_drv = re.search(r'"driver"\s*:\s*"([^"]+)"', text)
+                if m_sum:
+                    summary = m_sum.group(1)
+                if m_drv:
+                    driver = m_drv.group(1)
+                # 嘗試提取 reasons
+                for m in re.finditer(r'"(\d{4,6})"\s*:\s*"([^"]+)"', text):
+                    code, reason = m.group(1), m.group(2)
+                    if not _is_junk(reason):
+                        reasons[code] = reason
+                # 如果 regex 也沒抓到，用舊邏輯
                 if not summary:
-                    summary = text.strip()[:200]
+                    for line in text.strip().split("\n"):
+                        line = line.strip()
+                        if line.startswith("摘要"):
+                            summary = line.split("：", 1)[-1].strip()
+                        elif line.startswith("驅動因子"):
+                            driver = line.split("：", 1)[-1].strip()
+                    if not summary and not text.lstrip().startswith("{"):
+                        summary = text.strip()[:200]
             results[theme_name] = {
                 "summary": summary or f"{theme_name}族群今日有{len(stocks)}檔漲停",
-                "driver": driver or "資料待更新",
-                "stock_reasons": {},
+                "driver": driver or "",
+                "stock_reasons": reasons,
             }
 
     return results
