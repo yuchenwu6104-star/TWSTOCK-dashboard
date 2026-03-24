@@ -126,7 +126,7 @@ def run(trade_date: datetime.date = None, skip_broker: bool = False):
     tpex_data, tpex_api_date = [], None
     for attempt in range(3):
         try:
-            tpex_data, tpex_api_date = fetch_tpex()
+            tpex_data, tpex_api_date = fetch_tpex(expected_date=trade_date)
             print(f"  TPEx: {len(tpex_data)} 檔 (API date: {tpex_api_date})")
             break
         except Exception as e:

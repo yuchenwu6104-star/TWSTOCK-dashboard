@@ -238,8 +238,87 @@ def fetch_twse(expected_date: datetime.date = None) -> tuple[list[dict], datetim
     return results, api_date
 
 
-def fetch_tpex() -> tuple[list[dict], datetime.date | None]:
-    """上櫃個股日收盤行情。"""
+def _fetch_tpex_traditional(trade_date: datetime.date) -> tuple[list[dict], datetime.date | None]:
+    """Fallback: 用 TPEx 傳統 API 抓上櫃行情。"""
+    roc_y = trade_date.year - 1911
+    roc_date = f"{roc_y}/{trade_date.month:02d}/{trade_date.day:02d}"
+    url = "https://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_result.php"
+    resp = requests.get(url, params={"l": "zh-tw", "o": "json", "d": roc_date},
+                        headers=HEADERS, timeout=30)
+    resp.raise_for_status()
+    data = resp.json()
+    if data.get("stat") != "ok":
+        return [], None
+
+    api_date = None
+    raw_date = data.get("date", "")
+    if raw_date:
+        try:
+            api_date = datetime.date(int(raw_date[:4]), int(raw_date[4:6]), int(raw_date[6:8]))
+        except (ValueError, IndexError):
+            pass
+
+    # table 0 = 上櫃股票行情
+    table = data.get("tables", [{}])[0] if data.get("tables") else {}
+    rows = table.get("data", [])
+    if not rows:
+        return [], api_date
+
+    # fields: 代號(0), 名稱(1), 收盤(2), 漲跌(3), 開盤(4), 最高(5), 最低(6),
+    #         均價(7), 成交股數(8), 成交金額(9), ...
+    # 傳統 API 包含大量權證（6碼純數字），OpenAPI 只有一般股票+ETF
+    # 過濾：保留 4碼 + 5碼(00xxx) + 00開頭6碼(ETF) + 含英文的6碼(ETF)
+    results = []
+    for row in rows:
+        code = str(row[0]).strip()
+        if not code or len(code) > 6:
+            continue
+        # 只保留一般股票+ETF，排除權證：
+        # - 4碼純數字 = 一般股票 ✓
+        # - 00開頭（5-6碼）= ETF ✓
+        # - 其餘（5碼權證如71845U、6碼純數字權證）= 跳過
+        if len(code) == 4 and code.isdigit():
+            pass  # 一般股票
+        elif code.startswith("00"):
+            pass  # ETF
+        else:
+            continue
+            continue
+        close = _safe_float(row[2])
+        change = _safe_float(row[3])
+        open_p = _safe_float(row[4])
+        high = _safe_float(row[5])
+        low = _safe_float(row[6])
+        volume = _safe_int(row[8])
+        trade_value = _safe_int(row[9])
+        prev_close = close - change if close and change else 0
+        limit_up = _calc_limit_up(prev_close) if prev_close > 0 else 0
+        limit_down = round(prev_close * 0.90, 2) if prev_close > 0 else 0
+        is_limit_up = close > 0 and limit_up > 0 and close >= limit_up - 0.05
+        change_pct = round(change / prev_close * 100, 4) if prev_close > 0 else 0.0
+        results.append({
+            "stock_code": code,
+            "stock_name": str(row[1]).strip(),
+            "open_price": open_p,
+            "high_price": high,
+            "low_price": low,
+            "close_price": close,
+            "limit_up_price": limit_up,
+            "limit_down_price": limit_down,
+            "is_limit_up": is_limit_up,
+            "volume": volume,
+            "trade_value": trade_value,
+            "change_price": change,
+            "change_pct": change_pct,
+            "market": "TPEx",
+        })
+    return results, api_date
+
+
+def fetch_tpex(expected_date: datetime.date = None) -> tuple[list[dict], datetime.date | None]:
+    """上櫃個股日收盤行情。回傳 (rows, api_date)。
+    若 OpenAPI 日期與 expected_date 不一致，自動 fallback 到傳統 API。
+    """
     resp = requests.get(TPEX_URL, headers=HEADERS, timeout=30)
     resp.raise_for_status()
     if not resp.text.strip():
@@ -253,6 +332,12 @@ def fetch_tpex() -> tuple[list[dict], datetime.date | None]:
         if raw_date:
             api_date = _parse_roc_date(raw_date)
             break
+
+    # 日期不一致 → fallback
+    if expected_date and api_date and api_date != expected_date:
+        print(f"  ⚠ TPEx OpenAPI 日期={api_date}，預期={expected_date}，改用傳統 API fallback...")
+        return _fetch_tpex_traditional(expected_date)
+
     results = []
     for r in rows:
         code = r.get("SecuritiesCompanyCode", "").strip()
