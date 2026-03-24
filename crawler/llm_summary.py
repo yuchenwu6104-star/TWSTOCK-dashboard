@@ -61,6 +61,7 @@ def _call_anthropic(cfg: dict, prompt: str) -> str | None:
     body = json.dumps({
         "model": cfg["model"],
         "max_tokens": 2048,
+        "system": "你是台股分析師。使用者會提供某個交易日的漲停股資料請你分析原因，這些都是已經發生的歷史資料，不是未來預測。請直接根據提供的資料進行分析，只回傳 JSON 格式，不要加 markdown。",
         "messages": [{"role": "user", "content": prompt}],
     }).encode()
     req = urllib.request.Request(cfg["url"], data=body, headers=headers)
@@ -101,6 +102,13 @@ def _call_openai_compat(cfg: dict, prompt: str) -> str | None:
     return text
 
 
+REFUSAL_KEYWORDS = ["無法分析", "知識截止", "尚未發生", "未來的日期", "知識範圍", "無法提供", "根本問題", "我無法", "不在我的"]
+
+
+def _is_refusal(text: str) -> bool:
+    return any(kw in text for kw in REFUSAL_KEYWORDS)
+
+
 def call_llm(prompt: str) -> str | None:
     for cfg in LLM_CHAIN:
         if not cfg["api_key"]:
@@ -110,6 +118,9 @@ def call_llm(prompt: str) -> str | None:
                 text = _call_anthropic(cfg, prompt)
             else:
                 text = _call_openai_compat(cfg, prompt)
+            if _is_refusal(text):
+                print(f"  [LLM] {cfg['name']} 拒絕回應，嘗試下一個")
+                continue
             print(f"  [LLM] {cfg['name']} ✓")
             return text
         except urllib.error.HTTPError as e:
