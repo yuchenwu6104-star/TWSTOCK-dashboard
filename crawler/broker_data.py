@@ -168,7 +168,13 @@ def save_broker_data(all_brokers: dict, trade_date: datetime.date, db_path: str 
             PRIMARY KEY (date, stock_code, broker_id)
         )
     """)
-    con.execute("DELETE FROM broker_rank WHERE date = ?", [trade_date])
+    # 只刪除本次要寫入的股票（避免分批跑時互相覆蓋）
+    codes = list(all_brokers.keys())
+    if codes:
+        placeholders = ",".join(["?"] * len(codes))
+        con.execute(
+            f"DELETE FROM broker_rank WHERE date = ? AND stock_code IN ({placeholders})",
+            [trade_date] + codes)
 
     count = 0
     for stock_code, data in all_brokers.items():
