@@ -79,6 +79,25 @@ _TW_HOLIDAYS = {
 }
 
 
+def _save_pipeline_status(trade_date: datetime.date, warnings: list[str]):
+    """寫入 pipeline 執行狀態，供 build_site 顯示警告橫幅。"""
+    con = duckdb.connect(DB_PATH)
+    con.execute("""
+        CREATE TABLE IF NOT EXISTS pipeline_status (
+            date DATE PRIMARY KEY,
+            status VARCHAR,
+            warnings VARCHAR,
+            updated_at TIMESTAMP
+        )
+    """)
+    status = "partial" if warnings else "ok"
+    warnings_str = " ／ ".join(warnings) if warnings else ""
+    con.execute("DELETE FROM pipeline_status WHERE date = ?", [trade_date])
+    con.execute("INSERT INTO pipeline_status VALUES (?, ?, ?, ?)",
+                [trade_date, status, warnings_str, datetime.datetime.now()])
+    con.close()
+
+
 def run(trade_date: datetime.date = None, skip_broker: bool = False):
     if trade_date is None:
         trade_date = _last_trading_day()
@@ -124,7 +143,22 @@ def run(trade_date: datetime.date = None, skip_broker: bool = False):
 
     if not twse_data and not tpex_data:
         print("  ❌ 兩邊都沒有有效資料（API 異常或日期不一致），結束。")
-        return {"date": date_str, "themes": {}, "limit_up_count": 0}
+        return {"date": date_str, "themes": {}, "limit_up_count": 0, "warnings": ["TWSE 和 TPEx 都無資料"]}
+
+    # 部分資料檢查
+    warnings = []
+    if not twse_data:
+        warnings.append("上市(TWSE)資料缺失")
+        print("  ⚠⚠ 警告：無上市資料，僅有上櫃資料！")
+    elif len(twse_data) < 1000:
+        warnings.append(f"上市資料異常偏少({len(twse_data)}筆)")
+        print(f"  ⚠⚠ 警告：上市資料僅 {len(twse_data)} 筆，可能不完整！")
+    if not tpex_data:
+        warnings.append("上櫃(TPEx)資料缺失")
+        print("  ⚠⚠ 警告：無上櫃資料，僅有上市資料！")
+    elif len(tpex_data) < 500:
+        warnings.append(f"上櫃資料異常偏少({len(tpex_data)}筆)")
+        print(f"  ⚠⚠ 警告：上櫃資料僅 {len(tpex_data)} 筆，可能不完整！")
 
     all_data = twse_data + tpex_data
     save_daily_prices(all_data, trade_date)
@@ -153,11 +187,19 @@ def run(trade_date: datetime.date = None, skip_broker: bool = False):
     theme_stocks_only = {name: info["stocks"] for name, info in themes_raw.items()}
     summaries = generate_theme_summaries(theme_stocks_only, date_str)
 
-    # 彙整所有個股 reason
+    # 彙整所有個股 reason（修正 key：LLM 有時回傳公司名而非代號）
+    code_name_map = {s["stock_name"]: s["stock_code"] for s in limit_up}
     all_reasons = {}
     for theme_name, sm in summaries.items():
-        for code, reason in sm.get("stock_reasons", {}).items():
-            all_reasons[code] = reason
+        for key, reason in sm.get("stock_reasons", {}).items():
+            # key 應該是股票代號（純數字 4-6 碼），否則用公司名反查
+            if key.isdigit() and 4 <= len(key) <= 6:
+                all_reasons[key] = reason
+            elif key in code_name_map:
+                all_reasons[code_name_map[key]] = reason
+                print(f"  ⚠ stock_reason key 修正: {key} → {code_name_map[key]}")
+            else:
+                print(f"  ⚠ stock_reason key 無法識別，跳過: {key}")
 
     # Step 5: 寫入 daily_theme
     print(f"\n💾 Step 5: 寫入 daily_theme...")
@@ -232,7 +274,11 @@ def run(trade_date: datetime.date = None, skip_broker: bool = False):
         },
         "disposal_forecast": forecast,
         "stock_reasons": all_reasons,
+        "warnings": warnings,
     }
+
+    # 寫入 pipeline 狀態供 build_site 讀取
+    _save_pipeline_status(trade_date, warnings)
 
     print(f"\n✅ 完成！{len(limit_up)} 檔漲停，{len(themes_raw)} 個族群")
     return result

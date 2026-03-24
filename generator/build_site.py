@@ -228,6 +228,19 @@ def build(trade_date: datetime.date = None):
     for code, stock in price_map.items():
         stock["reason"] = reason_map.get(code, "")
 
+    # ---------- pipeline 狀態 ----------
+    pipeline_warning = ""
+    try:
+        ps = con.execute(
+            "SELECT status, warnings FROM pipeline_status WHERE date = ?",
+            [trade_date]).fetchone()
+        if ps and ps[0] == "partial":
+            pipeline_warning = ps[1]
+    except Exception:
+        pass
+    if pipeline_warning:
+        print(f"  ⚠ Pipeline 警告: {pipeline_warning}")
+
     con.close()
 
     # 組裝 themes
@@ -268,6 +281,7 @@ def build(trade_date: datetime.date = None):
         prev_date=prev_date,
         next_date=next_date,
         available_dates=avail_dates,
+        pipeline_warning=pipeline_warning,
     )
     with open(os.path.join(OUTPUT_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(html)

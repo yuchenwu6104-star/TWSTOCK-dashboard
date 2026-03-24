@@ -4,6 +4,11 @@
 
 {% block content %}
 <div class="container">
+  {% if pipeline_warning %}
+  <div style="background:#FFF3CD;border:1px solid #F0C36D;border-radius:12px;padding:12px 16px;margin-bottom:12px;color:#856404;font-size:13px;text-align:center;">
+    ⚠️ 資料未完整更新：{{ pipeline_warning }}
+  </div>
+  {% endif %}
   <header>
     <div class="cta-hint" onclick="document.getElementById('stocks-section').scrollIntoView({behavior:'smooth',block:'start'})">
       💡 點股票看分點明細
