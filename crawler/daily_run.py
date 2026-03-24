@@ -188,17 +188,17 @@ def run(trade_date: datetime.date = None, skip_broker: bool = False):
     con.close()
     print(f"  寫入 {len(themes_raw)} 個族群, {len(all_reasons)} 個個股原因")
 
-    # Step 6: 券商分點（上市漲停股）
+    # Step 6: 券商分點（上市+上櫃漲停股，排除 ETF/權證）
     if not skip_broker:
-        twse_limit_up_codes = [s["stock_code"] for s in limit_up
-                               if s["market"] == "TWSE" and len(s["stock_code"]) == 4]
-        if twse_limit_up_codes:
-            print(f"\n📊 Step 6: 券商分點（{len(twse_limit_up_codes)} 檔上市漲停股）...")
-            broker_data = fetch_multiple_stocks(twse_limit_up_codes)
+        broker_codes = [s["stock_code"] for s in limit_up
+                        if len(s["stock_code"]) == 4]
+        if broker_codes:
+            print(f"\n📊 Step 6: 券商分點（{len(broker_codes)} 檔漲停股）...")
+            broker_data = fetch_multiple_stocks(broker_codes)
             if broker_data:
                 save_broker_data(broker_data, trade_date)
         else:
-            print(f"\n📊 Step 6: 無上市漲停股，跳過券商分點")
+            print(f"\n📊 Step 6: 無漲停股，跳過券商分點")
     else:
         print(f"\n📊 Step 6: 跳過券商分點（skip_broker=True）")
 
