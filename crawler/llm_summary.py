@@ -61,6 +61,7 @@ def _call_anthropic(cfg: dict, prompt: str) -> str | None:
     body = json.dumps({
         "model": cfg["model"],
         "max_tokens": 2048,
+        "system": "你是台股分析師。只回傳 JSON，不要 markdown 或其他文字。",
         "messages": [{"role": "user", "content": prompt}],
     }).encode()
     req = urllib.request.Request(cfg["url"], data=body, headers=headers)
