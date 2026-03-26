@@ -160,7 +160,8 @@ def _fetch_twse_mi_index(trade_date: datetime.date) -> tuple[list[dict], datetim
         prev_close = close - change if close and change else 0
         limit_up = _calc_limit_up(prev_close) if prev_close > 0 else 0
         limit_down = round(prev_close * 0.90, 2) if prev_close > 0 else 0
-        is_limit_up = close > 0 and limit_up > 0 and close >= limit_up - 0.05
+        # 漲停判定：收盤在漲停價 ±0.05 容差內（超過代表非 10% 漲跌幅限制）
+        is_limit_up = close > 0 and limit_up > 0 and abs(close - limit_up) <= 0.05
         change_pct = round(change / prev_close * 100, 4) if prev_close > 0 else 0.0
         results.append({
             "stock_code": code,
@@ -216,8 +217,8 @@ def fetch_twse(expected_date: datetime.date = None) -> tuple[list[dict], datetim
         prev_close = close - change if close and change else 0
         limit_up = _calc_limit_up(prev_close) if prev_close > 0 else 0
         limit_down = round(prev_close * 0.90, 2) if prev_close > 0 else 0
-        # 漲停判定：收盤價 >= 漲停價（容差 0.05）
-        is_limit_up = close > 0 and limit_up > 0 and close >= limit_up - 0.05
+        # 漲停判定：收盤在漲停價 ±0.05 容差內（超過代表非 10% 漲跌幅限制）
+        is_limit_up = close > 0 and limit_up > 0 and abs(close - limit_up) <= 0.05
         change_pct = round(change / prev_close * 100, 4) if prev_close > 0 else 0.0
         results.append({
             "stock_code": code,
@@ -294,7 +295,7 @@ def _fetch_tpex_traditional(trade_date: datetime.date) -> tuple[list[dict], date
         prev_close = close - change if close and change else 0
         limit_up = _calc_limit_up(prev_close) if prev_close > 0 else 0
         limit_down = round(prev_close * 0.90, 2) if prev_close > 0 else 0
-        is_limit_up = close > 0 and limit_up > 0 and close >= limit_up - 0.05
+        is_limit_up = close > 0 and limit_up > 0 and abs(close - limit_up) <= 0.05
         change_pct = round(change / prev_close * 100, 4) if prev_close > 0 else 0.0
         results.append({
             "stock_code": code,
@@ -353,7 +354,7 @@ def fetch_tpex(expected_date: datetime.date = None) -> tuple[list[dict], datetim
         prev_close = close - change if close and change else 0
         limit_up = _calc_limit_up(prev_close) if prev_close > 0 else 0
         limit_down = round(prev_close * 0.90, 2) if prev_close > 0 else 0
-        is_limit_up = close > 0 and limit_up > 0 and close >= limit_up - 0.05
+        is_limit_up = close > 0 and limit_up > 0 and abs(close - limit_up) <= 0.05
         change_pct = round(change / prev_close * 100, 4) if prev_close > 0 else 0.0
         results.append({
             "stock_code": code,

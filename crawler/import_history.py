@@ -72,7 +72,7 @@ def import_date(trade_date: datetime.date):
         change_pct = round(change / prev_cl * 100, 4)
         limit_up = _calc_limit_up(prev_cl)
         limit_down = round(prev_cl * 0.90, 2)
-        is_limit_up = cl >= limit_up - 0.05 if limit_up > 0 else False
+        is_limit_up = abs(cl - limit_up) <= 0.05 if limit_up > 0 else False
 
         market = exchange if exchange else ("TWSE" if len(sym) == 4 else "TPEx")
 
