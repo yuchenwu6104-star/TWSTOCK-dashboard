@@ -225,9 +225,9 @@ footer a { color: var(--teal); text-decoration: none; }
 </head>
 <body>
 <nav class="topnav">
-  <a href="index.html" class="pill ">漲停族群AI分類</a>
-  <a href="nextday.html" class="pill active">隔日表現</a>
-  <a href="disposal.html" class="pill ">處置標準</a>
+  <a href="index-20260331.html" class="pill ">漲停族群AI分類</a>
+  <a href="nextday-20260331.html" class="pill active">隔日表現</a>
+  <a href="disposal-20260331.html" class="pill ">處置標準</a>
   <a href="stats.html" class="pill ">統計分析</a>
   <div class="search-wrap">
     <input id="stock-search" type="text" inputmode="decimal" placeholder="🔍股號" />
@@ -273,14 +273,6 @@ footer a { color: var(--teal); text-decoration: none; }
         </div>
     </div>
 
-    
-    <!-- 歷史趨勢折線圖 -->
-    <div class="concept-title" style="border-left-color:var(--teal);margin-top:20px;">
-        <span class="icon">📈</span><span>歷史趨勢</span>
-    </div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin:8px 0 20px;">
-        <canvas id="historyChart" height="180"></canvas>
-    </div>
     
 
     
@@ -1449,57 +1441,6 @@ footer a { color: var(--teal); text-decoration: none; }
       span.textContent = i === col ? (dir ? ' ▲' : ' ▼') : ' ↕';
     });
   };
-})();
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-<script>
-(function(){
-    const history = [{"date": "2026-03-18", "open_return": 1.48, "avg_return": 2.87, "close_return": 3.55, "open_positive_rate": 57.5, "close_positive_rate": 69.0, "total": 87}, {"date": "2026-03-19", "open_return": 5.34, "avg_return": 3.13, "close_return": 1.46, "open_positive_rate": 89.2, "close_positive_rate": 56.9, "total": 65}, {"date": "2026-03-20", "open_return": -0.01, "avg_return": 0.33, "close_return": -1.62, "open_positive_rate": 39.3, "close_positive_rate": 35.7, "total": 56}, {"date": "2026-03-23", "open_return": -0.52, "avg_return": -0.73, "close_return": -2.48, "open_positive_rate": 36.4, "close_positive_rate": 27.3, "total": 11}, {"date": "2026-03-24", "open_return": 4.21, "avg_return": 4.1, "close_return": 4.07, "open_positive_rate": 85.7, "close_positive_rate": 76.2, "total": 21}, {"date": "2026-03-25", "open_return": 3.23, "avg_return": 3.48, "close_return": 1.81, "open_positive_rate": 87.1, "close_positive_rate": 61.4, "total": 70}, {"date": "2026-03-26", "open_return": 1.15, "avg_return": 2.34, "close_return": 4.17, "open_positive_rate": 48.7, "close_positive_rate": 76.9, "total": 39}, {"date": "2026-03-27", "open_return": 1.79, "avg_return": 1.62, "close_return": 1.18, "open_positive_rate": 57.8, "close_positive_rate": 46.7, "total": 45}];
-    if (!history.length) return;
-
-    new Chart(document.getElementById('historyChart'), {
-        type: 'line',
-        data: {
-            labels: history.map(h => h.date.slice(5)),
-            datasets: [
-                {
-                    label: '開盤報酬', data: history.map(h => h.open_return),
-                    borderColor: '#ED4B9E', backgroundColor: 'transparent',
-                    borderWidth: 2, pointRadius: 4, tension: 0.3,
-                },
-                {
-                    label: '均價報酬', data: history.map(h => h.avg_return),
-                    borderColor: '#f39c12', backgroundColor: 'transparent',
-                    borderWidth: 2, pointRadius: 4, tension: 0.3,
-                },
-                {
-                    label: '收盤報酬', data: history.map(h => h.close_return),
-                    borderColor: '#31D0AA', backgroundColor: 'transparent',
-                    borderWidth: 2, pointRadius: 4, tension: 0.3,
-                },
-            ]
-        },
-        options: {
-            responsive: true, animation: false,
-            plugins: {
-                legend: { labels: { color: '#B8ADD2', font: { size: 11 }, usePointStyle: true } },
-                tooltip: {
-                    backgroundColor: 'rgba(8,6,11,0.95)', titleColor: '#F4EEFF',
-                    bodyColor: '#B8ADD2', borderColor: '#1FC7D4', borderWidth: 1,
-                    cornerRadius: 10, padding: 10,
-                    callbacks: { label: item => item.dataset.label + '：' + item.raw.toFixed(2) + '%' }
-                }
-            },
-            scales: {
-                x: { grid: { color: 'rgba(56,50,65,0.3)' }, ticks: { color: '#B8ADD2', font: { size: 10 } } },
-                y: {
-                    grid: { color: 'rgba(56,50,65,0.3)' },
-                    ticks: { color: '#B8ADD2', font: { size: 10 }, callback: v => v + '%' },
-                }
-            }
-        }
-    });
 })();
 </script>
 
