@@ -255,7 +255,7 @@ footer a { color: var(--teal); text-decoration: none; }
     <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
       <span style="color:var(--teal);font-size:13px;font-weight:600;">半導體檢測／封測</span>
       
-      <span style="color:var(--muted);font-size:12px;margin-left:8px;">汎銓為半導體檢測龍頭，受惠於先進封裝檢測需求大幅成長，AI晶片良率檢測訂單湧入，加上公司擴充產能效益顯現，股價反映基本面利多鎖住漲停</span>
+      <span style="color:var(--muted);font-size:12px;margin-left:8px;">先進製程檢測需求暢旺，受惠AI晶片測試訂單增加，預期營收獲利持續成長</span>
       
     </div>
     
@@ -450,7 +450,7 @@ footer a { color: var(--teal); text-decoration: none; }
         </tr>
         
         <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">台新證券</td>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">台新-營業部</td>
           <td class="net" style="color:var(--down);">154</td>
           <td>555.05</td>
           <td>157</td>
@@ -593,30 +593,30 @@ footer a { color: var(--teal); text-decoration: none; }
   <!-- 融資融券 -->
   <div class="concept-title" style="border-left-color:var(--purple);">
     <span class="icon">💰</span><span>融資融券</span>
-    <span class="count">04/01</span>
+    <span class="count">04/02</span>
   </div>
   <div class="margin-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 20px;">
     <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
       <div style="font-size:11px;color:var(--muted);">融資餘額</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--text);">5,376 張</div>
-      <div style="font-size:10px;color:var(--up);margin-top:2px;">
-        +100
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--text);">5,254 張</div>
+      <div style="font-size:10px;color:var(--down);margin-top:2px;">
+        -122
       </div>
     </div>
     <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
       <div style="font-size:11px;color:var(--muted);">融資買</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--up);">551</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--up);">701</div>
     </div>
     <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
       <div style="font-size:11px;color:var(--muted);">融券餘額</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--text);">4 張</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--text);">0 張</div>
       <div style="font-size:10px;color:var(--up);margin-top:2px;">
-        -53
+        -4
       </div>
     </div>
     <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
       <div style="font-size:11px;color:var(--muted);">券資比</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--text);">0.1%</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--text);">0.0%</div>
     </div>
   </div>
   
@@ -632,7 +632,7 @@ footer a { color: var(--teal); text-decoration: none; }
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script>
 (function() {
-  const data = {"buy_rank": [{"name": "台灣摩根士丹利", "net": 186, "buy": 209, "sell": 23}, {"name": "富邦-建國", "net": 158, "buy": 166, "sell": 8}, {"name": "摩根大通", "net": 157, "buy": 240, "sell": 83}, {"name": "美商高盛", "net": 122, "buy": 281, "sell": 159}, {"name": "美林", "net": 53, "buy": 59, "sell": 6}, {"name": "富邦-南屯", "net": 46, "buy": 54, "sell": 8}, {"name": "元大-鳳中", "net": 26, "buy": 27, "sell": 1}, {"name": "元大-松山", "net": 25, "buy": 27, "sell": 2}, {"name": "台新-建北", "net": 24, "buy": 27, "sell": 3}, {"name": "富邦-永和", "net": 23, "buy": 29, "sell": 6}, {"name": "凱基-豐中", "net": 22, "buy": 22, "sell": 0}, {"name": "台新-新興", "net": 21, "buy": 36, "sell": 15}, {"name": "國票-南崁", "net": 21, "buy": 21, "sell": 0}, {"name": "富邦-新莊", "net": 18, "buy": 20, "sell": 2}], "sell_rank": [{"name": "富邦證券", "net": 169, "buy": 327, "sell": 496}, {"name": "台新證券", "net": 154, "buy": 157, "sell": 311}, {"name": "華南永昌", "net": 99, "buy": 31, "sell": 130}, {"name": "統一-竹南", "net": 47, "buy": 0, "sell": 47}, {"name": "永豐金-嘉義", "net": 41, "buy": 1, "sell": 42}, {"name": "凱基-台北", "net": 37, "buy": 440, "sell": 477}, {"name": "第一金-新竹", "net": 27, "buy": 4, "sell": 31}, {"name": "台新-中壢", "net": 23, "buy": 2, "sell": 25}, {"name": "玉山-嘉義", "net": 22, "buy": 10, "sell": 32}, {"name": "宏遠-桃園", "net": 22, "buy": 0, "sell": 22}, {"name": "中國信託-忠孝", "net": 22, "buy": 2, "sell": 24}, {"name": "陽信", "net": 20, "buy": 2, "sell": 22}, {"name": "元大-新竹", "net": 19, "buy": 25, "sell": 44}, {"name": "元大-土城永寧", "net": 17, "buy": 0, "sell": 17}]};
+  const data = {"buy_rank": [{"name": "台灣摩根士丹利", "net": 186, "buy": 209, "sell": 23}, {"name": "富邦-建國", "net": 158, "buy": 166, "sell": 8}, {"name": "摩根大通", "net": 157, "buy": 240, "sell": 83}, {"name": "美商高盛", "net": 122, "buy": 281, "sell": 159}, {"name": "美林", "net": 53, "buy": 59, "sell": 6}, {"name": "富邦-南屯", "net": 46, "buy": 54, "sell": 8}, {"name": "元大-鳳中", "net": 26, "buy": 27, "sell": 1}, {"name": "元大-松山", "net": 25, "buy": 27, "sell": 2}, {"name": "台新-建北", "net": 24, "buy": 27, "sell": 3}, {"name": "富邦-永和", "net": 23, "buy": 29, "sell": 6}, {"name": "凱基-豐中", "net": 22, "buy": 22, "sell": 0}, {"name": "台新-新興", "net": 21, "buy": 36, "sell": 15}, {"name": "國票-南崁", "net": 21, "buy": 21, "sell": 0}, {"name": "富邦-新莊", "net": 18, "buy": 20, "sell": 2}], "sell_rank": [{"name": "富邦證券", "net": 169, "buy": 327, "sell": 496}, {"name": "台新-營業部", "net": 154, "buy": 157, "sell": 311}, {"name": "華南永昌", "net": 99, "buy": 31, "sell": 130}, {"name": "統一-竹南", "net": 47, "buy": 0, "sell": 47}, {"name": "永豐金-嘉義", "net": 41, "buy": 1, "sell": 42}, {"name": "凱基-台北", "net": 37, "buy": 440, "sell": 477}, {"name": "第一金-新竹", "net": 27, "buy": 4, "sell": 31}, {"name": "台新-中壢", "net": 23, "buy": 2, "sell": 25}, {"name": "玉山-嘉義", "net": 22, "buy": 10, "sell": 32}, {"name": "宏遠-桃園", "net": 22, "buy": 0, "sell": 22}, {"name": "中國信託-忠孝", "net": 22, "buy": 2, "sell": 24}, {"name": "陽信", "net": 20, "buy": 2, "sell": 22}, {"name": "元大-新竹", "net": 19, "buy": 25, "sell": 44}, {"name": "元大-土城永寧", "net": 17, "buy": 0, "sell": 17}]};
   const buyRank = data.buy_rank;
   const sellRank = data.sell_rank;
 

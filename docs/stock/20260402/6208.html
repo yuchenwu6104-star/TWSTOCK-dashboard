@@ -255,7 +255,7 @@ footer a { color: var(--teal); text-decoration: none; }
     <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
       <span style="color:var(--teal);font-size:13px;font-weight:600;">個股表現亮點</span>
       
-      <span style="color:var(--muted);font-size:12px;margin-left:8px;">光學鏡頭切入雷射雷達供應，車用光電題材發酵</span>
+      <span style="color:var(--muted);font-size:12px;margin-left:8px;">顯示器族群受惠車用顯示與Mini LED滲透率提升，基本面改善吸引資金進駐。</span>
       
     </div>
     
@@ -495,20 +495,20 @@ footer a { color: var(--teal); text-decoration: none; }
         </tr>
         
         <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">台新證券</td>
-          <td class="net" style="color:var(--down);">9</td>
-          <td>52.09</td>
-          <td>1</td>
-          <td>10</td>
-          <td>52.05</td>
-        </tr>
-        
-        <tr>
           <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大-中山北路</td>
           <td class="net" style="color:var(--down);">9</td>
           <td>52.09</td>
           <td>0</td>
           <td>9</td>
+          <td>52.05</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">台新-營業部</td>
+          <td class="net" style="color:var(--down);">9</td>
+          <td>52.09</td>
+          <td>1</td>
+          <td>10</td>
           <td>52.05</td>
         </tr>
         
@@ -575,19 +575,19 @@ footer a { color: var(--teal); text-decoration: none; }
   <!-- 融資融券 -->
   <div class="concept-title" style="border-left-color:var(--purple);">
     <span class="icon">💰</span><span>融資融券</span>
-    <span class="count">04/01</span>
+    <span class="count">04/02</span>
   </div>
   <div class="margin-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 20px;">
     <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
       <div style="font-size:11px;color:var(--muted);">融資餘額</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--text);">733 張</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--text);">661 張</div>
       <div style="font-size:10px;color:var(--down);margin-top:2px;">
-        +0
+        -72
       </div>
     </div>
     <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
       <div style="font-size:11px;color:var(--muted);">融資買</div>
-      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--up);">0</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--up);">154</div>
     </div>
     <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
       <div style="font-size:11px;color:var(--muted);">融券餘額</div>
@@ -614,7 +614,7 @@ footer a { color: var(--teal); text-decoration: none; }
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script>
 (function() {
-  const data = {"buy_rank": [{"name": "元大-竹科", "net": 288, "buy": 288, "sell": 0}, {"name": "凱基-敦北", "net": 131, "buy": 139, "sell": 8}, {"name": "統一", "net": 37, "buy": 89, "sell": 52}, {"name": "凱基-高雄", "net": 15, "buy": 16, "sell": 1}, {"name": "元大-永春", "net": 10, "buy": 10, "sell": 0}, {"name": "台新-緯城", "net": 10, "buy": 10, "sell": 0}, {"name": "群益金鼎", "net": 8, "buy": 20, "sell": 12}, {"name": "玉山-台南", "net": 8, "buy": 8, "sell": 0}, {"name": "合庫-高雄", "net": 8, "buy": 8, "sell": 0}, {"name": "大昌", "net": 7, "buy": 9, "sell": 2}, {"name": "兆豐-南門", "net": 6, "buy": 7, "sell": 1}], "sell_rank": [{"name": "元大-土城永寧", "net": 158, "buy": 16, "sell": 174}, {"name": "元大-新竹", "net": 102, "buy": 0, "sell": 102}, {"name": "華南永昌", "net": 56, "buy": 0, "sell": 56}, {"name": "國票-北高雄", "net": 35, "buy": 0, "sell": 35}, {"name": "凱基-中山", "net": 22, "buy": 0, "sell": 22}, {"name": "凱基-台南", "net": 21, "buy": 0, "sell": 21}, {"name": "兆豐-三重", "net": 21, "buy": 0, "sell": 21}, {"name": "統一-東湖", "net": 16, "buy": 0, "sell": 16}, {"name": "元大-和平", "net": 14, "buy": 0, "sell": 14}, {"name": "台新證券", "net": 9, "buy": 1, "sell": 10}, {"name": "元大-中山北路", "net": 9, "buy": 0, "sell": 9}, {"name": "元大-南投", "net": 8, "buy": 0, "sell": 8}, {"name": "玉山-雙和", "net": 8, "buy": 1, "sell": 9}, {"name": "凱基-永華", "net": 8, "buy": 0, "sell": 8}, {"name": "美林", "net": 7, "buy": 0, "sell": 7}]};
+  const data = {"buy_rank": [{"name": "元大-竹科", "net": 288, "buy": 288, "sell": 0}, {"name": "凱基-敦北", "net": 131, "buy": 139, "sell": 8}, {"name": "統一", "net": 37, "buy": 89, "sell": 52}, {"name": "凱基-高雄", "net": 15, "buy": 16, "sell": 1}, {"name": "元大-永春", "net": 10, "buy": 10, "sell": 0}, {"name": "台新-緯城", "net": 10, "buy": 10, "sell": 0}, {"name": "群益金鼎", "net": 8, "buy": 20, "sell": 12}, {"name": "玉山-台南", "net": 8, "buy": 8, "sell": 0}, {"name": "合庫-高雄", "net": 8, "buy": 8, "sell": 0}, {"name": "大昌", "net": 7, "buy": 9, "sell": 2}, {"name": "兆豐-南門", "net": 6, "buy": 7, "sell": 1}], "sell_rank": [{"name": "元大-土城永寧", "net": 158, "buy": 16, "sell": 174}, {"name": "元大-新竹", "net": 102, "buy": 0, "sell": 102}, {"name": "華南永昌", "net": 56, "buy": 0, "sell": 56}, {"name": "國票-北高雄", "net": 35, "buy": 0, "sell": 35}, {"name": "凱基-中山", "net": 22, "buy": 0, "sell": 22}, {"name": "凱基-台南", "net": 21, "buy": 0, "sell": 21}, {"name": "兆豐-三重", "net": 21, "buy": 0, "sell": 21}, {"name": "統一-東湖", "net": 16, "buy": 0, "sell": 16}, {"name": "元大-和平", "net": 14, "buy": 0, "sell": 14}, {"name": "元大-中山北路", "net": 9, "buy": 0, "sell": 9}, {"name": "台新-營業部", "net": 9, "buy": 1, "sell": 10}, {"name": "元大-南投", "net": 8, "buy": 0, "sell": 8}, {"name": "玉山-雙和", "net": 8, "buy": 1, "sell": 9}, {"name": "凱基-永華", "net": 8, "buy": 0, "sell": 8}, {"name": "美林", "net": 7, "buy": 0, "sell": 7}]};
   const buyRank = data.buy_rank;
   const sellRank = data.sell_rank;
 
