@@ -255,7 +255,7 @@ footer a { color: var(--teal); text-decoration: none; }
     <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
       <span style="color:var(--teal);font-size:13px;font-weight:600;">電機機械</span>
       
-      <span style="color:var(--muted);font-size:12px;margin-left:8px;">假設性原因：大量(3167)可能受惠於自動化設備需求增加、營收成長動能強勁、法人買超助攻、股價技術面轉強突破壓力關卡</span>
+      <span style="color:var(--muted);font-size:12px;margin-left:8px;">大量(3167)受惠於台電配電設備標案+變壓器需求暢旺，預期2026年營收持續成長，加上股價位階偏低，吸引買盤湧入推升漲停</span>
       
     </div>
     
@@ -317,7 +317,7 @@ footer a { color: var(--teal); text-decoration: none; }
         </tr>
         
         <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元富</td>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">台新-台北</td>
           <td class="net" style="color:var(--up);">499</td>
           <td>441.60</td>
           <td>533</td>
@@ -632,7 +632,7 @@ footer a { color: var(--teal); text-decoration: none; }
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script>
 (function() {
-  const data = {"buy_rank": [{"name": "花旗環球", "net": 530, "buy": 531, "sell": 1}, {"name": "元富", "net": 499, "buy": 533, "sell": 34}, {"name": "國泰證券", "net": 403, "buy": 429, "sell": 26}, {"name": "凱基", "net": 344, "buy": 403, "sell": 59}, {"name": "台灣摩根士丹利", "net": 320, "buy": 404, "sell": 84}, {"name": "元大證券", "net": 272, "buy": 1490, "sell": 1218}, {"name": "港商野村", "net": 220, "buy": 287, "sell": 67}, {"name": "富邦-南屯", "net": 158, "buy": 207, "sell": 49}, {"name": "元大-大安", "net": 156, "buy": 158, "sell": 2}, {"name": "富邦-仁愛", "net": 135, "buy": 164, "sell": 29}, {"name": "美商高盛", "net": 133, "buy": 524, "sell": 391}, {"name": "宏遠證券", "net": 125, "buy": 128, "sell": 3}, {"name": "永豐金證券", "net": 122, "buy": 249, "sell": 127}, {"name": "新加坡商瑞銀", "net": 117, "buy": 208, "sell": 91}, {"name": "群益金鼎", "net": 69, "buy": 139, "sell": 70}], "sell_rank": [{"name": "凱基-台北", "net": 231, "buy": 649, "sell": 880}, {"name": "彰銀-台中", "net": 127, "buy": 2, "sell": 129}, {"name": "元大-台北", "net": 90, "buy": 14, "sell": 104}, {"name": "兆豐證券", "net": 89, "buy": 0, "sell": 89}, {"name": "凱基-文心", "net": 88, "buy": 5, "sell": 93}, {"name": "富邦-桃園", "net": 77, "buy": 4, "sell": 81}, {"name": "國票-安和", "net": 70, "buy": 50, "sell": 120}, {"name": "凱基-站前", "net": 60, "buy": 540, "sell": 600}, {"name": "國泰-敦南", "net": 60, "buy": 205, "sell": 265}, {"name": "統一-士林", "net": 59, "buy": 69, "sell": 128}, {"name": "富邦-新板", "net": 58, "buy": 16, "sell": 74}, {"name": "台新-高雄", "net": 58, "buy": 41, "sell": 99}, {"name": "永豐金-板新", "net": 54, "buy": 39, "sell": 93}]};
+  const data = {"buy_rank": [{"name": "花旗環球", "net": 530, "buy": 531, "sell": 1}, {"name": "台新-台北", "net": 499, "buy": 533, "sell": 34}, {"name": "國泰證券", "net": 403, "buy": 429, "sell": 26}, {"name": "凱基", "net": 344, "buy": 403, "sell": 59}, {"name": "台灣摩根士丹利", "net": 320, "buy": 404, "sell": 84}, {"name": "元大證券", "net": 272, "buy": 1490, "sell": 1218}, {"name": "港商野村", "net": 220, "buy": 287, "sell": 67}, {"name": "富邦-南屯", "net": 158, "buy": 207, "sell": 49}, {"name": "元大-大安", "net": 156, "buy": 158, "sell": 2}, {"name": "富邦-仁愛", "net": 135, "buy": 164, "sell": 29}, {"name": "美商高盛", "net": 133, "buy": 524, "sell": 391}, {"name": "宏遠證券", "net": 125, "buy": 128, "sell": 3}, {"name": "永豐金證券", "net": 122, "buy": 249, "sell": 127}, {"name": "新加坡商瑞銀", "net": 117, "buy": 208, "sell": 91}, {"name": "群益金鼎", "net": 69, "buy": 139, "sell": 70}], "sell_rank": [{"name": "凱基-台北", "net": 231, "buy": 649, "sell": 880}, {"name": "彰銀-台中", "net": 127, "buy": 2, "sell": 129}, {"name": "元大-台北", "net": 90, "buy": 14, "sell": 104}, {"name": "兆豐證券", "net": 89, "buy": 0, "sell": 89}, {"name": "凱基-文心", "net": 88, "buy": 5, "sell": 93}, {"name": "富邦-桃園", "net": 77, "buy": 4, "sell": 81}, {"name": "國票-安和", "net": 70, "buy": 50, "sell": 120}, {"name": "凱基-站前", "net": 60, "buy": 540, "sell": 600}, {"name": "國泰-敦南", "net": 60, "buy": 205, "sell": 265}, {"name": "統一-士林", "net": 59, "buy": 69, "sell": 128}, {"name": "富邦-新板", "net": 58, "buy": 16, "sell": 74}, {"name": "台新-高雄", "net": 58, "buy": 41, "sell": 99}, {"name": "永豐金-板新", "net": 54, "buy": 39, "sell": 93}]};
   const buyRank = data.buy_rank;
   const sellRank = data.sell_rank;
 
