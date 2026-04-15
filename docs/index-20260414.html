@@ -249,7 +249,7 @@ footer a { color: var(--teal); text-decoration: none; }
       
       <div class="date">2026/04/14</div>
       
-      <button class="nav-btn" disabled>後一天 ▶</button>
+      <button class="nav-btn" onclick="navigateDate('20260414', 1)">後一天 ▶</button>
       
     </div>
   </header>
@@ -1624,7 +1624,7 @@ window.toggleAllConcepts = function(btn) {
   btn.textContent = anyExpanded ? '全部展開' : '全部收合';
 };
 window.navigateDate = function(currentDate, direction) {
-  const availableDates = ["20260414", "20260413", "20260410", "20260409", "20260408", "20260407", "20260402", "20260401", "20260331", "20260330", "20260327", "20260326", "20260325", "20260324", "20260323", "20260320", "20260319", "20260318", "20260317", "20260316", "20260313", "20260312", "20260311", "20260310", "20260309"];
+  const availableDates = ["20260415", "20260414", "20260413", "20260410", "20260409", "20260408", "20260407", "20260402", "20260401", "20260331", "20260330", "20260327", "20260326", "20260325", "20260324", "20260323", "20260320", "20260319", "20260318", "20260317", "20260316", "20260313", "20260312", "20260311", "20260310", "20260309"];
   const currentIndex = availableDates.indexOf(currentDate);
   let targetDate;
   if (direction === -1 && currentIndex < availableDates.length - 1) {
