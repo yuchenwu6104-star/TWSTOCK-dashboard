@@ -254,7 +254,7 @@ footer a { color: var(--teal); text-decoration: none; }
     
     <!-- 成交資訊 -->
     <div style="font-size:12px;color:var(--muted);margin-top:8px;">
-      成交量 129,475張 · 共 30 家券商交易
+      成交量 129,475張 · 共 24 家券商交易
     </div>
   </div>
 
@@ -296,285 +296,231 @@ footer a { color: var(--teal); text-decoration: none; }
   <!-- 買賣超雙欄表 -->
   <div class="broker-dual" style="display:flex;gap:16px;margin-bottom:20px;">
     <div style="flex:1;min-width:0;">
-      <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid var(--up);color:var(--up);margin-bottom:4px;">買超 Top15</div>
+      <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid var(--up);color:var(--up);margin-bottom:4px;">買超 Top11</div>
       <table>
         <tr><th style="text-align:left;">券商</th><th>買超</th><th>買均</th><th>買張</th><th>賣張</th><th>賣均</th></tr>
         
         <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">國票-和平</td>
+          <td class="net" style="color:var(--up);">5,563</td>
+          <td>7.42</td>
+          <td>5,804</td>
+          <td>241</td>
+          <td>7.42</td>
+        </tr>
+        
+        <tr>
           <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大證券</td>
-          <td class="net" style="color:var(--up);">22,642</td>
-          <td>6.59</td>
-          <td>28,052</td>
-          <td>5,410</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">富邦-台北</td>
-          <td class="net" style="color:var(--up);">11,959</td>
-          <td>6.59</td>
-          <td>12,140</td>
-          <td>181</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">摩根大通</td>
-          <td class="net" style="color:var(--up);">7,574</td>
-          <td>6.59</td>
-          <td>8,612</td>
-          <td>1,038</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">永豐金證券</td>
-          <td class="net" style="color:var(--up);">5,232</td>
-          <td>6.59</td>
-          <td>6,256</td>
-          <td>1,024</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">美商高盛</td>
-          <td class="net" style="color:var(--up);">3,071</td>
-          <td>6.59</td>
-          <td>4,700</td>
-          <td>1,629</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">美林</td>
-          <td class="net" style="color:var(--up);">1,734</td>
-          <td>6.59</td>
-          <td>1,985</td>
-          <td>251</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">台灣摩根士丹利</td>
-          <td class="net" style="color:var(--up);">1,472</td>
-          <td>6.59</td>
-          <td>1,472</td>
-          <td>0</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">凱基-城中</td>
-          <td class="net" style="color:var(--up);">1,292</td>
-          <td>6.59</td>
-          <td>1,833</td>
-          <td>541</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">港商野村</td>
-          <td class="net" style="color:var(--up);">1,193</td>
-          <td>6.59</td>
-          <td>1,908</td>
-          <td>715</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">統一-敦南</td>
-          <td class="net" style="color:var(--up);">1,137</td>
-          <td>6.59</td>
-          <td>1,189</td>
-          <td>52</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">土銀</td>
-          <td class="net" style="color:var(--up);">698</td>
-          <td>6.59</td>
-          <td>801</td>
-          <td>103</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">新加坡商瑞銀</td>
-          <td class="net" style="color:var(--up);">697</td>
-          <td>6.59</td>
-          <td>1,585</td>
-          <td>888</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">兆豐-三民</td>
-          <td class="net" style="color:var(--up);">639</td>
-          <td>6.59</td>
-          <td>650</td>
-          <td>11</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">台新</td>
-          <td class="net" style="color:var(--up);">616</td>
-          <td>6.59</td>
-          <td>2,964</td>
-          <td>2,348</td>
-          <td>6.47</td>
+          <td class="net" style="color:var(--up);">5,171</td>
+          <td>7.42</td>
+          <td>5,172</td>
+          <td>1</td>
+          <td>7.42</td>
         </tr>
         
         <tr>
           <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">國票證券</td>
-          <td class="net" style="color:var(--up);">585</td>
-          <td>6.59</td>
-          <td>854</td>
-          <td>269</td>
-          <td>6.47</td>
+          <td class="net" style="color:var(--up);">1,301</td>
+          <td>7.42</td>
+          <td>1,312</td>
+          <td>11</td>
+          <td>7.42</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大-台北</td>
+          <td class="net" style="color:var(--up);">894</td>
+          <td>7.42</td>
+          <td>905</td>
+          <td>11</td>
+          <td>7.42</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">美商高盛</td>
+          <td class="net" style="color:var(--up);">531</td>
+          <td>7.42</td>
+          <td>532</td>
+          <td>1</td>
+          <td>7.42</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大-蘆洲</td>
+          <td class="net" style="color:var(--up);">273</td>
+          <td>7.42</td>
+          <td>319</td>
+          <td>46</td>
+          <td>7.42</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">台新-世貿</td>
+          <td class="net" style="color:var(--up);">246</td>
+          <td>7.42</td>
+          <td>246</td>
+          <td>0</td>
+          <td>7.42</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">凱基-豐中</td>
+          <td class="net" style="color:var(--up);">145</td>
+          <td>7.42</td>
+          <td>150</td>
+          <td>5</td>
+          <td>7.42</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大-桃園</td>
+          <td class="net" style="color:var(--up);">100</td>
+          <td>7.42</td>
+          <td>100</td>
+          <td>0</td>
+          <td>7.42</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大-忠孝</td>
+          <td class="net" style="color:var(--up);">73</td>
+          <td>7.42</td>
+          <td>74</td>
+          <td>1</td>
+          <td>7.42</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">合庫-自強</td>
+          <td class="net" style="color:var(--up);">55</td>
+          <td>7.42</td>
+          <td>58</td>
+          <td>3</td>
+          <td>7.42</td>
         </tr>
         
       </table>
     </div>
     <div style="flex:1;min-width:0;">
-      <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid var(--down);color:var(--down);margin-bottom:4px;">賣超 Top15</div>
+      <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid var(--down);color:var(--down);margin-bottom:4px;">賣超 Top13</div>
       <table>
         <tr><th style="text-align:left;">券商</th><th>賣超</th><th>買均</th><th>買張</th><th>賣張</th><th>賣均</th></tr>
         
         <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大-台北</td>
-          <td class="net" style="color:var(--down);">12,929</td>
-          <td>6.59</td>
-          <td>4,182</td>
-          <td>17,111</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大-竹科</td>
-          <td class="net" style="color:var(--down);">2,029</td>
-          <td>6.59</td>
-          <td>39</td>
-          <td>2,068</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">國泰-敦南</td>
-          <td class="net" style="color:var(--down);">2,001</td>
-          <td>6.59</td>
-          <td>1,198</td>
-          <td>3,199</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">群益金鼎-古亭</td>
-          <td class="net" style="color:var(--down);">1,099</td>
-          <td>6.59</td>
-          <td>21</td>
-          <td>1,120</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">永豐金-台南</td>
-          <td class="net" style="color:var(--down);">992</td>
-          <td>6.59</td>
-          <td>52</td>
-          <td>1,044</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">凱基-台南</td>
-          <td class="net" style="color:var(--down);">968</td>
-          <td>6.59</td>
-          <td>23</td>
-          <td>991</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大-員林中山</td>
-          <td class="net" style="color:var(--down);">776</td>
-          <td>6.59</td>
-          <td>88</td>
-          <td>864</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">台新-埔里</td>
-          <td class="net" style="color:var(--down);">673</td>
-          <td>6.59</td>
-          <td>705</td>
-          <td>1,378</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">凱基-桃園</td>
-          <td class="net" style="color:var(--down);">660</td>
-          <td>6.59</td>
-          <td>68</td>
-          <td>728</td>
-          <td>6.47</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">永全-南崁</td>
-          <td class="net" style="color:var(--down);">628</td>
-          <td>6.59</td>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">中國信託-文心</td>
+          <td class="net" style="color:var(--down);">460</td>
+          <td>7.42</td>
           <td>82</td>
-          <td>710</td>
-          <td>6.47</td>
+          <td>542</td>
+          <td>7.42</td>
         </tr>
         
         <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">新光-桃園</td>
-          <td class="net" style="color:var(--down);">624</td>
-          <td>6.59</td>
-          <td>112</td>
-          <td>736</td>
-          <td>6.47</td>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">永豐金-松山</td>
+          <td class="net" style="color:var(--down);">431</td>
+          <td>7.42</td>
+          <td>4</td>
+          <td>435</td>
+          <td>7.42</td>
         </tr>
         
         <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">富邦-虎尾</td>
-          <td class="net" style="color:var(--down);">588</td>
-          <td>6.59</td>
-          <td>33</td>
-          <td>621</td>
-          <td>6.47</td>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">台新-成功</td>
+          <td class="net" style="color:var(--down);">385</td>
+          <td>7.42</td>
+          <td>11</td>
+          <td>396</td>
+          <td>7.42</td>
         </tr>
         
         <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大-板橋三民</td>
-          <td class="net" style="color:var(--down);">553</td>
-          <td>6.59</td>
-          <td>104</td>
-          <td>657</td>
-          <td>6.47</td>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">台中銀</td>
+          <td class="net" style="color:var(--down);">382</td>
+          <td>7.42</td>
+          <td>4</td>
+          <td>386</td>
+          <td>7.42</td>
         </tr>
         
         <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">凱基-斗六</td>
-          <td class="net" style="color:var(--down);">550</td>
-          <td>6.59</td>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大-斗信</td>
+          <td class="net" style="color:var(--down);">308</td>
+          <td>7.42</td>
+          <td>37</td>
+          <td>345</td>
+          <td>7.42</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大-大天母</td>
+          <td class="net" style="color:var(--down);">247</td>
+          <td>7.42</td>
+          <td>3</td>
+          <td>250</td>
+          <td>7.42</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">華南永昌-長虹</td>
+          <td class="net" style="color:var(--down);">217</td>
+          <td>7.42</td>
           <td>0</td>
-          <td>550</td>
-          <td>6.47</td>
+          <td>217</td>
+          <td>7.42</td>
         </tr>
         
         <tr>
-          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">凱基-中壢</td>
-          <td class="net" style="color:var(--down);">542</td>
-          <td>6.59</td>
-          <td>51</td>
-          <td>593</td>
-          <td>6.47</td>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">群益金鼎-新店</td>
+          <td class="net" style="color:var(--down);">190</td>
+          <td>7.42</td>
+          <td>0</td>
+          <td>190</td>
+          <td>7.42</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">兆豐-忠孝</td>
+          <td class="net" style="color:var(--down);">189</td>
+          <td>7.42</td>
+          <td>0</td>
+          <td>189</td>
+          <td>7.42</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">富邦-台東</td>
+          <td class="net" style="color:var(--down);">170</td>
+          <td>7.42</td>
+          <td>1</td>
+          <td>171</td>
+          <td>7.42</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">新光-高雄</td>
+          <td class="net" style="color:var(--down);">170</td>
+          <td>7.42</td>
+          <td>2</td>
+          <td>172</td>
+          <td>7.42</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大-南投</td>
+          <td class="net" style="color:var(--down);">159</td>
+          <td>7.42</td>
+          <td>8</td>
+          <td>167</td>
+          <td>7.42</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">美林</td>
+          <td class="net" style="color:var(--down);">154</td>
+          <td>7.42</td>
+          <td>0</td>
+          <td>154</td>
+          <td>7.42</td>
         </tr>
         
       </table>
@@ -643,7 +589,7 @@ footer a { color: var(--teal); text-decoration: none; }
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script>
 (function() {
-  const data = {"buy_rank": [{"name": "元大證券", "net": 22642, "buy": 28052, "sell": 5410}, {"name": "富邦-台北", "net": 11959, "buy": 12140, "sell": 181}, {"name": "摩根大通", "net": 7574, "buy": 8612, "sell": 1038}, {"name": "永豐金證券", "net": 5232, "buy": 6256, "sell": 1024}, {"name": "美商高盛", "net": 3071, "buy": 4700, "sell": 1629}, {"name": "美林", "net": 1734, "buy": 1985, "sell": 251}, {"name": "台灣摩根士丹利", "net": 1472, "buy": 1472, "sell": 0}, {"name": "凱基-城中", "net": 1292, "buy": 1833, "sell": 541}, {"name": "港商野村", "net": 1193, "buy": 1908, "sell": 715}, {"name": "統一-敦南", "net": 1137, "buy": 1189, "sell": 52}, {"name": "土銀", "net": 698, "buy": 801, "sell": 103}, {"name": "新加坡商瑞銀", "net": 697, "buy": 1585, "sell": 888}, {"name": "兆豐-三民", "net": 639, "buy": 650, "sell": 11}, {"name": "台新", "net": 616, "buy": 2964, "sell": 2348}, {"name": "國票證券", "net": 585, "buy": 854, "sell": 269}], "sell_rank": [{"name": "元大-台北", "net": 12929, "buy": 4182, "sell": 17111}, {"name": "元大-竹科", "net": 2029, "buy": 39, "sell": 2068}, {"name": "國泰-敦南", "net": 2001, "buy": 1198, "sell": 3199}, {"name": "群益金鼎-古亭", "net": 1099, "buy": 21, "sell": 1120}, {"name": "永豐金-台南", "net": 992, "buy": 52, "sell": 1044}, {"name": "凱基-台南", "net": 968, "buy": 23, "sell": 991}, {"name": "元大-員林中山", "net": 776, "buy": 88, "sell": 864}, {"name": "台新-埔里", "net": 673, "buy": 705, "sell": 1378}, {"name": "凱基-桃園", "net": 660, "buy": 68, "sell": 728}, {"name": "永全-南崁", "net": 628, "buy": 82, "sell": 710}, {"name": "新光-桃園", "net": 624, "buy": 112, "sell": 736}, {"name": "富邦-虎尾", "net": 588, "buy": 33, "sell": 621}, {"name": "元大-板橋三民", "net": 553, "buy": 104, "sell": 657}, {"name": "凱基-斗六", "net": 550, "buy": 0, "sell": 550}, {"name": "凱基-中壢", "net": 542, "buy": 51, "sell": 593}]};
+  const data = {"buy_rank": [{"name": "國票-和平", "net": 5563, "buy": 5804, "sell": 241}, {"name": "元大證券", "net": 5171, "buy": 5172, "sell": 1}, {"name": "國票證券", "net": 1301, "buy": 1312, "sell": 11}, {"name": "元大-台北", "net": 894, "buy": 905, "sell": 11}, {"name": "美商高盛", "net": 531, "buy": 532, "sell": 1}, {"name": "元大-蘆洲", "net": 273, "buy": 319, "sell": 46}, {"name": "台新-世貿", "net": 246, "buy": 246, "sell": 0}, {"name": "凱基-豐中", "net": 145, "buy": 150, "sell": 5}, {"name": "元大-桃園", "net": 100, "buy": 100, "sell": 0}, {"name": "元大-忠孝", "net": 73, "buy": 74, "sell": 1}, {"name": "合庫-自強", "net": 55, "buy": 58, "sell": 3}], "sell_rank": [{"name": "中國信託-文心", "net": 460, "buy": 82, "sell": 542}, {"name": "永豐金-松山", "net": 431, "buy": 4, "sell": 435}, {"name": "台新-成功", "net": 385, "buy": 11, "sell": 396}, {"name": "台中銀", "net": 382, "buy": 4, "sell": 386}, {"name": "元大-斗信", "net": 308, "buy": 37, "sell": 345}, {"name": "元大-大天母", "net": 247, "buy": 3, "sell": 250}, {"name": "華南永昌-長虹", "net": 217, "buy": 0, "sell": 217}, {"name": "群益金鼎-新店", "net": 190, "buy": 0, "sell": 190}, {"name": "兆豐-忠孝", "net": 189, "buy": 0, "sell": 189}, {"name": "富邦-台東", "net": 170, "buy": 1, "sell": 171}, {"name": "新光-高雄", "net": 170, "buy": 2, "sell": 172}, {"name": "元大-南投", "net": 159, "buy": 8, "sell": 167}, {"name": "美林", "net": 154, "buy": 0, "sell": 154}]};
   const buyRank = data.buy_rank;
   const sellRank = data.sell_rank;
 
