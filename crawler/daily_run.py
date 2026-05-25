@@ -70,7 +70,6 @@ _TW_HOLIDAYS = {
     datetime.date(2026, 4, 4),   # 清明節
     datetime.date(2026, 4, 5),   # 兒童節
     datetime.date(2026, 4, 6),   # 彈性放假
-    datetime.date(2026, 5, 25),  # 端午節（調整）
     datetime.date(2026, 6, 19),  # 彈性放假
     datetime.date(2026, 9, 28),  # 中秋節（調整）
     datetime.date(2026, 10, 9),  # 彈性放假
