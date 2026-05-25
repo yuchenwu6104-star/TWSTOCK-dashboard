@@ -240,11 +240,14 @@ def fetch_twse(expected_date: datetime.date = None) -> tuple[list[dict], datetim
 
 
 def _fetch_tpex_traditional(trade_date: datetime.date) -> tuple[list[dict], datetime.date | None]:
-    """Fallback: 用 TPEx 傳統 API 抓上櫃行情。"""
-    roc_y = trade_date.year - 1911
-    roc_date = f"{roc_y}/{trade_date.month:02d}/{trade_date.day:02d}"
-    url = "https://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_result.php"
-    resp = requests.get(url, params={"l": "zh-tw", "o": "json", "d": roc_date},
+    """Fallback: 用 TPEx 傳統 API 抓上櫃行情。
+
+    2026-05 起 TPEx 改 API：舊 endpoint `stk_quote_result.php` 不再吃 d 參數，
+    永遠回最新一天；改用新 endpoint `dailyQuotes`，可指定日期查歷史。
+    """
+    ad_date = f"{trade_date.year}/{trade_date.month:02d}/{trade_date.day:02d}"
+    url = "https://www.tpex.org.tw/www/zh-tw/afterTrading/dailyQuotes"
+    resp = requests.get(url, params={"date": ad_date, "id": "", "response": "json"},
                         headers=HEADERS, timeout=30)
     resp.raise_for_status()
     data = resp.json()
