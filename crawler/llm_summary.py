@@ -36,17 +36,18 @@ LLM_CHAIN = [
         "type": "anthropic",
     },
     {
-        "name": "MiniMax-M2.5",
+        "name": "MiniMax-M3",
         "url": "https://api.minimax.io/v1/chat/completions",
         "api_key": _KEYS.get("MINIMAX_API_KEY", ""),
-        "model": "MiniMax-M2.5",
+        "model": "MiniMax-M3",
         "type": "openai",
     },
     {
-        "name": "MiniMax-M2.7",
+        # 同一模型重試一次：擋 M3 transient 拒答 / timeout / 529
+        "name": "MiniMax-M3-retry",
         "url": "https://api.minimax.io/v1/chat/completions",
         "api_key": _KEYS.get("MINIMAX_API_KEY", ""),
-        "model": "MiniMax-M2.7",
+        "model": "MiniMax-M3",
         "type": "openai",
     },
 ]
@@ -88,7 +89,7 @@ def _call_openai_compat(cfg: dict, prompt: str) -> str | None:
     resp = urllib.request.urlopen(req, timeout=60)
     data = json.loads(resp.read())
     text = data["choices"][0]["message"]["content"]
-    # MiniMax M2.5/M2.7 帶 <think> CoT
+    # MiniMax M3 帶 <think> CoT
     if "<think>" in text:
         idx = text.rfind("</think>")
         if idx >= 0:
