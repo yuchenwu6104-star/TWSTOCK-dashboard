@@ -1,0 +1,3557 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>處置標準 — 2026-06-11</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --up: #ED4B9E;
+  --down: #31D0AA;
+  --teal: #1FC7D4;
+  --purple: #7645D9;
+  --bg: #F3EFFF;
+  --card: #FFFFFF;
+  --card-hover: #F6F1FF;
+  --border: #E7E3EB;
+  --text: #280D5F;
+  --muted: #7A6EAA;
+  --disabled: #B8ADD2;
+}
+body { background: linear-gradient(139.73deg, #E5FDFF 0%, #F3EFFF 100%); background-attachment: fixed; color: var(--text); font-family: 'Kanit', -apple-system, 'Noto Sans TC', 'Segoe UI', sans-serif; }
+.container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+header { text-align: center; padding: 16px 0 12px; border-bottom: 1px solid var(--border); margin-bottom: 16px; position: relative; }
+header h1 { font-size: 22px; margin-bottom: 2px; }
+header h1 .rabbit { font-size: 26px; }
+header .subtitle { color: var(--muted); font-size: 13px; }
+header .cta-hint {
+  position: absolute; top: 16px; right: 20px;
+  background: #1FC7D4;
+  border: none; border-radius: 16px;
+  padding: 8px 12px; color: #fff; font-size: 11px; font-weight: 600;
+  cursor: pointer; min-width: 180px; text-align: center;
+  transition: all 0.2s; box-shadow: 0 2px 8px rgba(31,199,212,0.3);
+}
+header .cta-hint:hover {
+  background: #17b3bf;
+  transform: translateY(-1px); box-shadow: 0 4px 16px rgba(31,199,212,0.4);
+}
+.date-nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 8px; }
+.date-nav .nav-btn {
+  background: var(--card); border: 1px solid var(--border); color: var(--muted);
+  padding: 4px 10px; border-radius: 16px; cursor: pointer; font-size: 11px; transition: all 0.2s;
+}
+.date-nav .nav-btn:hover:not(:disabled) { background: var(--card-hover); color: var(--text); }
+.date-nav .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.date-nav .date { color: var(--teal); font-size: 15px; font-weight: 600; min-width: 100px; }
+.section-title { font-size: 16px; margin: 16px 0 10px; padding-left: 8px; border-left: 3px solid var(--teal); color: var(--text); }
+.concept-section { margin-bottom: 32px; }
+.concept-title {
+  font-size: 14px; margin: 12px 0 8px; padding: 8px 12px;
+  background: var(--card); border-radius: 8px; border-left: 3px solid var(--teal);
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 1px 4px rgba(40,13,95,0.06);
+}
+.concept-title .icon { font-size: 16px; }
+.concept-title .count { color: var(--muted); font-size: 12px; margin-left: auto; }
+.concept-reason { color: var(--muted); font-size: 11px; margin: 0 12px 8px 12px; font-style: italic; }
+.stock-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.stock-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; position: relative; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(40,13,95,0.06); }
+.stock-card .reason-tip {
+  display: none; position: absolute; left: 0; right: 0; bottom: 100%;
+  background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px;
+  padding: 8px 10px; font-size: 12px; color: var(--text); line-height: 1.5;
+  z-index: 100; pointer-events: none; box-shadow: 0 4px 20px rgba(40,13,95,0.15);
+}
+.stock-card .reason-tip .tip-cta { color: var(--teal); font-size: 11px; margin-top: 4px; }
+.stock-card:hover .reason-tip { display: block; }
+.stock-card a { text-decoration: none; color: inherit; display: block; padding: 10px 12px; transition: all 0.2s ease; border-radius: 16px; }
+.stock-card a:hover { background: var(--card-hover); }
+.stock-header { display: flex; justify-content: space-between; align-items: center; }
+.stock-name { font-size: 14px; font-weight: 600; }
+.stock-code { color: var(--muted); font-size: 12px; margin-left: 6px; }
+.stock-price { text-align: right; }
+.stock-close { font-size: 14px; font-weight: 600; }
+.stock-change { font-size: 11px; margin-top: 1px; }
+.up { color: var(--up); }
+.down { color: var(--down); }
+.stock-meta { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--muted); }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.badge.up { background: rgba(237,75,158,0.12); color: var(--up); }
+
+/* Nav pills */
+nav.topnav {
+  background: #FFFFFF; border-bottom: 1px solid var(--border);
+  padding: 8px 12px; display: flex; align-items: center; justify-content: center;
+  gap: 8px; position: sticky; top: 0; z-index: 999;
+  box-shadow: 0 2px 8px rgba(40,13,95,0.06);
+}
+nav.topnav a.pill {
+  padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600;
+  text-decoration: none; color: var(--muted); background: var(--card-hover); transition: all 0.2s;
+}
+nav.topnav a.pill.active { background: var(--teal); color: #fff; box-shadow: 0 2px 8px rgba(31,199,212,0.3); }
+nav.topnav a.pill:hover:not(.active) { color: var(--text); background: var(--border); }
+#stock-search {
+  width: 72px; padding: 5px 8px; border-radius: 16px;
+  border: 1px solid var(--teal); background: #FFFFFF;
+  color: var(--text); font-size: 16px; outline: none;
+}
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; }
+th { text-align: right; padding: 3px 4px; font-size: 10px; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; background: #EDE9FF; }
+th:first-child { text-align: left; }
+td { padding: 4px 4px; font-size: 11px; border-bottom: 1px solid var(--border); text-align: right; font-variant-numeric: tabular-nums; }
+td:first-child { text-align: left; font-size: 11px; white-space: nowrap; }
+tr:nth-child(even) { background: #F6F1FF; }
+tr:hover { background: var(--card-hover); }
+.net { font-weight: 600; }
+
+/* Disposal */
+.disp-stat { padding: 4px 14px; border-radius: 16px; font-size: 13px; font-weight: 600; display: inline-block; }
+.disp-stat.danger { background: rgba(237,75,158,0.12); color: var(--up); }
+.disp-stat.warn { background: rgba(241,196,15,0.15); color: #d68910; }
+.disp-stat.info { background: rgba(118,69,217,0.12); color: var(--purple); }
+.mkt { padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; }
+.mkt-twse { background: rgba(31,199,212,0.15); color: var(--teal); }
+.mkt-tpex { background: rgba(118,69,217,0.12); color: var(--purple); }
+.badge-danger { color: var(--up); font-weight: 700; }
+.badge-warn { color: #d68910; font-weight: 600; }
+.badge-info { color: var(--teal); }
+.threshold-cell { text-align: center; font-size: 12px; }
+.threshold-cell .progress { font-weight: 700; }
+.threshold-cell .gap { font-size: 10px; display: block; }
+.disposal-table { background: #FFFFFF; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.disposal-table th { background: #EDE9FF; padding: 8px 10px; font-size: 11px; color: var(--purple); }
+.disposal-table td { padding: 6px 10px; font-size: 12px; border-bottom: 1px solid var(--border); }
+.disposal-table tr:nth-child(even) { background: #F6F1FF; }
+.disposal-table tr:hover { background: var(--card-hover); }
+
+/* Perf cards */
+.perf-grid, .perf-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 20px 0; }
+.perf-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 24px;
+  padding: 20px 16px; text-align: center;
+  box-shadow: 0 4px 16px rgba(40,13,95,0.08);
+}
+.perf-card .ptitle, .perf-card .title { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.perf-card .pvalue, .perf-card .value { font-size: 24px; font-weight: 800; }
+.perf-card .psub, .perf-card .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* Condition cards */
+.cond-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 14px; margin-bottom: 6px;
+  display: flex; gap: 10px; align-items: baseline;
+  box-shadow: 0 1px 4px rgba(40,13,95,0.05);
+}
+.cond-name { font-weight: 700; font-size: 13px; white-space: nowrap; }
+.cond-desc { font-size: 12px; color: var(--muted); }
+
+footer { text-align: center; padding: 32px 0 24px; color: var(--disabled); font-size: 12px; border-top: 1px solid var(--border); margin-top: 32px; background: rgba(255,255,255,0.6); }
+footer a { color: var(--teal); text-decoration: none; }
+
+/* Autocomplete search dropdown */
+.search-wrap { position: relative; display: flex; align-items: center; }
+#search-dropdown {
+  display: none; position: fixed; top: 42px;
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+  max-height: 280px; overflow-y: auto; min-width: 180px;
+  box-shadow: 0 4px 20px rgba(40,13,95,0.15); z-index: 10001;
+}
+#search-dropdown .sd-item {
+  padding: 7px 12px; font-size: 12px; cursor: pointer;
+  border-bottom: 1px solid var(--border); display: flex; gap: 8px; align-items: center;
+}
+#search-dropdown .sd-item:last-child { border-bottom: none; }
+#search-dropdown .sd-item:hover { background: var(--card-hover); }
+#search-dropdown .sd-name { flex: 1; }
+#search-dropdown .sd-code { color: var(--muted); font-size: 11px; white-space: nowrap; }
+/* Back to top */
+#back-to-top {
+  position: fixed; bottom: 24px; right: 20px;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--teal); color: #fff; border: none;
+  font-size: 20px; line-height: 1; cursor: pointer; z-index: 9999;
+  display: none; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(31,199,212,0.4); transition: opacity 0.3s, transform 0.2s;
+}
+#back-to-top:hover { transform: translateY(-2px); }
+/* Concept collapse */
+.concept-section.collapsed .concept-reason,
+.concept-section.collapsed .stock-grid { display: none; }
+.concept-title { cursor: pointer; user-select: none; }
+.concept-title .chevron {
+  transition: transform 0.2s; font-size: 11px; color: var(--muted);
+  margin-left: 4px; display: inline-block; line-height: 1;
+}
+.concept-section.collapsed .concept-title .chevron { transform: rotate(-90deg); }
+.section-title-wrap { display: flex; align-items: center; justify-content: space-between; margin: 16px 0 10px; }
+.section-title-wrap .section-title { margin: 0; }
+.collapse-all-btn {
+  background: var(--card); border: 1px solid var(--border); color: var(--muted);
+  padding: 4px 10px; border-radius: 16px; cursor: pointer; font-size: 11px; transition: all 0.2s;
+}
+.collapse-all-btn:hover { background: var(--card-hover); color: var(--text); }
+@media (min-width: 1025px) {
+  .container { padding: 0 24px; }
+  header h1 { font-size: 28px; }
+  nav.topnav { padding: 6px 24px; }
+  .concept-title { max-width: 1200px; }
+}
+@media (max-width: 900px) { .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 700px) {
+  .container { padding: 6px; }
+  .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
+  header .cta-hint { position: static; margin: 8px auto 0; min-width: auto; width: fit-content; font-size: 10px; padding: 6px 10px; }
+  .date-nav .nav-btn { padding: 3px 8px; font-size: 10px; }
+  .date-nav .date { font-size: 13px; }
+  .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); }
+  nav.topnav { gap: 4px; padding: 6px 4px; }
+  nav.topnav a.pill { padding: 6px 12px; font-size: 14px; }
+  #stock-search { width: 58px; padding: 4px 6px; font-size: 14px; }
+  /* 個股頁 */
+  .stock-info-bar { flex-direction: column !important; text-align: center !important; gap: 8px !important; }
+  .stock-info-right { text-align: center !important; }
+  .inst-grid, .margin-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .broker-dual { flex-direction: column !important; gap: 8px !important; }
+  .broker-dual > div { min-width: 100% !important; }
+  /* 長條圖：手機保持左右排列，只縮矮 */
+  .bar-chart-inner { height: 300px !important; }
+}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="index-20260611.html" class="pill ">漲停族群AI分類</a>
+  <a href="nextday-20260611.html" class="pill ">隔日表現</a>
+  <a href="disposal-20260611.html" class="pill active">處置標準</a>
+  <a href="stats.html" class="pill ">統計分析</a>
+  <div class="search-wrap">
+    <input id="stock-search" type="text" inputmode="decimal" placeholder="🔍股號" />
+    <div id="search-dropdown"></div>
+  </div>
+</nav>
+
+<style>
+.pblocks { display:inline-flex; gap:2px; align-items:center; flex-wrap:wrap; }
+.pblock  { display:inline-block; width:11px; height:11px; border-radius:2px; }
+.pb-done   { background:var(--up); }
+.pb-danger { background:#e74c3c; }
+.pb-warn   { background:#f39c12; }
+.pb-info   { background:var(--teal); }
+.pb-empty  { background:var(--border); }
+.disp-rule-cell { text-align:center; padding:4px 2px !important; }
+.rule-legend { margin:12px 0 0; padding:10px 14px; background:#fff8ee; border:1px solid #F5A623; border-radius:10px; font-size:11px; color:#555; line-height:1.7; }
+.rule-legend strong { color:#280D5F; }
+.disposal-table th { position: static !important; top: unset !important; }
+.disposal-table tbody tr { cursor: pointer; }
+.detail-row { background: #f8f4ff !important; }
+.detail-row td { padding: 0 !important; border-bottom: 2px solid #7645D9 !important; }
+.disposal-table tbody tr.row-expanded { background: #ede9ff !important; }
+</style>
+
+<div class="container">
+  <header>
+    <h1><span class="rabbit">🐰</span> 處置標準</h1>
+    <div class="subtitle">適用日期：2026-06-12</div>
+    <div class="date-nav" style="margin-top:8px;">
+      
+      <button class="nav-btn" onclick="location.href='disposal-20260610.html'">◄ 前一天</button>
+      
+      <span class="date">2026-06-12</span>
+      
+      <button class="nav-btn" disabled>後一天 ►</button>
+      
+    </div>
+  </header>
+
+  <!-- 規則說明 -->
+  <div class="rule-legend">
+    <strong>處置規則說明：</strong>
+    3日規則：連續3個交易日達注意標準 → 處置 ／
+    5日規則：連續5個交易日達注意標準 → 處置 ／
+    10日規則：10個交易日內達注意標準6次 → 處置 ／
+    30日規則：30個交易日內達注意標準12次 → 處置<br>
+    <span style="margin-top:4px;display:inline-block;">
+      <span class="pblock pb-done" style="display:inline-block;vertical-align:middle;margin-right:3px;"></span>橘色方塊 = 該日觸發注意標準
+      &nbsp;&nbsp;
+      <span class="pblock pb-empty" style="display:inline-block;vertical-align:middle;margin-right:3px;border:1px solid #ccc;"></span>灰色方塊 = 該日未觸發
+    </span>
+  </div>
+
+  <!-- 統計 -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;padding:14px 0;border-bottom:1px solid #E7E3EB;">
+    <span class="disp-stat danger">差1次 18</span>
+    <span class="disp-stat warn">差2次 16</span>
+    <span class="disp-stat info">處置中 50</span>
+  </div>
+
+  <!-- ========== 差 1 次 ========== -->
+  
+  <div class="concept-title" style="margin-top:20px;border-left-color:#ED4B9E;">
+    <span class="icon">🔴</span>
+    <span>差 1 次就處置</span>
+    <span class="count">18檔</span>
+  </div>
+  <div style="margin-top:8px;overflow-x:auto;">
+    <table class="disposal-table" style="width:100%;min-width:700px;">
+      <thead>
+        <tr>
+          <th style="text-align:center;width:30px;">所</th>
+          <th style="text-align:left;width:48px;">代號</th>
+          <th style="text-align:left;min-width:76px;">名稱</th>
+          <th style="text-align:right;width:52px;">收盤</th>
+          <th style="text-align:left;min-width:120px;">2026-06-12 處置條件</th>
+          <th style="text-align:left;width:100px;">最快處置</th>
+          <th class="disp-rule-cell" style="width:46px;" title="連3日達注意標準第1款">3日</th>
+          <th class="disp-rule-cell" style="width:62px;" title="5日內達注意標準3次">5日</th>
+          <th class="disp-rule-cell" style="width:74px;" title="6日內達注意標準4次(上市)/10日內5次(上櫃)">6日</th>
+          <th class="disp-rule-cell" style="width:110px;" title="12日內達注意標準8次(上市)/30日內12次(上櫃)">12日</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        
+        
+        
+        
+        
+        <tr data-code="1714">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">1714</td>
+          <td style="font-size:12px;">和桐</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            14.4
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#1FC7D4;font-weight:600;">無論漲跌皆符合</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第1次5分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第3個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第4個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第3個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第4個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第5個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-info" title="第5個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="2243">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">2243</td>
+          <td style="font-size:12px;">宏旭-KY</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            33.85
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">第1款超過漲停，但第2~8款任一觸發即計入</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第5次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第3個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第4個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第5個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-info" title="第5個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="3234">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3234</td>
+          <td style="font-size:12px;">光環</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            109.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">第1款超過漲停，但第2~8款任一觸發即計入</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第5次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第3個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第4個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第5個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-info" title="第5個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="3491">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3491</td>
+          <td style="font-size:12px;">昇達科</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            1680.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">第1款超過漲停，但第2~8款任一觸發即計入</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第10次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第3個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第4個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第5個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第6個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第7個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第8個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第9個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第10個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第11個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="4402">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">4402</td>
+          <td style="font-size:12px;">郡都開發</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            17.2
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#1FC7D4;font-weight:600;">無論漲跌皆符合</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第4次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="4556">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">4556</td>
+          <td style="font-size:12px;">旭然</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            60.8
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#1FC7D4;font-weight:600;">無論漲跌皆符合</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第1次5分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="4741">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">4741</td>
+          <td style="font-size:12px;">泓瀚</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            81.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#ED4B9E;font-weight:600;">82.94 ↑(含) (+2.4%)</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第5次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第3個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第4個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第3個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第4個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第5個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-info" title="第5個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="4939">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">4939</td>
+          <td style="font-size:12px;">亞電</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            60.2
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">第1款超過漲停，但第2~8款任一觸發即計入</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第2次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第3個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第4個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第5個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-info" title="第5個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="4991">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">4991</td>
+          <td style="font-size:12px;">環宇-KY</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            530.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">第1款超過漲停，但第2~8款任一觸發即計入</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第15次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第2個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第3個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第4個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第3個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第4個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第5個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第6個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第7個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第8個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第9個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第10個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第11個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="5345">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">5345</td>
+          <td style="font-size:12px;">馥鴻</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            35.35
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#1FC7D4;font-weight:600;">無論漲跌皆符合</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第8次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="6715">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6715</td>
+          <td style="font-size:12px;">嘉基</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            371.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">第1款超過漲停，但第2~8款任一觸發即計入</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第3次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第3個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第4個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第5個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-info" title="第5個交易日 — 已觸發"></span><span class="pblock pb-info" title="第6個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="6806">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6806</td>
+          <td style="font-size:12px;">森崴能源</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            4.48
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">第1款豁免（價差不足）</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第5次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第3個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第4個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第5個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第6個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第7個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第8個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第9個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第10個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第11個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="6830">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6830</td>
+          <td style="font-size:12px;">汎銓</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            515.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">超過漲停，不可能觸發</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第5次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-info" title="第5個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="6924">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6924</td>
+          <td style="font-size:12px;">榮惠-KY創</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            121.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">超過漲停，不可能觸發</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第2次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-info" title="第5個交易日 — 已觸發"></span><span class="pblock pb-info" title="第6個交易日 — 已觸發"></span><span class="pblock pb-info" title="第7個交易日 — 已觸發"></span><span class="pblock pb-info" title="第8個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="7722">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">7722</td>
+          <td style="font-size:12px;">LINEPAY</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            370.5
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">超過漲停，不可能觸發</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第1次5分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="7788">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">7788</td>
+          <td style="font-size:12px;">松川精密</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            271.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">超過漲停，不可能觸發</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第1次5分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="8043">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">8043</td>
+          <td style="font-size:12px;">蜜望實</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            191.5
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#ED4B9E;font-weight:600;">218.35 ↑(含) (+14.0%)</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第4次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="8455">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">8455</td>
+          <td style="font-size:12px;">大拓-KY</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            29.6
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">超過漲停，不可能觸發</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#ED4B9E;font-weight:600;white-space:nowrap;">
+            06-15 第3次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-info" title="第5個交易日 — 已觸發"></span><span class="pblock pb-info" title="第6個交易日 — 已觸發"></span><span class="pblock pb-info" title="第7個交易日 — 已觸發"></span><span class="pblock pb-info" title="第8個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+  
+
+  <!-- ========== 差 2 次 ========== -->
+  
+  <div class="concept-title" style="margin-top:24px;border-left-color:#f39c12;">
+    <span class="icon">🟡</span>
+    <span>差 2 次就處置</span>
+    <span class="count">16檔</span>
+  </div>
+  <div style="margin-top:8px;overflow-x:auto;">
+    <table class="disposal-table" style="width:100%;min-width:700px;">
+      <thead>
+        <tr>
+          <th style="text-align:center;width:30px;">所</th>
+          <th style="text-align:left;width:48px;">代號</th>
+          <th style="text-align:left;min-width:76px;">名稱</th>
+          <th style="text-align:right;width:52px;">收盤</th>
+          <th style="text-align:left;min-width:120px;">2026-06-12 處置條件</th>
+          <th style="text-align:left;width:100px;">最快處置</th>
+          <th class="disp-rule-cell" style="width:46px;" title="連3日達注意標準第1款">3日</th>
+          <th class="disp-rule-cell" style="width:62px;" title="5日內達注意標準3次">5日</th>
+          <th class="disp-rule-cell" style="width:74px;" title="6日內達注意標準4次(上市)/10日內5次(上櫃)">6日</th>
+          <th class="disp-rule-cell" style="width:110px;" title="12日內達注意標準8次(上市)/30日內12次(上櫃)">12日</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        
+        
+        
+        
+        
+        <tr data-code="2383">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">2383</td>
+          <td style="font-size:12px;">台光電</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            5095.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">第1款超過漲停，但第2~8款任一觸發即計入</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            06-16 第1次5分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第2個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第3個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第4個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="2483">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">2483</td>
+          <td style="font-size:12px;">百容</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            34.65
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#1FC7D4;font-weight:600;">無論漲跌皆符合</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            06-16 第1次5分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="3163">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3163</td>
+          <td style="font-size:12px;">波若威</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            843.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">第1款超過漲停，但第2~8款任一觸發即計入</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            06-16 第10次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第2個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第3個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第4個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第2個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第3個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第4個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第5個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第6個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第7個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第8個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第9個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第10個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="3441">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3441</td>
+          <td style="font-size:12px;">聯一光</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            71.5
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#1FC7D4;font-weight:600;">無論漲跌皆符合</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            06-16 第1次5分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="3532">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3532</td>
+          <td style="font-size:12px;">台勝科</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            297.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">第1款超過漲停，但第2~8款任一觸發即計入</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            06-16 第3次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第2個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第3個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第4個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第5個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第6個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第7個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第8個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第9個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第10個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="4722">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">4722</td>
+          <td style="font-size:12px;">國精化</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            206.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">超過漲停，不可能觸發</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            06-16 第5次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-info" title="第5個交易日 — 已觸發"></span><span class="pblock pb-info" title="第6個交易日 — 已觸發"></span><span class="pblock pb-info" title="第7個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="4931">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">4931</td>
+          <td style="font-size:12px;">新盛力</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            234.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">第1款超過漲停，但第2~8款任一觸發即計入</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            06-16 第5次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第2個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第3個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第4個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-info" title="第5個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="4971">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">4971</td>
+          <td style="font-size:12px;">IET-KY</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            518.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">超過漲停，不可能觸發</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            06-16 第9次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-info" title="第5個交易日 — 已觸發"></span><span class="pblock pb-info" title="第6個交易日 — 已觸發"></span><span class="pblock pb-info" title="第7個交易日 — 已觸發"></span><span class="pblock pb-info" title="第8個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="4991">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">4991</td>
+          <td style="font-size:12px;">環宇-KY</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            530.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">第1款超過漲停，但第2~8款任一觸發即計入</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            06-15 第15次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第2個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第3個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第4個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第3個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第4個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第5個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第6個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第7個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第8個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第9個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第10個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第11個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="6405">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6405</td>
+          <td style="font-size:12px;">悅城</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            73.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">第1款超過漲停，但第2~8款任一觸發即計入</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            06-16 第3次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第2個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第3個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第4個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第5個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第6個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第7個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第8個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第9個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第10個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="6451">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6451</td>
+          <td style="font-size:12px;">訊芯-KY</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            499.5
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">超過漲停，不可能觸發</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            06-16 第6次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="6538">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6538</td>
+          <td style="font-size:12px;">倉和</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            94.7
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">超過漲停，不可能觸發</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            06-16 第6次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-info" title="第5個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="6715">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6715</td>
+          <td style="font-size:12px;">嘉基</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            371.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">第1款超過漲停，但第2~8款任一觸發即計入</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            06-15 第3次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-danger" title="第1個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第2個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第3個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第4個交易日 — 已觸發"></span><span class="pblock pb-danger" title="第5個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-info" title="第5個交易日 — 已觸發"></span><span class="pblock pb-info" title="第6個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="8021">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">8021</td>
+          <td style="font-size:12px;">尖點</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            570.0
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">第1款超過漲停，但第2~8款任一觸發即計入</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            06-16 第7次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第2個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第3個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-info" title="第5個交易日 — 已觸發"></span><span class="pblock pb-info" title="第6個交易日 — 已觸發"></span><span class="pblock pb-info" title="第7個交易日 — 已觸發"></span><span class="pblock pb-info" title="第8個交易日 — 已觸發"></span><span class="pblock pb-info" title="第9個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="8027">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">8027</td>
+          <td style="font-size:12px;">鈦昇</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            231.5
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">第1款超過漲停，但第2~8款任一觸發即計入</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            06-16 第4次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第2個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第3個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-done" title="第1個交易日 — 已觸發"></span><span class="pblock pb-done" title="第2個交易日 — 已觸發"></span><span class="pblock pb-done" title="第3個交易日 — 已觸發"></span><span class="pblock pb-done" title="第4個交易日 — 已觸發"></span><span class="pblock pb-done" title="第5個交易日 — 已觸發"></span><span class="pblock pb-done" title="第6個交易日 — 已觸發"></span><span class="pblock pb-done" title="第7個交易日 — 已觸發"></span><span class="pblock pb-done" title="第8個交易日 — 已觸發"></span><span class="pblock pb-done" title="第9個交易日 — 已觸發"></span><span class="pblock pb-done" title="第10個交易日 — 已觸發"></span><span class="pblock pb-done" title="第11個交易日 — 已觸發"></span><span class="pblock pb-done" title="第12個交易日 — 已觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+        
+        
+        
+        
+        
+        <tr data-code="9110">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">9110</td>
+          <td style="font-size:12px;">越南控-DR</td>
+          <td style="text-align:right;font-size:13px;font-weight:600;color:#280D5F;">
+            3.44
+          </td>
+          <td style="font-size:11px;">
+            
+              
+              
+                <span style="color:#B8ADD2;">第1款豁免（價差不足）</span>
+              
+            
+          </td>
+          <td style="font-size:11px;color:#f39c12;font-weight:600;white-space:nowrap;">
+            06-16 第7次20分
+          </td>
+          
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-empty" title="第1個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第2個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第3個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第4個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-warn" title="第1個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第2個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第3個交易日 — 已觸發"></span><span class="pblock pb-warn" title="第4個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+            <td class="disp-rule-cell">
+              
+                
+<span class="pblocks"><span class="pblock pb-info" title="第1個交易日 — 已觸發"></span><span class="pblock pb-info" title="第2個交易日 — 已觸發"></span><span class="pblock pb-info" title="第3個交易日 — 已觸發"></span><span class="pblock pb-info" title="第4個交易日 — 已觸發"></span><span class="pblock pb-empty" title="第5個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第6個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第7個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第8個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第9個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第10個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第11個交易日 — 未觸發"></span><span class="pblock pb-empty" title="第12個交易日 — 未觸發"></span></span>
+
+              
+            </td>
+            
+          
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+  
+
+  <!-- ========== 處置中 ========== -->
+  
+  <div class="concept-title" style="margin-top:24px;border-left-color:#666171;">
+    <span class="icon">⚠️</span>
+    <span>處置中</span>
+    <span class="count">50檔</span>
+  </div>
+  <div style="margin-top:8px;overflow-x:auto;">
+    <table class="disposal-table" style="width:100%;min-width:560px;">
+      <thead>
+        <tr>
+          <th style="text-align:center;width:34px;">所</th>
+          <th style="text-align:left;width:50px;">代號</th>
+          <th style="text-align:left;min-width:80px;">股名</th>
+          <th style="text-align:center;width:36px;">級別</th>
+          <th style="text-align:center;width:60px;">撮合間隔</th>
+          <th style="text-align:left;min-width:120px;">期間</th>
+          <th style="text-align:left;">條件</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr data-code="1568">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">1568</td>
+          <td style="font-size:12px;">倉佑</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-04 ~ 06-17</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="2061">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">2061</td>
+          <td style="font-size:12px;">風青</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-02 ~ 06-15</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="2492">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">2492</td>
+          <td style="font-size:12px;">華新科</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-01 ~ 06-12</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="3021">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3021</td>
+          <td style="font-size:12px;">鴻名</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-04 ~ 06-17</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="3147">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3147</td>
+          <td style="font-size:12px;">大綜</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-11 ~ 06-25</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="3523">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3523</td>
+          <td style="font-size:12px;">迎輝</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-05 ~ 06-18</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="3581">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3581</td>
+          <td style="font-size:12px;">博磊</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-11 ~ 06-25</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="4542">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">4542</td>
+          <td style="font-size:12px;">科嶠</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-12 ~ 06-26</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="4979">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">4979</td>
+          <td style="font-size:12px;">華星光</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-03 ~ 06-16</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續5個營業日</td>
+        </tr>
+        
+        <tr data-code="5321">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">5321</td>
+          <td style="font-size:12px;">美而快</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-12 ~ 06-26</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="6116">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6116</td>
+          <td style="font-size:12px;">彩晶</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-04 ~ 06-17</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="6182">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6182</td>
+          <td style="font-size:12px;">合晶</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-02 ~ 06-15</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="6449">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6449</td>
+          <td style="font-size:12px;">鈺邦</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-01 ~ 06-12</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="6488">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6488</td>
+          <td style="font-size:12px;">環球晶</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-01 ~ 06-12</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="6890">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6890</td>
+          <td style="font-size:12px;">來億-KY</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-12 ~ 06-26</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="7610">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">7610</td>
+          <td style="font-size:12px;">聯友金屬-創</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-04 ~ 06-17</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="8291">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">8291</td>
+          <td style="font-size:12px;">尚茂</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">25分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-09 ~ 06-23</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="8358">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">8358</td>
+          <td style="font-size:12px;">金居</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-05 ~ 06-18</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續5個營業日</td>
+        </tr>
+        
+        <tr data-code="8454">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">8454</td>
+          <td style="font-size:12px;">富邦媒</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#ED4B9E;font-weight:700;font-size:12px;">L2</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">20分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-10 ~ 06-24</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="1409">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">1409</td>
+          <td style="font-size:12px;">新纖</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-04 ~ 06-17</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="1563">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">1563</td>
+          <td style="font-size:12px;">巧新</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-03 ~ 06-16</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="1718">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">1718</td>
+          <td style="font-size:12px;">中纖</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-08 ~ 06-22</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="2302">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">2302</td>
+          <td style="font-size:12px;">麗正</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-02 ~ 06-15</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="2337">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">2337</td>
+          <td style="font-size:12px;">旺宏</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-03 ~ 06-16</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">最近十個營業日已有六次</td>
+        </tr>
+        
+        <tr data-code="2375">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">2375</td>
+          <td style="font-size:12px;">凱美</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-01 ~ 06-12</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="2472">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">2472</td>
+          <td style="font-size:12px;">立隆電</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-01 ~ 06-12</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="2491">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">2491</td>
+          <td style="font-size:12px;">吉祥全</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-08 ~ 06-22</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="3114">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3114</td>
+          <td style="font-size:12px;">好德</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-09 ~ 06-23</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="3149">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3149</td>
+          <td style="font-size:12px;">正達</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-08 ~ 06-22</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續五次</td>
+        </tr>
+        
+        <tr data-code="3288">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3288</td>
+          <td style="font-size:12px;">點晶</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-05 ~ 06-18</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="3346">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3346</td>
+          <td style="font-size:12px;">麗清</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-04 ~ 06-17</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="3481">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3481</td>
+          <td style="font-size:12px;">群創</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-04 ~ 06-17</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">最近十個營業日已有六次</td>
+        </tr>
+        
+        <tr data-code="3485">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3485</td>
+          <td style="font-size:12px;">敘豐</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-02 ~ 06-15</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="3528">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3528</td>
+          <td style="font-size:12px;">安馳</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-02 ~ 06-15</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="3535">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3535</td>
+          <td style="font-size:12px;">晶彩科</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-05 ~ 06-18</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">最近十個營業日已有六次</td>
+        </tr>
+        
+        <tr data-code="3556">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">3556</td>
+          <td style="font-size:12px;">禾瑞亞</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-04 ~ 06-17</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="4707">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">4707</td>
+          <td style="font-size:12px;">磐亞</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-05 ~ 06-18</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="4807">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">4807</td>
+          <td style="font-size:12px;">日成-KY</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-08 ~ 06-22</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="4973">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">4973</td>
+          <td style="font-size:12px;">廣穎</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-02 ~ 06-15</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="5426">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">5426</td>
+          <td style="font-size:12px;">振發</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-09 ~ 06-23</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="5701">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">5701</td>
+          <td style="font-size:12px;">劍湖山</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">10分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-08 ~ 06-22</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="6127">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6127</td>
+          <td style="font-size:12px;">九豪</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-12 ~ 06-26</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">最近10個營業日內有6個營業日</td>
+        </tr>
+        
+        <tr data-code="6291">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6291</td>
+          <td style="font-size:12px;">沛亨</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-01 ~ 06-12</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="6442">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6442</td>
+          <td style="font-size:12px;">光聖</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-08 ~ 06-22</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">最近十個營業日已有六次</td>
+        </tr>
+        
+        <tr data-code="6548">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6548</td>
+          <td style="font-size:12px;">長科*</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-04 ~ 06-17</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="6654">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6654</td>
+          <td style="font-size:12px;">天正國際</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-02 ~ 06-15</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="6770">
+          <td style="text-align:center;">
+            <span class="mkt mkt-twse">市</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">6770</td>
+          <td style="font-size:12px;">力積電</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-02 ~ 06-15</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">連續三次</td>
+        </tr>
+        
+        <tr data-code="7709">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">7709</td>
+          <td style="font-size:12px;">榮田</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-04 ~ 06-17</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="7828">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">7828</td>
+          <td style="font-size:12px;">創新服務</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">5分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-01 ~ 06-12</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+        <tr data-code="8277">
+          <td style="text-align:center;">
+            <span class="mkt mkt-tpex">櫃</span>
+          </td>
+          <td style="font-weight:700;color:#280D5F;font-size:13px;">8277</td>
+          <td style="font-size:12px;">商丞</td>
+          <td style="text-align:center;">
+            
+            <span style="color:#d68910;font-weight:600;font-size:12px;">L1</span>
+            
+          </td>
+          <td style="text-align:center;font-size:11px;color:#280D5F;">10分鐘</td>
+          <td style="font-size:11px;color:#280D5F;">06-04 ~ 06-17</td>
+          <td style="font-size:11px;color:#7A6EAA;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">因連續3個營業日達本中心作業要點第四條第一項第一款</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+  
+
+  <!-- ========== 圖例說明 ========== -->
+  <div style="margin-top:20px;padding:10px 14px;background:#FFFFFF;border:1px solid #E7E3EB;border-radius:10px;font-size:11px;color:#7A6EAA;display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
+    <span style="font-weight:600;color:#280D5F;">規則指標圖例：</span>
+    <span><span class="pblock pb-done" style="display:inline-block;vertical-align:middle;margin-right:3px;"></span>該日觸發注意標準</span>
+    <span><span class="pblock pb-empty" style="display:inline-block;vertical-align:middle;margin-right:3px;border:1px solid #ccc;"></span>該日未觸發</span>
+  </div>
+
+  <!-- ========== 門檻說明 ========== -->
+  <div class="concept-title" style="margin-top:24px;border-left-color:#666171;">
+    <span class="icon">📖</span>
+    <span>處置門檻說明</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px;">
+    <div class="cond-card">
+      <span class="cond-name">3日</span>
+      <span class="cond-desc">連續3個營業日經<strong>第1款</strong>公布注意交易資訊</span>
+    </div>
+    <div class="cond-card">
+      <span class="cond-name">5日</span>
+      <span class="cond-desc">5個營業日內達注意標準3次（任款）</span>
+    </div>
+    <div class="cond-card">
+      <span class="cond-name">6日</span>
+      <span class="cond-desc">6個營業日內達注意4次（上市）/ 10日內5次（上櫃）</span>
+    </div>
+    <div class="cond-card">
+      <span class="cond-name">12日</span>
+      <span class="cond-desc">12個營業日內達注意8次（上市）/ 30日內12次（上櫃）</span>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;padding:12px;background:#FFFFFF;border:1px solid #E7E3EB;border-radius:12px;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+    <div style="font-size:12px;font-weight:600;margin-bottom:8px;color:#280D5F;">第1~8款觸發條件</div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:4px 16px;font-size:11px;color:#7A6EAA;">
+      
+      <div>第1款：漲幅/跌幅/週轉率異常</div>
+      
+      <div>第2款：本益比/股價淨值比異常</div>
+      
+      <div>第3款：交易量異常</div>
+      
+      <div>第4款：週轉率異常</div>
+      
+      <div>第5款：單一券商買賣占比過高</div>
+      
+      <div>第6款：本益比/股價淨值比/週轉率/集中度綜合</div>
+      
+      <div>第7款：券資比異常放大</div>
+      
+      <div>第8款：TDR溢折價異常</div>
+      
+    </div>
+  </div>
+
+  <div style="height:24px;"></div>
+</div>
+
+<footer>
+  <div class="container">
+    每個交易日 16:30 自動更新 ｜ 資料來源：臺灣證券交易所 / 證券櫃檯買賣中心 ｜ 僅供研究參考，非投資建議
+  </div>
+</footer>
+
+<script>
+(function(){
+  // 功能 A — pblock tooltips (fallback, Jinja2 已在 title 屬性設定)
+  document.querySelectorAll('.pblocks').forEach(function(c){
+    c.querySelectorAll('.pblock').forEach(function(b,i){
+      if(!b.title){
+        var hit = !b.classList.contains('pb-empty');
+        b.title = '第'+(i+1)+'個交易日 — '+(hit?'已觸發':'未觸發');
+      }
+    });
+  });
+
+  // 功能 B — row click → accordion detail panel
+  var RULE_NAMES = ['3日', '5日', '6日', '12日'];
+  function parseRuleBlocks(td) {
+    if (!td) return null;
+    var blocks = td.querySelectorAll('.pblock');
+    if (!blocks.length) return null;
+    var triggered = [];
+    for (var i = 0; i < blocks.length; i++) {
+      triggered.push(!blocks[i].classList.contains('pb-empty'));
+    }
+    var count = triggered.filter(Boolean).length;
+    var detail = triggered.map(function(t, i) {
+      return '第' + (i + 1) + '日&nbsp;' + (t ? '✓' : '✗');
+    }).join('、');
+    return { need: blocks.length, count: count, detail: detail };
+  }
+  function esc(s) { var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+  function buildDetailHTML(tr) {
+    var tds = tr.querySelectorAll('td');
+    var code = esc((tr.dataset.code) || (tds[1] ? tds[1].textContent.trim() : ''));
+    var name = esc(tds[2] ? tds[2].textContent.trim() : '');
+    var hasRules = tds.length >= 10;
+    var html = '<div style="padding:12px 16px;border-left:3px solid #7645D9;">';
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">';
+    html += '<span style="font-weight:700;font-size:14px;color:#280D5F;">' + name + '&nbsp;<span style="color:#7A6EAA;font-size:12px;">' + code + '</span></span>';
+    html += '<a href="https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=' + code + '" target="_blank" style="font-size:11px;color:#1FC7D4;text-decoration:none;padding:3px 8px;border:1px solid #1FC7D4;border-radius:10px;">看盤 ↗</a>';
+    html += '</div>';
+    if (hasRules) {
+      var close = tds[3] ? tds[3].textContent.trim() : '—';
+      var condition = tds[4] ? tds[4].textContent.trim() : '—';
+      var earliest = tds[5] ? tds[5].textContent.trim() : '—';
+      html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;font-size:11px;color:#7A6EAA;margin-bottom:10px;">';
+      html += '<span>收盤價：<strong style="color:#280D5F;">' + close + '</strong></span>';
+      html += '<span>最快處置：<strong style="color:#ED4B9E;">' + earliest + '</strong></span>';
+      html += '<span style="grid-column:1/-1;">處置條件：<strong style="color:#280D5F;">' + condition + '</strong></span>';
+      html += '</div>';
+      html += '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;font-size:11px;">';
+      var ruleTds = [tds[6], tds[7], tds[8], tds[9]];
+      for (var r = 0; r < 4; r++) {
+        var info = parseRuleBlocks(ruleTds[r]);
+        if (!info) continue;
+        var gap = info.need - info.count;
+        var color = gap <= 0 ? '#F5A623' : gap === 1 ? '#ED4B9E' : '#7A6EAA';
+        html += '<div style="background:#fff;border-radius:6px;padding:6px 8px;border:1px solid #E7E3EB;">';
+        html += '<span style="font-weight:700;color:#280D5F;">' + RULE_NAMES[r] + '規則</span>：';
+        html += '<span style="color:' + color + ';font-weight:600;">' + info.count + '/' + info.need + ' 已觸發</span><br>';
+        html += '<span style="color:#B8ADD2;font-size:10px;">（' + info.detail + '）</span>';
+        html += '</div>';
+      }
+      html += '</div>';
+    } else {
+      var level = tds[3] ? tds[3].textContent.trim() : '';
+      var interval = tds[4] ? tds[4].textContent.trim() : '';
+      var period = tds[5] ? tds[5].textContent.trim() : '';
+      var ruleGroup = tds[6] ? tds[6].textContent.trim() : '';
+      html += '<div style="font-size:11px;color:#7A6EAA;display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;">';
+      html += '<span>級別：<strong style="color:#280D5F;">' + (level || '—') + '</strong></span>';
+      html += '<span>撮合間隔：<strong style="color:#280D5F;">' + (interval || '—') + '</strong></span>';
+      html += '<span>期間：<strong style="color:#280D5F;">' + (period || '—') + '</strong></span>';
+      html += '<span style="grid-column:1/-1;">條件：<strong style="color:#280D5F;">' + (ruleGroup || '—') + '</strong></span>';
+      html += '</div>';
+    }
+    html += '</div>';
+    return html;
+  }
+  document.querySelectorAll('.disposal-table tbody tr').forEach(function(tr){
+    if (tr.classList.contains('detail-row')) return;
+    var tds = tr.querySelectorAll('td');
+    if (tds.length < 2) return;
+    var code = (tr.dataset.code) || tds[1].textContent.trim();
+    if (!code || code === '—') return;
+    tr.addEventListener('click', function(){
+      var next = tr.nextElementSibling;
+      if (next && next.classList.contains('detail-row')) {
+        next.remove();
+        tr.classList.remove('row-expanded');
+        return;
+      }
+      document.querySelectorAll('.detail-row').forEach(function(d){
+        if (d.previousElementSibling) d.previousElementSibling.classList.remove('row-expanded');
+        d.remove();
+      });
+      var colCount = tr.querySelectorAll('td').length;
+      var detailTr = document.createElement('tr');
+      detailTr.className = 'detail-row';
+      var td = document.createElement('td');
+      td.colSpan = colCount;
+      td.style.padding = '0';
+      td.innerHTML = buildDetailHTML(tr);
+      detailTr.appendChild(td);
+      tr.parentNode.insertBefore(detailTr, tr.nextSibling);
+      tr.classList.add('row-expanded');
+    });
+  });
+
+  // 功能 C — date navigation 已由 Jinja2 靜態產生，無需 JS
+})();
+</script>
+
+<button id="back-to-top" title="回到頂部">↑</button>
+<script>
+// 搜尋自動補全
+(function(){
+  const si = document.getElementById('stock-search');
+  const dd = document.getElementById('search-dropdown');
+  if (!si || !dd) return;
+  function buildStockList() {
+    const stocks = [];
+    document.querySelectorAll('.stock-card[data-code]').forEach(card => {
+      const code = card.dataset.code;
+      const nameEl = card.querySelector('.stock-name');
+      const name = nameEl ? nameEl.textContent.trim() : '';
+      const link = card.querySelector('a');
+      const href = link ? link.getAttribute('href') : null;
+      if (code) stocks.push({ code, name, href });
+    });
+    return stocks;
+  }
+  let stocks = buildStockList();
+  const missEl = document.createElement('div');
+  Object.assign(missEl.style, {
+    position:'fixed', top:'42px', right:'8px', background:'#ED4B9E', color:'#fff',
+    padding:'4px 10px', borderRadius:'8px', fontSize:'11px', zIndex:'10000',
+    opacity:'0', transition:'opacity 0.3s', pointerEvents:'none'
+  });
+  missEl.textContent = '未在今日漲停';
+  document.body.appendChild(missEl);
+  function posDropdown() {
+    const rect = si.getBoundingClientRect();
+    dd.style.left = rect.left + 'px';
+    dd.style.top = (rect.bottom + 4) + 'px';
+    dd.style.minWidth = Math.max(rect.width, 180) + 'px';
+  }
+  function showDropdown(matches) {
+    if (!matches.length) { dd.style.display = 'none'; return; }
+    dd.innerHTML = '';
+    matches.slice(0, 10).forEach(s => {
+      const item = document.createElement('div');
+      item.className = 'sd-item';
+      item.innerHTML = '<span class="sd-name">' + s.name + '</span><span class="sd-code">' + s.code + '</span>';
+      item.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        dd.style.display = 'none';
+        si.value = '';
+        if (s.href) { window.location.href = s.href; }
+        else { doHighlight(s.code); }
+      });
+      dd.appendChild(item);
+    });
+    posDropdown();
+    dd.style.display = 'block';
+  }
+  function doHighlight(code) {
+    const card = document.querySelector('.stock-card[data-code="' + code + '"]');
+    document.querySelectorAll('.stock-card.search-hit').forEach(c => { c.style.outline = ''; c.classList.remove('search-hit'); });
+    if (card) {
+      const section = card.closest('.concept-section');
+      if (section && section.classList.contains('collapsed')) section.classList.remove('collapsed');
+      si.style.borderColor = '#E7E3EB'; missEl.style.opacity = '0';
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.style.outline = '2px solid #1FC7D4'; card.classList.add('search-hit');
+    } else {
+      si.style.borderColor = '#ED4B9E'; missEl.style.opacity = '1';
+      setTimeout(() => { missEl.style.opacity = '0'; }, 2000);
+    }
+  }
+  si.addEventListener('input', () => {
+    const val = si.value.trim();
+    if (!val) { dd.style.display = 'none'; return; }
+    if (!stocks.length) stocks = buildStockList();
+    const filtered = stocks.filter(s => s.code.startsWith(val) || s.name.includes(val));
+    showDropdown(filtered);
+  });
+  si.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { dd.style.display = 'none'; const val = si.value.trim(); if (val.length >= 4) doHighlight(val); }
+    if (e.key === 'Escape') { dd.style.display = 'none'; }
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-wrap')) dd.style.display = 'none';
+  });
+})();
+// 股票卡片 hover 動畫
+document.querySelectorAll('.stock-card a').forEach(card => {
+  card.addEventListener('mouseenter', function() { this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 16px rgba(31,199,212,0.25)'; });
+  card.addEventListener('mouseleave', function() { this.style.transform='translateY(0)'; this.style.boxShadow='none'; });
+});
+// 回到頂部
+(function(){
+  const btn = document.getElementById('back-to-top');
+  if (!btn) return;
+  window.addEventListener('scroll', () => { btn.style.display = window.scrollY > 300 ? 'flex' : 'none'; });
+  btn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+})();
+</script>
+</body>
+</html>
