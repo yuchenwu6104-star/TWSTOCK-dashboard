@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雷科(6207) 2026/06/17</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --up: #ED4B9E;
+  --down: #31D0AA;
+  --teal: #1FC7D4;
+  --purple: #7645D9;
+  --bg: #F3EFFF;
+  --card: #FFFFFF;
+  --card-hover: #F6F1FF;
+  --border: #E7E3EB;
+  --text: #280D5F;
+  --muted: #7A6EAA;
+  --disabled: #B8ADD2;
+}
+body { background: linear-gradient(139.73deg, #E5FDFF 0%, #F3EFFF 100%); background-attachment: fixed; color: var(--text); font-family: 'Kanit', -apple-system, 'Noto Sans TC', 'Segoe UI', sans-serif; }
+.container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+header { text-align: center; padding: 16px 0 12px; border-bottom: 1px solid var(--border); margin-bottom: 16px; position: relative; }
+header h1 { font-size: 22px; margin-bottom: 2px; }
+header h1 .rabbit { font-size: 26px; }
+header .subtitle { color: var(--muted); font-size: 13px; }
+header .cta-hint {
+  position: absolute; top: 16px; right: 20px;
+  background: #1FC7D4;
+  border: none; border-radius: 16px;
+  padding: 8px 12px; color: #fff; font-size: 11px; font-weight: 600;
+  cursor: pointer; min-width: 180px; text-align: center;
+  transition: all 0.2s; box-shadow: 0 2px 8px rgba(31,199,212,0.3);
+}
+header .cta-hint:hover {
+  background: #17b3bf;
+  transform: translateY(-1px); box-shadow: 0 4px 16px rgba(31,199,212,0.4);
+}
+.date-nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 8px; }
+.date-nav .nav-btn {
+  background: var(--card); border: 1px solid var(--border); color: var(--muted);
+  padding: 4px 10px; border-radius: 16px; cursor: pointer; font-size: 11px; transition: all 0.2s;
+}
+.date-nav .nav-btn:hover:not(:disabled) { background: var(--card-hover); color: var(--text); }
+.date-nav .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.date-nav .date { color: var(--teal); font-size: 15px; font-weight: 600; min-width: 100px; }
+.section-title { font-size: 16px; margin: 16px 0 10px; padding-left: 8px; border-left: 3px solid var(--teal); color: var(--text); }
+.concept-section { margin-bottom: 32px; }
+.concept-title {
+  font-size: 14px; margin: 12px 0 8px; padding: 8px 12px;
+  background: var(--card); border-radius: 8px; border-left: 3px solid var(--teal);
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 1px 4px rgba(40,13,95,0.06);
+}
+.concept-title .icon { font-size: 16px; }
+.concept-title .count { color: var(--muted); font-size: 12px; margin-left: auto; }
+.concept-reason { color: var(--muted); font-size: 11px; margin: 0 12px 8px 12px; font-style: italic; }
+.stock-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.stock-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; position: relative; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(40,13,95,0.06); }
+.stock-card .reason-tip {
+  display: none; position: absolute; left: 0; right: 0; bottom: 100%;
+  background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px;
+  padding: 8px 10px; font-size: 12px; color: var(--text); line-height: 1.5;
+  z-index: 100; pointer-events: none; box-shadow: 0 4px 20px rgba(40,13,95,0.15);
+}
+.stock-card .reason-tip .tip-cta { color: var(--teal); font-size: 11px; margin-top: 4px; }
+.stock-card:hover .reason-tip { display: block; }
+.stock-card a { text-decoration: none; color: inherit; display: block; padding: 10px 12px; transition: all 0.2s ease; border-radius: 16px; }
+.stock-card a:hover { background: var(--card-hover); }
+.stock-header { display: flex; justify-content: space-between; align-items: center; }
+.stock-name { font-size: 14px; font-weight: 600; }
+.stock-code { color: var(--muted); font-size: 12px; margin-left: 6px; }
+.stock-price { text-align: right; }
+.stock-close { font-size: 14px; font-weight: 600; }
+.stock-change { font-size: 11px; margin-top: 1px; }
+.up { color: var(--up); }
+.down { color: var(--down); }
+.stock-meta { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--muted); }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.badge.up { background: rgba(237,75,158,0.12); color: var(--up); }
+
+/* Nav pills */
+nav.topnav {
+  background: #FFFFFF; border-bottom: 1px solid var(--border);
+  padding: 8px 12px; display: flex; align-items: center; justify-content: center;
+  gap: 8px; position: sticky; top: 0; z-index: 999;
+  box-shadow: 0 2px 8px rgba(40,13,95,0.06);
+}
+nav.topnav a.pill {
+  padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600;
+  text-decoration: none; color: var(--muted); background: var(--card-hover); transition: all 0.2s;
+}
+nav.topnav a.pill.active { background: var(--teal); color: #fff; box-shadow: 0 2px 8px rgba(31,199,212,0.3); }
+nav.topnav a.pill:hover:not(.active) { color: var(--text); background: var(--border); }
+#stock-search {
+  width: 72px; padding: 5px 8px; border-radius: 16px;
+  border: 1px solid var(--teal); background: #FFFFFF;
+  color: var(--text); font-size: 16px; outline: none;
+}
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; }
+th { text-align: right; padding: 3px 4px; font-size: 10px; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; background: #EDE9FF; }
+th:first-child { text-align: left; }
+td { padding: 4px 4px; font-size: 11px; border-bottom: 1px solid var(--border); text-align: right; font-variant-numeric: tabular-nums; }
+td:first-child { text-align: left; font-size: 11px; white-space: nowrap; }
+tr:nth-child(even) { background: #F6F1FF; }
+tr:hover { background: var(--card-hover); }
+.net { font-weight: 600; }
+
+/* Disposal */
+.disp-stat { padding: 4px 14px; border-radius: 16px; font-size: 13px; font-weight: 600; display: inline-block; }
+.disp-stat.danger { background: rgba(237,75,158,0.12); color: var(--up); }
+.disp-stat.warn { background: rgba(241,196,15,0.15); color: #d68910; }
+.disp-stat.info { background: rgba(118,69,217,0.12); color: var(--purple); }
+.mkt { padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; }
+.mkt-twse { background: rgba(31,199,212,0.15); color: var(--teal); }
+.mkt-tpex { background: rgba(118,69,217,0.12); color: var(--purple); }
+.badge-danger { color: var(--up); font-weight: 700; }
+.badge-warn { color: #d68910; font-weight: 600; }
+.badge-info { color: var(--teal); }
+.threshold-cell { text-align: center; font-size: 12px; }
+.threshold-cell .progress { font-weight: 700; }
+.threshold-cell .gap { font-size: 10px; display: block; }
+.disposal-table { background: #FFFFFF; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.disposal-table th { background: #EDE9FF; padding: 8px 10px; font-size: 11px; color: var(--purple); }
+.disposal-table td { padding: 6px 10px; font-size: 12px; border-bottom: 1px solid var(--border); }
+.disposal-table tr:nth-child(even) { background: #F6F1FF; }
+.disposal-table tr:hover { background: var(--card-hover); }
+
+/* Perf cards */
+.perf-grid, .perf-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 20px 0; }
+.perf-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 24px;
+  padding: 20px 16px; text-align: center;
+  box-shadow: 0 4px 16px rgba(40,13,95,0.08);
+}
+.perf-card .ptitle, .perf-card .title { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.perf-card .pvalue, .perf-card .value { font-size: 24px; font-weight: 800; }
+.perf-card .psub, .perf-card .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* Condition cards */
+.cond-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 14px; margin-bottom: 6px;
+  display: flex; gap: 10px; align-items: baseline;
+  box-shadow: 0 1px 4px rgba(40,13,95,0.05);
+}
+.cond-name { font-weight: 700; font-size: 13px; white-space: nowrap; }
+.cond-desc { font-size: 12px; color: var(--muted); }
+
+footer { text-align: center; padding: 32px 0 24px; color: var(--disabled); font-size: 12px; border-top: 1px solid var(--border); margin-top: 32px; background: rgba(255,255,255,0.6); }
+footer a { color: var(--teal); text-decoration: none; }
+
+/* Autocomplete search dropdown */
+.search-wrap { position: relative; display: flex; align-items: center; }
+#search-dropdown {
+  display: none; position: fixed; top: 42px;
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+  max-height: 280px; overflow-y: auto; min-width: 180px;
+  box-shadow: 0 4px 20px rgba(40,13,95,0.15); z-index: 10001;
+}
+#search-dropdown .sd-item {
+  padding: 7px 12px; font-size: 12px; cursor: pointer;
+  border-bottom: 1px solid var(--border); display: flex; gap: 8px; align-items: center;
+}
+#search-dropdown .sd-item:last-child { border-bottom: none; }
+#search-dropdown .sd-item:hover { background: var(--card-hover); }
+#search-dropdown .sd-name { flex: 1; }
+#search-dropdown .sd-code { color: var(--muted); font-size: 11px; white-space: nowrap; }
+/* Back to top */
+#back-to-top {
+  position: fixed; bottom: 24px; right: 20px;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--teal); color: #fff; border: none;
+  font-size: 20px; line-height: 1; cursor: pointer; z-index: 9999;
+  display: none; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(31,199,212,0.4); transition: opacity 0.3s, transform 0.2s;
+}
+#back-to-top:hover { transform: translateY(-2px); }
+/* Concept collapse */
+.concept-section.collapsed .concept-reason,
+.concept-section.collapsed .stock-grid { display: none; }
+.concept-title { cursor: pointer; user-select: none; }
+.concept-title .chevron {
+  transition: transform 0.2s; font-size: 11px; color: var(--muted);
+  margin-left: 4px; display: inline-block; line-height: 1;
+}
+.concept-section.collapsed .concept-title .chevron { transform: rotate(-90deg); }
+.section-title-wrap { display: flex; align-items: center; justify-content: space-between; margin: 16px 0 10px; }
+.section-title-wrap .section-title { margin: 0; }
+.collapse-all-btn {
+  background: var(--card); border: 1px solid var(--border); color: var(--muted);
+  padding: 4px 10px; border-radius: 16px; cursor: pointer; font-size: 11px; transition: all 0.2s;
+}
+.collapse-all-btn:hover { background: var(--card-hover); color: var(--text); }
+@media (min-width: 1025px) {
+  .container { padding: 0 24px; }
+  header h1 { font-size: 28px; }
+  nav.topnav { padding: 6px 24px; }
+  .concept-title { max-width: 1200px; }
+}
+@media (max-width: 900px) { .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 700px) {
+  .container { padding: 6px; }
+  .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
+  header .cta-hint { position: static; margin: 8px auto 0; min-width: auto; width: fit-content; font-size: 10px; padding: 6px 10px; }
+  .date-nav .nav-btn { padding: 3px 8px; font-size: 10px; }
+  .date-nav .date { font-size: 13px; }
+  .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); }
+  nav.topnav { gap: 4px; padding: 6px 4px; }
+  nav.topnav a.pill { padding: 6px 12px; font-size: 14px; }
+  #stock-search { width: 58px; padding: 4px 6px; font-size: 14px; }
+  /* 個股頁 */
+  .stock-info-bar { flex-direction: column !important; text-align: center !important; gap: 8px !important; }
+  .stock-info-right { text-align: center !important; }
+  .inst-grid, .margin-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .broker-dual { flex-direction: column !important; gap: 8px !important; }
+  .broker-dual > div { min-width: 100% !important; }
+  /* 長條圖：手機保持左右排列，只縮矮 */
+  .bar-chart-inner { height: 300px !important; }
+}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../index-20260617.html" class="pill active">漲停族群AI分類</a>
+  <a href="../../nextday-20260617.html" class="pill ">隔日表現</a>
+  <a href="../../disposal-20260617.html" class="pill ">處置標準</a>
+  <a href="../../stats.html" class="pill ">統計分析</a>
+  <div class="search-wrap">
+    <input id="stock-search" type="text" inputmode="decimal" placeholder="🔍股號" />
+    <div id="search-dropdown"></div>
+  </div>
+</nav>
+
+<div class="container">
+  <a href="../../index.html" style="display:inline-block;color:var(--teal);text-decoration:none;margin-bottom:12px;font-size:14px;padding:4px 0;">← 返回漲停總覽</a>
+
+  <!-- Info Bar -->
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 4px 12px rgba(40,13,95,0.08);">
+    <div class="stock-info-bar" style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <h2 style="font-size:22px;">🐰 雷科</h2>
+        <div style="color:var(--muted);font-size:14px;margin-top:2px;">6207 · 2026/06/17</div>
+      </div>
+      <div class="stock-info-right" style="text-align:right;">
+        <div class="up" style="font-size:24px;font-weight:700;">$164.0</div>
+        <div style="margin-top:4px;"><span class="badge up">14.50 (9.70%) 漲停</span></div>
+      </div>
+    </div>
+    <!-- 族群 + 個股原因 -->
+    
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+      <span style="color:var(--teal);font-size:13px;font-weight:600;">電子零組件</span>
+      
+      <span style="color:var(--muted);font-size:12px;margin-left:8px;">雷科受惠半導體先進封裝與AI晶片測試需求暢旺，公司在LED測試、半導體檢測設備布局完整，隨CoWoS產能擴張帶動相關測試設備訂單成長，加上轉投資事業貢獻，獲市場資金點火推升至漲停。</span>
+      
+    </div>
+    
+    <!-- 成交資訊 -->
+    <div style="font-size:12px;color:var(--muted);margin-top:8px;">
+      成交量 41,838張 · 共 28 家券商交易
+    </div>
+  </div>
+
+  
+  <!-- 三大法人（放在表格上方） -->
+  <div class="concept-title" style="border-left-color:var(--teal);margin-top:0;">
+    <span class="icon">🏛️</span><span>三大法人買賣超</span>
+    <span class="count">06/17</span>
+  </div>
+  <div class="inst-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 16px;">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:var(--muted);">外資</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--down);">
+        -975 張
+      </div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:var(--muted);">投信</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--muted);">
+        +0 張
+      </div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:var(--muted);">自營商</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--down);">
+        -259 張
+      </div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:var(--muted);">合計</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--down);">
+        -1,233 張
+      </div>
+    </div>
+  </div>
+  
+
+  
+  <!-- 買賣超雙欄表 -->
+  <div class="broker-dual" style="display:flex;gap:16px;margin-bottom:20px;">
+    <div style="flex:1;min-width:0;">
+      <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid var(--up);color:var(--up);margin-bottom:4px;">買超 Top13</div>
+      <table>
+        <tr><th style="text-align:left;">券商</th><th>買超</th><th>買均</th><th>買張</th><th>賣張</th><th>賣均</th></tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">新加坡商瑞銀</td>
+          <td class="net" style="color:var(--up);">401</td>
+          <td>155.72</td>
+          <td>1,681</td>
+          <td>1,280</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">富邦-南屯</td>
+          <td class="net" style="color:var(--up);">302</td>
+          <td>155.72</td>
+          <td>338</td>
+          <td>36</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">凱基-台北</td>
+          <td class="net" style="color:var(--up);">258</td>
+          <td>155.72</td>
+          <td>3,459</td>
+          <td>3,201</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">凱基-站前</td>
+          <td class="net" style="color:var(--up);">201</td>
+          <td>155.72</td>
+          <td>258</td>
+          <td>57</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">永豐金證券</td>
+          <td class="net" style="color:var(--up);">145</td>
+          <td>155.72</td>
+          <td>413</td>
+          <td>268</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">凱基-豐中</td>
+          <td class="net" style="color:var(--up);">87</td>
+          <td>155.72</td>
+          <td>105</td>
+          <td>18</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">美商高盛</td>
+          <td class="net" style="color:var(--up);">84</td>
+          <td>155.72</td>
+          <td>1,027</td>
+          <td>943</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大-三重</td>
+          <td class="net" style="color:var(--up);">74</td>
+          <td>155.72</td>
+          <td>125</td>
+          <td>51</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大-佳里</td>
+          <td class="net" style="color:var(--up);">68</td>
+          <td>155.72</td>
+          <td>111</td>
+          <td>43</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">國泰-敦南</td>
+          <td class="net" style="color:var(--up);">65</td>
+          <td>155.72</td>
+          <td>1,665</td>
+          <td>1,600</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">台新</td>
+          <td class="net" style="color:var(--up);">61</td>
+          <td>155.72</td>
+          <td>339</td>
+          <td>278</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">玉山-高雄</td>
+          <td class="net" style="color:var(--up);">60</td>
+          <td>155.72</td>
+          <td>118</td>
+          <td>58</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">聯邦-忠孝</td>
+          <td class="net" style="color:var(--up);">55</td>
+          <td>155.72</td>
+          <td>68</td>
+          <td>13</td>
+          <td>151.74</td>
+        </tr>
+        
+      </table>
+    </div>
+    <div style="flex:1;min-width:0;">
+      <div style="text-align:center;padding:8px;font-size:13px;font-weight:600;border-bottom:2px solid var(--down);color:var(--down);margin-bottom:4px;">賣超 Top15</div>
+      <table>
+        <tr><th style="text-align:left;">券商</th><th>賣超</th><th>買均</th><th>買張</th><th>賣張</th><th>賣均</th></tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">富邦證券</td>
+          <td class="net" style="color:var(--down);">713</td>
+          <td>155.72</td>
+          <td>774</td>
+          <td>1,487</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大證券</td>
+          <td class="net" style="color:var(--down);">424</td>
+          <td>155.72</td>
+          <td>2,629</td>
+          <td>3,053</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">港商野村</td>
+          <td class="net" style="color:var(--down);">410</td>
+          <td>155.72</td>
+          <td>563</td>
+          <td>973</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">永豐金-敦北</td>
+          <td class="net" style="color:var(--down);">390</td>
+          <td>155.72</td>
+          <td>125</td>
+          <td>515</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">華南永昌</td>
+          <td class="net" style="color:var(--down);">343</td>
+          <td>155.72</td>
+          <td>65</td>
+          <td>408</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">凱基-城中</td>
+          <td class="net" style="color:var(--down);">335</td>
+          <td>155.72</td>
+          <td>84</td>
+          <td>419</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">美林</td>
+          <td class="net" style="color:var(--down);">286</td>
+          <td>155.72</td>
+          <td>8</td>
+          <td>294</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">台灣摩根士丹利</td>
+          <td class="net" style="color:var(--down);">285</td>
+          <td>155.72</td>
+          <td>669</td>
+          <td>954</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">富邦-嘉義</td>
+          <td class="net" style="color:var(--down);">238</td>
+          <td>155.72</td>
+          <td>431</td>
+          <td>669</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">摩根大通</td>
+          <td class="net" style="color:var(--down);">233</td>
+          <td>155.72</td>
+          <td>416</td>
+          <td>649</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大-嘉義</td>
+          <td class="net" style="color:var(--down);">180</td>
+          <td>155.72</td>
+          <td>572</td>
+          <td>752</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">群益金鼎-館前</td>
+          <td class="net" style="color:var(--down);">120</td>
+          <td>155.72</td>
+          <td>53</td>
+          <td>173</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">元大-新莊</td>
+          <td class="net" style="color:var(--down);">101</td>
+          <td>155.72</td>
+          <td>85</td>
+          <td>186</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">統一</td>
+          <td class="net" style="color:var(--down);">97</td>
+          <td>155.72</td>
+          <td>186</td>
+          <td>283</td>
+          <td>151.74</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;max-width:65px;overflow:hidden;text-overflow:ellipsis;">台新-敦南</td>
+          <td class="net" style="color:var(--down);">78</td>
+          <td>155.72</td>
+          <td>26</td>
+          <td>104</td>
+          <td>151.74</td>
+        </tr>
+        
+      </table>
+    </div>
+  </div>
+
+  <!-- 主力買賣排行圖 -->
+  <div class="bar-chart-wrap" style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:20px;overflow:hidden;">
+    <div class="bar-chart-inner" style="display:flex;gap:8px;height:400px;">
+      <div style="flex:1;min-width:0;position:relative;">
+        <div style="text-align:center;font-size:12px;font-weight:600;color:var(--up);margin-bottom:6px;">← 買超排行（張）</div>
+        <div style="position:absolute;top:24px;bottom:0;left:0;right:0;">
+          <canvas id="buyChart"></canvas>
+        </div>
+      </div>
+      <div style="flex:1;min-width:0;position:relative;">
+        <div style="text-align:center;font-size:12px;font-weight:600;color:var(--down);margin-bottom:6px;">賣超排行（張）→</div>
+        <div style="position:absolute;top:24px;bottom:0;left:0;right:0;">
+          <canvas id="sellChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  <!-- 融資融券 -->
+  <div class="concept-title" style="border-left-color:var(--purple);">
+    <span class="icon">💰</span><span>融資融券</span>
+    <span class="count">04/09</span>
+  </div>
+  <div class="margin-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 20px;">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:var(--muted);">融資餘額</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--text);">3,971 張</div>
+      <div style="font-size:10px;color:var(--up);margin-top:2px;">
+        +20
+      </div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:var(--muted);">融資買</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--up);">77</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:var(--muted);">融券餘額</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--text);">48 張</div>
+      <div style="font-size:10px;color:var(--down);margin-top:2px;">
+        +8
+      </div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(40,13,95,0.06);">
+      <div style="font-size:11px;color:var(--muted);">券資比</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px;color:var(--text);">1.2%</div>
+    </div>
+  </div>
+  
+</div>
+
+<footer>
+  <div class="container">
+    每個交易日 16:30 自動更新 ｜ 資料來源：臺灣證券交易所 / 證券櫃檯買賣中心 ｜ 僅供研究參考，非投資建議
+  </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script>
+(function() {
+  const data = {"buy_rank": [{"name": "新加坡商瑞銀", "net": 401, "buy": 1681, "sell": 1280}, {"name": "富邦-南屯", "net": 302, "buy": 338, "sell": 36}, {"name": "凱基-台北", "net": 258, "buy": 3459, "sell": 3201}, {"name": "凱基-站前", "net": 201, "buy": 258, "sell": 57}, {"name": "永豐金證券", "net": 145, "buy": 413, "sell": 268}, {"name": "凱基-豐中", "net": 87, "buy": 105, "sell": 18}, {"name": "美商高盛", "net": 84, "buy": 1027, "sell": 943}, {"name": "元大-三重", "net": 74, "buy": 125, "sell": 51}, {"name": "元大-佳里", "net": 68, "buy": 111, "sell": 43}, {"name": "國泰-敦南", "net": 65, "buy": 1665, "sell": 1600}, {"name": "台新", "net": 61, "buy": 339, "sell": 278}, {"name": "玉山-高雄", "net": 60, "buy": 118, "sell": 58}, {"name": "聯邦-忠孝", "net": 55, "buy": 68, "sell": 13}], "sell_rank": [{"name": "富邦證券", "net": 713, "buy": 774, "sell": 1487}, {"name": "元大證券", "net": 424, "buy": 2629, "sell": 3053}, {"name": "港商野村", "net": 410, "buy": 563, "sell": 973}, {"name": "永豐金-敦北", "net": 390, "buy": 125, "sell": 515}, {"name": "華南永昌", "net": 343, "buy": 65, "sell": 408}, {"name": "凱基-城中", "net": 335, "buy": 84, "sell": 419}, {"name": "美林", "net": 286, "buy": 8, "sell": 294}, {"name": "台灣摩根士丹利", "net": 285, "buy": 669, "sell": 954}, {"name": "富邦-嘉義", "net": 238, "buy": 431, "sell": 669}, {"name": "摩根大通", "net": 233, "buy": 416, "sell": 649}, {"name": "元大-嘉義", "net": 180, "buy": 572, "sell": 752}, {"name": "群益金鼎-館前", "net": 120, "buy": 53, "sell": 173}, {"name": "元大-新莊", "net": 101, "buy": 85, "sell": 186}, {"name": "統一", "net": 97, "buy": 186, "sell": 283}, {"name": "台新-敦南", "net": 78, "buy": 26, "sell": 104}]};
+  const buyRank = data.buy_rank;
+  const sellRank = data.sell_rank;
+
+  // 所有券商名（for cross-highlight）
+  const allNames = new Set([...buyRank.map(d=>d.name), ...sellRank.map(d=>d.name)]);
+  let hoveredName = null;
+
+  // 共用最大值讓兩邊比例一致
+  const maxNet = Math.max(
+    ...buyRank.map(d=>d.net), ...sellRank.map(d=>d.net), 1
+  );
+
+  function mkColors(rank, baseColor, dimColor) {
+    return rank.map(d =>
+      hoveredName && d.name !== hoveredName ? dimColor : baseColor
+    );
+  }
+
+  function mkTooltip(color) {
+    return {
+      backgroundColor:'rgba(8,6,11,0.95)', titleColor:'#280D5F', bodyColor:'#7A6EAA',
+      borderColor:'#1FC7D4', borderWidth:1, cornerRadius:10, padding:10,
+      titleFont:{size:13,weight:'bold'}, bodyFont:{size:11}, displayColors:false,
+      callbacks: {
+        title: items => {
+          const d = items[0].dataIndex;
+          const rank = color === 'buy' ? buyRank : sellRank;
+          return (color === 'buy' ? '🔴 ' : '🟢 ') + rank[d].name;
+        },
+        label: () => null,
+        afterBody: items => {
+          const d = items[0].dataIndex;
+          const rank = color === 'buy' ? buyRank : sellRank;
+          const b = rank[d];
+          return [
+            '買進：' + b.buy.toLocaleString() + ' 張',
+            '賣出：' + b.sell.toLocaleString() + ' 張',
+            '淨' + (color==='buy'?'買超':'賣超') + '：' + b.net.toLocaleString() + ' 張',
+          ];
+        }
+      }
+    };
+  }
+
+  // 買超圖（bar 往左 = 用負值 + 反轉 X 軸）
+  const buyChart = new Chart(document.getElementById('buyChart'), {
+    type: 'bar',
+    data: {
+      labels: buyRank.map(d => d.name),
+      datasets: [{
+        data: buyRank.map(d => d.net),
+        backgroundColor: mkColors(buyRank, 'rgba(237,75,158,0.7)', 'rgba(237,75,158,0.12)'),
+        borderColor: 'rgba(237,75,158,0.9)', borderWidth: 1, borderRadius: 4, barPercentage: 0.75,
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false }, tooltip: mkTooltip('buy') },
+      scales: {
+        x: {
+          reverse: true, max: Math.ceil(maxNet * 1.1),
+          grid: { color: 'rgba(56,50,65,0.3)' }, border: { color: 'var(--border)' },
+          ticks: { color: 'var(--muted)', font: { size: 9 }, callback: v => v.toLocaleString() },
+        },
+        y: {
+          position: 'right',
+          grid: { display: false }, border: { display: false },
+          ticks: { color: 'var(--up)', font: { size: 10, weight: '600' }, mirror: false },
+        }
+      },
+      onHover: (evt, els) => {
+        const name = els.length ? buyRank[els[0].index].name : null;
+        if (name !== hoveredName) { hoveredName = name; updateBoth(); }
+      }
+    }
+  });
+
+  // 賣超圖
+  const sellChart = new Chart(document.getElementById('sellChart'), {
+    type: 'bar',
+    data: {
+      labels: sellRank.map(d => d.name),
+      datasets: [{
+        data: sellRank.map(d => d.net),
+        backgroundColor: mkColors(sellRank, 'rgba(49,208,170,0.7)', 'rgba(49,208,170,0.12)'),
+        borderColor: 'rgba(49,208,170,0.9)', borderWidth: 1, borderRadius: 4, barPercentage: 0.75,
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false }, tooltip: mkTooltip('sell') },
+      scales: {
+        x: {
+          max: Math.ceil(maxNet * 1.1),
+          grid: { color: 'rgba(56,50,65,0.3)' }, border: { color: 'var(--border)' },
+          ticks: { color: 'var(--muted)', font: { size: 9 }, callback: v => v.toLocaleString() },
+        },
+        y: {
+          grid: { display: false }, border: { display: false },
+          ticks: { color: 'var(--down)', font: { size: 10, weight: '600' } },
+        }
+      },
+      onHover: (evt, els) => {
+        const name = els.length ? sellRank[els[0].index].name : null;
+        if (name !== hoveredName) { hoveredName = name; updateBoth(); }
+      }
+    }
+  });
+
+  function updateBoth() {
+    buyChart.data.datasets[0].backgroundColor = mkColors(buyRank, 'rgba(237,75,158,0.7)', 'rgba(237,75,158,0.12)');
+    sellChart.data.datasets[0].backgroundColor = mkColors(sellRank, 'rgba(49,208,170,0.7)', 'rgba(49,208,170,0.12)');
+    buyChart.update('none');
+    sellChart.update('none');
+  }
+
+  // 滑鼠離開時重置
+  ['buyChart','sellChart'].forEach(id => {
+    document.getElementById(id).addEventListener('mouseleave', () => {
+      if (hoveredName) { hoveredName = null; updateBoth(); }
+    });
+  });
+})();
+</script>
+
+
+<button id="back-to-top" title="回到頂部">↑</button>
+<script>
+// 搜尋自動補全
+(function(){
+  const si = document.getElementById('stock-search');
+  const dd = document.getElementById('search-dropdown');
+  if (!si || !dd) return;
+  function buildStockList() {
+    const stocks = [];
+    document.querySelectorAll('.stock-card[data-code]').forEach(card => {
+      const code = card.dataset.code;
+      const nameEl = card.querySelector('.stock-name');
+      const name = nameEl ? nameEl.textContent.trim() : '';
+      const link = card.querySelector('a');
+      const href = link ? link.getAttribute('href') : null;
+      if (code) stocks.push({ code, name, href });
+    });
+    return stocks;
+  }
+  let stocks = buildStockList();
+  const missEl = document.createElement('div');
+  Object.assign(missEl.style, {
+    position:'fixed', top:'42px', right:'8px', background:'#ED4B9E', color:'#fff',
+    padding:'4px 10px', borderRadius:'8px', fontSize:'11px', zIndex:'10000',
+    opacity:'0', transition:'opacity 0.3s', pointerEvents:'none'
+  });
+  missEl.textContent = '未在今日漲停';
+  document.body.appendChild(missEl);
+  function posDropdown() {
+    const rect = si.getBoundingClientRect();
+    dd.style.left = rect.left + 'px';
+    dd.style.top = (rect.bottom + 4) + 'px';
+    dd.style.minWidth = Math.max(rect.width, 180) + 'px';
+  }
+  function showDropdown(matches) {
+    if (!matches.length) { dd.style.display = 'none'; return; }
+    dd.innerHTML = '';
+    matches.slice(0, 10).forEach(s => {
+      const item = document.createElement('div');
+      item.className = 'sd-item';
+      item.innerHTML = '<span class="sd-name">' + s.name + '</span><span class="sd-code">' + s.code + '</span>';
+      item.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        dd.style.display = 'none';
+        si.value = '';
+        if (s.href) { window.location.href = s.href; }
+        else { doHighlight(s.code); }
+      });
+      dd.appendChild(item);
+    });
+    posDropdown();
+    dd.style.display = 'block';
+  }
+  function doHighlight(code) {
+    const card = document.querySelector('.stock-card[data-code="' + code + '"]');
+    document.querySelectorAll('.stock-card.search-hit').forEach(c => { c.style.outline = ''; c.classList.remove('search-hit'); });
+    if (card) {
+      const section = card.closest('.concept-section');
+      if (section && section.classList.contains('collapsed')) section.classList.remove('collapsed');
+      si.style.borderColor = '#E7E3EB'; missEl.style.opacity = '0';
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.style.outline = '2px solid #1FC7D4'; card.classList.add('search-hit');
+    } else {
+      si.style.borderColor = '#ED4B9E'; missEl.style.opacity = '1';
+      setTimeout(() => { missEl.style.opacity = '0'; }, 2000);
+    }
+  }
+  si.addEventListener('input', () => {
+    const val = si.value.trim();
+    if (!val) { dd.style.display = 'none'; return; }
+    if (!stocks.length) stocks = buildStockList();
+    const filtered = stocks.filter(s => s.code.startsWith(val) || s.name.includes(val));
+    showDropdown(filtered);
+  });
+  si.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { dd.style.display = 'none'; const val = si.value.trim(); if (val.length >= 4) doHighlight(val); }
+    if (e.key === 'Escape') { dd.style.display = 'none'; }
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-wrap')) dd.style.display = 'none';
+  });
+})();
+// 股票卡片 hover 動畫
+document.querySelectorAll('.stock-card a').forEach(card => {
+  card.addEventListener('mouseenter', function() { this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 16px rgba(31,199,212,0.25)'; });
+  card.addEventListener('mouseleave', function() { this.style.transform='translateY(0)'; this.style.boxShadow='none'; });
+});
+// 回到頂部
+(function(){
+  const btn = document.getElementById('back-to-top');
+  if (!btn) return;
+  window.addEventListener('scroll', () => { btn.style.display = window.scrollY > 300 ? 'flex' : 'none'; });
+  btn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+})();
+</script>
+</body>
+</html>
