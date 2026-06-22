@@ -1,0 +1,2740 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>隔日表現 — 2026/06/22</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --up: #ED4B9E;
+  --down: #31D0AA;
+  --teal: #1FC7D4;
+  --purple: #7645D9;
+  --bg: #F3EFFF;
+  --card: #FFFFFF;
+  --card-hover: #F6F1FF;
+  --border: #E7E3EB;
+  --text: #280D5F;
+  --muted: #7A6EAA;
+  --disabled: #B8ADD2;
+}
+body { background: linear-gradient(139.73deg, #E5FDFF 0%, #F3EFFF 100%); background-attachment: fixed; color: var(--text); font-family: 'Kanit', -apple-system, 'Noto Sans TC', 'Segoe UI', sans-serif; }
+.container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+header { text-align: center; padding: 16px 0 12px; border-bottom: 1px solid var(--border); margin-bottom: 16px; position: relative; }
+header h1 { font-size: 22px; margin-bottom: 2px; }
+header h1 .rabbit { font-size: 26px; }
+header .subtitle { color: var(--muted); font-size: 13px; }
+header .cta-hint {
+  position: absolute; top: 16px; right: 20px;
+  background: #1FC7D4;
+  border: none; border-radius: 16px;
+  padding: 8px 12px; color: #fff; font-size: 11px; font-weight: 600;
+  cursor: pointer; min-width: 180px; text-align: center;
+  transition: all 0.2s; box-shadow: 0 2px 8px rgba(31,199,212,0.3);
+}
+header .cta-hint:hover {
+  background: #17b3bf;
+  transform: translateY(-1px); box-shadow: 0 4px 16px rgba(31,199,212,0.4);
+}
+.date-nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 8px; }
+.date-nav .nav-btn {
+  background: var(--card); border: 1px solid var(--border); color: var(--muted);
+  padding: 4px 10px; border-radius: 16px; cursor: pointer; font-size: 11px; transition: all 0.2s;
+}
+.date-nav .nav-btn:hover:not(:disabled) { background: var(--card-hover); color: var(--text); }
+.date-nav .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.date-nav .date { color: var(--teal); font-size: 15px; font-weight: 600; min-width: 100px; }
+.section-title { font-size: 16px; margin: 16px 0 10px; padding-left: 8px; border-left: 3px solid var(--teal); color: var(--text); }
+.concept-section { margin-bottom: 32px; }
+.concept-title {
+  font-size: 14px; margin: 12px 0 8px; padding: 8px 12px;
+  background: var(--card); border-radius: 8px; border-left: 3px solid var(--teal);
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 1px 4px rgba(40,13,95,0.06);
+}
+.concept-title .icon { font-size: 16px; }
+.concept-title .count { color: var(--muted); font-size: 12px; margin-left: auto; }
+.concept-reason { color: var(--muted); font-size: 11px; margin: 0 12px 8px 12px; font-style: italic; }
+.stock-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.stock-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; position: relative; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(40,13,95,0.06); }
+.stock-card .reason-tip {
+  display: none; position: absolute; left: 0; right: 0; bottom: 100%;
+  background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px;
+  padding: 8px 10px; font-size: 12px; color: var(--text); line-height: 1.5;
+  z-index: 100; pointer-events: none; box-shadow: 0 4px 20px rgba(40,13,95,0.15);
+}
+.stock-card .reason-tip .tip-cta { color: var(--teal); font-size: 11px; margin-top: 4px; }
+.stock-card:hover .reason-tip { display: block; }
+.stock-card a { text-decoration: none; color: inherit; display: block; padding: 10px 12px; transition: all 0.2s ease; border-radius: 16px; }
+.stock-card a:hover { background: var(--card-hover); }
+.stock-header { display: flex; justify-content: space-between; align-items: center; }
+.stock-name { font-size: 14px; font-weight: 600; }
+.stock-code { color: var(--muted); font-size: 12px; margin-left: 6px; }
+.stock-price { text-align: right; }
+.stock-close { font-size: 14px; font-weight: 600; }
+.stock-change { font-size: 11px; margin-top: 1px; }
+.up { color: var(--up); }
+.down { color: var(--down); }
+.stock-meta { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--muted); }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.badge.up { background: rgba(237,75,158,0.12); color: var(--up); }
+
+/* Nav pills */
+nav.topnav {
+  background: #FFFFFF; border-bottom: 1px solid var(--border);
+  padding: 8px 12px; display: flex; align-items: center; justify-content: center;
+  gap: 8px; position: sticky; top: 0; z-index: 999;
+  box-shadow: 0 2px 8px rgba(40,13,95,0.06);
+}
+nav.topnav a.pill {
+  padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600;
+  text-decoration: none; color: var(--muted); background: var(--card-hover); transition: all 0.2s;
+}
+nav.topnav a.pill.active { background: var(--teal); color: #fff; box-shadow: 0 2px 8px rgba(31,199,212,0.3); }
+nav.topnav a.pill:hover:not(.active) { color: var(--text); background: var(--border); }
+#stock-search {
+  width: 72px; padding: 5px 8px; border-radius: 16px;
+  border: 1px solid var(--teal); background: #FFFFFF;
+  color: var(--text); font-size: 16px; outline: none;
+}
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; }
+th { text-align: right; padding: 3px 4px; font-size: 10px; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; background: #EDE9FF; }
+th:first-child { text-align: left; }
+td { padding: 4px 4px; font-size: 11px; border-bottom: 1px solid var(--border); text-align: right; font-variant-numeric: tabular-nums; }
+td:first-child { text-align: left; font-size: 11px; white-space: nowrap; }
+tr:nth-child(even) { background: #F6F1FF; }
+tr:hover { background: var(--card-hover); }
+.net { font-weight: 600; }
+
+/* Disposal */
+.disp-stat { padding: 4px 14px; border-radius: 16px; font-size: 13px; font-weight: 600; display: inline-block; }
+.disp-stat.danger { background: rgba(237,75,158,0.12); color: var(--up); }
+.disp-stat.warn { background: rgba(241,196,15,0.15); color: #d68910; }
+.disp-stat.info { background: rgba(118,69,217,0.12); color: var(--purple); }
+.mkt { padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; }
+.mkt-twse { background: rgba(31,199,212,0.15); color: var(--teal); }
+.mkt-tpex { background: rgba(118,69,217,0.12); color: var(--purple); }
+.badge-danger { color: var(--up); font-weight: 700; }
+.badge-warn { color: #d68910; font-weight: 600; }
+.badge-info { color: var(--teal); }
+.threshold-cell { text-align: center; font-size: 12px; }
+.threshold-cell .progress { font-weight: 700; }
+.threshold-cell .gap { font-size: 10px; display: block; }
+.disposal-table { background: #FFFFFF; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.disposal-table th { background: #EDE9FF; padding: 8px 10px; font-size: 11px; color: var(--purple); }
+.disposal-table td { padding: 6px 10px; font-size: 12px; border-bottom: 1px solid var(--border); }
+.disposal-table tr:nth-child(even) { background: #F6F1FF; }
+.disposal-table tr:hover { background: var(--card-hover); }
+
+/* Perf cards */
+.perf-grid, .perf-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 20px 0; }
+.perf-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 24px;
+  padding: 20px 16px; text-align: center;
+  box-shadow: 0 4px 16px rgba(40,13,95,0.08);
+}
+.perf-card .ptitle, .perf-card .title { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.perf-card .pvalue, .perf-card .value { font-size: 24px; font-weight: 800; }
+.perf-card .psub, .perf-card .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* Condition cards */
+.cond-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 14px; margin-bottom: 6px;
+  display: flex; gap: 10px; align-items: baseline;
+  box-shadow: 0 1px 4px rgba(40,13,95,0.05);
+}
+.cond-name { font-weight: 700; font-size: 13px; white-space: nowrap; }
+.cond-desc { font-size: 12px; color: var(--muted); }
+
+footer { text-align: center; padding: 32px 0 24px; color: var(--disabled); font-size: 12px; border-top: 1px solid var(--border); margin-top: 32px; background: rgba(255,255,255,0.6); }
+footer a { color: var(--teal); text-decoration: none; }
+
+/* Autocomplete search dropdown */
+.search-wrap { position: relative; display: flex; align-items: center; }
+#search-dropdown {
+  display: none; position: fixed; top: 42px;
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+  max-height: 280px; overflow-y: auto; min-width: 180px;
+  box-shadow: 0 4px 20px rgba(40,13,95,0.15); z-index: 10001;
+}
+#search-dropdown .sd-item {
+  padding: 7px 12px; font-size: 12px; cursor: pointer;
+  border-bottom: 1px solid var(--border); display: flex; gap: 8px; align-items: center;
+}
+#search-dropdown .sd-item:last-child { border-bottom: none; }
+#search-dropdown .sd-item:hover { background: var(--card-hover); }
+#search-dropdown .sd-name { flex: 1; }
+#search-dropdown .sd-code { color: var(--muted); font-size: 11px; white-space: nowrap; }
+/* Back to top */
+#back-to-top {
+  position: fixed; bottom: 24px; right: 20px;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--teal); color: #fff; border: none;
+  font-size: 20px; line-height: 1; cursor: pointer; z-index: 9999;
+  display: none; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(31,199,212,0.4); transition: opacity 0.3s, transform 0.2s;
+}
+#back-to-top:hover { transform: translateY(-2px); }
+/* Concept collapse */
+.concept-section.collapsed .concept-reason,
+.concept-section.collapsed .stock-grid { display: none; }
+.concept-title { cursor: pointer; user-select: none; }
+.concept-title .chevron {
+  transition: transform 0.2s; font-size: 11px; color: var(--muted);
+  margin-left: 4px; display: inline-block; line-height: 1;
+}
+.concept-section.collapsed .concept-title .chevron { transform: rotate(-90deg); }
+.section-title-wrap { display: flex; align-items: center; justify-content: space-between; margin: 16px 0 10px; }
+.section-title-wrap .section-title { margin: 0; }
+.collapse-all-btn {
+  background: var(--card); border: 1px solid var(--border); color: var(--muted);
+  padding: 4px 10px; border-radius: 16px; cursor: pointer; font-size: 11px; transition: all 0.2s;
+}
+.collapse-all-btn:hover { background: var(--card-hover); color: var(--text); }
+@media (min-width: 1025px) {
+  .container { padding: 0 24px; }
+  header h1 { font-size: 28px; }
+  nav.topnav { padding: 6px 24px; }
+  .concept-title { max-width: 1200px; }
+}
+@media (max-width: 900px) { .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 700px) {
+  .container { padding: 6px; }
+  .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
+  header .cta-hint { position: static; margin: 8px auto 0; min-width: auto; width: fit-content; font-size: 10px; padding: 6px 10px; }
+  .date-nav .nav-btn { padding: 3px 8px; font-size: 10px; }
+  .date-nav .date { font-size: 13px; }
+  .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); }
+  nav.topnav { gap: 4px; padding: 6px 4px; }
+  nav.topnav a.pill { padding: 6px 12px; font-size: 14px; }
+  #stock-search { width: 58px; padding: 4px 6px; font-size: 14px; }
+  /* 個股頁 */
+  .stock-info-bar { flex-direction: column !important; text-align: center !important; gap: 8px !important; }
+  .stock-info-right { text-align: center !important; }
+  .inst-grid, .margin-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .broker-dual { flex-direction: column !important; gap: 8px !important; }
+  .broker-dual > div { min-width: 100% !important; }
+  /* 長條圖：手機保持左右排列，只縮矮 */
+  .bar-chart-inner { height: 300px !important; }
+}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="index-20260622.html" class="pill ">漲停族群AI分類</a>
+  <a href="nextday-20260622.html" class="pill active">隔日表現</a>
+  <a href="disposal-20260622.html" class="pill ">處置標準</a>
+  <a href="stats.html" class="pill ">統計分析</a>
+  <div class="search-wrap">
+    <input id="stock-search" type="text" inputmode="decimal" placeholder="🔍股號" />
+    <div id="search-dropdown"></div>
+  </div>
+</nav>
+
+<div class="container">
+    <div class="date-nav" style="padding:12px 0;">
+        <span class="current-date" style="color:var(--purple);font-size:15px;font-weight:600;">
+            
+            漲停日 2026-06-18 → 隔日 2026-06-22
+            
+        </span>
+    </div>
+
+    <div class="perf-cards">
+        <div class="perf-card">
+            <div class="title">隔日開盤報酬率</div>
+            <div class="value" style="color: var(--up);">
+                +5.46%
+            </div>
+            <div class="sub">正報酬率 96.0%</div>
+        </div>
+        <div class="perf-card">
+            <div class="title">隔日均價報酬率</div>
+            <div class="value" style="color: var(--up);">
+                +5.03%
+            </div>
+            <div class="sub">正報酬率 90.0%</div>
+        </div>
+        <div class="perf-card">
+            <div class="title">隔日收盤報酬率</div>
+            <div class="value" style="color: var(--up);">
+                +4.79%
+            </div>
+            <div class="sub">正報酬率 76.0%</div>
+        </div>
+        <div class="perf-card">
+            <div class="title">續漲停</div>
+            <div class="value" style="color: var(--up);">43 檔</div>
+            <div class="sub">共 100 檔漲停</div>
+        </div>
+    </div>
+
+    
+
+    
+    <!-- 族群勝率表 -->
+    <div class="concept-title" style="border-left-color:var(--purple);">
+        <span class="icon">📊</span><span>族群隔日勝率</span>
+        <span class="count">19 族群</span>
+    </div>
+    <div style="overflow-x:auto;margin:8px 0 20px;">
+        <table class="disposal-table" id="themeTable" style="min-width:450px;">
+            <thead>
+                <tr>
+                    <th style="text-align:left;cursor:pointer;" onclick="sortNdTable('themeTable',0)">族群<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:center;cursor:pointer;" onclick="sortNdTable('themeTable',1)">股數<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:center;cursor:pointer;" onclick="sortNdTable('themeTable',2)">勝率<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('themeTable',3)">開盤<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('themeTable',4)">收盤<span class="nd-arrow"> ↕</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">IC設計／AI邊緣運算</td>
+                    <td style="text-align:center;">21</td>
+                    <td style="text-align:center;font-weight:700;color:var(--up);">
+                        100% <span style="font-weight:400;color:var(--muted);">21/21</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+8.41%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">+8.85%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">被動元件</td>
+                    <td style="text-align:center;">8</td>
+                    <td style="text-align:center;font-weight:700;color:var(--muted);">
+                        50% <span style="font-weight:400;color:var(--muted);">4/8</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+5.87%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">+4.30%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">電子零組件</td>
+                    <td style="text-align:center;">8</td>
+                    <td style="text-align:center;font-weight:700;color:var(--up);">
+                        62% <span style="font-weight:400;color:var(--muted);">5/8</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+3.67%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">+3.47%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">半導體</td>
+                    <td style="text-align:center;">7</td>
+                    <td style="text-align:center;font-weight:700;color:var(--muted);">
+                        57% <span style="font-weight:400;color:var(--muted);">4/7</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+4.50%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">+4.45%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">半導體檢測／封測</td>
+                    <td style="text-align:center;">7</td>
+                    <td style="text-align:center;font-weight:700;color:var(--up);">
+                        100% <span style="font-weight:400;color:var(--muted);">7/7</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+3.66%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">+6.66%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">車用電子</td>
+                    <td style="text-align:center;">5</td>
+                    <td style="text-align:center;font-weight:700;color:var(--muted);">
+                        40% <span style="font-weight:400;color:var(--muted);">2/5</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+1.59%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">-2.83%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">其他</td>
+                    <td style="text-align:center;">5</td>
+                    <td style="text-align:center;font-weight:700;color:var(--up);">
+                        80% <span style="font-weight:400;color:var(--muted);">4/5</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+3.72%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">+3.65%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">個股表現亮點</td>
+                    <td style="text-align:center;">5</td>
+                    <td style="text-align:center;font-weight:700;color:var(--up);">
+                        60% <span style="font-weight:400;color:var(--muted);">3/5</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+5.11%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">+1.50%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">電機機械</td>
+                    <td style="text-align:center;">5</td>
+                    <td style="text-align:center;font-weight:700;color:var(--up);">
+                        100% <span style="font-weight:400;color:var(--muted);">5/5</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+6.81%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">+8.26%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">AI伺服器／零組件</td>
+                    <td style="text-align:center;">4</td>
+                    <td style="text-align:center;font-weight:700;color:var(--muted);">
+                        50% <span style="font-weight:400;color:var(--muted);">2/4</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+2.87%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">-0.87%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">連接器／線材</td>
+                    <td style="text-align:center;">4</td>
+                    <td style="text-align:center;font-weight:700;color:var(--up);">
+                        75% <span style="font-weight:400;color:var(--muted);">3/4</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+4.00%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">+2.66%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">塑化／化工</td>
+                    <td style="text-align:center;">3</td>
+                    <td style="text-align:center;font-weight:700;color:var(--up);">
+                        100% <span style="font-weight:400;color:var(--muted);">3/3</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+8.85%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">+7.39%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">PCB／CCL</td>
+                    <td style="text-align:center;">3</td>
+                    <td style="text-align:center;font-weight:700;color:var(--up);">
+                        67% <span style="font-weight:400;color:var(--muted);">2/3</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+4.75%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">+3.84%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">網通</td>
+                    <td style="text-align:center;">3</td>
+                    <td style="text-align:center;font-weight:700;color:var(--down);">
+                        33% <span style="font-weight:400;color:var(--muted);">1/3</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+2.61%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">-0.25%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">LED／光電</td>
+                    <td style="text-align:center;">3</td>
+                    <td style="text-align:center;font-weight:700;color:var(--down);">
+                        33% <span style="font-weight:400;color:var(--muted);">1/3</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+5.11%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">+1.36%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">生技醫材</td>
+                    <td style="text-align:center;">3</td>
+                    <td style="text-align:center;font-weight:700;color:var(--up);">
+                        100% <span style="font-weight:400;color:var(--muted);">3/3</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+7.85%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">+7.18%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">電腦及週邊</td>
+                    <td style="text-align:center;">2</td>
+                    <td style="text-align:center;font-weight:700;color:var(--up);">
+                        100% <span style="font-weight:400;color:var(--muted);">2/2</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+6.29%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">+5.09%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">DRAM／記憶體</td>
+                    <td style="text-align:center;">2</td>
+                    <td style="text-align:center;font-weight:700;color:var(--up);">
+                        100% <span style="font-weight:400;color:var(--muted);">2/2</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+4.24%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">+5.75%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">太陽能／綠能</td>
+                    <td style="text-align:center;">2</td>
+                    <td style="text-align:center;font-weight:700;color:var(--up);">
+                        100% <span style="font-weight:400;color:var(--muted);">2/2</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+6.79%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">+6.63%</td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+    
+
+    
+    <!-- 個股明細 -->
+    <div class="concept-title" style="border-left-color:var(--up);">
+        <span class="icon">📋</span><span>個股隔日報酬明細</span>
+        <span class="count">100 支</span>
+    </div>
+    <div style="overflow-x:auto;margin:8px 0 20px;">
+        <table class="disposal-table" id="stockNdTable" style="min-width:500px;">
+            <thead>
+                <tr>
+                    <th style="text-align:left;cursor:pointer;" onclick="sortNdTable('stockNdTable',0)">股號<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:left;cursor:pointer;" onclick="sortNdTable('stockNdTable',1)">股名<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:left;cursor:pointer;" onclick="sortNdTable('stockNdTable',2)">族群<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('stockNdTable',3)">漲停價<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('stockNdTable',4)">隔日開<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('stockNdTable',5)">隔日收<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('stockNdTable',6)">報酬率<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:center;">標籤</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2481</td>
+                    <td style="text-align:left;">強茂</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$160.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +10.00%
+                    </td>
+                    <td style="text-align:right;">176.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +10.00%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">8261</td>
+                    <td style="text-align:left;">富鼎</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$215.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +10.00%
+                    </td>
+                    <td style="text-align:right;">236.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +10.00%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">5468</td>
+                    <td style="text-align:left;">凱鈺</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$30.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +10.00%
+                    </td>
+                    <td style="text-align:right;">33.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +10.00%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6693</td>
+                    <td style="text-align:left;">廣閎科</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$215.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +10.00%
+                    </td>
+                    <td style="text-align:right;">236.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +10.00%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">8255</td>
+                    <td style="text-align:left;">朋程</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">電機機械</td>
+                    <td style="text-align:right;">$195.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.74%
+                    </td>
+                    <td style="text-align:right;">214.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +10.00%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2316</td>
+                    <td style="text-align:left;">楠梓電</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">PCB／CCL</td>
+                    <td style="text-align:right;">$205.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.98%
+                    </td>
+                    <td style="text-align:right;">226.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.98%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3257</td>
+                    <td style="text-align:left;">虹冠電</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$61.1</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.98%
+                    </td>
+                    <td style="text-align:right;">67.2</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.98%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3317</td>
+                    <td style="text-align:left;">尼克森</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$88.3</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +7.59%
+                    </td>
+                    <td style="text-align:right;">97.1</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.97%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3624</td>
+                    <td style="text-align:left;">光頡</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">被動元件</td>
+                    <td style="text-align:right;">$160.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +6.85%
+                    </td>
+                    <td style="text-align:right;">176.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.97%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2305</td>
+                    <td style="text-align:left;">全友</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">電腦及週邊</td>
+                    <td style="text-align:right;">$33.65</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.96%
+                    </td>
+                    <td style="text-align:right;">37.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.96%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2483</td>
+                    <td style="text-align:left;">百容</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">被動元件</td>
+                    <td style="text-align:right;">$39.65</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +7.19%
+                    </td>
+                    <td style="text-align:right;">43.6</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.96%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3114</td>
+                    <td style="text-align:left;">好德</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">被動元件</td>
+                    <td style="text-align:right;">$47.75</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.95%
+                    </td>
+                    <td style="text-align:right;">52.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.95%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3664</td>
+                    <td style="text-align:left;">安瑞-KY</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">網通</td>
+                    <td style="text-align:right;">$6.75</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.85%
+                    </td>
+                    <td style="text-align:right;">7.42</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.93%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3465</td>
+                    <td style="text-align:left;">進泰電子</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">電機機械</td>
+                    <td style="text-align:right;">$36.3</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.92%
+                    </td>
+                    <td style="text-align:right;">39.9</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.92%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">5475</td>
+                    <td style="text-align:left;">德宏</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">連接器／線材</td>
+                    <td style="text-align:right;">$252.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.92%
+                    </td>
+                    <td style="text-align:right;">277.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.92%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6147</td>
+                    <td style="text-align:left;">頎邦</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">半導體檢測／封測</td>
+                    <td style="text-align:right;">$252.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.13%
+                    </td>
+                    <td style="text-align:right;">277.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.92%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6435</td>
+                    <td style="text-align:left;">大中</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$317.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.92%
+                    </td>
+                    <td style="text-align:right;">349.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.92%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">8291</td>
+                    <td style="text-align:left;">尚茂</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">電子零組件</td>
+                    <td style="text-align:right;">$47.4</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.92%
+                    </td>
+                    <td style="text-align:right;">52.1</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.92%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3675</td>
+                    <td style="text-align:left;">德微</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$368.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.91%
+                    </td>
+                    <td style="text-align:right;">405.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.91%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2426</td>
+                    <td style="text-align:left;">鼎元</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">LED／光電</td>
+                    <td style="text-align:right;">$81.8</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.91%
+                    </td>
+                    <td style="text-align:right;">89.9</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.90%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6138</td>
+                    <td style="text-align:left;">茂達</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$358.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +8.51%
+                    </td>
+                    <td style="text-align:right;">394.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.90%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6620</td>
+                    <td style="text-align:left;">漢達</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">生技醫材</td>
+                    <td style="text-align:right;">$81.8</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.90%
+                    </td>
+                    <td style="text-align:right;">89.9</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.90%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2379</td>
+                    <td style="text-align:left;">瑞昱</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$819.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +2.56%
+                    </td>
+                    <td style="text-align:right;">900.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.89%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2449</td>
+                    <td style="text-align:left;">京元電子</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">半導體檢測／封測</td>
+                    <td style="text-align:right;">$308.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +1.78%
+                    </td>
+                    <td style="text-align:right;">339.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.89%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6243</td>
+                    <td style="text-align:left;">迅杰</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">DRAM／記憶體</td>
+                    <td style="text-align:right;">$34.9</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.44%
+                    </td>
+                    <td style="text-align:right;">38.35</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.89%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">1725</td>
+                    <td style="text-align:left;">元禎</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">塑化／化工</td>
+                    <td style="text-align:right;">$37.45</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.88%
+                    </td>
+                    <td style="text-align:right;">41.15</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.88%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6573</td>
+                    <td style="text-align:left;">虹揚-KY</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$16.2</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.88%
+                    </td>
+                    <td style="text-align:right;">17.8</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.88%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">4923</td>
+                    <td style="text-align:left;">力士</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$57.7</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +6.93%
+                    </td>
+                    <td style="text-align:right;">63.4</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.88%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">5489</td>
+                    <td style="text-align:left;">彩富</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
+                    <td style="text-align:right;">$46.6</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.87%
+                    </td>
+                    <td style="text-align:right;">51.2</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.87%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6834</td>
+                    <td style="text-align:left;">天二科技</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">被動元件</td>
+                    <td style="text-align:right;">$101.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.85%
+                    </td>
+                    <td style="text-align:right;">111.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.85%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2061</td>
+                    <td style="text-align:left;">風青</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">電機機械</td>
+                    <td style="text-align:right;">$52.8</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +5.49%
+                    </td>
+                    <td style="text-align:right;">58.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.85%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">4169</td>
+                    <td style="text-align:left;">泰宗</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">其他</td>
+                    <td style="text-align:right;">$168.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +0.60%
+                    </td>
+                    <td style="text-align:right;">184.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.82%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6909</td>
+                    <td style="text-align:left;">創控</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">半導體</td>
+                    <td style="text-align:right;">$50.9</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.82%
+                    </td>
+                    <td style="text-align:right;">55.9</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.82%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6719</td>
+                    <td style="text-align:left;">力智</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$260.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +7.29%
+                    </td>
+                    <td style="text-align:right;">286.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.79%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">5299</td>
+                    <td style="text-align:left;">杰力</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$117.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.79%
+                    </td>
+                    <td style="text-align:right;">129.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.79%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6259</td>
+                    <td style="text-align:left;">百徽</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">電子零組件</td>
+                    <td style="text-align:right;">$35.85</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.63%
+                    </td>
+                    <td style="text-align:right;">39.35</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.76%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">7712</td>
+                    <td style="text-align:left;">博盛半導體</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">半導體</td>
+                    <td style="text-align:right;">$184.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.49%
+                    </td>
+                    <td style="text-align:right;">202.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.76%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">1303</td>
+                    <td style="text-align:left;">南亞</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">塑化／化工</td>
+                    <td style="text-align:right;">$139.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.71%
+                    </td>
+                    <td style="text-align:right;">152.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.71%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">5425</td>
+                    <td style="text-align:left;">台半</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$118.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.70%
+                    </td>
+                    <td style="text-align:right;">130.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.70%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6919</td>
+                    <td style="text-align:left;">康霈*</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">生技醫材</td>
+                    <td style="text-align:right;">$109.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.67%
+                    </td>
+                    <td style="text-align:right;">119.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.63%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">8150</td>
+                    <td style="text-align:left;">南茂</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">半導體檢測／封測</td>
+                    <td style="text-align:right;">$104.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.85%
+                    </td>
+                    <td style="text-align:right;">114.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.62%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6799</td>
+                    <td style="text-align:left;">來頡</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">半導體</td>
+                    <td style="text-align:right;">$99.9</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +4.10%
+                    </td>
+                    <td style="text-align:right;">109.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.61%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6538</td>
+                    <td style="text-align:left;">倉和</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">電子零組件</td>
+                    <td style="text-align:right;">$114.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +0.87%
+                    </td>
+                    <td style="text-align:right;">125.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +9.61%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">續漲停</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6531</td>
+                    <td style="text-align:left;">愛普*</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$1025.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +8.78%
+                    </td>
+                    <td style="text-align:right;">1115.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +8.78%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">強續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6525</td>
+                    <td style="text-align:left;">捷敏-KY</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$143.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.79%
+                    </td>
+                    <td style="text-align:right;">155.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +8.39%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">強續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">7610</td>
+                    <td style="text-align:left;">聯友金屬-創</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">太陽能／綠能</td>
+                    <td style="text-align:right;">$2315.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +7.13%
+                    </td>
+                    <td style="text-align:right;">2505.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +8.21%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">強續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6727</td>
+                    <td style="text-align:left;">亞泰金屬</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">電子零組件</td>
+                    <td style="text-align:right;">$449.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.79%
+                    </td>
+                    <td style="text-align:right;">485.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +8.13%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">強續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">1905</td>
+                    <td style="text-align:left;">華紙</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">其他</td>
+                    <td style="text-align:right;">$17.1</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.94%
+                    </td>
+                    <td style="text-align:right;">18.45</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +7.89%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">強續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6830</td>
+                    <td style="text-align:left;">汎銓</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">半導體檢測／封測</td>
+                    <td style="text-align:right;">$564.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +2.84%
+                    </td>
+                    <td style="text-align:right;">608.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +7.80%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">強續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6411</td>
+                    <td style="text-align:left;">晶焱</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$106.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +6.57%
+                    </td>
+                    <td style="text-align:right;">114.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +7.04%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">強續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6415</td>
+                    <td style="text-align:left;">矽力*-KY</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$629.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.86%
+                    </td>
+                    <td style="text-align:right;">673.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +7.00%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">強續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">4576</td>
+                    <td style="text-align:left;">大銀微系統</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">電機機械</td>
+                    <td style="text-align:right;">$221.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +2.49%
+                    </td>
+                    <td style="text-align:right;">236.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +6.79%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">強續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2342</td>
+                    <td style="text-align:left;">茂矽</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">半導體</td>
+                    <td style="text-align:right;">$55.2</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.44%
+                    </td>
+                    <td style="text-align:right;">58.6</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +6.16%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">強續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">8476</td>
+                    <td style="text-align:left;">台境*</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">太陽能／綠能</td>
+                    <td style="text-align:right;">$21.75</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +6.44%
+                    </td>
+                    <td style="text-align:right;">22.85</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +5.06%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(237,75,158,0.15);color:var(--up);
+                            ">強續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6603</td>
+                    <td style="text-align:left;">富強鑫</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">電機機械</td>
+                    <td style="text-align:right;">$24.2</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +6.40%
+                    </td>
+                    <td style="text-align:right;">25.35</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +4.75%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3264</td>
+                    <td style="text-align:left;">欣銓</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">半導體檢測／封測</td>
+                    <td style="text-align:right;">$232.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +2.37%
+                    </td>
+                    <td style="text-align:right;">242.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +4.09%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2458</td>
+                    <td style="text-align:left;">義隆</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$172.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +2.91%
+                    </td>
+                    <td style="text-align:right;">178.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +3.78%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6274</td>
+                    <td style="text-align:left;">台燿</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">PCB／CCL</td>
+                    <td style="text-align:right;">$1835.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.54%
+                    </td>
+                    <td style="text-align:right;">1900.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +3.54%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6257</td>
+                    <td style="text-align:left;">矽格</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">半導體檢測／封測</td>
+                    <td style="text-align:right;">$235.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.83%
+                    </td>
+                    <td style="text-align:right;">242.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +3.19%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3296</td>
+                    <td style="text-align:left;">勝德</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">連接器／線材</td>
+                    <td style="text-align:right;">$29.8</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +1.34%
+                    </td>
+                    <td style="text-align:right;">30.7</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +3.02%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">5328</td>
+                    <td style="text-align:left;">華容</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">AI伺服器／零組件</td>
+                    <td style="text-align:right;">$56.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.36%
+                    </td>
+                    <td style="text-align:right;">58.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +2.65%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">1708</td>
+                    <td style="text-align:left;">東鹼</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">塑化／化工</td>
+                    <td style="text-align:right;">$50.3</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +6.96%
+                    </td>
+                    <td style="text-align:right;">51.6</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +2.58%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3481</td>
+                    <td style="text-align:left;">群創</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
+                    <td style="text-align:right;">$64.4</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +7.76%
+                    </td>
+                    <td style="text-align:right;">66.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +2.48%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6789</td>
+                    <td style="text-align:left;">采鈺</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+                    <td style="text-align:right;">$543.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +6.63%
+                    </td>
+                    <td style="text-align:right;">555.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +2.21%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3265</td>
+                    <td style="text-align:left;">台星科</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">半導體檢測／封測</td>
+                    <td style="text-align:right;">$189.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +1.85%
+                    </td>
+                    <td style="text-align:right;">193.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +2.11%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">4551</td>
+                    <td style="text-align:left;">智伸科</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">車用電子</td>
+                    <td style="text-align:right;">$221.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +1.81%
+                    </td>
+                    <td style="text-align:right;">226.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +2.03%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6861</td>
+                    <td style="text-align:left;">睿生光電</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">生技醫材</td>
+                    <td style="text-align:right;">$371.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +9.97%
+                    </td>
+                    <td style="text-align:right;">378.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +2.02%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2241</td>
+                    <td style="text-align:left;">艾姆勒</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">車用電子</td>
+                    <td style="text-align:right;">$50.6</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +6.92%
+                    </td>
+                    <td style="text-align:right;">51.6</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +1.98%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2344</td>
+                    <td style="text-align:left;">華邦電</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">DRAM／記憶體</td>
+                    <td style="text-align:right;">$218.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +5.03%
+                    </td>
+                    <td style="text-align:right;">222.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +1.60%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6821</td>
+                    <td style="text-align:left;">聯寶</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">連接器／線材</td>
+                    <td style="text-align:right;">$67.6</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +1.63%
+                    </td>
+                    <td style="text-align:right;">68.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +1.33%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6924</td>
+                    <td style="text-align:left;">榮惠-KY創</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">電子零組件</td>
+                    <td style="text-align:right;">$125.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +6.80%
+                    </td>
+                    <td style="text-align:right;">126.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +1.20%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3090</td>
+                    <td style="text-align:left;">日電貿</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">AI伺服器／零組件</td>
+                    <td style="text-align:right;">$332.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +1.95%
+                    </td>
+                    <td style="text-align:right;">335.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +0.90%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6199</td>
+                    <td style="text-align:left;">天品</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">其他</td>
+                    <td style="text-align:right;">$101.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +0.50%
+                    </td>
+                    <td style="text-align:right;">101.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +0.50%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">8044</td>
+                    <td style="text-align:left;">網家</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
+                    <td style="text-align:right;">$31.15</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +2.57%
+                    </td>
+                    <td style="text-align:right;">31.3</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +0.48%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3002</td>
+                    <td style="text-align:left;">歐格</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">電腦及週邊</td>
+                    <td style="text-align:right;">$22.95</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +2.61%
+                    </td>
+                    <td style="text-align:right;">23.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +0.22%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6983</td>
+                    <td style="text-align:left;">華洋精機</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">其他</td>
+                    <td style="text-align:right;">$371.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.91%
+                    </td>
+                    <td style="text-align:right;">371.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +0.13%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2375</td>
+                    <td style="text-align:left;">凱美</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">被動元件</td>
+                    <td style="text-align:right;">$219.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +2.51%
+                    </td>
+                    <td style="text-align:right;">219.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +0.00%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(128,128,128,0.1);color:var(--muted);">小跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">4807</td>
+                    <td style="text-align:left;">日成-KY</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">其他</td>
+                    <td style="text-align:right;">$44.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.64%
+                    </td>
+                    <td style="text-align:right;">43.95</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -0.11%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(241,196,15,0.15);color:#f1c40f;
+                            ">開高走低</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3357</td>
+                    <td style="text-align:left;">臺慶科</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">電子零組件</td>
+                    <td style="text-align:right;">$348.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +5.17%
+                    </td>
+                    <td style="text-align:right;">346.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -0.43%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(241,196,15,0.15);color:#f1c40f;
+                            ">開高走低</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3581</td>
+                    <td style="text-align:left;">博磊</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">半導體</td>
+                    <td style="text-align:right;">$179.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.06%
+                    </td>
+                    <td style="text-align:right;">178.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -0.84%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(241,196,15,0.15);color:#f1c40f;
+                            ">開高走低</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">4971</td>
+                    <td style="text-align:left;">IET-KY</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
+                    <td style="text-align:right;">$578.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +4.67%
+                    </td>
+                    <td style="text-align:right;">571.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -1.21%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(241,196,15,0.15);color:#f1c40f;
+                            ">開高走低</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6862</td>
+                    <td style="text-align:left;">三集瑞-KY</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">AI伺服器／零組件</td>
+                    <td style="text-align:right;">$227.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +6.17%
+                    </td>
+                    <td style="text-align:right;">224.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -1.32%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(241,196,15,0.15);color:#f1c40f;
+                            ">開高走低</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2327</td>
+                    <td style="text-align:left;">國巨*</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">被動元件</td>
+                    <td style="text-align:right;">$1080.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.24%
+                    </td>
+                    <td style="text-align:right;">1065.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -1.39%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(241,196,15,0.15);color:#f1c40f;
+                            ">開高走低</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3450</td>
+                    <td style="text-align:left;">聯鈞</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">半導體</td>
+                    <td style="text-align:right;">$565.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +1.42%
+                    </td>
+                    <td style="text-align:right;">557.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -1.42%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(128,128,128,0.1);color:var(--muted);">小跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2486</td>
+                    <td style="text-align:left;">一詮</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">LED／光電</td>
+                    <td style="text-align:right;">$276.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +5.42%
+                    </td>
+                    <td style="text-align:right;">272.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -1.63%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(241,196,15,0.15);color:#f1c40f;
+                            ">開高走低</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6155</td>
+                    <td style="text-align:left;">鈞寶</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">被動元件</td>
+                    <td style="text-align:right;">$98.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +0.51%
+                    </td>
+                    <td style="text-align:right;">96.7</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -1.83%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(128,128,128,0.1);color:var(--muted);">小跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6823</td>
+                    <td style="text-align:left;">濾能</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">半導體</td>
+                    <td style="text-align:right;">$73.1</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +0.14%
+                    </td>
+                    <td style="text-align:right;">71.7</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -1.92%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(128,128,128,0.1);color:var(--muted);">小跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2493</td>
+                    <td style="text-align:left;">揚博</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">PCB／CCL</td>
+                    <td style="text-align:right;">$273.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +0.73%
+                    </td>
+                    <td style="text-align:right;">268.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -2.01%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(128,128,128,0.1);color:var(--muted);">小跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2472</td>
+                    <td style="text-align:left;">立隆電</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">被動元件</td>
+                    <td style="text-align:right;">$402.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +6.84%
+                    </td>
+                    <td style="text-align:right;">393.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -2.11%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(241,196,15,0.15);color:#f1c40f;
+                            ">開高走低</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">1563</td>
+                    <td style="text-align:left;">巧新</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">車用電子</td>
+                    <td style="text-align:right;">$67.7</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +2.51%
+                    </td>
+                    <td style="text-align:right;">66.2</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -2.22%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(128,128,128,0.1);color:var(--muted);">小跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3550</td>
+                    <td style="text-align:left;">聯穎</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">連接器／線材</td>
+                    <td style="text-align:right;">$37.25</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.09%
+                    </td>
+                    <td style="text-align:right;">35.9</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -3.62%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(241,196,15,0.15);color:#f1c40f;
+                            ">開高走低</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3537</td>
+                    <td style="text-align:left;">堡達</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">電子零組件</td>
+                    <td style="text-align:right;">$89.6</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +0.78%
+                    </td>
+                    <td style="text-align:right;">86.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -4.02%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(49,208,170,0.15);color:var(--down);
+                            ">直接跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3234</td>
+                    <td style="text-align:left;">光環</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
+                    <td style="text-align:right;">$145.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +0.69%
+                    </td>
+                    <td style="text-align:right;">139.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -4.14%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(49,208,170,0.15);color:var(--down);
+                            ">直接跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6405</td>
+                    <td style="text-align:left;">悅城</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">LED／光電</td>
+                    <td style="text-align:right;">$71.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +6.01%
+                    </td>
+                    <td style="text-align:right;">68.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -4.20%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(241,196,15,0.15);color:#f1c40f;
+                            ">開高走低</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">4908</td>
+                    <td style="text-align:left;">前鼎</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">網通</td>
+                    <td style="text-align:right;">$212.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +0.24%
+                    </td>
+                    <td style="text-align:right;">201.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -5.19%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(49,208,170,0.15);color:var(--down);
+                            ">直接跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2332</td>
+                    <td style="text-align:left;">友訊</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">網通</td>
+                    <td style="text-align:right;">$20.05</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.74%
+                    </td>
+                    <td style="text-align:right;">18.95</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -5.49%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(241,196,15,0.15);color:#f1c40f;
+                            ">開高走低</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6725</td>
+                    <td style="text-align:left;">矽科宏晟</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">AI伺服器／零組件</td>
+                    <td style="text-align:right;">$367.0</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +0.00%
+                    </td>
+                    <td style="text-align:right;">346.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -5.72%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(49,208,170,0.15);color:var(--down);
+                            ">直接跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">1568</td>
+                    <td style="text-align:left;">倉佑</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">車用電子</td>
+                    <td style="text-align:right;">$46.05</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +0.00%
+                    </td>
+                    <td style="text-align:right;">43.3</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -5.97%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(49,208,170,0.15);color:var(--down);
+                            ">直接跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6432</td>
+                    <td style="text-align:left;">今展科</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">電子零組件</td>
+                    <td style="text-align:right;">$86.9</td>
+                    <td style="text-align:right;color:var(--down);">
+                        -1.61%
+                    </td>
+                    <td style="text-align:right;">81.3</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -6.44%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(49,208,170,0.15);color:var(--down);
+                            ">直接跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">2243</td>
+                    <td style="text-align:left;">宏旭-KY</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">車用電子</td>
+                    <td style="text-align:right;">$51.7</td>
+                    <td style="text-align:right;color:var(--down);">
+                        -3.29%
+                    </td>
+                    <td style="text-align:right;">46.55</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -9.96%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(49,208,170,0.15);color:var(--down);
+                            ">直接跌</span>
+                        
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+    
+</div>
+
+<footer>
+  <div class="container">
+    每個交易日 16:30 自動更新 ｜ 資料來源：臺灣證券交易所 / 證券櫃檯買賣中心 ｜ 僅供研究參考，非投資建議
+  </div>
+</footer>
+
+<script>
+(function(){
+  var ndSortDir = {};
+  window.sortNdTable = function(tableId, col) {
+    var table = document.getElementById(tableId);
+    var rows = Array.from(table.tBodies[0].rows);
+    var key = tableId + col;
+    var dir = ndSortDir[key] = !ndSortDir[key];
+    rows.sort(function(a, b) {
+      var va = a.cells[col].textContent.replace(/%/g,'').replace(/\$/g,'').trim();
+      var vb = b.cells[col].textContent.replace(/%/g,'').replace(/\$/g,'').trim();
+      var na = parseFloat(va), nb = parseFloat(vb);
+      if (!isNaN(na) && !isNaN(nb)) return dir ? na - nb : nb - na;
+      return dir ? va.localeCompare(vb) : vb.localeCompare(va);
+    });
+    rows.forEach(function(r){ table.tBodies[0].appendChild(r); });
+    table.querySelectorAll('th .nd-arrow').forEach(function(span, i){
+      span.textContent = i === col ? (dir ? ' ▲' : ' ▼') : ' ↕';
+    });
+  };
+})();
+</script>
+
+
+<button id="back-to-top" title="回到頂部">↑</button>
+<script>
+// 搜尋自動補全
+(function(){
+  const si = document.getElementById('stock-search');
+  const dd = document.getElementById('search-dropdown');
+  if (!si || !dd) return;
+  function buildStockList() {
+    const stocks = [];
+    document.querySelectorAll('.stock-card[data-code]').forEach(card => {
+      const code = card.dataset.code;
+      const nameEl = card.querySelector('.stock-name');
+      const name = nameEl ? nameEl.textContent.trim() : '';
+      const link = card.querySelector('a');
+      const href = link ? link.getAttribute('href') : null;
+      if (code) stocks.push({ code, name, href });
+    });
+    return stocks;
+  }
+  let stocks = buildStockList();
+  const missEl = document.createElement('div');
+  Object.assign(missEl.style, {
+    position:'fixed', top:'42px', right:'8px', background:'#ED4B9E', color:'#fff',
+    padding:'4px 10px', borderRadius:'8px', fontSize:'11px', zIndex:'10000',
+    opacity:'0', transition:'opacity 0.3s', pointerEvents:'none'
+  });
+  missEl.textContent = '未在今日漲停';
+  document.body.appendChild(missEl);
+  function posDropdown() {
+    const rect = si.getBoundingClientRect();
+    dd.style.left = rect.left + 'px';
+    dd.style.top = (rect.bottom + 4) + 'px';
+    dd.style.minWidth = Math.max(rect.width, 180) + 'px';
+  }
+  function showDropdown(matches) {
+    if (!matches.length) { dd.style.display = 'none'; return; }
+    dd.innerHTML = '';
+    matches.slice(0, 10).forEach(s => {
+      const item = document.createElement('div');
+      item.className = 'sd-item';
+      item.innerHTML = '<span class="sd-name">' + s.name + '</span><span class="sd-code">' + s.code + '</span>';
+      item.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        dd.style.display = 'none';
+        si.value = '';
+        if (s.href) { window.location.href = s.href; }
+        else { doHighlight(s.code); }
+      });
+      dd.appendChild(item);
+    });
+    posDropdown();
+    dd.style.display = 'block';
+  }
+  function doHighlight(code) {
+    const card = document.querySelector('.stock-card[data-code="' + code + '"]');
+    document.querySelectorAll('.stock-card.search-hit').forEach(c => { c.style.outline = ''; c.classList.remove('search-hit'); });
+    if (card) {
+      const section = card.closest('.concept-section');
+      if (section && section.classList.contains('collapsed')) section.classList.remove('collapsed');
+      si.style.borderColor = '#E7E3EB'; missEl.style.opacity = '0';
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.style.outline = '2px solid #1FC7D4'; card.classList.add('search-hit');
+    } else {
+      si.style.borderColor = '#ED4B9E'; missEl.style.opacity = '1';
+      setTimeout(() => { missEl.style.opacity = '0'; }, 2000);
+    }
+  }
+  si.addEventListener('input', () => {
+    const val = si.value.trim();
+    if (!val) { dd.style.display = 'none'; return; }
+    if (!stocks.length) stocks = buildStockList();
+    const filtered = stocks.filter(s => s.code.startsWith(val) || s.name.includes(val));
+    showDropdown(filtered);
+  });
+  si.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { dd.style.display = 'none'; const val = si.value.trim(); if (val.length >= 4) doHighlight(val); }
+    if (e.key === 'Escape') { dd.style.display = 'none'; }
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-wrap')) dd.style.display = 'none';
+  });
+})();
+// 股票卡片 hover 動畫
+document.querySelectorAll('.stock-card a').forEach(card => {
+  card.addEventListener('mouseenter', function() { this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 16px rgba(31,199,212,0.25)'; });
+  card.addEventListener('mouseleave', function() { this.style.transform='translateY(0)'; this.style.boxShadow='none'; });
+});
+// 回到頂部
+(function(){
+  const btn = document.getElementById('back-to-top');
+  if (!btn) return;
+  window.addEventListener('scroll', () => { btn.style.display = window.scrollY > 300 ? 'flex' : 'none'; });
+  btn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+})();
+</script>
+</body>
+</html>
