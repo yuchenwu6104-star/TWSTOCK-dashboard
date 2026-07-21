@@ -238,7 +238,7 @@ footer a { color: var(--teal); text-decoration: none; }
 <div class="container">
   <header>
     <h1><span class="rabbit">🐰</span> 漲停統計分析</h1>
-    <div class="subtitle">2026-07-09 ~ 2026-07-17（6 個交易日）</div>
+    <div class="subtitle">2026-07-13 ~ 2026-07-20（6 個交易日）</div>
   </header>
 
   <!-- 趨勢圖 -->
@@ -260,8 +260,6 @@ footer a { color: var(--teal); text-decoration: none; }
         <tr>
           <th style="text-align:left;width:120px;max-width:120px;min-width:80px;position:sticky;left:0;background:var(--card);z-index:5;">族群</th>
           
-          <th style="text-align:center;min-width:50px;" data-date="2026-07-09">07/09</th>
-          
           <th style="text-align:center;min-width:50px;" data-date="2026-07-13">07/13</th>
           
           <th style="text-align:center;min-width:50px;" data-date="2026-07-14">07/14</th>
@@ -272,6 +270,8 @@ footer a { color: var(--teal); text-decoration: none; }
           
           <th style="text-align:center;min-width:50px;" data-date="2026-07-17">07/17</th>
           
+          <th style="text-align:center;min-width:50px;" data-date="2026-07-20">07/20</th>
+          
         </tr>
       </thead>
       <tbody>
@@ -280,39 +280,80 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">個股表現亮點</td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(49,208,170,0.15);
-            color:var(--down);cursor:pointer;" data-col="0">
-            7
+            background:rgba(237,75,158,0.15);
+            color:var(--up);cursor:pointer;" data-col="0">
+            4
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(237,75,158,0.15);
+            background:rgba(237,75,158,0.3);
             color:var(--up);cursor:pointer;" data-col="1">
-            4
+            12
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(237,75,158,0.3);
             color:var(--up);cursor:pointer;" data-col="2">
-            12
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(237,75,158,0.3);
-            color:var(--up);cursor:pointer;" data-col="3">
             4
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(49,208,170,0.15);
-            color:var(--down);cursor:pointer;" data-col="4">
+            color:var(--down);cursor:pointer;" data-col="3">
             12
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(237,75,158,0.15);
-            color:var(--up);cursor:pointer;" data-col="5">
+            color:var(--up);cursor:pointer;" data-col="4">
             4
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(237,75,158,0.3);
+            color:var(--up);cursor:pointer;" data-col="5">
+            8
+          </td>
+          
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">塑化／化工</td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(237,75,158,0.3);
+            color:var(--up);cursor:pointer;" data-col="0">
+            3
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(49,208,170,0.35);
+            color:var(--down);cursor:pointer;" data-col="2">
+            2
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
           </td>
           
         </tr>
@@ -323,12 +364,6 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(128,128,128,0.1);
             color:var(--muted);cursor:pointer;" data-col="0">
-            5
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);cursor:pointer;" data-col="1">
             3
           </td>
           
@@ -336,287 +371,6 @@ footer a { color: var(--teal); text-decoration: none; }
             background:rgba(128,128,128,0.1);
             color:var(--muted);">
             -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">半導體檢測／封測</td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(237,75,158,0.15);
-            color:var(--up);cursor:pointer;" data-col="0">
-            5
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(237,75,158,0.15);
-            color:var(--up);cursor:pointer;" data-col="3">
-            4
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">LED／光電</td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(49,208,170,0.15);
-            color:var(--down);cursor:pointer;" data-col="0">
-            5
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(49,208,170,0.15);
-            color:var(--down);cursor:pointer;" data-col="1">
-            1
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(237,75,158,0.15);
-            color:var(--up);cursor:pointer;" data-col="3">
-            2
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">電子零組件</td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(237,75,158,0.3);
-            color:var(--up);cursor:pointer;" data-col="0">
-            4
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);cursor:pointer;" data-col="3">
-            3
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">半導體設備／材料</td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(237,75,158,0.3);
-            color:var(--up);cursor:pointer;" data-col="0">
-            4
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(237,75,158,0.15);
-            color:var(--up);cursor:pointer;" data-col="1">
-            2
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(237,75,158,0.15);
-            color:var(--up);cursor:pointer;" data-col="2">
-            2
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(49,208,170,0.15);
-            color:var(--down);cursor:pointer;" data-col="3">
-            3
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(49,208,170,0.15);
-            color:var(--down);cursor:pointer;" data-col="4">
-            2
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">DRAM／記憶體</td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(49,208,170,0.15);
-            color:var(--down);cursor:pointer;" data-col="0">
-            3
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(49,208,170,0.15);
-            color:var(--down);cursor:pointer;" data-col="3">
-            4
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">PCB／CCL</td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(237,75,158,0.15);
-            color:var(--up);cursor:pointer;" data-col="0">
-            3
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(237,75,158,0.15);
-            color:var(--up);cursor:pointer;" data-col="1">
-            2
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(237,75,158,0.15);
-            color:var(--up);cursor:pointer;" data-col="3">
-            4
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(49,208,170,0.35);
-            color:var(--down);cursor:pointer;" data-col="4">
-            3
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">AI伺服器／零組件</td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);cursor:pointer;" data-col="0">
-            2
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(49,208,170,0.35);
-            color:var(--down);cursor:pointer;" data-col="1">
-            1
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
@@ -649,121 +403,39 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">其他</td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(49,208,170,0.35);
-            color:var(--down);cursor:pointer;" data-col="0">
-            2
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(237,75,158,0.15);
-            color:var(--up);cursor:pointer;" data-col="1">
+            color:var(--up);cursor:pointer;" data-col="0">
             3
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(237,75,158,0.3);
-            color:var(--up);cursor:pointer;" data-col="2">
+            color:var(--up);cursor:pointer;" data-col="1">
             2
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(49,208,170,0.15);
-            color:var(--down);cursor:pointer;" data-col="3">
+            color:var(--down);cursor:pointer;" data-col="2">
             3
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(49,208,170,0.35);
-            color:var(--down);cursor:pointer;" data-col="4">
+            color:var(--down);cursor:pointer;" data-col="3">
             4
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(237,75,158,0.5);
+            color:var(--up);cursor:pointer;" data-col="4">
+            2
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(237,75,158,0.15);
             color:var(--up);cursor:pointer;" data-col="5">
-            2
-          </td>
-          
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">電子通路</td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(49,208,170,0.35);
-            color:var(--down);cursor:pointer;" data-col="0">
-            2
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);cursor:pointer;" data-col="1">
-            2
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(49,208,170,0.35);
-            color:var(--down);cursor:pointer;" data-col="3">
-            3
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">塑化／化工</td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(237,75,158,0.3);
-            color:var(--up);cursor:pointer;" data-col="1">
-            3
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(49,208,170,0.35);
-            color:var(--down);cursor:pointer;" data-col="3">
-            2
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
+            4
           </td>
           
         </tr>
@@ -772,15 +444,15 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">航運</td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
+            background:rgba(237,75,158,0.15);
+            color:var(--up);cursor:pointer;" data-col="0">
+            2
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(237,75,158,0.15);
-            color:var(--up);cursor:pointer;" data-col="1">
-            2
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
@@ -813,15 +485,179 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">電腦及週邊</td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(49,208,170,0.15);
+            color:var(--down);cursor:pointer;" data-col="0">
+            2
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(128,128,128,0.1);
             color:var(--muted);">
             -
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(49,208,170,0.15);
-            color:var(--down);cursor:pointer;" data-col="1">
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(237,75,158,0.3);
+            color:var(--up);cursor:pointer;" data-col="5">
             2
+          </td>
+          
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">半導體設備／材料</td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(237,75,158,0.15);
+            color:var(--up);cursor:pointer;" data-col="0">
+            2
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(237,75,158,0.15);
+            color:var(--up);cursor:pointer;" data-col="1">
+            2
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(49,208,170,0.15);
+            color:var(--down);cursor:pointer;" data-col="2">
+            3
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(49,208,170,0.15);
+            color:var(--down);cursor:pointer;" data-col="3">
+            2
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">電子通路</td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);cursor:pointer;" data-col="0">
+            2
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(49,208,170,0.35);
+            color:var(--down);cursor:pointer;" data-col="2">
+            3
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">PCB／CCL</td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(237,75,158,0.15);
+            color:var(--up);cursor:pointer;" data-col="0">
+            2
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(237,75,158,0.15);
+            color:var(--up);cursor:pointer;" data-col="2">
+            4
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(49,208,170,0.35);
+            color:var(--down);cursor:pointer;" data-col="3">
+            3
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">營建／資產</td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(237,75,158,0.5);
+            color:var(--up);cursor:pointer;" data-col="0">
+            1
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
@@ -851,7 +687,13 @@ footer a { color: var(--teal); text-decoration: none; }
         </tr>
         
         <tr>
-          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">營建／資產</td>
+          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">LED／光電</td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(49,208,170,0.15);
+            color:var(--down);cursor:pointer;" data-col="0">
+            1
+          </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(128,128,128,0.1);
@@ -860,9 +702,44 @@ footer a { color: var(--teal); text-decoration: none; }
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(237,75,158,0.5);
-            color:var(--up);cursor:pointer;" data-col="1">
+            background:rgba(237,75,158,0.15);
+            color:var(--up);cursor:pointer;" data-col="2">
+            2
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">AI伺服器／零組件</td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(49,208,170,0.35);
+            color:var(--down);cursor:pointer;" data-col="0">
             1
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
@@ -901,20 +778,14 @@ footer a { color: var(--teal); text-decoration: none; }
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(49,208,170,0.15);
-            color:var(--down);cursor:pointer;" data-col="2">
+            color:var(--down);cursor:pointer;" data-col="1">
             2
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(49,208,170,0.35);
-            color:var(--down);cursor:pointer;" data-col="3">
+            color:var(--down);cursor:pointer;" data-col="2">
             2
           </td>
           
@@ -928,6 +799,12 @@ footer a { color: var(--teal); text-decoration: none; }
             background:rgba(128,128,128,0.1);
             color:var(--muted);">
             -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(237,75,158,0.15);
+            color:var(--up);cursor:pointer;" data-col="5">
+            2
           </td>
           
         </tr>
@@ -942,27 +819,27 @@ footer a { color: var(--teal); text-decoration: none; }
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(237,75,158,0.5);
-            color:var(--up);cursor:pointer;" data-col="2">
+            color:var(--up);cursor:pointer;" data-col="1">
             2
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(237,75,158,0.15);
-            color:var(--up);cursor:pointer;" data-col="3">
+            color:var(--up);cursor:pointer;" data-col="2">
             3
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(128,128,128,0.1);
-            color:var(--muted);cursor:pointer;" data-col="4">
+            color:var(--muted);cursor:pointer;" data-col="3">
             4
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
@@ -989,14 +866,8 @@ footer a { color: var(--teal); text-decoration: none; }
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(237,75,158,0.15);
-            color:var(--up);cursor:pointer;" data-col="3">
+            color:var(--up);cursor:pointer;" data-col="2">
             5
           </td>
           
@@ -1008,8 +879,96 @@ footer a { color: var(--teal); text-decoration: none; }
           
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(128,128,128,0.1);
-            color:var(--muted);cursor:pointer;" data-col="5">
+            color:var(--muted);cursor:pointer;" data-col="4">
             2
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">DRAM／記憶體</td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(49,208,170,0.15);
+            color:var(--down);cursor:pointer;" data-col="2">
+            4
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">半導體檢測／封測</td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(237,75,158,0.15);
+            color:var(--up);cursor:pointer;" data-col="2">
+            4
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
           </td>
           
         </tr>
@@ -1031,13 +990,7 @@ footer a { color: var(--teal); text-decoration: none; }
           
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);cursor:pointer;" data-col="3">
+            color:var(--muted);cursor:pointer;" data-col="2">
             4
           </td>
           
@@ -1051,6 +1004,12 @@ footer a { color: var(--teal); text-decoration: none; }
             background:rgba(128,128,128,0.1);
             color:var(--muted);">
             -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);cursor:pointer;" data-col="5">
+            3
           </td>
           
         </tr>
@@ -1072,14 +1031,55 @@ footer a { color: var(--teal); text-decoration: none; }
           
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(128,128,128,0.1);
+            color:var(--muted);cursor:pointer;" data-col="2">
+            3
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
             color:var(--muted);">
             -
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(128,128,128,0.1);
-            color:var(--muted);cursor:pointer;" data-col="3">
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;font-weight:600;font-size:11px;width:120px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--card);z-index:5;">電子零組件</td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);cursor:pointer;" data-col="2">
             3
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
@@ -1113,20 +1113,20 @@ footer a { color: var(--teal); text-decoration: none; }
           
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
-          </td>
-          
-          <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);cursor:pointer;" data-col="3">
+            color:var(--muted);cursor:pointer;" data-col="2">
             2
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
             background:rgba(128,128,128,0.1);
-            color:var(--muted);cursor:pointer;" data-col="4">
+            color:var(--muted);cursor:pointer;" data-col="3">
             3
+          </td>
+          
+          <td style="text-align:center;font-size:11px;font-weight:600;
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
@@ -1153,15 +1153,15 @@ footer a { color: var(--teal); text-decoration: none; }
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
+            background:rgba(49,208,170,0.15);
+            color:var(--down);cursor:pointer;" data-col="2">
+            2
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(49,208,170,0.15);
-            color:var(--down);cursor:pointer;" data-col="3">
-            2
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
@@ -1194,15 +1194,15 @@ footer a { color: var(--teal); text-decoration: none; }
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(128,128,128,0.1);
-            color:var(--muted);">
-            -
+            background:rgba(49,208,170,0.35);
+            color:var(--down);cursor:pointer;" data-col="2">
+            2
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
-            background:rgba(49,208,170,0.35);
-            color:var(--down);cursor:pointer;" data-col="3">
-            2
+            background:rgba(128,128,128,0.1);
+            color:var(--muted);">
+            -
           </td>
           
           <td style="text-align:center;font-size:11px;font-weight:600;
@@ -1248,46 +1248,37 @@ footer a { color: var(--teal); text-decoration: none; }
         <tr>
           <td style="text-align:left;font-weight:600;font-size:12px;">個股表現亮點</td>
           <td style="text-align:center;">6</td>
-          <td style="text-align:center;">43</td>
-          <td style="text-align:right;color:var(--up);">+3.20%</td>
-          <td style="text-align:right;color:var(--up);">+2.66%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+2.12%</td>
+          <td style="text-align:center;">44</td>
+          <td style="text-align:right;color:var(--up);">+3.94%</td>
+          <td style="text-align:right;color:var(--up);">+3.54%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+3.13%</td>
         </tr>
         
         <tr>
           <td style="text-align:left;font-weight:600;font-size:12px;">其他</td>
           <td style="text-align:center;">6</td>
-          <td style="text-align:center;">16</td>
-          <td style="text-align:right;color:var(--up);">+2.28%</td>
-          <td style="text-align:right;color:var(--up);">+1.28%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+0.27%</td>
+          <td style="text-align:center;">18</td>
+          <td style="text-align:right;color:var(--up);">+2.47%</td>
+          <td style="text-align:right;color:var(--up);">+2.16%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+1.86%</td>
         </tr>
         
         <tr>
           <td style="text-align:left;font-weight:600;font-size:12px;">半導體設備／材料</td>
-          <td style="text-align:center;">5</td>
-          <td style="text-align:center;">13</td>
-          <td style="text-align:right;color:var(--up);">+0.77%</td>
-          <td style="text-align:right;color:var(--up);">+0.69%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+0.61%</td>
+          <td style="text-align:center;">4</td>
+          <td style="text-align:center;">9</td>
+          <td style="text-align:right;color:var(--down);">-0.57%</td>
+          <td style="text-align:right;color:var(--down);">-0.49%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-0.41%</td>
         </tr>
         
         <tr>
           <td style="text-align:left;font-weight:600;font-size:12px;">PCB／CCL</td>
-          <td style="text-align:center;">4</td>
-          <td style="text-align:center;">12</td>
-          <td style="text-align:right;color:var(--up);">+0.54%</td>
-          <td style="text-align:right;color:var(--up);">+0.51%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+0.47%</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;font-weight:600;font-size:12px;">半導體檢測／封測</td>
-          <td style="text-align:center;">2</td>
+          <td style="text-align:center;">3</td>
           <td style="text-align:center;">9</td>
-          <td style="text-align:right;color:var(--up);">+2.52%</td>
-          <td style="text-align:right;color:var(--up);">+2.42%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+2.32%</td>
+          <td style="text-align:right;color:var(--down);">-1.00%</td>
+          <td style="text-align:right;color:var(--down);">-0.84%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-0.67%</td>
         </tr>
         
         <tr>
@@ -1300,57 +1291,30 @@ footer a { color: var(--teal); text-decoration: none; }
         </tr>
         
         <tr>
-          <td style="text-align:left;font-weight:600;font-size:12px;">網通</td>
-          <td style="text-align:center;">2</td>
-          <td style="text-align:center;">8</td>
-          <td style="text-align:right;color:var(--up);">+4.16%</td>
-          <td style="text-align:right;color:var(--up);">+2.50%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+0.84%</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;font-weight:600;font-size:12px;">LED／光電</td>
-          <td style="text-align:center;">3</td>
-          <td style="text-align:center;">8</td>
-          <td style="text-align:right;color:var(--up);">+1.45%</td>
-          <td style="text-align:right;color:var(--up);">+0.45%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-0.54%</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;font-weight:600;font-size:12px;">電子零組件</td>
-          <td style="text-align:center;">2</td>
-          <td style="text-align:center;">7</td>
-          <td style="text-align:right;color:var(--up);">+1.81%</td>
-          <td style="text-align:right;color:var(--up);">+2.66%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+3.50%</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;font-weight:600;font-size:12px;">DRAM／記憶體</td>
-          <td style="text-align:center;">2</td>
-          <td style="text-align:center;">7</td>
-          <td style="text-align:right;color:var(--up);">+2.54%</td>
-          <td style="text-align:right;color:var(--up);">+0.29%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-1.96%</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;font-weight:600;font-size:12px;">電子通路</td>
-          <td style="text-align:center;">3</td>
-          <td style="text-align:center;">7</td>
-          <td style="text-align:right;color:var(--down);">-0.44%</td>
-          <td style="text-align:right;color:var(--down);">-1.89%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-3.35%</td>
-        </tr>
-        
-        <tr>
           <td style="text-align:left;font-weight:600;font-size:12px;">生技醫材</td>
           <td style="text-align:center;">2</td>
           <td style="text-align:center;">7</td>
           <td style="text-align:right;color:var(--up);">+3.04%</td>
           <td style="text-align:right;color:var(--up);">+1.96%</td>
           <td style="text-align:right;color:var(--up);font-weight:700;">+0.89%</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;font-weight:600;font-size:12px;">IC設計／AI邊緣運算</td>
+          <td style="text-align:center;">2</td>
+          <td style="text-align:center;">7</td>
+          <td style="text-align:right;color:var(--up);">+0.54%</td>
+          <td style="text-align:right;color:var(--up);">+0.05%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-0.45%</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;font-weight:600;font-size:12px;">紡織纖維</td>
+          <td style="text-align:center;">3</td>
+          <td style="text-align:center;">6</td>
+          <td style="text-align:right;color:var(--up);">+2.41%</td>
+          <td style="text-align:right;color:var(--up);">+0.25%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-1.92%</td>
         </tr>
         
         <tr>
@@ -1363,6 +1327,15 @@ footer a { color: var(--teal); text-decoration: none; }
         </tr>
         
         <tr>
+          <td style="text-align:left;font-weight:600;font-size:12px;">電子通路</td>
+          <td style="text-align:center;">2</td>
+          <td style="text-align:center;">5</td>
+          <td style="text-align:right;color:var(--down);">-0.61%</td>
+          <td style="text-align:right;color:var(--down);">-1.43%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-2.25%</td>
+        </tr>
+        
+        <tr>
           <td style="text-align:left;font-weight:600;font-size:12px;">被動元件</td>
           <td style="text-align:center;">2</td>
           <td style="text-align:center;">5</td>
@@ -1372,30 +1345,48 @@ footer a { color: var(--teal); text-decoration: none; }
         </tr>
         
         <tr>
-          <td style="text-align:left;font-weight:600;font-size:12px;">紡織纖維</td>
+          <td style="text-align:left;font-weight:600;font-size:12px;">電腦及週邊</td>
           <td style="text-align:center;">2</td>
           <td style="text-align:center;">4</td>
-          <td style="text-align:right;color:var(--up);">+1.44%</td>
-          <td style="text-align:right;color:var(--down);">-1.23%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-3.89%</td>
+          <td style="text-align:right;color:var(--up);">+2.31%</td>
+          <td style="text-align:right;color:var(--up);">+2.04%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+1.77%</td>
         </tr>
         
         <tr>
-          <td style="text-align:left;font-weight:600;font-size:12px;">IC設計／AI邊緣運算</td>
+          <td style="text-align:left;font-weight:600;font-size:12px;">DRAM／記憶體</td>
           <td style="text-align:center;">1</td>
           <td style="text-align:center;">4</td>
-          <td style="text-align:right;color:var(--up);">+0.40%</td>
-          <td style="text-align:right;color:var(--down);">-0.03%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-0.46%</td>
+          <td style="text-align:right;color:var(--up);">+0.94%</td>
+          <td style="text-align:right;color:var(--down);">-0.68%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-2.30%</td>
         </tr>
         
         <tr>
-          <td style="text-align:left;font-weight:600;font-size:12px;">AI伺服器／零組件</td>
+          <td style="text-align:left;font-weight:600;font-size:12px;">半導體檢測／封測</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:center;">4</td>
+          <td style="text-align:right;color:var(--up);">+0.50%</td>
+          <td style="text-align:right;color:var(--up);">+1.81%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+3.12%</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;font-weight:600;font-size:12px;">網通</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:center;">3</td>
+          <td style="text-align:right;color:var(--up);">+4.45%</td>
+          <td style="text-align:right;color:var(--up);">+2.70%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+0.94%</td>
+        </tr>
+        
+        <tr>
+          <td style="text-align:left;font-weight:600;font-size:12px;">LED／光電</td>
           <td style="text-align:center;">2</td>
           <td style="text-align:center;">3</td>
-          <td style="text-align:right;color:var(--down);">-0.21%</td>
-          <td style="text-align:right;color:var(--down);">-1.55%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-2.89%</td>
+          <td style="text-align:right;color:var(--up);">+1.29%</td>
+          <td style="text-align:right;color:var(--up);">+1.00%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+0.70%</td>
         </tr>
         
         <tr>
@@ -1408,21 +1399,21 @@ footer a { color: var(--teal); text-decoration: none; }
         </tr>
         
         <tr>
+          <td style="text-align:left;font-weight:600;font-size:12px;">電子零組件</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:center;">3</td>
+          <td style="text-align:right;color:var(--down);">-0.17%</td>
+          <td style="text-align:right;color:var(--up);">+0.06%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+0.30%</td>
+        </tr>
+        
+        <tr>
           <td style="text-align:left;font-weight:600;font-size:12px;">航運</td>
           <td style="text-align:center;">1</td>
           <td style="text-align:center;">2</td>
           <td style="text-align:right;color:var(--up);">+2.65%</td>
           <td style="text-align:right;color:var(--up);">+1.98%</td>
           <td style="text-align:right;color:var(--up);font-weight:700;">+1.32%</td>
-        </tr>
-        
-        <tr>
-          <td style="text-align:left;font-weight:600;font-size:12px;">電腦及週邊</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:center;">2</td>
-          <td style="text-align:right;color:var(--up);">+3.67%</td>
-          <td style="text-align:right;color:var(--up);">+0.27%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-3.12%</td>
         </tr>
         
         <tr>
@@ -1452,6 +1443,15 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--up);font-weight:700;">+9.92%</td>
         </tr>
         
+        <tr>
+          <td style="text-align:left;font-weight:600;font-size:12px;">AI伺服器／零組件</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--down);">-4.91%</td>
+          <td style="text-align:right;color:var(--down);">-5.35%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-5.78%</td>
+        </tr>
+        
       </tbody>
     </table>
   </div>
@@ -1459,7 +1459,7 @@ footer a { color: var(--teal); text-decoration: none; }
   <!-- 個股績效表 -->
   <div class="concept-title" style="border-left-color:var(--up);">
     <span class="icon">🏆</span><span>個股績效</span>
-    <span class="count">140 支</span>
+    <span class="count">121 支</span>
   </div>
   <div style="font-size:11px;color:var(--muted);margin:4px 0 8px 12px;line-height:1.6;">
     天數 = 期間內漲停天數｜開盤/均價/收盤 = 各次漲停隔日報酬的平均值｜均價 = (隔日最高+最低)/2 vs 漲停收盤
@@ -1471,83 +1471,79 @@ footer a { color: var(--teal); text-decoration: none; }
     
     <span class="theme-tag" data-theme="個股表現亮點"
       style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
-      background:var(--card);color:var(--muted);border:1px solid var(--border);">個股表現亮點 (43)</span>
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">個股表現亮點 (44)</span>
     
     <span class="theme-tag" data-theme="其他"
       style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
-      background:var(--card);color:var(--muted);border:1px solid var(--border);">其他 (16)</span>
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">其他 (18)</span>
     
     <span class="theme-tag" data-theme="半導體設備／材料"
       style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
-      background:var(--card);color:var(--muted);border:1px solid var(--border);">半導體設備／材料 (13)</span>
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">半導體設備／材料 (9)</span>
     
     <span class="theme-tag" data-theme="PCB／CCL"
       style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
-      background:var(--card);color:var(--muted);border:1px solid var(--border);">PCB／CCL (12)</span>
-    
-    <span class="theme-tag" data-theme="半導體檢測／封測"
-      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
-      background:var(--card);color:var(--muted);border:1px solid var(--border);">半導體檢測／封測 (9)</span>
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">PCB／CCL (9)</span>
     
     <span class="theme-tag" data-theme="電機機械"
       style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
       background:var(--card);color:var(--muted);border:1px solid var(--border);">電機機械 (9)</span>
     
-    <span class="theme-tag" data-theme="網通"
-      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
-      background:var(--card);color:var(--muted);border:1px solid var(--border);">網通 (8)</span>
-    
-    <span class="theme-tag" data-theme="LED／光電"
-      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
-      background:var(--card);color:var(--muted);border:1px solid var(--border);">LED／光電 (8)</span>
-    
-    <span class="theme-tag" data-theme="電子零組件"
-      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
-      background:var(--card);color:var(--muted);border:1px solid var(--border);">電子零組件 (7)</span>
-    
-    <span class="theme-tag" data-theme="DRAM／記憶體"
-      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
-      background:var(--card);color:var(--muted);border:1px solid var(--border);">DRAM／記憶體 (7)</span>
-    
-    <span class="theme-tag" data-theme="電子通路"
-      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
-      background:var(--card);color:var(--muted);border:1px solid var(--border);">電子通路 (7)</span>
-    
     <span class="theme-tag" data-theme="生技醫材"
       style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
       background:var(--card);color:var(--muted);border:1px solid var(--border);">生技醫材 (7)</span>
+    
+    <span class="theme-tag" data-theme="IC設計／AI邊緣運算"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">IC設計／AI邊緣運算 (7)</span>
+    
+    <span class="theme-tag" data-theme="紡織纖維"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">紡織纖維 (6)</span>
     
     <span class="theme-tag" data-theme="塑化／化工"
       style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
       background:var(--card);color:var(--muted);border:1px solid var(--border);">塑化／化工 (5)</span>
     
+    <span class="theme-tag" data-theme="電子通路"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">電子通路 (5)</span>
+    
     <span class="theme-tag" data-theme="被動元件"
       style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
       background:var(--card);color:var(--muted);border:1px solid var(--border);">被動元件 (5)</span>
     
-    <span class="theme-tag" data-theme="紡織纖維"
+    <span class="theme-tag" data-theme="電腦及週邊"
       style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
-      background:var(--card);color:var(--muted);border:1px solid var(--border);">紡織纖維 (4)</span>
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">電腦及週邊 (4)</span>
     
-    <span class="theme-tag" data-theme="IC設計／AI邊緣運算"
+    <span class="theme-tag" data-theme="DRAM／記憶體"
       style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
-      background:var(--card);color:var(--muted);border:1px solid var(--border);">IC設計／AI邊緣運算 (4)</span>
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">DRAM／記憶體 (4)</span>
     
-    <span class="theme-tag" data-theme="AI伺服器／零組件"
+    <span class="theme-tag" data-theme="半導體檢測／封測"
       style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
-      background:var(--card);color:var(--muted);border:1px solid var(--border);">AI伺服器／零組件 (3)</span>
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">半導體檢測／封測 (4)</span>
+    
+    <span class="theme-tag" data-theme="網通"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">網通 (3)</span>
+    
+    <span class="theme-tag" data-theme="LED／光電"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">LED／光電 (3)</span>
     
     <span class="theme-tag" data-theme="半導體"
       style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
       background:var(--card);color:var(--muted);border:1px solid var(--border);">半導體 (3)</span>
     
+    <span class="theme-tag" data-theme="電子零組件"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">電子零組件 (3)</span>
+    
     <span class="theme-tag" data-theme="航運"
       style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
       background:var(--card);color:var(--muted);border:1px solid var(--border);">航運 (2)</span>
-    
-    <span class="theme-tag" data-theme="電腦及週邊"
-      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
-      background:var(--card);color:var(--muted);border:1px solid var(--border);">電腦及週邊 (2)</span>
     
     <span class="theme-tag" data-theme="連接器／線材"
       style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
@@ -1560,6 +1556,10 @@ footer a { color: var(--teal); text-decoration: none; }
     <span class="theme-tag" data-theme="營建／資產"
       style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
       background:var(--card);color:var(--muted);border:1px solid var(--border);">營建／資產 (1)</span>
+    
+    <span class="theme-tag" data-theme="AI伺服器／零組件"
+      style="padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+      background:var(--card);color:var(--muted);border:1px solid var(--border);">AI伺服器／零組件 (1)</span>
     
   </div>
   <div style="overflow-x:auto;margin:0 0 20px;">
@@ -1577,34 +1577,24 @@ footer a { color: var(--teal); text-decoration: none; }
       </thead>
       <tbody>
         
-        <tr data-code="2434">
-          <td style="text-align:left;font-weight:600;">2434</td>
-          <td style="text-align:left;">統懋</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">半導體檢測／封測</td>
-          <td style="text-align:center;">5</td>
-          <td style="text-align:right;color:var(--up);">+5.30%</td>
-          <td style="text-align:right;color:var(--up);">+4.20%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+5.99%</td>
-        </tr>
-        
-        <tr data-code="8039">
-          <td style="text-align:left;font-weight:600;">8039</td>
-          <td style="text-align:left;">台虹</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">PCB／CCL</td>
-          <td style="text-align:center;">4</td>
-          <td style="text-align:right;color:var(--up);">+2.40%</td>
-          <td style="text-align:right;color:var(--up);">+3.23%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+3.46%</td>
-        </tr>
-        
         <tr data-code="3288">
           <td style="text-align:left;font-weight:600;">3288</td>
           <td style="text-align:left;">點晶</td>
           <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
+          <td style="text-align:center;">5</td>
+          <td style="text-align:right;color:var(--up);">+5.83%</td>
+          <td style="text-align:right;color:var(--up);">+5.66%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+6.01%</td>
+        </tr>
+        
+        <tr data-code="2434">
+          <td style="text-align:left;font-weight:600;">2434</td>
+          <td style="text-align:left;">統懋</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
           <td style="text-align:center;">4</td>
-          <td style="text-align:right;color:var(--up);">+5.58%</td>
-          <td style="text-align:right;color:var(--up);">+7.46%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+9.95%</td>
+          <td style="text-align:right;color:var(--up);">+4.13%</td>
+          <td style="text-align:right;color:var(--up);">+3.44%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+4.99%</td>
         </tr>
         
         <tr data-code="4139">
@@ -1617,14 +1607,24 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--up);font-weight:700;">+7.12%</td>
         </tr>
         
-        <tr data-code="6141">
-          <td style="text-align:left;font-weight:600;">6141</td>
-          <td style="text-align:left;">柏承</td>
+        <tr data-code="8039">
+          <td style="text-align:left;font-weight:600;">8039</td>
+          <td style="text-align:left;">台虹</td>
           <td style="text-align:left;font-size:11px;color:var(--muted);">PCB／CCL</td>
           <td style="text-align:center;">3</td>
-          <td style="text-align:right;color:var(--down);">-1.37%</td>
-          <td style="text-align:right;color:var(--down);">-0.25%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+0.13%</td>
+          <td style="text-align:right;color:var(--down);">-0.04%</td>
+          <td style="text-align:right;color:var(--up);">+1.06%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+1.36%</td>
+        </tr>
+        
+        <tr data-code="2910">
+          <td style="text-align:left;font-weight:600;">2910</td>
+          <td style="text-align:left;">統領</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">其他</td>
+          <td style="text-align:center;">3</td>
+          <td style="text-align:right;color:var(--up);">+5.06%</td>
+          <td style="text-align:right;color:var(--up);">+3.23%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+3.29%</td>
         </tr>
         
         <tr data-code="6243">
@@ -1637,104 +1637,24 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--up);font-weight:700;">+9.18%</td>
         </tr>
         
-        <tr data-code="8383">
-          <td style="text-align:left;font-weight:600;">8383</td>
-          <td style="text-align:left;">千附</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">半導體設備／材料</td>
-          <td style="text-align:center;">2</td>
-          <td style="text-align:right;color:var(--up);">+5.78%</td>
-          <td style="text-align:right;color:var(--up);">+3.48%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+8.28%</td>
-        </tr>
-        
-        <tr data-code="6933">
-          <td style="text-align:left;font-weight:600;">6933</td>
-          <td style="text-align:left;">AMAX-KY</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">AI伺服器／零組件</td>
-          <td style="text-align:center;">2</td>
-          <td style="text-align:right;color:var(--up);">+2.46%</td>
-          <td style="text-align:right;color:var(--up);">+1.52%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+2.03%</td>
-        </tr>
-        
-        <tr data-code="2321">
-          <td style="text-align:left;font-weight:600;">2321</td>
-          <td style="text-align:left;">東訊</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">網通</td>
-          <td style="text-align:center;">2</td>
-          <td style="text-align:right;color:var(--up);">+7.08%</td>
-          <td style="text-align:right;color:var(--up);">+7.38%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+6.03%</td>
-        </tr>
-        
-        <tr data-code="8046">
-          <td style="text-align:left;font-weight:600;">8046</td>
-          <td style="text-align:left;">南電</td>
+        <tr data-code="4939">
+          <td style="text-align:left;font-weight:600;">4939</td>
+          <td style="text-align:left;">亞電</td>
           <td style="text-align:left;font-size:11px;color:var(--muted);">PCB／CCL</td>
-          <td style="text-align:center;">2</td>
-          <td style="text-align:right;color:var(--up);">+2.32%</td>
-          <td style="text-align:right;color:var(--up);">+1.02%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-2.68%</td>
+          <td style="text-align:center;">3</td>
+          <td style="text-align:right;color:var(--down);">-0.41%</td>
+          <td style="text-align:right;color:var(--up);">+1.95%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+3.32%</td>
         </tr>
         
-        <tr data-code="5351">
-          <td style="text-align:left;font-weight:600;">5351</td>
-          <td style="text-align:left;">鈺創</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">DRAM／記憶體</td>
-          <td style="text-align:center;">2</td>
-          <td style="text-align:right;color:var(--up);">+1.72%</td>
-          <td style="text-align:right;color:var(--up);">+0.08%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-2.34%</td>
-        </tr>
-        
-        <tr data-code="3374">
-          <td style="text-align:left;font-weight:600;">3374</td>
-          <td style="text-align:left;">精材</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">半導體檢測／封測</td>
-          <td style="text-align:center;">2</td>
-          <td style="text-align:right;color:var(--up);">+3.48%</td>
-          <td style="text-align:right;color:var(--up);">+0.51%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-0.66%</td>
-        </tr>
-        
-        <tr data-code="6187">
-          <td style="text-align:left;font-weight:600;">6187</td>
-          <td style="text-align:left;">萬潤</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">半導體設備／材料</td>
-          <td style="text-align:center;">2</td>
-          <td style="text-align:right;color:var(--up);">+1.70%</td>
-          <td style="text-align:right;color:var(--up);">+0.72%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-0.94%</td>
-        </tr>
-        
-        <tr data-code="8150">
-          <td style="text-align:left;font-weight:600;">8150</td>
-          <td style="text-align:left;">南茂</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">半導體檢測／封測</td>
-          <td style="text-align:center;">2</td>
-          <td style="text-align:right;color:var(--up);">+1.93%</td>
-          <td style="text-align:right;color:var(--up);">+2.73%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+2.88%</td>
-        </tr>
-        
-        <tr data-code="6207">
-          <td style="text-align:left;font-weight:600;">6207</td>
-          <td style="text-align:left;">雷科</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">電子零組件</td>
-          <td style="text-align:center;">2</td>
-          <td style="text-align:right;color:var(--up);">+0.90%</td>
-          <td style="text-align:right;color:var(--up);">+0.80%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-3.91%</td>
-        </tr>
-        
-        <tr data-code="3006">
-          <td style="text-align:left;font-weight:600;">3006</td>
-          <td style="text-align:left;">晶豪科</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">DRAM／記憶體</td>
-          <td style="text-align:center;">2</td>
-          <td style="text-align:right;color:var(--down);">-0.94%</td>
-          <td style="text-align:right;color:var(--down);">-3.25%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-5.88%</td>
+        <tr data-code="8291">
+          <td style="text-align:left;font-weight:600;">8291</td>
+          <td style="text-align:left;">尚茂</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
+          <td style="text-align:center;">3</td>
+          <td style="text-align:right;color:var(--up);">+9.94%</td>
+          <td style="text-align:right;color:var(--up);">+9.94%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+9.94%</td>
         </tr>
         
         <tr data-code="1810">
@@ -1745,6 +1665,26 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--up);">+3.17%</td>
           <td style="text-align:right;color:var(--up);">+4.43%</td>
           <td style="text-align:right;color:var(--up);font-weight:700;">+8.96%</td>
+        </tr>
+        
+        <tr data-code="3532">
+          <td style="text-align:left;font-weight:600;">3532</td>
+          <td style="text-align:left;">台勝科</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">半導體設備／材料</td>
+          <td style="text-align:center;">2</td>
+          <td style="text-align:right;color:var(--down);">-0.27%</td>
+          <td style="text-align:right;color:var(--down);">-1.10%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+1.30%</td>
+        </tr>
+        
+        <tr data-code="6533">
+          <td style="text-align:left;font-weight:600;">6533</td>
+          <td style="text-align:left;">晶心科</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
+          <td style="text-align:center;">2</td>
+          <td style="text-align:right;color:var(--up);">+2.82%</td>
+          <td style="text-align:right;color:var(--up);">+2.95%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+4.21%</td>
         </tr>
         
         <tr data-code="9921">
@@ -1767,16 +1707,6 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--down);font-weight:700;">-4.12%</td>
         </tr>
         
-        <tr data-code="2910">
-          <td style="text-align:left;font-weight:600;">2910</td>
-          <td style="text-align:left;">統領</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">其他</td>
-          <td style="text-align:center;">2</td>
-          <td style="text-align:right;color:var(--up);">+3.33%</td>
-          <td style="text-align:right;color:var(--up);">+1.84%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-0.01%</td>
-        </tr>
-        
         <tr data-code="6907">
           <td style="text-align:left;font-weight:600;">6907</td>
           <td style="text-align:left;">雅特力-KY</td>
@@ -1797,6 +1727,16 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--up);font-weight:700;">+3.24%</td>
         </tr>
         
+        <tr data-code="1468">
+          <td style="text-align:left;font-weight:600;">1468</td>
+          <td style="text-align:left;">昶和</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">紡織纖維</td>
+          <td style="text-align:center;">2</td>
+          <td style="text-align:right;color:var(--down);">-0.50%</td>
+          <td style="text-align:right;color:var(--down);">-4.12%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-4.91%</td>
+        </tr>
+        
         <tr data-code="4534">
           <td style="text-align:left;font-weight:600;">4534</td>
           <td style="text-align:left;">慶騰</td>
@@ -1805,6 +1745,16 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--down);">-1.11%</td>
           <td style="text-align:right;color:var(--up);">+2.37%</td>
           <td style="text-align:right;color:var(--up);font-weight:700;">+4.24%</td>
+        </tr>
+        
+        <tr data-code="6141">
+          <td style="text-align:left;font-weight:600;">6141</td>
+          <td style="text-align:left;">柏承</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">PCB／CCL</td>
+          <td style="text-align:center;">2</td>
+          <td style="text-align:right;color:var(--down);">-2.25%</td>
+          <td style="text-align:right;color:var(--up);">+0.01%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+1.48%</td>
         </tr>
         
         <tr data-code="6505">
@@ -1827,16 +1777,6 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--up);font-weight:700;">+0.64%</td>
         </tr>
         
-        <tr data-code="4939">
-          <td style="text-align:left;font-weight:600;">4939</td>
-          <td style="text-align:left;">亞電</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">PCB／CCL</td>
-          <td style="text-align:center;">2</td>
-          <td style="text-align:right;color:var(--down);">-1.75%</td>
-          <td style="text-align:right;color:var(--up);">+0.09%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-0.01%</td>
-        </tr>
-        
         <tr data-code="1526">
           <td style="text-align:left;font-weight:600;">1526</td>
           <td style="text-align:left;">日馳</td>
@@ -1847,324 +1787,24 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--up);font-weight:700;">+5.22%</td>
         </tr>
         
-        <tr data-code="8291">
-          <td style="text-align:left;font-weight:600;">8291</td>
-          <td style="text-align:left;">尚茂</td>
+        <tr data-code="3577">
+          <td style="text-align:left;font-weight:600;">3577</td>
+          <td style="text-align:left;">泓格</td>
           <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
           <td style="text-align:center;">2</td>
-          <td style="text-align:right;color:var(--up);">+9.93%</td>
-          <td style="text-align:right;color:var(--up);">+9.93%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+9.93%</td>
+          <td style="text-align:right;color:var(--up);">+0.69%</td>
+          <td style="text-align:right;color:var(--up);">+0.85%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+1.82%</td>
         </tr>
         
-        <tr data-code="6488">
-          <td style="text-align:left;font-weight:600;">6488</td>
-          <td style="text-align:left;">環球晶</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">半導體設備／材料</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+10.00%</td>
-          <td style="text-align:right;color:var(--up);">+10.00%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+10.00%</td>
-        </tr>
-        
-        <tr data-code="6538">
-          <td style="text-align:left;font-weight:600;">6538</td>
-          <td style="text-align:left;">倉和</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">電子零組件</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+3.68%</td>
-          <td style="text-align:right;color:var(--up);">+6.80%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+9.93%</td>
-        </tr>
-        
-        <tr data-code="5488">
-          <td style="text-align:left;font-weight:600;">5488</td>
-          <td style="text-align:left;">松普</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">電子零組件</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+9.88%</td>
-          <td style="text-align:right;color:var(--up);">+8.02%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+9.88%</td>
-        </tr>
-        
-        <tr data-code="3593">
-          <td style="text-align:left;font-weight:600;">3593</td>
-          <td style="text-align:left;">力銘</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">電子零組件</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--down);">-2.19%</td>
-          <td style="text-align:right;color:var(--up);">+3.29%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+9.40%</td>
-        </tr>
-        
-        <tr data-code="2332">
-          <td style="text-align:left;font-weight:600;">2332</td>
-          <td style="text-align:left;">友訊</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">網通</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+3.33%</td>
-          <td style="text-align:right;color:var(--up);">+4.68%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+7.90%</td>
-        </tr>
-        
-        <tr data-code="7714">
-          <td style="text-align:left;font-weight:600;">7714</td>
-          <td style="text-align:left;">創泓科技</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+4.64%</td>
-          <td style="text-align:right;color:var(--up);">+5.07%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+6.96%</td>
-        </tr>
-        
-        <tr data-code="4949">
-          <td style="text-align:left;font-weight:600;">4949</td>
-          <td style="text-align:left;">有成精密</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">LED／光電</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+1.90%</td>
-          <td style="text-align:right;color:var(--up);">+4.62%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+2.15%</td>
-        </tr>
-        
-        <tr data-code="1536">
-          <td style="text-align:left;font-weight:600;">1536</td>
-          <td style="text-align:left;">和大</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+0.73%</td>
-          <td style="text-align:right;color:var(--up);">+1.09%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+2.00%</td>
-        </tr>
-        
-        <tr data-code="7769">
-          <td style="text-align:left;font-weight:600;">7769</td>
-          <td style="text-align:left;">鴻勁</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">半導體檢測／封測</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+4.95%</td>
-          <td style="text-align:right;color:var(--up);">+2.10%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+0.68%</td>
-        </tr>
-        
-        <tr data-code="8024">
-          <td style="text-align:left;font-weight:600;">8024</td>
-          <td style="text-align:left;">佑華</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">半導體設備／材料</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--down);">-1.19%</td>
-          <td style="text-align:right;color:var(--up);">+1.19%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+0.30%</td>
-        </tr>
-        
-        <tr data-code="5484">
-          <td style="text-align:left;font-weight:600;">5484</td>
-          <td style="text-align:left;">慧友</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">LED／光電</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+9.33%</td>
-          <td style="text-align:right;color:var(--up);">+3.04%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-0.30%</td>
-        </tr>
-        
-        <tr data-code="8027">
-          <td style="text-align:left;font-weight:600;">8027</td>
-          <td style="text-align:left;">鈦昇</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+0.62%</td>
-          <td style="text-align:right;color:var(--up);">+2.58%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-0.41%</td>
-        </tr>
-        
-        <tr data-code="2423">
-          <td style="text-align:left;font-weight:600;">2423</td>
-          <td style="text-align:left;">固緯</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">半導體檢測／封測</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--down);">-0.25%</td>
-          <td style="text-align:right;color:var(--down);">-1.94%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-1.76%</td>
-        </tr>
-        
-        <tr data-code="8064">
-          <td style="text-align:left;font-weight:600;">8064</td>
-          <td style="text-align:left;">東捷</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">LED／光電</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+0.00%</td>
-          <td style="text-align:right;color:var(--up);">+0.00%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-2.54%</td>
-        </tr>
-        
-        <tr data-code="6218">
-          <td style="text-align:left;font-weight:600;">6218</td>
-          <td style="text-align:left;">豪勉</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">網通</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+1.46%</td>
-          <td style="text-align:right;color:var(--up);">+0.80%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-2.79%</td>
-        </tr>
-        
-        <tr data-code="2408">
-          <td style="text-align:left;font-weight:600;">2408</td>
-          <td style="text-align:left;">南亞科</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">DRAM／記憶體</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+7.12%</td>
-          <td style="text-align:right;color:var(--up);">+1.84%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-2.87%</td>
-        </tr>
-        
-        <tr data-code="2465">
-          <td style="text-align:left;font-weight:600;">2465</td>
-          <td style="text-align:left;">麗臺</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+2.23%</td>
-          <td style="text-align:right;color:var(--down);">-0.95%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-4.02%</td>
-        </tr>
-        
-        <tr data-code="3521">
-          <td style="text-align:left;font-weight:600;">3521</td>
-          <td style="text-align:left;">台鋼建設</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+0.00%</td>
-          <td style="text-align:right;color:var(--down);">-2.39%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-4.04%</td>
-        </tr>
-        
-        <tr data-code="6113">
-          <td style="text-align:left;font-weight:600;">6113</td>
-          <td style="text-align:left;">亞矽</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">電子通路</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--down);">-0.18%</td>
-          <td style="text-align:right;color:var(--down);">-1.17%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-4.51%</td>
-        </tr>
-        
-        <tr data-code="4768">
-          <td style="text-align:left;font-weight:600;">4768</td>
-          <td style="text-align:left;">晶呈科技</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+2.59%</td>
-          <td style="text-align:right;color:var(--down);">-2.04%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-4.90%</td>
-        </tr>
-        
-        <tr data-code="6142">
-          <td style="text-align:left;font-weight:600;">6142</td>
-          <td style="text-align:left;">友勁</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">網通</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+6.67%</td>
-          <td style="text-align:right;color:var(--up);">+0.22%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-5.33%</td>
-        </tr>
-        
-        <tr data-code="6465">
-          <td style="text-align:left;font-weight:600;">6465</td>
-          <td style="text-align:left;">威潤</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">網通</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+0.32%</td>
-          <td style="text-align:right;color:var(--down);">-2.61%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-5.85%</td>
-        </tr>
-        
-        <tr data-code="6270">
-          <td style="text-align:left;font-weight:600;">6270</td>
-          <td style="text-align:left;">倍微</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">電子通路</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+0.00%</td>
-          <td style="text-align:right;color:var(--down);">-2.62%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-6.56%</td>
-        </tr>
-        
-        <tr data-code="3504">
-          <td style="text-align:left;font-weight:600;">3504</td>
-          <td style="text-align:left;">揚明光</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">LED／光電</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--down);">-2.08%</td>
-          <td style="text-align:right;color:var(--down);">-3.67%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-6.60%</td>
-        </tr>
-        
-        <tr data-code="7828">
-          <td style="text-align:left;font-weight:600;">7828</td>
-          <td style="text-align:left;">創新服務</td>
+        <tr data-code="5450">
+          <td style="text-align:left;font-weight:600;">5450</td>
+          <td style="text-align:left;">南良</td>
           <td style="text-align:left;font-size:11px;color:var(--muted);">其他</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+5.44%</td>
-          <td style="text-align:right;color:var(--up);">+0.59%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-6.62%</td>
-        </tr>
-        
-        <tr data-code="7827">
-          <td style="text-align:left;font-weight:600;">7827</td>
-          <td style="text-align:left;">漢康-KY創</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">其他</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--down);">-0.81%</td>
-          <td style="text-align:right;color:var(--down);">-4.19%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-7.57%</td>
-        </tr>
-        
-        <tr data-code="3543">
-          <td style="text-align:left;font-weight:600;">3543</td>
-          <td style="text-align:left;">州巧</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">LED／光電</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--down);">-0.30%</td>
-          <td style="text-align:right;color:var(--down);">-4.64%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-7.93%</td>
-        </tr>
-        
-        <tr data-code="8042">
-          <td style="text-align:left;font-weight:600;">8042</td>
-          <td style="text-align:left;">金山電</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">AI伺服器／零組件</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--down);">-0.84%</td>
-          <td style="text-align:right;color:var(--down);">-5.20%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-9.83%</td>
-        </tr>
-        
-        <tr data-code="6449">
-          <td style="text-align:left;font-weight:600;">6449</td>
-          <td style="text-align:left;">鈺邦</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--down);">-1.14%</td>
-          <td style="text-align:right;color:var(--down);">-5.26%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-9.94%</td>
-        </tr>
-        
-        <tr data-code="3532">
-          <td style="text-align:left;font-weight:600;">3532</td>
-          <td style="text-align:left;">台勝科</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">半導體設備／材料</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--down);">-1.40%</td>
-          <td style="text-align:right;color:var(--up);">+1.02%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+9.56%</td>
-        </tr>
-        
-        <tr data-code="6533">
-          <td style="text-align:left;font-weight:600;">6533</td>
-          <td style="text-align:left;">晶心科</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+2.61%</td>
-          <td style="text-align:right;color:var(--up);">+4.28%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+6.89%</td>
+          <td style="text-align:center;">2</td>
+          <td style="text-align:right;color:var(--down);">-0.08%</td>
+          <td style="text-align:right;color:var(--up);">+4.12%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+2.85%</td>
         </tr>
         
         <tr data-code="8033">
@@ -2225,6 +1865,16 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--up);">+5.88%</td>
           <td style="text-align:right;color:var(--up);">+2.94%</td>
           <td style="text-align:right;color:var(--up);font-weight:700;">+2.94%</td>
+        </tr>
+        
+        <tr data-code="2321">
+          <td style="text-align:left;font-weight:600;">2321</td>
+          <td style="text-align:left;">東訊</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">網通</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--up);">+6.58%</td>
+          <td style="text-align:right;color:var(--up);">+6.09%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+2.30%</td>
         </tr>
         
         <tr data-code="3702">
@@ -2317,6 +1967,16 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--down);font-weight:700;">-2.63%</td>
         </tr>
         
+        <tr data-code="6933">
+          <td style="text-align:left;font-weight:600;">6933</td>
+          <td style="text-align:left;">AMAX-KY</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">AI伺服器／零組件</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--down);">-4.91%</td>
+          <td style="text-align:right;color:var(--down);">-6.79%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-5.78%</td>
+        </tr>
+        
         <tr data-code="2305">
           <td style="text-align:left;font-weight:600;">2305</td>
           <td style="text-align:left;">全友</td>
@@ -2355,6 +2015,16 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--up);">+2.12%</td>
           <td style="text-align:right;color:var(--up);">+3.75%</td>
           <td style="text-align:right;color:var(--up);font-weight:700;">+7.49%</td>
+        </tr>
+        
+        <tr data-code="8383">
+          <td style="text-align:left;font-weight:600;">8383</td>
+          <td style="text-align:left;">千附</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">半導體設備／材料</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--up);">+1.66%</td>
+          <td style="text-align:right;color:var(--down);">-0.71%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+6.65%</td>
         </tr>
         
         <tr data-code="2429">
@@ -2417,16 +2087,6 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--down);font-weight:700;">-2.89%</td>
         </tr>
         
-        <tr data-code="1468">
-          <td style="text-align:left;font-weight:600;">1468</td>
-          <td style="text-align:left;">昶和</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">紡織纖維</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+0.00%</td>
-          <td style="text-align:right;color:var(--down);">-3.56%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-4.12%</td>
-        </tr>
-        
         <tr data-code="6130">
           <td style="text-align:left;font-weight:600;">6130</td>
           <td style="text-align:left;">上亞科技</td>
@@ -2445,6 +2105,16 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--down);">-0.49%</td>
           <td style="text-align:right;color:var(--up);">+4.15%</td>
           <td style="text-align:right;color:var(--up);font-weight:700;">+7.80%</td>
+        </tr>
+        
+        <tr data-code="8150">
+          <td style="text-align:left;font-weight:600;">8150</td>
+          <td style="text-align:left;">南茂</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">半導體檢測／封測</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--up);">+0.00%</td>
+          <td style="text-align:right;color:var(--up);">+4.82%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+7.46%</td>
         </tr>
         
         <tr data-code="6680">
@@ -2567,6 +2237,16 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--up);font-weight:700;">+0.29%</td>
         </tr>
         
+        <tr data-code="6187">
+          <td style="text-align:left;font-weight:600;">6187</td>
+          <td style="text-align:left;">萬潤</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">半導體設備／材料</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--down);">-2.31%</td>
+          <td style="text-align:right;color:var(--down);">-0.23%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-0.46%</td>
+        </tr>
+        
         <tr data-code="3583">
           <td style="text-align:left;font-weight:600;">3583</td>
           <td style="text-align:left;">辛耘</td>
@@ -2575,6 +2255,16 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--down);">-0.83%</td>
           <td style="text-align:right;color:var(--down);">-0.53%</td>
           <td style="text-align:right;color:var(--down);font-weight:700;">-1.43%</td>
+        </tr>
+        
+        <tr data-code="3374">
+          <td style="text-align:left;font-weight:600;">3374</td>
+          <td style="text-align:left;">精材</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">半導體檢測／封測</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--up);">+2.74%</td>
+          <td style="text-align:right;color:var(--down);">-0.37%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-1.74%</td>
         </tr>
         
         <tr data-code="1560">
@@ -2737,6 +2427,26 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--down);font-weight:700;">-5.06%</td>
         </tr>
         
+        <tr data-code="6207">
+          <td style="text-align:left;font-weight:600;">6207</td>
+          <td style="text-align:left;">雷科</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">電子零組件</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--down);">-2.02%</td>
+          <td style="text-align:right;color:var(--down);">-1.18%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-5.39%</td>
+        </tr>
+        
+        <tr data-code="5351">
+          <td style="text-align:left;font-weight:600;">5351</td>
+          <td style="text-align:left;">鈺創</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">DRAM／記憶體</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--down);">-1.44%</td>
+          <td style="text-align:right;color:var(--down);">-3.30%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-6.51%</td>
+        </tr>
+        
         <tr data-code="3055">
           <td style="text-align:left;font-weight:600;">3055</td>
           <td style="text-align:left;">蔚華科</td>
@@ -2767,6 +2477,16 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--down);font-weight:700;">-7.55%</td>
         </tr>
         
+        <tr data-code="3006">
+          <td style="text-align:left;font-weight:600;">3006</td>
+          <td style="text-align:left;">晶豪科</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">DRAM／記憶體</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--down);">-2.30%</td>
+          <td style="text-align:right;color:var(--down);">-4.81%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-7.95%</td>
+        </tr>
+        
         <tr data-code="2478">
           <td style="text-align:left;font-weight:600;">2478</td>
           <td style="text-align:left;">大毅</td>
@@ -2785,6 +2505,16 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--down);">-2.61%</td>
           <td style="text-align:right;color:var(--down);">-3.64%</td>
           <td style="text-align:right;color:var(--down);font-weight:700;">-9.88%</td>
+        </tr>
+        
+        <tr data-code="8046">
+          <td style="text-align:left;font-weight:600;">8046</td>
+          <td style="text-align:left;">南電</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">PCB／CCL</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--down);">-0.71%</td>
+          <td style="text-align:right;color:var(--down);">-4.95%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-9.89%</td>
         </tr>
         
         <tr data-code="3491">
@@ -2857,16 +2587,6 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--down);font-weight:700;">-4.87%</td>
         </tr>
         
-        <tr data-code="3577">
-          <td style="text-align:left;font-weight:600;">3577</td>
-          <td style="text-align:left;">泓格</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--down);">-1.08%</td>
-          <td style="text-align:right;color:var(--down);">-1.44%</td>
-          <td style="text-align:right;color:var(--down);font-weight:700;">-6.14%</td>
-        </tr>
-        
         <tr data-code="1710">
           <td style="text-align:left;font-weight:600;">1710</td>
           <td style="text-align:left;">東聯</td>
@@ -2937,16 +2657,6 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--down);font-weight:700;">-10.00%</td>
         </tr>
         
-        <tr data-code="5450">
-          <td style="text-align:left;font-weight:600;">5450</td>
-          <td style="text-align:left;">南良</td>
-          <td style="text-align:left;font-size:11px;color:var(--muted);">其他</td>
-          <td style="text-align:center;">1</td>
-          <td style="text-align:right;color:var(--up);">+4.11%</td>
-          <td style="text-align:right;color:var(--up);">+5.57%</td>
-          <td style="text-align:right;color:var(--up);font-weight:700;">+9.97%</td>
-        </tr>
-        
         <tr data-code="4171">
           <td style="text-align:left;font-weight:600;">4171</td>
           <td style="text-align:left;">瑞基</td>
@@ -2977,6 +2687,106 @@ footer a { color: var(--teal); text-decoration: none; }
           <td style="text-align:right;color:var(--down);font-weight:700;">-9.89%</td>
         </tr>
         
+        <tr data-code="6969">
+          <td style="text-align:left;font-weight:600;">6969</td>
+          <td style="text-align:left;">成信實業*-創</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--up);">+9.85%</td>
+          <td style="text-align:right;color:var(--up);">+7.95%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+9.85%</td>
+        </tr>
+        
+        <tr data-code="1467">
+          <td style="text-align:left;font-weight:600;">1467</td>
+          <td style="text-align:left;">南緯</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">紡織纖維</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--up);">+9.72%</td>
+          <td style="text-align:right;color:var(--up);">+9.72%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+9.72%</td>
+        </tr>
+        
+        <tr data-code="8045">
+          <td style="text-align:left;font-weight:600;">8045</td>
+          <td style="text-align:left;">達運光電</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--up);">+8.32%</td>
+          <td style="text-align:right;color:var(--up);">+6.77%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+8.48%</td>
+        </tr>
+        
+        <tr data-code="6928">
+          <td style="text-align:left;font-weight:600;">6928</td>
+          <td style="text-align:left;">攸泰科技</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--up);">+1.30%</td>
+          <td style="text-align:right;color:var(--up);">+4.44%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+6.85%</td>
+        </tr>
+        
+        <tr data-code="2724">
+          <td style="text-align:left;font-weight:600;">2724</td>
+          <td style="text-align:left;">藝舍-KY</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">其他</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--up);">+9.40%</td>
+          <td style="text-align:right;color:var(--up);">+1.92%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+4.70%</td>
+        </tr>
+        
+        <tr data-code="4566">
+          <td style="text-align:left;font-weight:600;">4566</td>
+          <td style="text-align:left;">時碩工業</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--up);">+7.51%</td>
+          <td style="text-align:right;color:var(--up);">+5.71%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+3.60%</td>
+        </tr>
+        
+        <tr data-code="3625">
+          <td style="text-align:left;font-weight:600;">3625</td>
+          <td style="text-align:left;">西勝</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">電腦及週邊</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--down);">-0.54%</td>
+          <td style="text-align:right;color:var(--up);">+4.63%</td>
+          <td style="text-align:right;color:var(--up);font-weight:700;">+3.54%</td>
+        </tr>
+        
+        <tr data-code="2388">
+          <td style="text-align:left;font-weight:600;">2388</td>
+          <td style="text-align:left;">威盛</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--down);">-0.97%</td>
+          <td style="text-align:right;color:var(--down);">-0.41%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-0.28%</td>
+        </tr>
+        
+        <tr data-code="5398">
+          <td style="text-align:left;font-weight:600;">5398</td>
+          <td style="text-align:left;">慕康生醫</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">其他</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--up);">+0.00%</td>
+          <td style="text-align:right;color:var(--up);">+1.29%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-0.65%</td>
+        </tr>
+        
+        <tr data-code="6643">
+          <td style="text-align:left;font-weight:600;">6643</td>
+          <td style="text-align:left;">M31</td>
+          <td style="text-align:left;font-size:11px;color:var(--muted);">IC設計／AI邊緣運算</td>
+          <td style="text-align:center;">1</td>
+          <td style="text-align:right;color:var(--up);">+0.00%</td>
+          <td style="text-align:right;color:var(--down);">-0.81%</td>
+          <td style="text-align:right;color:var(--down);font-weight:700;">-2.56%</td>
+        </tr>
+        
       </tbody>
     </table>
   </div>
@@ -2992,7 +2802,7 @@ footer a { color: var(--teal); text-decoration: none; }
 <script>
 // 趨勢圖
 (function(){
-  const trend = [{"date": "2026-07-09", "date_short": "07/09", "total": 42, "continuation": 8, "open_return": 3.37, "avg_return": 1.83, "close_return": 0.21, "open_positive_rate": 71.4, "close_positive_rate": 42.9}, {"date": "2026-07-13", "date_short": "07/13", "total": 26, "continuation": 4, "open_return": 2.9, "avg_return": 1.04, "close_return": 1.81, "open_positive_rate": 73.1, "close_positive_rate": 61.5}, {"date": "2026-07-14", "date_short": "07/14", "total": 20, "continuation": 7, "open_return": 2.5, "avg_return": 3.14, "close_return": 4.45, "open_positive_rate": 75.0, "close_positive_rate": 70.0}, {"date": "2026-07-15", "date_short": "07/15", "total": 55, "continuation": 9, "open_return": 0.3, "avg_return": 0.85, "close_return": -0.18, "open_positive_rate": 34.5, "close_positive_rate": 43.6}, {"date": "2026-07-16", "date_short": "07/16", "total": 28, "continuation": 4, "open_return": -0.64, "avg_return": -0.46, "close_return": -2.16, "open_positive_rate": 25.0, "close_positive_rate": 32.1}, {"date": "2026-07-17", "date_short": "07/17", "total": 8, "continuation": 3, "open_return": 4.77, "avg_return": 3.37, "close_return": 3.25, "open_positive_rate": 75.0, "close_positive_rate": 75.0}];
+  const trend = [{"date": "2026-07-13", "date_short": "07/13", "total": 26, "continuation": 4, "open_return": 2.9, "avg_return": 1.04, "close_return": 1.81, "open_positive_rate": 73.1, "close_positive_rate": 61.5}, {"date": "2026-07-14", "date_short": "07/14", "total": 20, "continuation": 7, "open_return": 2.5, "avg_return": 3.14, "close_return": 4.45, "open_positive_rate": 75.0, "close_positive_rate": 70.0}, {"date": "2026-07-15", "date_short": "07/15", "total": 55, "continuation": 9, "open_return": 0.3, "avg_return": 0.85, "close_return": -0.18, "open_positive_rate": 34.5, "close_positive_rate": 43.6}, {"date": "2026-07-16", "date_short": "07/16", "total": 28, "continuation": 4, "open_return": -0.64, "avg_return": -0.46, "close_return": -2.16, "open_positive_rate": 25.0, "close_positive_rate": 32.1}, {"date": "2026-07-17", "date_short": "07/17", "total": 8, "continuation": 3, "open_return": 4.77, "avg_return": 3.37, "close_return": 3.25, "open_positive_rate": 75.0, "close_positive_rate": 75.0}, {"date": "2026-07-20", "date_short": "07/20", "total": 19, "continuation": 6, "open_return": 3.86, "avg_return": 3.2, "close_return": 3.04, "open_positive_rate": 68.4, "close_positive_rate": 63.2}];
   const labels = trend.map(t => t.date_short);
 
   new Chart(document.getElementById('trendChart'), {
