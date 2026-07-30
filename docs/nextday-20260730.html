@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>台股漲停股AI族群分類 2026/03/23 | 戰情儀表板</title>
+<title>隔日表現 — 2026/07/30</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
@@ -225,9 +225,9 @@ footer a { color: var(--teal); text-decoration: none; }
 </head>
 <body>
 <nav class="topnav">
-  <a href="index-20260323.html" class="pill active">漲停族群AI分類</a>
-  <a href="nextday-20260323.html" class="pill ">隔日表現</a>
-  <a href="disposal-20260323.html" class="pill ">處置標準</a>
+  <a href="index-20260730.html" class="pill ">漲停族群AI分類</a>
+  <a href="nextday-20260730.html" class="pill active">隔日表現</a>
+  <a href="disposal-20260730.html" class="pill ">處置標準</a>
   <a href="stats.html" class="pill ">統計分析</a>
   <div class="search-wrap">
     <input id="stock-search" type="text" inputmode="decimal" placeholder="🔍股號" />
@@ -236,301 +236,324 @@ footer a { color: var(--teal); text-decoration: none; }
 </nav>
 
 <div class="container">
-  
-  <header>
-    <div class="cta-hint" onclick="document.getElementById('stocks-section').scrollIntoView({behavior:'smooth',block:'start'})">
-      💡 點股票看分點明細
-    </div>
-    <h1><span class="rabbit">🐰</span> 漲停族群AI分類</h1>
-    <div class="subtitle">AI 分類族群 • 智能解析漲停原因 • 每日收盤自動更新</div>
-    <div class="date-nav">
-      
-      <button class="nav-btn" onclick="navigateDate('20260323', -1)">◀ 前一天</button>
-      
-      <div class="date">2026/03/23</div>
-      
-      <button class="nav-btn" onclick="navigateDate('20260323', 1)">後一天 ▶</button>
-      
-    </div>
-  </header>
-
-  <div class="content-wrapper">
-    <div class="section-title-wrap">
-      <div class="section-title" id="stocks-section">🔴 漲停 (11)</div>
-      <button class="collapse-all-btn" onclick="toggleAllConcepts(this)">全部收合</button>
+    <div class="date-nav" style="padding:12px 0;">
+        <span class="current-date" style="color:var(--purple);font-size:15px;font-weight:600;">
+            
+            漲停日 2026-07-29 → 隔日 2026-07-30
+            
+        </span>
     </div>
 
+    <div class="perf-cards">
+        <div class="perf-card">
+            <div class="title">隔日開盤報酬率</div>
+            <div class="value" style="color: var(--up);">
+                +1.20%
+            </div>
+            <div class="sub">正報酬率 50.0%</div>
+        </div>
+        <div class="perf-card">
+            <div class="title">隔日均價報酬率</div>
+            <div class="value" style="color: var(--up);">
+                -0.05%
+            </div>
+            <div class="sub">正報酬率 30.0%</div>
+        </div>
+        <div class="perf-card">
+            <div class="title">隔日收盤報酬率</div>
+            <div class="value" style="color: var(--down);">
+                -6.32%
+            </div>
+            <div class="sub">正報酬率 20.0%</div>
+        </div>
+        <div class="perf-card">
+            <div class="title">續漲停</div>
+            <div class="value" style="color: var(--up);">0 檔</div>
+            <div class="sub">共 10 檔漲停</div>
+        </div>
+    </div>
+
     
-    <div class="concept-section">
-      <div class="concept-title" onclick="toggleConcept(this)">
-        <span class="icon">🛢️</span>
-        <span>塑化／化工</span>
-        <span class="count">4檔</span>
-        <span class="chevron">▼</span>
-      </div>
-      
-      <div class="concept-reason">塑化族群今日全面攻上漲停，受惠於國際油價反彈及亞洲烯烴價格勁揚，加上中國大陸製造業需求回溫，帶動塑化報價走揚，族群出現補漲行情。</div>
-      
-      <div class="stock-grid">
-        
-        <div class="stock-card" data-code="1304">
-          
-          <div class="reason-tip">台聚為PVC及PE生產商，受惠於PVC報價走揚，且近期亞洲乙烯價格反彈，增添成本支撐，加上法人買超點火，股價攻上漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
-          
-          <a href="stock/20260323/1304.html">
-            <div class="stock-header">
-              <div><span class="stock-name">台聚</span><span class="stock-code">1304</span></div>
-              <div class="stock-price">
-                <div class="stock-close up">$16.55</div>
-                <div class="stock-change up">+1.50 (9.97%)</div>
-              </div>
-            </div>
-            <div class="stock-meta">
-              <span>成交量 59,483張</span>
-              <span class="badge up">漲停</span>
-            </div>
-          </a>
-        </div>
-        
-        <div class="stock-card" data-code="1305">
-          
-          <div class="reason-tip">華夏為PVC一貫化生產，受惠於PVC報價上漲及中國市場需求回溫，訂單能見度提升，基本面轉佳激勵股價漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
-          
-          <a href="stock/20260323/1305.html">
-            <div class="stock-header">
-              <div><span class="stock-name">華夏</span><span class="stock-code">1305</span></div>
-              <div class="stock-price">
-                <div class="stock-close up">$18.45</div>
-                <div class="stock-change up">+1.65 (9.82%)</div>
-              </div>
-            </div>
-            <div class="stock-meta">
-              <span>成交量 21,417張</span>
-              <span class="badge up">漲停</span>
-            </div>
-          </a>
-        </div>
-        
-        <div class="stock-card" data-code="1308">
-          
-          <div class="reason-tip">亞聚主要生產LDPE及EVA，受惠於LDPE報價反彈，且EVA需求維持高檔，供需緊張支撐股價攻上漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
-          
-          <a href="stock/20260323/1308.html">
-            <div class="stock-header">
-              <div><span class="stock-name">亞聚</span><span class="stock-code">1308</span></div>
-              <div class="stock-price">
-                <div class="stock-close up">$18.15</div>
-                <div class="stock-change up">+1.65 (10.00%)</div>
-              </div>
-            </div>
-            <div class="stock-meta">
-              <span>成交量 34,177張</span>
-              <span class="badge up">漲停</span>
-            </div>
-          </a>
-        </div>
-        
-        <div class="stock-card" data-code="1309">
-          
-          <div class="reason-tip">台達化為ABS及PS生產商，受惠於苯乙烯原料價格上漲帶動報價行情，且終端需求回溫，激勵股價鎖住漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
-          
-          <a href="stock/20260323/1309.html">
-            <div class="stock-header">
-              <div><span class="stock-name">台達化</span><span class="stock-code">1309</span></div>
-              <div class="stock-price">
-                <div class="stock-close up">$19.9</div>
-                <div class="stock-change up">+1.80 (9.94%)</div>
-              </div>
-            </div>
-            <div class="stock-meta">
-              <span>成交量 10,004張</span>
-              <span class="badge up">漲停</span>
-            </div>
-          </a>
-        </div>
-        
-      </div>
+
+    
+    <!-- 族群勝率表 -->
+    <div class="concept-title" style="border-left-color:var(--purple);">
+        <span class="icon">📊</span><span>族群隔日勝率</span>
+        <span class="count">2 族群</span>
+    </div>
+    <div style="overflow-x:auto;margin:8px 0 20px;">
+        <table class="disposal-table" id="themeTable" style="min-width:450px;">
+            <thead>
+                <tr>
+                    <th style="text-align:left;cursor:pointer;" onclick="sortNdTable('themeTable',0)">族群<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:center;cursor:pointer;" onclick="sortNdTable('themeTable',1)">股數<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:center;cursor:pointer;" onclick="sortNdTable('themeTable',2)">勝率<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('themeTable',3)">開盤<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('themeTable',4)">收盤<span class="nd-arrow"> ↕</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">個股表現亮點</td>
+                    <td style="text-align:center;">5</td>
+                    <td style="text-align:center;font-weight:700;color:var(--muted);">
+                        40% <span style="font-weight:400;color:var(--muted);">2/5</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+0.82%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">-2.87%</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;font-size:12px;">LED／光電</td>
+                    <td style="text-align:center;">5</td>
+                    <td style="text-align:center;font-weight:700;color:var(--down);">
+                        0% <span style="font-weight:400;color:var(--muted);">0/5</span>
+                    </td>
+                    <td style="text-align:right;color:var(--up);">+1.58%</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">-9.77%</td>
+                </tr>
+                
+            </tbody>
+        </table>
     </div>
     
-    <div class="concept-section">
-      <div class="concept-title" onclick="toggleConcept(this)">
-        <span class="icon">💼</span>
-        <span>個股表現亮點</span>
-        <span class="count">3檔</span>
-        <span class="chevron">▼</span>
-      </div>
-      
-      <div class="concept-reason">個股表現亮點族群今日有3檔漲停</div>
-      
-      <div class="stock-grid">
-        
-        <div class="stock-card" data-code="2025">
-          
-          <div class="reason-tip">千興主要從事水產加工業務，近期無重大利多訊息，漲停原因不明。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
-          
-          <a href="stock/20260323/2025.html">
-            <div class="stock-header">
-              <div><span class="stock-name">千興</span><span class="stock-code">2025</span></div>
-              <div class="stock-price">
-                <div class="stock-close up">$12.75</div>
-                <div class="stock-change up">+1.15 (9.91%)</div>
-              </div>
-            </div>
-            <div class="stock-meta">
-              <span>成交量 1,473張</span>
-              <span class="badge up">漲停</span>
-            </div>
-          </a>
-        </div>
-        
-        <div class="stock-card" data-code="2231">
-          
-          <div class="reason-tip">為升從事汽車開關及端子製造，若有車用電子需求提升或接單好消息，可能帶動股價漲停，惟今日無明確基本面利多。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
-          
-          <a href="stock/20260323/2231.html">
-            <div class="stock-header">
-              <div><span class="stock-name">為升</span><span class="stock-code">2231</span></div>
-              <div class="stock-price">
-                <div class="stock-close up">$90.4</div>
-                <div class="stock-change up">+8.20 (9.98%)</div>
-              </div>
-            </div>
-            <div class="stock-meta">
-              <span>成交量 992張</span>
-              <span class="badge up">漲停</span>
-            </div>
-          </a>
-        </div>
-        
-        <div class="stock-card" data-code="3229">
-          
-          <div class="reason-tip">晟鈦從事PCB相關業務，近期PCB族群有庫存回補或需求回溫傳言，可能是題材帶動，惟無重大實質利多。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
-          
-          <a href="stock/20260323/3229.html">
-            <div class="stock-header">
-              <div><span class="stock-name">晟鈦</span><span class="stock-code">3229</span></div>
-              <div class="stock-price">
-                <div class="stock-close up">$21.45</div>
-                <div class="stock-change up">+1.95 (10.00%)</div>
-              </div>
-            </div>
-            <div class="stock-meta">
-              <span>成交量 573張</span>
-              <span class="badge up">漲停</span>
-            </div>
-          </a>
-        </div>
-        
-      </div>
+
+    
+    <!-- 個股明細 -->
+    <div class="concept-title" style="border-left-color:var(--up);">
+        <span class="icon">📋</span><span>個股隔日報酬明細</span>
+        <span class="count">10 支</span>
+    </div>
+    <div style="overflow-x:auto;margin:8px 0 20px;">
+        <table class="disposal-table" id="stockNdTable" style="min-width:500px;">
+            <thead>
+                <tr>
+                    <th style="text-align:left;cursor:pointer;" onclick="sortNdTable('stockNdTable',0)">股號<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:left;cursor:pointer;" onclick="sortNdTable('stockNdTable',1)">股名<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:left;cursor:pointer;" onclick="sortNdTable('stockNdTable',2)">族群<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('stockNdTable',3)">漲停價<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('stockNdTable',4)">隔日開<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('stockNdTable',5)">隔日收<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:right;cursor:pointer;" onclick="sortNdTable('stockNdTable',6)">報酬率<span class="nd-arrow"> ↕</span></th>
+                    <th style="text-align:center;">標籤</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">8421</td>
+                    <td style="text-align:left;">旭源</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
+                    <td style="text-align:right;">$14.9</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +7.05%
+                    </td>
+                    <td style="text-align:right;">15.4</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +3.36%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(214,137,16,0.15);color:#d68910;
+                            ">開高續漲</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">5299</td>
+                    <td style="text-align:left;">杰力</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
+                    <td style="text-align:right;">$96.1</td>
+                    <td style="text-align:right;color:var(--down);">
+                        -3.23%
+                    </td>
+                    <td style="text-align:right;">96.8</td>
+                    <td style="text-align:right;font-weight:700;color:var(--up);">
+                        +0.73%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(31,199,212,0.15);color:var(--teal);
+                            ">開低拉回</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">1526</td>
+                    <td style="text-align:left;">日馳</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
+                    <td style="text-align:right;">$18.9</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +0.00%
+                    </td>
+                    <td style="text-align:right;">18.55</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -1.85%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(128,128,128,0.1);color:var(--muted);">小跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3018</td>
+                    <td style="text-align:left;">隆銘綠能</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
+                    <td style="text-align:right;">$17.25</td>
+                    <td style="text-align:right;color:var(--down);">
+                        -1.45%
+                    </td>
+                    <td style="text-align:right;">16.0</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -7.25%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(49,208,170,0.15);color:var(--down);
+                            ">直接跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3504</td>
+                    <td style="text-align:left;">揚明光</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">LED／光電</td>
+                    <td style="text-align:right;">$68.6</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +3.06%
+                    </td>
+                    <td style="text-align:right;">62.3</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -9.18%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(241,196,15,0.15);color:#f1c40f;
+                            ">開高走低</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6733</td>
+                    <td style="text-align:left;">博晟生醫</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">個股表現亮點</td>
+                    <td style="text-align:right;">$28.9</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +1.73%
+                    </td>
+                    <td style="text-align:right;">26.2</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -9.34%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(49,208,170,0.15);color:var(--down);
+                            ">直接跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">3362</td>
+                    <td style="text-align:left;">先進光</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">LED／光電</td>
+                    <td style="text-align:right;">$173.5</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +0.00%
+                    </td>
+                    <td style="text-align:right;">156.5</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -9.80%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(49,208,170,0.15);color:var(--down);
+                            ">直接跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">4976</td>
+                    <td style="text-align:left;">佳凌</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">LED／光電</td>
+                    <td style="text-align:right;">$37.7</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +0.80%
+                    </td>
+                    <td style="text-align:right;">33.95</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -9.95%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(49,208,170,0.15);color:var(--down);
+                            ">直接跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6668</td>
+                    <td style="text-align:left;">中揚光</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">LED／光電</td>
+                    <td style="text-align:right;">$37.15</td>
+                    <td style="text-align:right;color:var(--down);">
+                        -1.08%
+                    </td>
+                    <td style="text-align:right;">33.45</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -9.96%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(49,208,170,0.15);color:var(--down);
+                            ">直接跌</span>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align:left;font-weight:600;">6226</td>
+                    <td style="text-align:left;">光鼎</td>
+                    <td style="text-align:left;font-size:11px;color:var(--muted);">LED／光電</td>
+                    <td style="text-align:right;">$22.55</td>
+                    <td style="text-align:right;color:var(--up);">
+                        +5.10%
+                    </td>
+                    <td style="text-align:right;">20.3</td>
+                    <td style="text-align:right;font-weight:700;color:var(--down);">
+                        -9.98%
+                    </td>
+                    <td style="text-align:center;">
+                        
+                        <span style="font-size:10px;padding:2px 6px;border-radius:8px;
+                            background:rgba(241,196,15,0.15);color:#f1c40f;
+                            ">開高走低</span>
+                        
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
     </div>
     
-    <div class="concept-section">
-      <div class="concept-title" onclick="toggleConcept(this)">
-        <span class="icon">📊</span>
-        <span>其他</span>
-        <span class="count">2檔</span>
-        <span class="chevron">▼</span>
-      </div>
-      
-      <div class="concept-reason">其他族群今日出現2檔漲停，整體受惠於特定題材或產業消息帶動，市場資金湧入中小型個股進行輪動操作。</div>
-      
-      <div class="stock-grid">
-        
-        <div class="stock-card" data-code="6585">
-          
-          <div class="reason-tip">高分子材料族群受關注，公司近期可能傳出獲得了新訂單或切入新應用領域的消息，加上股性活潑，吸引短線資金追價。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
-          
-          <a href="stock/20260323/6585.html">
-            <div class="stock-header">
-              <div><span class="stock-name">鼎基</span><span class="stock-code">6585</span></div>
-              <div class="stock-price">
-                <div class="stock-close up">$90.5</div>
-                <div class="stock-change up">+8.20 (9.96%)</div>
-              </div>
-            </div>
-            <div class="stock-meta">
-              <span>成交量 339張</span>
-              <span class="badge up">漲停</span>
-            </div>
-          </a>
-        </div>
-        
-        <div class="stock-card" data-code="7711">
-          
-          <div class="reason-tip">電子類股反彈帶動，該公司可能受惠於特定產品線需求增溫或產業景氣回升的預期，吸引法人與市場資金進駐拉抬。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
-          
-          <a href="stock/20260323/7711.html">
-            <div class="stock-header">
-              <div><span class="stock-name">永擎</span><span class="stock-code">7711</span></div>
-              <div class="stock-price">
-                <div class="stock-close up">$288.5</div>
-                <div class="stock-change up">+26.00 (9.90%)</div>
-              </div>
-            </div>
-            <div class="stock-meta">
-              <span>成交量 2,380張</span>
-              <span class="badge up">漲停</span>
-            </div>
-          </a>
-        </div>
-        
-      </div>
-    </div>
-    
-    <div class="concept-section">
-      <div class="concept-title" onclick="toggleConcept(this)">
-        <span class="icon">⛽</span>
-        <span>油電燃氣</span>
-        <span class="count">2檔</span>
-        <span class="chevron">▼</span>
-      </div>
-      
-      <div class="concept-reason">油電燃氣族群今日全面大漲，受惠於國際能源價格持續走揚及冬季用氣需求旺季效應，整體族群人氣升溫，資金明顯湧入。</div>
-      
-      <div class="stock-grid">
-        
-        <div class="stock-card" data-code="9918">
-          
-          <div class="reason-tip">欣天然為天然氣供應商，受惠於近期液化天然氣（LNG）現貨價格攀升及國內用氣需求增加，加上冬季供暖需求旺季題材發酵，市場預期天然氣銷量與營收將持續成長，激勵股價強攻漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
-          
-          <a href="stock/20260323/9918.html">
-            <div class="stock-header">
-              <div><span class="stock-name">欣天然</span><span class="stock-code">9918</span></div>
-              <div class="stock-price">
-                <div class="stock-close up">$51.3</div>
-                <div class="stock-change up">+4.60 (9.85%)</div>
-              </div>
-            </div>
-            <div class="stock-meta">
-              <span>成交量 1,716張</span>
-              <span class="badge up">漲停</span>
-            </div>
-          </a>
-        </div>
-        
-        <div class="stock-card" data-code="9931">
-          
-          <div class="reason-tip">欣高主要業務為瓦斯配送與供氣服務，受惠於國際天然氣價格維持高檔，以及國內住宅與商業用氣需求提升，加上能源族群整體多頭氛圍帶動，法人與市場資金積極搶進，帶動股價亮燈漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
-          
-          <a href="stock/20260323/9931.html">
-            <div class="stock-header">
-              <div><span class="stock-name">欣高</span><span class="stock-code">9931</span></div>
-              <div class="stock-price">
-                <div class="stock-close up">$43.1</div>
-                <div class="stock-change up">+3.90 (9.95%)</div>
-              </div>
-            </div>
-            <div class="stock-meta">
-              <span>成交量 1,796張</span>
-              <span class="badge up">漲停</span>
-            </div>
-          </a>
-        </div>
-        
-      </div>
-    </div>
-    
-  </div>
 </div>
 
 <footer>
@@ -540,34 +563,28 @@ footer a { color: var(--teal); text-decoration: none; }
 </footer>
 
 <script>
-// 族群折疊
-window.toggleConcept = function(titleEl) {
-  titleEl.closest('.concept-section').classList.toggle('collapsed');
-};
-window.toggleAllConcepts = function(btn) {
-  const all = document.querySelectorAll('.concept-section');
-  const anyExpanded = Array.from(all).some(s => !s.classList.contains('collapsed'));
-  all.forEach(s => { anyExpanded ? s.classList.add('collapsed') : s.classList.remove('collapsed'); });
-  btn.textContent = anyExpanded ? '全部展開' : '全部收合';
-};
-window.navigateDate = function(currentDate, direction) {
-  const availableDates = ["20260730", "20260729", "20260728", "20260727", "20260724", "20260723", "20260722", "20260721", "20260720", "20260717", "20260716", "20260715", "20260714", "20260713", "20260709", "20260708", "20260707", "20260706", "20260703", "20260702", "20260701", "20260630", "20260629", "20260626", "20260625", "20260624", "20260623", "20260622", "20260618", "20260617", "20260616", "20260615", "20260612", "20260611", "20260610", "20260609", "20260608", "20260605", "20260604", "20260603", "20260602", "20260601", "20260529", "20260528", "20260527", "20260526", "20260525", "20260522", "20260521", "20260520", "20260519", "20260518", "20260515", "20260513", "20260512", "20260511", "20260508", "20260507", "20260506", "20260505", "20260504", "20260430", "20260429", "20260428", "20260427", "20260424", "20260423", "20260422", "20260421", "20260420", "20260417", "20260416", "20260415", "20260414", "20260413", "20260410", "20260409", "20260408", "20260407", "20260402", "20260401", "20260331", "20260330", "20260327", "20260326", "20260325", "20260324", "20260323", "20260320", "20260319", "20260318", "20260317", "20260316", "20260313", "20260312", "20260311", "20260310", "20260309"];
-  const currentIndex = availableDates.indexOf(currentDate);
-  let targetDate;
-  if (direction === -1 && currentIndex < availableDates.length - 1) {
-    targetDate = availableDates[currentIndex + 1];
-  } else if (direction === 1 && currentIndex > 0) {
-    targetDate = availableDates[currentIndex - 1];
-  }
-  if (targetDate) {
-    if (targetDate === availableDates[0]) {
-      window.location.href = 'index.html';
-    } else {
-      window.location.href = 'index-' + targetDate + '.html';
-    }
-  }
-};
+(function(){
+  var ndSortDir = {};
+  window.sortNdTable = function(tableId, col) {
+    var table = document.getElementById(tableId);
+    var rows = Array.from(table.tBodies[0].rows);
+    var key = tableId + col;
+    var dir = ndSortDir[key] = !ndSortDir[key];
+    rows.sort(function(a, b) {
+      var va = a.cells[col].textContent.replace(/%/g,'').replace(/\$/g,'').trim();
+      var vb = b.cells[col].textContent.replace(/%/g,'').replace(/\$/g,'').trim();
+      var na = parseFloat(va), nb = parseFloat(vb);
+      if (!isNaN(na) && !isNaN(nb)) return dir ? na - nb : nb - na;
+      return dir ? va.localeCompare(vb) : vb.localeCompare(va);
+    });
+    rows.forEach(function(r){ table.tBodies[0].appendChild(r); });
+    table.querySelectorAll('th .nd-arrow').forEach(function(span, i){
+      span.textContent = i === col ? (dir ? ' ▲' : ' ▼') : ' ↕';
+    });
+  };
+})();
 </script>
+
 
 <button id="back-to-top" title="回到頂部">↑</button>
 <script>
