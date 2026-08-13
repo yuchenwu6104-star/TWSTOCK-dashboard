@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台股漲停股AI族群分類 2026/08/13 | 戰情儀表板</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --up: #ED4B9E;
+  --down: #31D0AA;
+  --teal: #1FC7D4;
+  --purple: #7645D9;
+  --bg: #F3EFFF;
+  --card: #FFFFFF;
+  --card-hover: #F6F1FF;
+  --border: #E7E3EB;
+  --text: #280D5F;
+  --muted: #7A6EAA;
+  --disabled: #B8ADD2;
+}
+body { background: linear-gradient(139.73deg, #E5FDFF 0%, #F3EFFF 100%); background-attachment: fixed; color: var(--text); font-family: 'Kanit', -apple-system, 'Noto Sans TC', 'Segoe UI', sans-serif; }
+.container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+header { text-align: center; padding: 16px 0 12px; border-bottom: 1px solid var(--border); margin-bottom: 16px; position: relative; }
+header h1 { font-size: 22px; margin-bottom: 2px; }
+header h1 .rabbit { font-size: 26px; }
+header .subtitle { color: var(--muted); font-size: 13px; }
+header .cta-hint {
+  position: absolute; top: 16px; right: 20px;
+  background: #1FC7D4;
+  border: none; border-radius: 16px;
+  padding: 8px 12px; color: #fff; font-size: 11px; font-weight: 600;
+  cursor: pointer; min-width: 180px; text-align: center;
+  transition: all 0.2s; box-shadow: 0 2px 8px rgba(31,199,212,0.3);
+}
+header .cta-hint:hover {
+  background: #17b3bf;
+  transform: translateY(-1px); box-shadow: 0 4px 16px rgba(31,199,212,0.4);
+}
+.date-nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 8px; }
+.date-nav .nav-btn {
+  background: var(--card); border: 1px solid var(--border); color: var(--muted);
+  padding: 4px 10px; border-radius: 16px; cursor: pointer; font-size: 11px; transition: all 0.2s;
+}
+.date-nav .nav-btn:hover:not(:disabled) { background: var(--card-hover); color: var(--text); }
+.date-nav .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.date-nav .date { color: var(--teal); font-size: 15px; font-weight: 600; min-width: 100px; }
+.section-title { font-size: 16px; margin: 16px 0 10px; padding-left: 8px; border-left: 3px solid var(--teal); color: var(--text); }
+.concept-section { margin-bottom: 32px; }
+.concept-title {
+  font-size: 14px; margin: 12px 0 8px; padding: 8px 12px;
+  background: var(--card); border-radius: 8px; border-left: 3px solid var(--teal);
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 1px 4px rgba(40,13,95,0.06);
+}
+.concept-title .icon { font-size: 16px; }
+.concept-title .count { color: var(--muted); font-size: 12px; margin-left: auto; }
+.concept-reason { color: var(--muted); font-size: 11px; margin: 0 12px 8px 12px; font-style: italic; }
+.stock-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.stock-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; position: relative; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(40,13,95,0.06); }
+.stock-card .reason-tip {
+  display: none; position: absolute; left: 0; right: 0; bottom: 100%;
+  background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px;
+  padding: 8px 10px; font-size: 12px; color: var(--text); line-height: 1.5;
+  z-index: 100; pointer-events: none; box-shadow: 0 4px 20px rgba(40,13,95,0.15);
+}
+.stock-card .reason-tip .tip-cta { color: var(--teal); font-size: 11px; margin-top: 4px; }
+.stock-card:hover .reason-tip { display: block; }
+.stock-card a { text-decoration: none; color: inherit; display: block; padding: 10px 12px; transition: all 0.2s ease; border-radius: 16px; }
+.stock-card a:hover { background: var(--card-hover); }
+.stock-header { display: flex; justify-content: space-between; align-items: center; }
+.stock-name { font-size: 14px; font-weight: 600; }
+.stock-code { color: var(--muted); font-size: 12px; margin-left: 6px; }
+.stock-price { text-align: right; }
+.stock-close { font-size: 14px; font-weight: 600; }
+.stock-change { font-size: 11px; margin-top: 1px; }
+.up { color: var(--up); }
+.down { color: var(--down); }
+.stock-meta { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--muted); }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.badge.up { background: rgba(237,75,158,0.12); color: var(--up); }
+
+/* Nav pills */
+nav.topnav {
+  background: #FFFFFF; border-bottom: 1px solid var(--border);
+  padding: 8px 12px; display: flex; align-items: center; justify-content: center;
+  gap: 8px; position: sticky; top: 0; z-index: 999;
+  box-shadow: 0 2px 8px rgba(40,13,95,0.06);
+}
+nav.topnav a.pill {
+  padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600;
+  text-decoration: none; color: var(--muted); background: var(--card-hover); transition: all 0.2s;
+}
+nav.topnav a.pill.active { background: var(--teal); color: #fff; box-shadow: 0 2px 8px rgba(31,199,212,0.3); }
+nav.topnav a.pill:hover:not(.active) { color: var(--text); background: var(--border); }
+#stock-search {
+  width: 72px; padding: 5px 8px; border-radius: 16px;
+  border: 1px solid var(--teal); background: #FFFFFF;
+  color: var(--text); font-size: 16px; outline: none;
+}
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; }
+th { text-align: right; padding: 3px 4px; font-size: 10px; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; background: #EDE9FF; }
+th:first-child { text-align: left; }
+td { padding: 4px 4px; font-size: 11px; border-bottom: 1px solid var(--border); text-align: right; font-variant-numeric: tabular-nums; }
+td:first-child { text-align: left; font-size: 11px; white-space: nowrap; }
+tr:nth-child(even) { background: #F6F1FF; }
+tr:hover { background: var(--card-hover); }
+.net { font-weight: 600; }
+
+/* Disposal */
+.disp-stat { padding: 4px 14px; border-radius: 16px; font-size: 13px; font-weight: 600; display: inline-block; }
+.disp-stat.danger { background: rgba(237,75,158,0.12); color: var(--up); }
+.disp-stat.warn { background: rgba(241,196,15,0.15); color: #d68910; }
+.disp-stat.info { background: rgba(118,69,217,0.12); color: var(--purple); }
+.mkt { padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; }
+.mkt-twse { background: rgba(31,199,212,0.15); color: var(--teal); }
+.mkt-tpex { background: rgba(118,69,217,0.12); color: var(--purple); }
+.badge-danger { color: var(--up); font-weight: 700; }
+.badge-warn { color: #d68910; font-weight: 600; }
+.badge-info { color: var(--teal); }
+.threshold-cell { text-align: center; font-size: 12px; }
+.threshold-cell .progress { font-weight: 700; }
+.threshold-cell .gap { font-size: 10px; display: block; }
+.disposal-table { background: #FFFFFF; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.disposal-table th { background: #EDE9FF; padding: 8px 10px; font-size: 11px; color: var(--purple); }
+.disposal-table td { padding: 6px 10px; font-size: 12px; border-bottom: 1px solid var(--border); }
+.disposal-table tr:nth-child(even) { background: #F6F1FF; }
+.disposal-table tr:hover { background: var(--card-hover); }
+
+/* Perf cards */
+.perf-grid, .perf-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 20px 0; }
+.perf-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 24px;
+  padding: 20px 16px; text-align: center;
+  box-shadow: 0 4px 16px rgba(40,13,95,0.08);
+}
+.perf-card .ptitle, .perf-card .title { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.perf-card .pvalue, .perf-card .value { font-size: 24px; font-weight: 800; }
+.perf-card .psub, .perf-card .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* Condition cards */
+.cond-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 14px; margin-bottom: 6px;
+  display: flex; gap: 10px; align-items: baseline;
+  box-shadow: 0 1px 4px rgba(40,13,95,0.05);
+}
+.cond-name { font-weight: 700; font-size: 13px; white-space: nowrap; }
+.cond-desc { font-size: 12px; color: var(--muted); }
+
+footer { text-align: center; padding: 32px 0 24px; color: var(--disabled); font-size: 12px; border-top: 1px solid var(--border); margin-top: 32px; background: rgba(255,255,255,0.6); }
+footer a { color: var(--teal); text-decoration: none; }
+
+/* Autocomplete search dropdown */
+.search-wrap { position: relative; display: flex; align-items: center; }
+#search-dropdown {
+  display: none; position: fixed; top: 42px;
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+  max-height: 280px; overflow-y: auto; min-width: 180px;
+  box-shadow: 0 4px 20px rgba(40,13,95,0.15); z-index: 10001;
+}
+#search-dropdown .sd-item {
+  padding: 7px 12px; font-size: 12px; cursor: pointer;
+  border-bottom: 1px solid var(--border); display: flex; gap: 8px; align-items: center;
+}
+#search-dropdown .sd-item:last-child { border-bottom: none; }
+#search-dropdown .sd-item:hover { background: var(--card-hover); }
+#search-dropdown .sd-name { flex: 1; }
+#search-dropdown .sd-code { color: var(--muted); font-size: 11px; white-space: nowrap; }
+/* Back to top */
+#back-to-top {
+  position: fixed; bottom: 24px; right: 20px;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--teal); color: #fff; border: none;
+  font-size: 20px; line-height: 1; cursor: pointer; z-index: 9999;
+  display: none; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(31,199,212,0.4); transition: opacity 0.3s, transform 0.2s;
+}
+#back-to-top:hover { transform: translateY(-2px); }
+/* Concept collapse */
+.concept-section.collapsed .concept-reason,
+.concept-section.collapsed .stock-grid { display: none; }
+.concept-title { cursor: pointer; user-select: none; }
+.concept-title .chevron {
+  transition: transform 0.2s; font-size: 11px; color: var(--muted);
+  margin-left: 4px; display: inline-block; line-height: 1;
+}
+.concept-section.collapsed .concept-title .chevron { transform: rotate(-90deg); }
+.section-title-wrap { display: flex; align-items: center; justify-content: space-between; margin: 16px 0 10px; }
+.section-title-wrap .section-title { margin: 0; }
+.collapse-all-btn {
+  background: var(--card); border: 1px solid var(--border); color: var(--muted);
+  padding: 4px 10px; border-radius: 16px; cursor: pointer; font-size: 11px; transition: all 0.2s;
+}
+.collapse-all-btn:hover { background: var(--card-hover); color: var(--text); }
+@media (min-width: 1025px) {
+  .container { padding: 0 24px; }
+  header h1 { font-size: 28px; }
+  nav.topnav { padding: 6px 24px; }
+  .concept-title { max-width: 1200px; }
+}
+@media (max-width: 900px) { .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 700px) {
+  .container { padding: 6px; }
+  .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
+  header .cta-hint { position: static; margin: 8px auto 0; min-width: auto; width: fit-content; font-size: 10px; padding: 6px 10px; }
+  .date-nav .nav-btn { padding: 3px 8px; font-size: 10px; }
+  .date-nav .date { font-size: 13px; }
+  .perf-grid, .perf-cards { grid-template-columns: repeat(2, 1fr); }
+  nav.topnav { gap: 4px; padding: 6px 4px; }
+  nav.topnav a.pill { padding: 6px 12px; font-size: 14px; }
+  #stock-search { width: 58px; padding: 4px 6px; font-size: 14px; }
+  /* 個股頁 */
+  .stock-info-bar { flex-direction: column !important; text-align: center !important; gap: 8px !important; }
+  .stock-info-right { text-align: center !important; }
+  .inst-grid, .margin-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .broker-dual { flex-direction: column !important; gap: 8px !important; }
+  .broker-dual > div { min-width: 100% !important; }
+  /* 長條圖：手機保持左右排列，只縮矮 */
+  .bar-chart-inner { height: 300px !important; }
+}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="index-20260813.html" class="pill active">漲停族群AI分類</a>
+  <a href="nextday-20260813.html" class="pill ">隔日表現</a>
+  <a href="disposal-20260813.html" class="pill ">處置標準</a>
+  <a href="stats.html" class="pill ">統計分析</a>
+  <div class="search-wrap">
+    <input id="stock-search" type="text" inputmode="decimal" placeholder="🔍股號" />
+    <div id="search-dropdown"></div>
+  </div>
+</nav>
+
+<div class="container">
+  
+  <header>
+    <div class="cta-hint" onclick="document.getElementById('stocks-section').scrollIntoView({behavior:'smooth',block:'start'})">
+      💡 點股票看分點明細
+    </div>
+    <h1><span class="rabbit">🐰</span> 漲停族群AI分類</h1>
+    <div class="subtitle">AI 分類族群 • 智能解析漲停原因 • 每日收盤自動更新</div>
+    <div class="date-nav">
+      
+      <button class="nav-btn" onclick="navigateDate('20260813', -1)">◀ 前一天</button>
+      
+      <div class="date">2026/08/13</div>
+      
+      <button class="nav-btn" disabled>後一天 ▶</button>
+      
+    </div>
+  </header>
+
+  <div class="content-wrapper">
+    <div class="section-title-wrap">
+      <div class="section-title" id="stocks-section">🔴 漲停 (43)</div>
+      <button class="collapse-all-btn" onclick="toggleAllConcepts(this)">全部收合</button>
+    </div>
+
+    
+    <div class="concept-section">
+      <div class="concept-title" onclick="toggleConcept(this)">
+        <span class="icon">🔩</span>
+        <span>被動元件</span>
+        <span class="count">6檔</span>
+        <span class="chevron">▼</span>
+      </div>
+      
+      <div class="concept-reason">被動元件族群同步漲停，主要受惠於AI伺服器、車用電子及消費性電子終端需求回溫，加上MLCC現貨價出現調漲訊號，產業去庫存告一段落，稼動率明顯回升，法人買盤回補，推動整體族群出現報復性反彈。龍頭廠國巨領漲帶動其他同業比價效應。</div>
+      
+      <div class="stock-grid">
+        
+        <div class="stock-card" data-code="2327">
+          
+          <div class="reason-tip">國巨為全球前三大MLCC廠，AI伺服器與車用MLCC出貨放量，加上公司日前法說釋出稼動率回升、現貨價調漲利多，外資與投信同步大買，領漲族群<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/2327.html">
+            <div class="stock-header">
+              <div><span class="stock-name">國巨*</span><span class="stock-code">2327</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$662.0</div>
+                <div class="stock-change up">+60.00 (9.97%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 46,850張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="2375">
+          
+          <div class="reason-tip">凱美鋁質電容受惠車用電子與AI電源模組需求增溫，母公司佳邦集團資源整合效益發揮，加上股本較小易於籌碼面拉升<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/2375.html">
+            <div class="stock-header">
+              <div><span class="stock-name">凱美</span><span class="stock-code">2375</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$139.5</div>
+                <div class="stock-change up">+12.50 (9.84%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 12,171張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="2483">
+          
+          <div class="reason-tip">百容股本小、股價低檔，MLCC與晶片電阻產品線受惠族群漲停比價效應與短線投機買盤進駐<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/2483.html">
+            <div class="stock-header">
+              <div><span class="stock-name">百容</span><span class="stock-code">2483</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$40.05</div>
+                <div class="stock-change up">+3.60 (9.88%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 2,334張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="2492">
+          
+          <div class="reason-tip">華新科為台灣MLCC二哥，AI伺服器高階MLCC出貨佔比提升，產能利用率回升至八成以上，基本面轉強吸引法人回補<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/2492.html">
+            <div class="stock-header">
+              <div><span class="stock-name">華新科</span><span class="stock-code">2492</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$316.5</div>
+                <div class="stock-change up">+28.50 (9.90%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 26,770張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="3624">
+          
+          <div class="reason-tip">光頡為晶片電阻與感測元件廠，受惠車用被動元件規格升級與AI伺服器電阻需求，母公司華新科大漲帶動比價<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/3624.html">
+            <div class="stock-header">
+              <div><span class="stock-name">光頡</span><span class="stock-code">3624</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$95.1</div>
+                <div class="stock-change up">+8.60 (9.94%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 7,581張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="6173">
+          
+          <div class="reason-tip">信昌電為MLCC上游陶瓷材料與晶片電容廠，受惠上游材料漲價與下游MLCC拉貨轉強，產品組合優化帶動毛利提升<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/6173.html">
+            <div class="stock-header">
+              <div><span class="stock-name">信昌電</span><span class="stock-code">6173</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$223.5</div>
+                <div class="stock-change up">+20.00 (9.83%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 36,379張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="concept-section">
+      <div class="concept-title" onclick="toggleConcept(this)">
+        <span class="icon">💼</span>
+        <span>個股表現亮點</span>
+        <span class="count">6檔</span>
+        <span class="chevron">▼</span>
+      </div>
+      
+      <div class="concept-reason">2026-08-13 台股盤面呈現 AI 供應鏈與政策內需雙主軸輪動，6 檔漲停股涵蓋功率半導體、IT 服務、金融科技、營建/特殊品與電子次族群，顯示市場資金從高價 AI 主流股外溢至中低價具題材的補漲標的，並搭配集團作帳與政策作多氛圍。</div>
+      
+      <div class="stock-grid">
+        
+        <div class="stock-card" data-code="5515">
+          
+          <div class="reason-tip">建國為預拌混凝土與營建材料供應商，受惠國內前瞻基建與都更、捷運工地持續放量，第三季旺季出貨動能增溫，外資與投信同步回補，推升股價攻上漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/5515.html">
+            <div class="stock-header">
+              <div><span class="stock-name">建國</span><span class="stock-code">5515</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$50.4</div>
+                <div class="stock-change up">+4.50 (9.80%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 2,750張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="6214">
+          
+          <div class="reason-tip">精誠受惠 AI 數位轉型與企業資服專案入帳，加上集團旗下金融科技業務分拆題材加持，市場看好其由 SI 升級為 AI 解決方案供應商，量價齊揚攻頂。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/6214.html">
+            <div class="stock-header">
+              <div><span class="stock-name">精誠</span><span class="stock-code">6214</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$156.5</div>
+                <div class="stock-change up">+14.00 (9.82%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 2,744張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="8261">
+          
+          <div class="reason-tip">富鼎為功率 MOSFET 與氮化鎵(GaN)元件廠，受惠 AI 伺服器、資料中心及 EV 車用電源需求強勁，第三季訂單能見度延伸，外資調升目標價引爆漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/8261.html">
+            <div class="stock-header">
+              <div><span class="stock-name">富鼎</span><span class="stock-code">8261</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$202.0</div>
+                <div class="stock-change up">+18.00 (9.78%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 11,082張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="4413">
+          
+          <div class="reason-tip">飛寶企業受惠特定小型利基題材(如電池模組或車用零組件)接單增溫，盤中買單集中、特定主力鎖碼，加上股本小籌碼集中，盤中強勢亮燈。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/4413.html">
+            <div class="stock-header">
+              <div><span class="stock-name">飛寶企業</span><span class="stock-code">4413</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$18.75</div>
+                <div class="stock-change up">+1.70 (9.97%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 68張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="4905">
+          
+          <div class="reason-tip">台聯電受惠於被動元件/電子次族群輪動與特定客戶拉貨題材，技術線型突破整理區間，吸引短多進場點火，配合當日電子股買氣回流推上漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/4905.html">
+            <div class="stock-header">
+              <div><span class="stock-name">台聯電</span><span class="stock-code">4905</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$77.0</div>
+                <div class="stock-change up">+7.00 (10.00%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 48張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="7819">
+          
+          <div class="reason-tip">精誠金融為精誠集團分拆之金融科技公司，受惠行動支付、數位身分認證與金融監理科技業務拓展，市場以小集團新兵角度解讀，比價效應帶動強勢漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/7819.html">
+            <div class="stock-header">
+              <div><span class="stock-name">精誠金融</span><span class="stock-code">7819</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$37.95</div>
+                <div class="stock-change up">+3.45 (10.00%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 68張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="concept-section">
+      <div class="concept-title" onclick="toggleConcept(this)">
+        <span class="icon">⚙️</span>
+        <span>半導體設備／材料</span>
+        <span class="count">5檔</span>
+        <span class="chevron">▼</span>
+      </div>
+      
+      <div class="concept-reason">半導體設備／材料族群同步攻上漲停，主因 AI 需求外溢效應擴散至上游材料端，矽晶圓供需轉趨緊俏，12 吋磊晶與 SoS 基板產能吃緊，加上先進封裝 CoWoS 擴產持續推進，相關設備與材料廠接單動能轉強，外資與投信同步加碼推升族群齊漲。</div>
+      
+      <div class="stock-grid">
+        
+        <div class="stock-card" data-code="3532">
+          
+          <div class="reason-tip">台勝科為 12 吋磊晶矽晶圓廠，受惠 AI 與高速運算晶片對高階磊晶片需求強勁，產能利用率維持滿載，市場預期 2026 下半年報價有望調漲，搭配 SUMCO 體系題材發酵，股價放量攻漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/3532.html">
+            <div class="stock-header">
+              <div><span class="stock-name">台勝科</span><span class="stock-code">3532</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$343.0</div>
+                <div class="stock-change up">+31.00 (9.94%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 5,508張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="6182">
+          
+          <div class="reason-tip">合晶受惠 6 吋與 8 吋車用／功率半導體晶圓需求回溫，子公司上海晶沛擴產效益顯現，疊加國際 IDM 廠委外代工訂單增溫，市場看好矽晶圓景氣反轉，買盤湧入推升股價。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/6182.html">
+            <div class="stock-header">
+              <div><span class="stock-name">合晶</span><span class="stock-code">6182</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$113.0</div>
+                <div class="stock-change up">+10.00 (9.71%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 31,874張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="6187">
+          
+          <div class="reason-tip">萬潤為 CoWoS 與扇出型封裝設備關鍵供應商，點膠、壓合、AOI 設備切入輝達與台積電供應鏈，隨先進封裝產能持續擴張，訂單能見度延伸至 2027 年，營運成長動能明確吸引資金追捧。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/6187.html">
+            <div class="stock-header">
+              <div><span class="stock-name">萬潤</span><span class="stock-code">6187</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$1270.0</div>
+                <div class="stock-change up">+115.00 (9.96%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 5,819張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="6488">
+          
+          <div class="reason-tip">環球晶為全球第三大矽晶圓廠，12 吋先進製程晶圓獲台積電、Intel 等大廠長約支撐，矽晶圓產業景氣谷底已過，市場預期 2026 年底前將啟動新一輪漲價循環，加上子公司中美晶同步走強，激勵股價跳空漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/6488.html">
+            <div class="stock-header">
+              <div><span class="stock-name">環球晶</span><span class="stock-code">6488</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$1025.0</div>
+                <div class="stock-change up">+92.00 (9.86%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 9,647張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="6683">
+          
+          <div class="reason-tip">雍智科技為 IC 測試介面與探針卡廠，受惠 AI 加速晶片、高頻高速測試需求大幅增加，探針卡與 Load Board 訂單滿載，2026 H2 營收可望創歷史新高，市場對其高毛利測試介面業務給予本益比調升評價。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/6683.html">
+            <div class="stock-header">
+              <div><span class="stock-name">雍智科技</span><span class="stock-code">6683</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$1395.0</div>
+                <div class="stock-change up">+125.00 (9.84%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 614張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="concept-section">
+      <div class="concept-title" onclick="toggleConcept(this)">
+        <span class="icon">⚙️</span>
+        <span>電機機械</span>
+        <span class="count">4檔</span>
+        <span class="chevron">▼</span>
+      </div>
+      
+      <div class="concept-reason">電機機械族群2026年8月13日同步漲停,主要受惠AI伺服器與資料中心建置熱潮外溢效應,以及機器人/自動化題材持續發酵。所羅門與金雨聚焦自動化與機器人領域,高力受惠散熱/熱管理需求,勤凱則搭上AI伺服器被動元件與半導體材料供應鏈題材,形成資金集中湧入電機機械族群的現象。</div>
+      
+      <div class="stock-grid">
+        
+        <div class="stock-card" data-code="2359">
+          
+          <div class="reason-tip">所羅門為機器視覺與工業自動化解決方案大廠,受惠AI機器人與智慧製造訂單續增,加上與多家國際機器人品牌合作題材,吸引資金進駐推升漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/2359.html">
+            <div class="stock-header">
+              <div><span class="stock-name">所羅門</span><span class="stock-code">2359</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$157.0</div>
+                <div class="stock-change up">+14.00 (9.79%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 13,562張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="8996">
+          
+          <div class="reason-tip">高力為熱交換器與散熱模組廠,AI伺服器與資料中心液冷散熱需求強勁,訂單能見度拉長,法人看好其營運成長動能,股價強勢攻上漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/8996.html">
+            <div class="stock-header">
+              <div><span class="stock-name">高力</span><span class="stock-code">8996</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$1285.0</div>
+                <div class="stock-change up">+115.00 (9.83%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 3,925張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="4503">
+          
+          <div class="reason-tip">金雨為低價小型股,切入機器人與自動化設備馬達領域,搭上近期AI機器人與人形機器人題材熱度,加上股本小籌碼集中特性,短線資金追捧導致漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/4503.html">
+            <div class="stock-header">
+              <div><span class="stock-name">金雨</span><span class="stock-code">4503</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$28.85</div>
+                <div class="stock-change up">+2.60 (9.90%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 806張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="4760">
+          
+          <div class="reason-tip">勤凱為MLCC與半導體材料供應商,受惠AI伺服器與高效能運算對被動元件需求攀升,加上新客戶與新產品認證進度順利,業績成長動能明確推升股價。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/4760.html">
+            <div class="stock-header">
+              <div><span class="stock-name">勤凱</span><span class="stock-code">4760</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$283.0</div>
+                <div class="stock-change up">+25.50 (9.90%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 441張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="concept-section">
+      <div class="concept-title" onclick="toggleConcept(this)">
+        <span class="icon">🖥️</span>
+        <span>AI伺服器／零組件</span>
+        <span class="count">4檔</span>
+        <span class="chevron">▼</span>
+      </div>
+      
+      <div class="concept-reason">AI伺服器／零組件族群全面噴出，主因北美四大雲端服務商(CSP) 2026 Q3 資本支出上修、輝達 Blackwell Ultra(GB300) 進入量產拉貨高峰，供應鏈出現產能排擠與急單效應，散熱、機殼、CCL/PCB 等關鍵零組件同步吃緊，市場對 2026 H2 營收與毛利率上修動能強烈，催動族群齊攻漲停。</div>
+      
+      <div class="stock-grid">
+        
+        <div class="stock-card" data-code="3017">
+          
+          <div class="reason-tip">奇鋐為 AI 伺服器水冷／散熱模組龍頭，GB300 採用全液冷設計使 VC、冷卻分配單元(CDU)需求倍增，公司 7 月合併營收再創歷史新高，市場預估 2026 Q3 散熱產品出貨量季增 4 成以上，外資與投信同步大買，盤中買單高挂鎖死漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/3017.html">
+            <div class="stock-header">
+              <div><span class="stock-name">奇鋐</span><span class="stock-code">3017</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$3200.0</div>
+                <div class="stock-change up">+290.00 (9.97%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 10,569張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="3018">
+          
+          <div class="reason-tip">隆銘綠能受惠 AI 資料中心對綠電、儲能與電源管理需求爆發，市場將其重新定位為『AI 電力供應鏈』概念股；公司與大型雲端業者合作之綠電轉供案進入收割期，8 月起出貨動能明顯升溫，激勵低基期股價急拉漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/3018.html">
+            <div class="stock-header">
+              <div><span class="stock-name">隆銘綠能</span><span class="stock-code">3018</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$13.65</div>
+                <div class="stock-change up">+1.20 (9.64%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 97張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="3693">
+          
+          <div class="reason-tip">營邦為 AI 伺服器機殼與 Rack 系統廠，受惠 GB300 NVL72 機櫃出貨放量，4U/5U 高密度 AI 伺服器機殼訂單能見度直達 2026 年底；新廠產能於 Q3 開出，毛利率結構優於市場預估，買盤一價鎖死漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/3693.html">
+            <div class="stock-header">
+              <div><span class="stock-name">營邦</span><span class="stock-code">3693</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$552.0</div>
+                <div class="stock-change up">+50.00 (9.96%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 927張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="5464">
+          
+          <div class="reason-tip">霖宏為高階 PCB／HDI 板廠，切入 AI 加速卡、交換器與電源板供應鏈，隨 GB300 Server Board 與 800G Switch 板層數升級，公司高階產品 ASP 與毛利同步走揚；近月急單湧入、產能利用率逼近滿載，法人調升目標價，股價強勢攻上漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/5464.html">
+            <div class="stock-header">
+              <div><span class="stock-name">霖宏</span><span class="stock-code">5464</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$74.2</div>
+                <div class="stock-change up">+6.70 (9.93%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 323張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="concept-section">
+      <div class="concept-title" onclick="toggleConcept(this)">
+        <span class="icon">🔧</span>
+        <span>電子零組件</span>
+        <span class="count">4檔</span>
+        <span class="chevron">▼</span>
+      </div>
+      
+      <div class="concept-reason">電子零組件族群同步漲停，反映AI伺服器、半導體設備及自動化產線資本支出擴張，帶動上中游精密元件需求全面升溫。被動元件、機械傳動元件與散熱模組等關鍵零組件同步受惠於AI基建與CoWoS/HBM供應鏈擴產效應，市場資金由下游系統廠向上游零組件擴散，形成族群性補漲。</div>
+      
+      <div class="stock-grid">
+        
+        <div class="stock-card" data-code="3357">
+          
+          <div class="reason-tip">臺慶科為國內晶片電阻與排阻龍頭,受惠於AI伺服器、800G高速交換器及車用電子對精密被動元件的強勁拉貨,加上客戶端庫存回補與報價調漲,業績動能轉強帶動股價攻上漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/3357.html">
+            <div class="stock-header">
+              <div><span class="stock-name">臺慶科</span><span class="stock-code">3357</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$253.5</div>
+                <div class="stock-change up">+23.00 (9.98%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 3,798張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="6538">
+          
+          <div class="reason-tip">倉和近年轉型切入太陽能自動化設備與PCB鑽孔機零組件,隨著AI伺服器帶動CoWoS載板與HBM高頻高速需求,自動化設備訂單能見度提升,加上自動化題材重新發酵,激勵股價放量漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/6538.html">
+            <div class="stock-header">
+              <div><span class="stock-name">倉和</span><span class="stock-code">6538</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$177.5</div>
+                <div class="stock-change up">+16.00 (9.91%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 4,020張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="6584">
+          
+          <div class="reason-tip">南俊國際為精密滾珠螺桿、線性滑軌與軸承製造商,產品廣泛應用於半導體設備、自動化產線及機器人,受惠於AI晶片封測產線擴建與自動化設備升級週期,法人看好其切入半導體客戶供應鏈,推升股價強勢漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/6584.html">
+            <div class="stock-header">
+              <div><span class="stock-name">南俊國際</span><span class="stock-code">6584</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$597.0</div>
+                <div class="stock-change up">+54.00 (9.94%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 558張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="8093">
+          
+          <div class="reason-tip">保銳為LED散熱模組與PC/NB散熱解決方案廠,在AI伺服器與資料中心液冷/氣冷散熱需求急速放大下,散熱產品出貨動能轉強,搭配轉型題材與低基期優勢,吸引短線資金追捧而攻上漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/8093.html">
+            <div class="stock-header">
+              <div><span class="stock-name">保銳</span><span class="stock-code">8093</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$24.1</div>
+                <div class="stock-change up">+2.15 (9.79%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 125張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="concept-section">
+      <div class="concept-title" onclick="toggleConcept(this)">
+        <span class="icon">💻</span>
+        <span>電腦及週邊</span>
+        <span class="count">3檔</span>
+        <span class="chevron">▼</span>
+      </div>
+      
+      <div class="concept-reason">電腦及週邊族群同步走強，主因AI運算與高效能運算(HPC)需求持續升溫，加上時序進入下半年傳統旺季（返校季、筆電換機潮），帶動整體PC、顯卡及周邊硬體廠商訂單能見度提升，資金明顯回流電子族群。</div>
+      
+      <div class="stock-grid">
+        
+        <div class="stock-card" data-code="2305">
+          
+          <div class="reason-tip">全友為國內掃描器及多功能事務機大廠，受惠於企業數位化、政府標案及下半年教育標案出貨增溫，加上近期匯率有利出口，營收動能轉強吸引買盤進駐，帶動股價攻上漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/2305.html">
+            <div class="stock-header">
+              <div><span class="stock-name">全友</span><span class="stock-code">2305</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$30.55</div>
+                <div class="stock-change up">+2.75 (9.89%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 9,345張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="2357">
+          
+          <div class="reason-tip">華碩受惠AI PC新平台導入、品牌高階筆電及顯卡出貨放量，下半年返校季與年底消費旺季備貨需求強勁，外資與法人同步調升評等，激勵權值股華碩強勢亮燈漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/2357.html">
+            <div class="stock-header">
+              <div><span class="stock-name">華碩</span><span class="stock-code">2357</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$937.0</div>
+                <div class="stock-change up">+85.00 (9.98%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 3,760張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="2465">
+          
+          <div class="reason-tip">麗臺為NVIDIA顯卡及伺服器解決方案合作夥伴，在AI與高效能運算需求持續成長下，顯卡與工作站產品出貨展望樂觀，加上轉投資AI應用題材發酵，吸引短多資金追捧，股價直接攻入漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/2465.html">
+            <div class="stock-header">
+              <div><span class="stock-name">麗臺</span><span class="stock-code">2465</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$105.0</div>
+                <div class="stock-change up">+9.50 (9.95%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 12,841張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="concept-section">
+      <div class="concept-title" onclick="toggleConcept(this)">
+        <span class="icon">📦</span>
+        <span>電子通路</span>
+        <span class="count">3檔</span>
+        <span class="chevron">▼</span>
+      </div>
+      
+      <div class="concept-reason">電子通路族群受惠於AI/HPC供應鏈外溢效應，半導體景氣復甦預期升溫，市場資金轉進低基期電子通路股進行補漲，加上下游庫存回補需求啟動，推升族群同步攻上漲停。</div>
+      
+      <div class="stock-grid">
+        
+        <div class="stock-card" data-code="3312">
+          
+          <div class="reason-tip">弘憶股為電子零組件通路商，受惠AI伺服器及HPC客戶端拉貨動能強勁，被動元件、連接器代理訂單成長可觀，外資與法人近期買盤積極，配合技術面突破帶動漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/3312.html">
+            <div class="stock-header">
+              <div><span class="stock-name">弘憶股</span><span class="stock-code">3312</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$56.8</div>
+                <div class="stock-change up">+5.10 (9.86%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 2,175張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="6931">
+          
+          <div class="reason-tip">青松健康轉型切入醫療電子通路，受惠智慧醫療、遠距照護商機崛起，公司布局效益顯現，營運轉虧為盈題材發酵，吸引短多資金追捧，推升股價強攻漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/6931.html">
+            <div class="stock-header">
+              <div><span class="stock-name">青松健康</span><span class="stock-code">6931</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$43.55</div>
+                <div class="stock-change up">+3.95 (9.97%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 394張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="6130">
+          
+          <div class="reason-tip">上亞科技為半導體材料通路供應商，受惠先進製程及AI晶片封裝材料需求成長，客戶端備貨動能升溫，配合半導體景氣落底復甦預期，激勵股價放量漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/6130.html">
+            <div class="stock-header">
+              <div><span class="stock-name">上亞科技</span><span class="stock-code">6130</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$29.7</div>
+                <div class="stock-change up">+2.70 (10.00%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 1,295張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="concept-section">
+      <div class="concept-title" onclick="toggleConcept(this)">
+        <span class="icon">🔌</span>
+        <span>連接器／線材</span>
+        <span class="count">2檔</span>
+        <span class="chevron">▼</span>
+      </div>
+      
+      <div class="concept-reason">連接器／線材族群同步走強，主因受惠AI伺服器與資料中心高速傳輸需求持續擴張，市場對800G／1.6T升級循環看法樂觀，加上多家法人看好下半年Server營收比重拉升，帶動整體族群資金集中流入，兩檔同步攻上漲停。</div>
+      
+      <div class="stock-grid">
+        
+        <div class="stock-card" data-code="3605">
+          
+          <div class="reason-tip">宏致為國內高階I/O連接器與Server連接器主力供應商，受惠AI伺服器及雲端資料中心客戶拉貨動能強勁，高速連接器出貨比重提升，毛利率結構改善，市場預期Q3營收創高，買盤積極搶進。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/3605.html">
+            <div class="stock-header">
+              <div><span class="stock-name">宏致</span><span class="stock-code">3605</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$132.0</div>
+                <div class="stock-change up">+12.00 (10.00%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 13,830張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="5475">
+          
+          <div class="reason-tip">德宏聚焦高速銅纜(DAC／AEC)與光通訊線材，為AI叢集互連關鍵供應鏈之一，隨CSP客戶加速建置GB200／Rubin等次世代AI機櫃，線材出貨量能放大，法人上修目標價，激勵股價強勢亮燈。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/5475.html">
+            <div class="stock-header">
+              <div><span class="stock-name">德宏</span><span class="stock-code">5475</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$163.0</div>
+                <div class="stock-change up">+14.50 (9.76%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 24,104張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="concept-section">
+      <div class="concept-title" onclick="toggleConcept(this)">
+        <span class="icon">💡</span>
+        <span>LED／光電</span>
+        <span class="count">2檔</span>
+        <span class="chevron">▼</span>
+      </div>
+      
+      <div class="concept-reason">LED／光電族群同步攻上漲停，主要受惠於Mini LED背光滲透率加速提升，以及光學感測元件在AI伺服器與車用領域需求放量，市場資金回流光電次族群形成短多共振。</div>
+      
+      <div class="stock-grid">
+        
+        <div class="stock-card" data-code="6225">
+          
+          <div class="reason-tip">天瀚受惠於光學元件訂單回溫，傳出接獲車用ADAS鏡頭模組新單，市場預期下半年營收動能明顯增強，加上股價位階偏低，吸引短線買盤點火攻上漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/6225.html">
+            <div class="stock-header">
+              <div><span class="stock-name">天瀚</span><span class="stock-code">6225</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$36.75</div>
+                <div class="stock-change up">+3.30 (9.87%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 50張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="3490">
+          
+          <div class="reason-tip">單井因Mini LED背光源封裝出貨放量，並切入美系客戶新機供應鏈，市場看好其本業轉虧為盈契機，買盤積極湧入推升股價亮燈漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/3490.html">
+            <div class="stock-header">
+              <div><span class="stock-name">單井</span><span class="stock-code">3490</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$36.85</div>
+                <div class="stock-change up">+3.35 (10.00%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 3,112張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="concept-section">
+      <div class="concept-title" onclick="toggleConcept(this)">
+        <span class="icon">📋</span>
+        <span>PCB／CCL</span>
+        <span class="count">2檔</span>
+        <span class="chevron">▼</span>
+      </div>
+      
+      <div class="concept-reason">2026-08-13 PCB／CCL 族群同步走強，主要受惠於 AI 伺服器與高速運算基礎設施需求持續放大，帶動高階 HDI、高速 HDI 板、IC 載板及低損耗／超低損耗 CCL 材料升級循環加速。市場預期 Nvidia Blackwell／Rubin 平台與 ASIC 客戶擴大規格升級，使相關供應鏈出貨展望上修，族群出現補漲與比價效應。</div>
+      
+      <div class="stock-grid">
+        
+        <div class="stock-card" data-code="7795">
+          
+          <div class="reason-tip">長廣切入 AI 伺服器高階 HDI 板與高階硬板供應鏈，受惠於北美雲端客戶新平台拉貨動能強勁，市場傳出產能利用率滿載並啟動擴產計畫，加上先前股價基期偏低，今日獲短線資金與法人同步點火攻上漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/7795.html">
+            <div class="stock-header">
+              <div><span class="stock-name">長廣</span><span class="stock-code">7795</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$556.0</div>
+                <div class="stock-change up">+50.00 (9.88%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 3,594張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="8039">
+          
+          <div class="reason-tip">台虹為台系低損耗／超低損耗 CCL 指標廠，受惠於 AI 伺服器 800G／1.6T 交換器與高階 PCB 板客戶轉用升級材料，搭配 IC 載板用 resin 出貨放量，第四季展望轉佳，今日獲主力與外資買盤聯手拉抬攻漲停，並帶動 CCL 上游樹脂與玻纖族群同步走強。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/8039.html">
+            <div class="stock-header">
+              <div><span class="stock-name">台虹</span><span class="stock-code">8039</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$249.5</div>
+                <div class="stock-change up">+22.50 (9.91%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 22,824張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="concept-section">
+      <div class="concept-title" onclick="toggleConcept(this)">
+        <span class="icon">🔍</span>
+        <span>半導體檢測／封測</span>
+        <span class="count">2檔</span>
+        <span class="chevron">▼</span>
+      </div>
+      
+      <div class="concept-reason">半導體檢測與封測族群同步走強，主要受惠於AI晶片與先進封裝需求持續擴張，帶動測試介面、探針卡與可靠度檢測設備出貨動能升溫，CoWoS產能擴張與HBM/Chiplet異質整合趨勢推升檢測用量，族群獲市場資金青睞同步攻上漲停。</div>
+      
+      <div class="stock-grid">
+        
+        <div class="stock-card" data-code="3498">
+          
+          <div class="reason-tip">陽程受惠CMP相關耗材與探針卡出貨動能增溫，傳出承接先進封裝與AI加速器客戶訂單，2026年下半年稼動率看升，加上半導體設備族群比價效應，買盤集中湧入推升漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/3498.html">
+            <div class="stock-header">
+              <div><span class="stock-name">陽程</span><span class="stock-code">3498</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$144.0</div>
+                <div class="stock-change up">+13.00 (9.92%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 1,713張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="stock-card" data-code="6840">
+          
+          <div class="reason-tip">東研信超為半導體可靠度測試(RA)與故障分析(FA)廠，受惠AI伺服器與HBM客戶擴大驗證與品保需求，營收占比提升，市場對其在先進製程與異質封裝檢測之卡位題材給予正面評價，激勵股價攻上漲停。<div class="tip-cta">點擊查看籌碼分析 ↓</div></div>
+          
+          <a href="stock/20260813/6840.html">
+            <div class="stock-header">
+              <div><span class="stock-name">東研信超</span><span class="stock-code">6840</span></div>
+              <div class="stock-price">
+                <div class="stock-close up">$75.6</div>
+                <div class="stock-change up">+6.80 (9.88%)</div>
+              </div>
+            </div>
+            <div class="stock-meta">
+              <span>成交量 1,176張</span>
+              <span class="badge up">漲停</span>
+            </div>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    每個交易日 16:30 自動更新 ｜ 資料來源：臺灣證券交易所 / 證券櫃檯買賣中心 ｜ 僅供研究參考，非投資建議
+  </div>
+</footer>
+
+<script>
+// 族群折疊
+window.toggleConcept = function(titleEl) {
+  titleEl.closest('.concept-section').classList.toggle('collapsed');
+};
+window.toggleAllConcepts = function(btn) {
+  const all = document.querySelectorAll('.concept-section');
+  const anyExpanded = Array.from(all).some(s => !s.classList.contains('collapsed'));
+  all.forEach(s => { anyExpanded ? s.classList.add('collapsed') : s.classList.remove('collapsed'); });
+  btn.textContent = anyExpanded ? '全部展開' : '全部收合';
+};
+window.navigateDate = function(currentDate, direction) {
+  const availableDates = ["20260813", "20260812", "20260811", "20260810", "20260807", "20260806", "20260805", "20260804", "20260803", "20260731", "20260730", "20260729", "20260728", "20260727", "20260724", "20260723", "20260722", "20260721", "20260720", "20260717", "20260716", "20260715", "20260714", "20260713", "20260709", "20260708", "20260707", "20260706", "20260703", "20260702", "20260701", "20260630", "20260629", "20260626", "20260625", "20260624", "20260623", "20260622", "20260618", "20260617", "20260616", "20260615", "20260612", "20260611", "20260610", "20260609", "20260608", "20260605", "20260604", "20260603", "20260602", "20260601", "20260529", "20260528", "20260527", "20260526", "20260525", "20260522", "20260521", "20260520", "20260519", "20260518", "20260515", "20260513", "20260512", "20260511", "20260508", "20260507", "20260506", "20260505", "20260504", "20260430", "20260429", "20260428", "20260427", "20260424", "20260423", "20260422", "20260421", "20260420", "20260417", "20260416", "20260415", "20260414", "20260413", "20260410", "20260409", "20260408", "20260407", "20260402", "20260401", "20260331", "20260330", "20260327", "20260326", "20260325", "20260324", "20260323", "20260320", "20260319", "20260318", "20260317", "20260316", "20260313", "20260312", "20260311", "20260310", "20260309"];
+  const currentIndex = availableDates.indexOf(currentDate);
+  let targetDate;
+  if (direction === -1 && currentIndex < availableDates.length - 1) {
+    targetDate = availableDates[currentIndex + 1];
+  } else if (direction === 1 && currentIndex > 0) {
+    targetDate = availableDates[currentIndex - 1];
+  }
+  if (targetDate) {
+    if (targetDate === availableDates[0]) {
+      window.location.href = 'index.html';
+    } else {
+      window.location.href = 'index-' + targetDate + '.html';
+    }
+  }
+};
+</script>
+
+<button id="back-to-top" title="回到頂部">↑</button>
+<script>
+// 搜尋自動補全
+(function(){
+  const si = document.getElementById('stock-search');
+  const dd = document.getElementById('search-dropdown');
+  if (!si || !dd) return;
+  function buildStockList() {
+    const stocks = [];
+    document.querySelectorAll('.stock-card[data-code]').forEach(card => {
+      const code = card.dataset.code;
+      const nameEl = card.querySelector('.stock-name');
+      const name = nameEl ? nameEl.textContent.trim() : '';
+      const link = card.querySelector('a');
+      const href = link ? link.getAttribute('href') : null;
+      if (code) stocks.push({ code, name, href });
+    });
+    return stocks;
+  }
+  let stocks = buildStockList();
+  const missEl = document.createElement('div');
+  Object.assign(missEl.style, {
+    position:'fixed', top:'42px', right:'8px', background:'#ED4B9E', color:'#fff',
+    padding:'4px 10px', borderRadius:'8px', fontSize:'11px', zIndex:'10000',
+    opacity:'0', transition:'opacity 0.3s', pointerEvents:'none'
+  });
+  missEl.textContent = '未在今日漲停';
+  document.body.appendChild(missEl);
+  function posDropdown() {
+    const rect = si.getBoundingClientRect();
+    dd.style.left = rect.left + 'px';
+    dd.style.top = (rect.bottom + 4) + 'px';
+    dd.style.minWidth = Math.max(rect.width, 180) + 'px';
+  }
+  function showDropdown(matches) {
+    if (!matches.length) { dd.style.display = 'none'; return; }
+    dd.innerHTML = '';
+    matches.slice(0, 10).forEach(s => {
+      const item = document.createElement('div');
+      item.className = 'sd-item';
+      item.innerHTML = '<span class="sd-name">' + s.name + '</span><span class="sd-code">' + s.code + '</span>';
+      item.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        dd.style.display = 'none';
+        si.value = '';
+        if (s.href) { window.location.href = s.href; }
+        else { doHighlight(s.code); }
+      });
+      dd.appendChild(item);
+    });
+    posDropdown();
+    dd.style.display = 'block';
+  }
+  function doHighlight(code) {
+    const card = document.querySelector('.stock-card[data-code="' + code + '"]');
+    document.querySelectorAll('.stock-card.search-hit').forEach(c => { c.style.outline = ''; c.classList.remove('search-hit'); });
+    if (card) {
+      const section = card.closest('.concept-section');
+      if (section && section.classList.contains('collapsed')) section.classList.remove('collapsed');
+      si.style.borderColor = '#E7E3EB'; missEl.style.opacity = '0';
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.style.outline = '2px solid #1FC7D4'; card.classList.add('search-hit');
+    } else {
+      si.style.borderColor = '#ED4B9E'; missEl.style.opacity = '1';
+      setTimeout(() => { missEl.style.opacity = '0'; }, 2000);
+    }
+  }
+  si.addEventListener('input', () => {
+    const val = si.value.trim();
+    if (!val) { dd.style.display = 'none'; return; }
+    if (!stocks.length) stocks = buildStockList();
+    const filtered = stocks.filter(s => s.code.startsWith(val) || s.name.includes(val));
+    showDropdown(filtered);
+  });
+  si.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { dd.style.display = 'none'; const val = si.value.trim(); if (val.length >= 4) doHighlight(val); }
+    if (e.key === 'Escape') { dd.style.display = 'none'; }
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-wrap')) dd.style.display = 'none';
+  });
+})();
+// 股票卡片 hover 動畫
+document.querySelectorAll('.stock-card a').forEach(card => {
+  card.addEventListener('mouseenter', function() { this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 16px rgba(31,199,212,0.25)'; });
+  card.addEventListener('mouseleave', function() { this.style.transform='translateY(0)'; this.style.boxShadow='none'; });
+});
+// 回到頂部
+(function(){
+  const btn = document.getElementById('back-to-top');
+  if (!btn) return;
+  window.addEventListener('scroll', () => { btn.style.display = window.scrollY > 300 ? 'flex' : 'none'; });
+  btn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+})();
+</script>
+</body>
+</html>
