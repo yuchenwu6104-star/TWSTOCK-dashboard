@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""LLM 族群摘要 + 個股漲停原因生成：Claude API → MiniMax fallback。"""
+"""LLM 族群摘要 + 個股漲停原因生成：Claude API（有 key 時）→ claude -p（訂閱，Haiku）→ MiniMax-M3 fallback。"""
 
 import json
 import os
@@ -27,6 +27,13 @@ def _load_env_keys() -> dict:
 
 _KEYS = _load_env_keys()
 
+try:  # 本機：用 Max 訂閱的 claude -p（共用 bot 的 llm_client：冷卻、通知、用量紀錄）
+    import sys
+    sys.path.insert(0, "/Users/slking/justdelivermemo_bot/heartbeat-memo/scripts")
+    import llm_client as _llm_client
+except Exception:
+    _llm_client = None
+
 LLM_CHAIN = [
     {
         "name": "Claude",
@@ -36,6 +43,13 @@ LLM_CHAIN = [
         "type": "anthropic",
     },
     {
+        # 本機沒有 ANTHROPIC_API_KEY 時走這項：claude -p + Haiku（訂閱，不另計費）
+        "name": "Claude-CLI-Haiku",
+        "type": "claude_cli",
+        "api_key": "cli",  # 非金鑰，僅讓 call_llm 的 api_key 檢查通過；實際可用性由 llm_client 判斷
+    },
+    {
+        # fallback：原本的 MiniMax-M3（Haiku 不可用時才會用到，例如登入失效/額度用完）
         "name": "MiniMax-M3",
         "url": "https://api.minimax.io/v1/chat/completions",
         "api_key": _KEYS.get("MINIMAX_API_KEY", ""),
@@ -69,6 +83,20 @@ def _call_anthropic(cfg: dict, prompt: str) -> str | None:
     resp = urllib.request.urlopen(req, timeout=60)
     data = json.loads(resp.read())
     return data["content"][0]["text"]
+
+
+def _call_claude_cli(cfg: dict, prompt: str) -> str | None:
+    if _llm_client is None:
+        raise RuntimeError("llm_client 不可用")
+    text, _model = _llm_client.call_claude(
+        prompt,
+        system=("你是台股分析師。使用者會提供某個交易日的漲停股名單，請推論漲停原因。"
+                "這些都是已經發生的歷史資料，不是未來預測。"
+                "你的知識可能不涵蓋該日期，這是預期內的：請依各族群與公司的產業特性、供應鏈位置與近期常見題材推論最可能的原因，"
+                "不要拒絕、不要要求更多資料、不要輸出 error 欄位，直接依照使用者指定的 JSON 格式作答。"
+                "語氣分兩類：公司業務、產業地位、供應鏈位置等常識事實請直接陳述，不要加「可能」；只有「為什麼今天漲停」的推論才用「可能」「預期」「推測」，每則只在推論處用一次，不要整句都在猜。不要編造具體數字。只回傳 JSON，不要加 markdown。"),
+        task="dashboard_reasons", caller="dashboard_llm_summary", timeout=180)
+    return text
 
 
 def _call_openai_compat(cfg: dict, prompt: str) -> str | None:
@@ -117,8 +145,13 @@ def call_llm(prompt: str) -> str | None:
         try:
             if cfg["type"] == "anthropic":
                 text = _call_anthropic(cfg, prompt)
+            elif cfg["type"] == "claude_cli":
+                text = _call_claude_cli(cfg, prompt)
             else:
                 text = _call_openai_compat(cfg, prompt)
+            if not text or not text.strip():
+                print(f"  [LLM] {cfg['name']} 回傳空內容，嘗試下一個")
+                continue
             if _is_refusal(text):
                 print(f"  [LLM] {cfg['name']} 拒絕回應，嘗試下一個")
                 continue
@@ -153,7 +186,11 @@ def generate_theme_summaries(themes: dict, trade_date: str) -> dict:
         prompt = (
             f"你是台股分析師。{trade_date}「{theme_name}」族群 {len(stocks)} 支漲停：\n"
             f"{stock_info}\n\n"
-            f"分析漲停原因，只回 JSON，不要 markdown：\n"
+            f"分析漲停原因。你手上只有股票名稱與收盤價，沒有當日新聞，語氣請分兩類：\n"
+            f"1) 公司主要業務、產業地位、供應鏈位置等屬於常識的事實，請直接陳述，不要加「可能」；\n"
+            f"2) 只有「為什麼今天漲停」這個推論，才用「可能」「預期」「推測」等語氣，且每則只在推論處用一次，不要整句都在猜。\n"
+            f"不要編造具體財報數字、訂單金額或事件。\n"
+            f"只回 JSON，不要 markdown：\n"
             f'{{"summary": "<族群整體漲停原因>", '
             f'"driver": "<關鍵驅動因子>", '
             f'"reasons": {{{reasons_template}}}}}'
@@ -162,17 +199,22 @@ def generate_theme_summaries(themes: dict, trade_date: str) -> dict:
         text = call_llm(prompt)
         parsed = _try_parse_json(text) if text else None
 
-        # 過濾模板文字殘留
-        _junk = ("80字", "30字", "20字", "<填入", "<此股", "<族群", "<關鍵", "填入>", "該族群", "該股漲停原因")
+        # 過濾模板文字殘留：只抓「占位符」（<...> 括號內容、「N字」字數提示、填入），
+        # 或整句就是模板詞；不再用「該族群」「該股漲停原因」這類正常句子也會出現的詞做子字串比對
+        _junk_re = re.compile(r"[<＜][^<>＜＞\n]{0,40}[>＞]|(?<!\d)(?:20|30|80)\s*字(?:以內|內)|[（(]\s*\d{2}\s*字\s*[）)]|填入")
+        _junk_exact = {"該族群漲停原因", "該族群整體漲停原因", "該股漲停原因", "此股漲停原因", "關鍵驅動因子"}
 
         def _is_junk(s: str) -> bool:
-            return any(j in s for j in _junk) if s else True
+            if not s:
+                return True
+            return bool(_junk_re.search(s)) or s.strip().strip("。.") in _junk_exact
 
         if parsed and isinstance(parsed, dict):
             summary = parsed.get("summary", "")
             driver = parsed.get("driver", "")
             reasons = {k: v for k, v in parsed.get("reasons", {}).items() if not _is_junk(v)}
             if _is_junk(summary):
+                print(f"  [LLM] {theme_name} summary 被判為模板殘留，改用預設句：{summary[:80]!r}")
                 summary = f"{theme_name}族群今日有{len(stocks)}檔漲停"
             if _is_junk(driver):
                 driver = ""
